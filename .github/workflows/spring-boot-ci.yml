@@ -28,7 +28,10 @@ jobs:
 
       - name: Build and Test
         run: ./gradlew clean build
-
-      - name: Run Spring Boot App
-        run: ./gradlew bootRun &
-        continue-on-error: false  
+      - name: Run Spring Boot App for 30 seconds
+        run: |
+          ./gradlew bootRun &
+          APP_PID=$!
+          sleep 30
+          kill $APP_PID
+        continue-on-error: false
