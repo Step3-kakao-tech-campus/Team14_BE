@@ -36,6 +36,7 @@ public class SecurityConfig {
       super.configure(builder);
     }
   }
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -45,7 +46,7 @@ public class SecurityConfig {
 //      response.setCharacterEncoding("UTF-8"); // 문자 인코딩 설정
 
       // JSON 형태의 응답 메시지를 생성하여 응답에 쓰기
-      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401","로그인이 필요합니다",HttpStatus.UNAUTHORIZED);
+      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
       response.setCharacterEncoding("UTF-8");
       response.setContentType("application/json");
       response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
@@ -53,20 +54,18 @@ public class SecurityConfig {
 
 
     http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-      String errorMessage = "";
       response.setCharacterEncoding("UTF-8");
       response.setContentType("application/json");
       // 현재 사용자의 권한에 따라 다른 에러 메시지를 설정
       if (request.isUserInRole("ROLE_BEGINNER")) {
-        ApiResponse<?> apiResponse = ApiResponseGenerator.fail("403","인스타연동이 필요합니다",HttpStatus.FORBIDDEN);
+        ApiResponse<?> apiResponse = ApiResponseGenerator.fail("403", "인스타연동이 필요합니다", HttpStatus.FORBIDDEN);
         response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
 //
-
       }
-          ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401","로그인이 필요합니다",HttpStatus.UNAUTHORIZED);
-          response.setCharacterEncoding("UTF-8");
-          response.setContentType("application/json");
-          response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
+      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
+      response.setCharacterEncoding("UTF-8");
+      response.setContentType("application/json");
+      response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
     });
 //
     http.apply(new CustomSecurityFilterManager());
@@ -76,10 +75,10 @@ public class SecurityConfig {
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.authorizeRequests()
-        .antMatchers("/api/user/**","/api/board/*/like","/api/kakao").authenticated()
+        .antMatchers("/api/user/**", "/api/board/*/like", "/api/kakao").authenticated()
         .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')") //인스타그램 연동X "ROLE_BEGINNER"
         .antMatchers("/api/board/point").access("hasRole('ROLE_USER')") //인스타그램 연동시 "ROLE_USER"
-        .antMatchers("/","/api/login","/h2-console/*","api/board","api/popluar-board").permitAll()
+        .antMatchers("/", "/api/login", "/h2-console/*", "api/board", "api/popluar-board").permitAll()
         .and()
         .oauth2Login()
         .successHandler(authenticationSuccessHandler)
