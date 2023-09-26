@@ -21,7 +21,7 @@ public class CreatePostUsecase {
     String attachedHashTag = attachHashTags(uploadPostRequestDTO.getHashTags());
 
     Post post = Post.createPost(member, image, uploadPostRequestDTO.getNickname(), true,
-        attachedHashTag, uploadPostRequestDTO.getUniversity(), 0L, 0L, 0);
+        attachedHashTag, uploadPostRequestDTO.getUniversity());
     return postRepository.save(post);
   }
 

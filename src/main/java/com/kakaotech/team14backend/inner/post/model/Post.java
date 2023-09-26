@@ -45,13 +45,13 @@ public class Post {
 
   // Statistics
   @Column(nullable = true)
-  private Long viewCount = 0L; // 조회수
+  private Long viewCount; // 조회수
 
   @Column(nullable = false)
   private Long popularity; // 인기도 값
 
   @Column(nullable = false)
-  private Integer reportCount = 0; // 제재 횟수
+  private Integer reportCount; // 제재 횟수
 
   public void mappingMember(Member member) {
     this.member = member;
@@ -62,11 +62,18 @@ public class Post {
   }
 
   public static Post createPost(Member member, Image image, String nickname, Boolean published,
-      String hashtag, String university, Long viewCount, Long popularity, Integer reportCount) {
+      String hashtag, String university) {
 
-    Post post = Post.builder().nickname(nickname).published(published).hashtag(hashtag)
-        .university(university).viewCount(viewCount).popularity(popularity).reportCount(reportCount)
+    Post post = Post.builder()
+        .nickname(nickname)
+        .published(published)
+        .hashtag(hashtag)
+        .university(university)
+        .viewCount(0L)
+        .popularity(0L)
+        .reportCount(0)
         .build();
+
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
