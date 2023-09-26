@@ -81,7 +81,7 @@ public class Post {
 
 
   @Builder
-  public Post(String boothName, String nickname, Boolean published, String hashtag,
+  public Post(String nickname, Boolean published, String hashtag,
       String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = LocalDateTime.now();
