@@ -12,10 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access=PROTECTED)
+@Getter
 public class Member {
 
   @Id
@@ -45,5 +49,11 @@ public class Member {
 
   @Column(nullable = false,length = 20)
   private String userStatus; // 제재, 탈퇴, 정상 등등
+
+  @Builder
+  public Member(String userName,String kakaoId) {
+    this.userName = userName;
+    this.kakaoId = kakaoId;
+  }
 
 }

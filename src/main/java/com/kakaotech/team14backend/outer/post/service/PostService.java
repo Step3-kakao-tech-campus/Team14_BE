@@ -4,9 +4,17 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
+import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
+import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import java.io.IOException;
+
+import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +28,20 @@ public class PostService {
   private final CreateImageUsecase createImageUsecase;
   private final CreatePostUsecase createPostUsecase;
   private final FindMemberUsecase findMemberUsecase;
+  private final FindPostUsecase findPostUsecase;
 
   @Transactional
-  public void uploadPost(Long userId, MultipartFile image,
-      UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
-    Member savedMember = findMemberUsecase.execute(userId);
-    Image savedImage = createImageUsecase.execute(image, uploadPostRequestDTO.getImageName());
-    createPostUsecase.execute(savedImage, uploadPostRequestDTO, savedMember);
+  public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
+    Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
+    Image savedImage = createImageUsecase.execute(uploadPostDTO.image(), uploadPostDTO.uploadPostRequestDTO().getImageName());
+    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), savedMember);
+    createPostUsecase.execute(createPostDTO);
   }
+
+  public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
+    Post post = findPostUsecase.execute(getPostDTO);
+    GetPostResponseDTO getPostResponseDTO = PostMapper.from(post);
+    return getPostResponseDTO;
+  }
+
 }

@@ -7,10 +7,12 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Post {
 
   // Primary Key
