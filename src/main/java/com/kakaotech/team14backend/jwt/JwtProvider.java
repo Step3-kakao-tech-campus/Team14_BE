@@ -21,7 +21,7 @@ public class JwtProvider {
     String jwt = JWT.create()
         .withExpiresAt(new Date(System.currentTimeMillis() + EXP))
         .withClaim("kakaoId", member.getKakaoId())
-        .withClaim("username", member.getUsername())
+        .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
         .withClaim("role", member.getRole())
         .sign(Algorithm.HMAC512(SECRET));

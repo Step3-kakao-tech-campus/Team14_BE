@@ -26,7 +26,7 @@ public class Member {
   private List<Post> posts = new ArrayList<>();
 
   @Column(nullable = false, length = 50)
-  private String username; // 유저 이름
+  private String userName; // 유저 이름
 
   @Column(nullable = false, length = 50)
   private String kakaoId; // 카카오 아이디
@@ -52,8 +52,8 @@ public class Member {
   private String userStatus; // 제재, 탈퇴, 정상 등등
 
   @Builder
-  public Member(String username,String kakaoId, String instaId,String role, Long totalLike,String userStatus) {
-    this.username = username;
+  public Member(String userName, String kakaoId, String instaId, String role, Long totalLike, String userStatus) {
+    this.userName = userName;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
     this.role = role;

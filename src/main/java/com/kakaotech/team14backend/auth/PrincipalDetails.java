@@ -50,7 +50,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User {
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return member.getUserName();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User {
 
     @Override
     public String getName() {
-        return member.getUsername();
+        return member.getUserName();
     }
 
 

@@ -28,7 +28,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     String kakaoId = Long.toString(oAuth2User.getAttribute("id"));
     Map<String, String> map = oAuth2User.getAttribute("properties");
-    String username = map.get("nickname");
+    String userName = map.get("nickname");
     String role = "ROLE_USER";
 
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
@@ -36,7 +36,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     if (memberEntity == null) {
       memberEntity = memberEntity.builder()
           .kakaoId(kakaoId)
-          .username(username)
+          .userName(userName)
           .instaId("none")
           .role("ROLE_BEGINNER")
           .totalLike(0L)

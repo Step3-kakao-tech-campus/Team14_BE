@@ -38,10 +38,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         try {
             DecodedJWT decodedJWT = JwtProvider.verify(jwt);
             String kakaoId = decodedJWT.getClaim("kakaoId").asString();
-            String username = decodedJWT.getClaim("username").asString();
+            String userName = decodedJWT.getClaim("username").asString();
             String instaId = decodedJWT.getClaim("instaId").asString();
             String role = decodedJWT.getClaim("role").asString();
-            Member member = Member.builder().username(username).kakaoId(kakaoId).role(role).instaId(instaId).build();
+            Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).build();
             PrincipalDetails myUserDetails = new PrincipalDetails(member);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
