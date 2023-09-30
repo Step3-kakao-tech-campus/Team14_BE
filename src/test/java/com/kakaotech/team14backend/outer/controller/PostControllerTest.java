@@ -14,6 +14,8 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.transform.Result;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+@Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 public class PostControllerTest {
@@ -35,39 +39,77 @@ public class PostControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @MockBean
-  @Autowired
-  private PostService postService;
-  @Autowired
-  private FindPostListUsecase findPostListUsecase;
 
-  @DisplayName("홈 피드를 조회한다")
+  @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
   @Test
   void findAllHomeFeed_Test() throws Exception {
-    // Prepare test data
-    List<GetPostResponseDTO> postResponseDTOs = new ArrayList<>();
 
-    for (int i = 1; i <= 10; i++) {
-      Post post = Post.createPost(new Member("username" + i, "kakaoId" + i),
-          new Image("imageUri" + i), "nickname" + i, true, "hashtag" + i, "univ");
-
-      GetPostResponseDTO dto = new GetPostResponseDTO(post.getPostId(),
-          post.getImage().getImageUri(), List.of("hashtag" + i), 0, 0, post.getNickname());
-      postResponseDTOs.add(dto);  // Add the dto to the list
-    }
-    List<GetPostResponseDTO> mockResponse = new ArrayList<>(postResponseDTOs);
-    when(postService.getPostList()).thenReturn(mockResponse);
-
-    // Perform the behavior being tested
     ResultActions resultActions = mockMvc.perform(
-        get("/api/post").contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON));
+        get("/api/post").param("lastPostId", "0").param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-    System.out.println("Join Test: " + responseBody);
+
+    System.out.println("findAllHomeFeed_Test : " + responseBody);
 
     resultActions.andExpect(status().isCreated());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
   }
+
+  @DisplayName("처음 홈피드를 조회한다 - 파라미터 없음")
+  @Test
+  void findAllHomeFeedNoParam_Test() throws Exception {
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeedNoParam_Test : " + responseBody);
+
+    resultActions.andExpect(status().isCreated());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("홈 피드를 조회한다 - 잘못된 파라미터")
+  @Test
+  void findAllHomeFeedWrongParam_Test() throws Exception {
+
+//    ResultActions resultActions = mockMvc.perform(
+//        get("/api/post")
+//            .param("lastPostId", "0")
+//            .param("size", "-1")
+//            .contentType(MediaType.APPLICATION_JSON));
+//
+//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+//
+//    System.out.println("findAllHomeFeedWrongParam_Test : " + responseBody);
+//
+//    resultActions.andExpect(status().isBadRequest());
+//    resultActions.andExpect(jsonPath("$.success").value(false));
+//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+  }
+
+  @DisplayName("홈 피드를 조회한다 - 마지막 게시물 아이디가 없을 때")
+  @Test
+  void findAllHomeFeedNoLastPostId_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post")
+            .param("lastPostId","15")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeedNoLastPostId_Test : " + responseBody);
+
+    resultActions.andExpect(status().isCreated());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
 }

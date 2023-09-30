@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
@@ -46,10 +47,8 @@ public class PostService {
     return getPostResponseDTO;
   }
 
-  public List<GetPostResponseDTO> getPostList(Long lastPostId, int size) {
-    List<Post> postList = findPostListUsecase.excute(lastPostId, size);
-    List<GetPostResponseDTO> editedPostList = PostMapper.from(postList);
-    return editedPostList;
-  }
+  public GetPostListResponseDTO getPostList(Long lastPostId, int size) {
 
+    return findPostListUsecase.excute(lastPostId, size);
+  }
 }
