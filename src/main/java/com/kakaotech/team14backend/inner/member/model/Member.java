@@ -15,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
-@NoArgsConstructor(access=PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Member {
 
   @Id
@@ -34,8 +34,9 @@ public class Member {
   @Column(nullable = false, length = 50)
   private String instaId; // 인스타그램 아이디
 
-  @Column(nullable = false, length= 50)
-  private String role;
+  @Column(nullable = false, length = 50)
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
   @Column(nullable = false)
   private Long totalLike = 0L; // 보유 좋아요 수
@@ -48,17 +49,20 @@ public class Member {
   @CreationTimestamp
   private LocalDateTime updatedAt; // 수정일
 
-  @Column(nullable = false,length = 20)
-  private String userStatus; // 제재, 탈퇴, 정상 등등
+  @Column(nullable = false, length = 20)
+  @Enumerated(EnumType.STRING)
+  private Status userStatus; // 제재, 탈퇴, 정상 등등
 
   @Builder
-  public Member(String userName, String kakaoId, String instaId, String role, Long totalLike, String userStatus) {
+  public Member(String userName, Role role, Status status, String kakaoId, String instaId, Long totalLike) {
     this.userName = userName;
+    this.role = role;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
-    this.role = role;
-    this.totalLike= totalLike;
-    this.userStatus = userStatus;
-
+    this.userStatus = status;
+    this.totalLike = totalLike;
   }
+
+
+
 }

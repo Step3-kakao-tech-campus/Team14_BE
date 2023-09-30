@@ -3,6 +3,8 @@ package com.kakaotech.team14backend.outer.login.service;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.member.model.Role;
+import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -38,9 +40,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
           .kakaoId(kakaoId)
           .userName(userName)
           .instaId("none")
-          .role("ROLE_BEGINNER")
+          .role(Role.ROLE_BEGINNER)
           .totalLike(0L)
-          .userStatus("active")
+          .status(Status.STATUS_ACTIVE)
           .build();
       memberRepository.save(memberEntity);
     }

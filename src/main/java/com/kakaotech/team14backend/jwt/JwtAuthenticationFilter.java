@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.member.model.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             String kakaoId = decodedJWT.getClaim("kakaoId").asString();
             String userName = decodedJWT.getClaim("username").asString();
             String instaId = decodedJWT.getClaim("instaId").asString();
-            String role = decodedJWT.getClaim("role").asString();
+            Role role = Role.valueOf(decodedJWT.getClaim("role").asString());
             Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).build();
             PrincipalDetails myUserDetails = new PrincipalDetails(member);
             Authentication authentication =

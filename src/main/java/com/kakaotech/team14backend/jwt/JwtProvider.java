@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -23,7 +24,7 @@ public class JwtProvider {
         .withClaim("kakaoId", member.getKakaoId())
         .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
-        .withClaim("role", member.getRole())
+        .withClaim("role", member.getRole().toString())
         .sign(Algorithm.HMAC512(SECRET));
     return TOKEN_PREFIX + jwt;
   }
