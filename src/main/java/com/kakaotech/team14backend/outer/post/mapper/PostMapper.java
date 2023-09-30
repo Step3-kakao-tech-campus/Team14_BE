@@ -13,7 +13,10 @@ public class PostMapper {
   public static GetPostResponseDTO from(Post post){
     return new GetPostResponseDTO(post.getPostId(),post.getImage().getImageUri(), splitHashtag(post.getHashtag()), 0, 0, post.getNickname());
   }
-
+  public static List<GetPostResponseDTO> from(List<Post> postList) {
+    List<GetPostResponseDTO> editedPostList = postList.stream().map(PostMapper::from).toList();
+    return editedPostList;
+  }
   private static List<String> splitHashtag(String hashTag){
     String cuttingHashTag = hashTag.substring(1);
     String[] splitHashtags = cuttingHashTag.split("#");
