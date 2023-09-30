@@ -28,12 +28,12 @@ public class PostController {
   private final PostService postService;
 
   @GetMapping("/post")
-  public ApiResponse<ApiResponse.CustomBody<List<GetPostResponseDTO>>> getPosts(@RequestParam(defaultValue = "10") int limit ) {
+  public ApiResponse<ApiResponse.CustomBody<List<GetPostResponseDTO>>> getPosts(
+      @RequestParam(value = "lastPostId", required = false) Long lastItemId,
+      @RequestParam(defaultValue = "10") int size) {
 
-    // todo value 값에 따라 게시물 반환 갯수 조절
-
-    List<GetPostResponseDTO> getPostListResponseDTO = postService.getPostList();
-    return ApiResponseGenerator.success(getPostListResponseDTO,HttpStatus.CREATED);
+    List<GetPostResponseDTO> getPostListResponseDTO = postService.getPostList(lastItemId, size);
+    return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.CREATED);
   }
 
 

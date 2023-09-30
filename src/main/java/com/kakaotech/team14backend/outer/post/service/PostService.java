@@ -46,9 +46,9 @@ public class PostService {
     return getPostResponseDTO;
   }
 
-  public List<GetPostResponseDTO> getPostList(){
-    List<Post> postList = findPostListUsecase.excute();
-    List<GetPostResponseDTO> editedPostList =  PostMapper.from(postList);
+  public List<GetPostResponseDTO> getPostList(Long lastPostId, int size) {
+    List<Post> postList = findPostListUsecase.excute(lastPostId, size);
+    List<GetPostResponseDTO> editedPostList = PostMapper.from(postList);
     return editedPostList;
   }
 
