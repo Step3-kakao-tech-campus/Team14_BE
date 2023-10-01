@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @NoArgsConstructor(access=PROTECTED)
@@ -38,22 +40,31 @@ public class Member {
   @Column(nullable = false, length = 50)
   private String instaId; // 인스타그램 아이디
 
+  @Column(nullable = false, length= 50)
+  private String role;
+
   @Column(nullable = false)
   private Long totalLike = 0L; // 보유 좋아요 수
 
   @Column(nullable = false)
+  @CreationTimestamp
   private LocalDateTime createdAt; // 생성일
 
   @Column(nullable = false)
+  @UpdateTimestamp
   private LocalDateTime updatedAt; // 수정일
 
   @Column(nullable = false,length = 20)
   private String userStatus; // 제재, 탈퇴, 정상 등등
 
   @Builder
-  public Member(String userName,String kakaoId) {
+  public Member(String userName, String kakaoId, String instaId, String role, Long totalLike, String userStatus) {
     this.userName = userName;
     this.kakaoId = kakaoId;
+    this.instaId = instaId;
+    this.role = role;
+    this.totalLike= totalLike;
+    this.userStatus = userStatus;
   }
 
 }
