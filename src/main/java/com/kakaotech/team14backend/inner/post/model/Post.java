@@ -21,7 +21,7 @@ public class Post {
   private Long postId; // 게시글 ID
 
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "memberId")
   private Member member; // 유저 아이디
 
@@ -93,5 +93,9 @@ public class Post {
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
+  }
+
+  public void upadteViewCount(Long viewCount){
+    this.viewCount = viewCount;
   }
 }
