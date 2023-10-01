@@ -4,6 +4,7 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,9 @@ public class CreatePostUsecase {
   //우리가 알던 서비스
   private final PostRepository postRepository;
 
-  public Post execute(Image image, UploadPostRequestDTO uploadPostRequestDTO, Member member) {
-    String attachedHashTag = attachHashTags(uploadPostRequestDTO.getHashTags());
-
-    Post post = Post.createPost(member, image, uploadPostRequestDTO.getNickname(), true,
-        attachedHashTag, uploadPostRequestDTO.getUniversity(), 0L, 0L, 0);
+  public Post execute(CreatePostDTO createPostDTO) {
+    String attachedHashTag = attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
+    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
     return postRepository.save(post);
   }
 
