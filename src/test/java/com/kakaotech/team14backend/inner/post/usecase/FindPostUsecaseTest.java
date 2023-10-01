@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.config.CacheProperties;
 import com.kakaotech.team14backend.config.RedisConfig;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -15,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@Import(RedisConfig.class)
+@Import({RedisConfig.class, CacheProperties.class})
 @DataJpaTest
 class FindPostUsecaseTest {
 
@@ -30,11 +31,6 @@ class FindPostUsecaseTest {
   void setUp() {
 
     redisTemplate.delete("1");
-
-    Member member = new Member("sonny", "sonny1234");
-    Image image = new Image("/image/firstPhoto");
-    Post post = Post.createPost(member, image, "대선대선", true, "#가자", "전남대학교");
-    postRepository.save(post);
     redisTemplate.opsForSet().add("1",2L);
     redisTemplate.opsForSet().add("1",3L);
   }
