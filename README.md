@@ -1,3 +1,86 @@
+## Chookting
+
+---
+
+Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
+
+## 사용기술 및 협업 툴
+
+---
+
+- JDK 17
+- Springboot 2.7.15
+- SpringSecurity
+- MySQL : 8.0.33
+- Redis 7.2
+- OAuth2Client
+- java-jwt 4.3.0
+
+## 제공 기능 및 역할
+
+---
+
+| 기능 | 설명 | 담당자 |
+| --- | --- | --- |
+| 게시물 업로드 | 사진과 해시태그 등을 활용해 게시물을 업로드 | 고범수, 황대선 |
+| 메인 피드 조회 | 메인 피드의 게시글들을 무한 스크롤 방식으로 제공 및 상세 조회 | 고범수 |
+| 인기 피드 조회 | 인기 피드의 게시글을 인기도에 따라 선별하여 랜덤으로 제공 및 상세 조회 | 황대선 |
+| 조회수 | 조회수 정책에 따라 게시글 별 조회수 산정 | 황대선 |
+| 추천수 | 각 피드 별 받은 조회수 산정 | 고범수 |
+| 폭죽 사용 | 축팅 내 재화인 폭죽을 사용하여 해당 게시글 사진의 인스타 아이디를 제공 | 고범수, 황대선 |
+| 폭죽 제공 | 폭죽 제공 정책에 따라 회원에게 폭죽 제공 | 고범수, 황대선 |
+| 로그인  | 카카오 로그인 활용 | 김유선 |
+| 사용자별 접근 권한 | 시큐리티를 이용한 접근 권한 설정 | 김유선 |
+| 인스타그램 연동 및 공유 | 인스타그램 연동과 축팅에 올린 게시글을 인스타그램에 공유 | 김유선 |
+| 카카오톡 문의 | 카카오톡 채널에 문의 | 김유선 |
+| 마이페이지 | 사용자 게시물 및 보유 폭죽 그리고 총 게시물 조회수 제공 | 김유선,송가은 |
+| 알림 | 카카오톡 알림 제공 | 송가은 |
+
+## DB 설계
+
+---
+
+![ERD_chookting](https://github.com/Step3-kakao-tech-campus/Team14_BE/assets/91835827/7ac4a3cf-7d3e-40ef-a3ee-f4df0571b36f)
+
+
+
+## 컨벤션
+
+---
+
+- Commit Convention
+
+  [Commit Convention · Issue #20 · Step3-kakao-tech-campus/Team14_BE](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/20)
+
+- Branch Naming Convention
+
+  [Branch Naming Convention · Issue #9 · Step3-kakao-tech-campus/Team14_BE](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/9)
+
+
+## 팀원
+
+---
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/GoBeromsu"><img src="https://github.com/GoBeromsu.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/hwangdaesun"><img src="https://github.com/hwangdaesun.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/SongGaEun16"><img src="https://github.com/SongGaEun16.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/yuseonkim"><img src="https://github.com/yuseonkim.png" width="50"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/GoBeromsu">GoBeromsu</a></td>
+    <td align="center"><a href="https://github.com/hwangdaesun">hwangdaesun</a></td>
+    <td align="center"><a href="https://github.com/SongGaEun16">SongGaEun16</a></td>
+    <td align="center"><a href="https://github.com/yuseonkim">yuseonkim</a></td>
+  </tr>
+<table>
+
+
+---
+
+
+
 # Team14_BE
 14조
 ## 카카오 테크 캠퍼스 3단계 진행 보드
@@ -10,19 +93,19 @@
 
 최종 배포는 크램폴린으로 배포해야 합니다.
 
-하지만 배포 환경의 불편함이 있는 경우를 고려하여 
+하지만 배포 환경의 불편함이 있는 경우를 고려하여
 
 임의의 배포를 위해 타 배포 환경을 자유롭게 이용해도 됩니다. (단, 금액적인 지원은 어렵습니다.)
 
 아래는 추가적인 설정을 통해 (체험판, 혹은 프리 티어 등)무료로 클라우드 배포가 가능한 서비스입니다.
 
-ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype 
+ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 
 ```
 ## Notice
 
 ```
-필요 산출물들은 수료 기준에 영향을 주는 것은 아니지만, 
+필요 산출물들은 수료 기준에 영향을 주는 것은 아니지만,
 주차 별 산출물을 기반으로 평가가 이루어 집니다.
 
 주차 별 평가 점수는 추 후 최종 평가에 최종 합산 점수로 포함됩니다.
@@ -40,9 +123,9 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-1</summary>
 <div>
-    
+
 ✅**1주차**
-    
+
 ```
     - 5 Whys
     - 마켓 리서치
@@ -50,7 +133,7 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
     - 와이어 프레임
     - 칸반보드
 ```
-    
+
 </div>
 </details>
 
@@ -59,15 +142,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-2</summary>
 <div>
-    
+
 ✅**2주차**
-    
+
 ```
     - ERD 설계서
-    
+
     - API 명세서
 ```
-    
+
 </div>
 </details>
 
@@ -76,13 +159,13 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-3</summary>
 <div>
-    
+
 ✅**3주차**
-    
+
 ```
     - 최종 기획안
 ```
-    
+
 </div>
 </details>
 
@@ -91,15 +174,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-4</summary>
 <div>
-    
+
 ✅**4주차**
-    
+
 ```
     - 4주차 github
-    
+
     - 4주차 노션
 ```
-    
+
 </div>
 </details>
 
@@ -107,15 +190,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-5</summary>
 <div>
-    
+
 ✅**5주차**
-    
+
 ```
     - 5주차 github
-    
+
     - 5주차 노션
 ```
-    
+
 </div>
 </details>
 
@@ -124,17 +207,17 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-6</summary>
 <div>
-    
+
 ✅**6주차**
-    
+
 ```
     - 6주차 github
-    
+
     - 중간발표자료
-    
+
     - 피어리뷰시트
 ```
-    
+
 </div>
 </details>
 
@@ -143,15 +226,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-7</summary>
 <div>
-    
+
 ✅**7주차**
-    
+
 ```
     - 7주차 github
-    
+
     - 7주차 노션
 ```
-    
+
 </div>
 </details>
 
@@ -160,14 +243,14 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-8</summary>
 <div>
-    
+
 ✅**8주차**
-    
+
 ```
     - 중간고사
-    
+
 ```
-    
+
 </div>
 </details>
 
@@ -176,15 +259,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-9</summary>
 <div>
-    
+
 ✅**9주차**
-    
+
 ```
     - 9주차 github
-    
+
     - 9주차 노션
 ```
-    
+
 </div>
 </details>
 
@@ -193,17 +276,17 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-10</summary>
 <div>
-    
+
 ✅**10주차**
-    
+
 ```
     - 10주차 github
-    
+
     - 테스트 시나리오 명세서
-    
+
     - 테스트 결과 보고서
 ```
-    
+
 </div>
 </details>
 
@@ -212,15 +295,15 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <details>
 <summary>Step3. Week-11</summary>
 <div>
-    
+
 ✅**11주차**
-    
+
 ```
     - 최종 기획안
-    
+
     - 배포 인스턴스 링크
 ```
-    
+
 </div>
 </details>
 
@@ -244,7 +327,7 @@ UI 컴포넌트의 명칭과 이를 구현하는 능력은 필수적인 커뮤�
 **1. PR 제목과 내용을 아래와 같이 작성 해주세요.**
 
 > PR 제목 : 부산대_0조_아이템명_0주차
-> 
+>
 
 </br>
 
