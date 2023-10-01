@@ -61,21 +61,20 @@ Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
 
 ---
 
-### 고범수
-
-[GoBeromsu - Overview](https://github.com/GoBeromsu)
-
-### 황대선
-
-[hwangdaesun - Overview](https://github.com/hwangdaesun)
-
-### 송가은
-
-[SongGaEun16 - Overview](https://github.com/SongGaEun16)
-
-### 김유선
-
-[yuseonkim - Overview](https://github.com/yuseonkim)
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/GoBeromsu"><img src="https://github.com/GoBeromsu.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/hwangdaesun"><img src="https://github.com/hwangdaesun.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/SongGaEun16"><img src="https://github.com/SongGaEun16.png" width="50"></a></td>
+    <td align="center"><a href="https://github.com/yuseonkim"><img src="https://github.com/yuseonkim.png" width="50"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/GoBeromsu">GoBeromsu</a></td>
+    <td align="center"><a href="https://github.com/hwangdaesun">hwangdaesun</a></td>
+    <td align="center"><a href="https://github.com/SongGaEun16">SongGaEun16</a></td>
+    <td align="center"><a href="https://github.com/yuseonkim">yuseonkim</a></td>
+  </tr>
+<table>
 
 
 ---
