@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class PostController {
 
   private final PostService postService;
 
+  @ApiOperation(value = "홈 피드의 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post")
   public ApiResponse<CustomBody<GetPostListResponseDTO>> getPosts(
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
