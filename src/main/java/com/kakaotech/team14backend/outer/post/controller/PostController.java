@@ -54,11 +54,20 @@ public class PostController {
 
 
   @GetMapping("/post/{postId}")
-  public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(@PathVariable("boadId") Long postId){
+  public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(@PathVariable("postId") Long postId){
     Long memberId = 1L;
     GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO,HttpStatus.OK);
   }
+
+  @GetMapping("/popular-post/{postId}")
+  public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPopularPost(@PathVariable("postId") Long postId){
+    Long memberId = 1L;
+    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+    GetPostResponseDTO getPostResponseDTO = postService.getPopularPost(getPostDTO);
+    return ApiResponseGenerator.success(getPostResponseDTO,HttpStatus.OK);
+  }
+
 
 }

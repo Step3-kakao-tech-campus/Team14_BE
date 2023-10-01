@@ -4,24 +4,20 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.UpdatePostViewCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import java.io.IOException;
-
-import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +29,9 @@ public class PostService {
   private final FindMemberUsecase findMemberUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
+  private final FindPopularPostUsecase findPopularPostUsecase;
+  private final UpdatePostViewCountUsecase updatePostViewCountUsecase;
+
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
@@ -42,13 +41,19 @@ public class PostService {
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
-    Post post = findPostUsecase.execute(getPostDTO);
-    GetPostResponseDTO getPostResponseDTO = PostMapper.from(post);
+    updatePostViewCountUsecase.execute(getPostDTO);
+    GetPostResponseDTO getPostResponseDTO = findPostUsecase.execute(getPostDTO);
     return getPostResponseDTO;
   }
 
   public GetPostListResponseDTO getPostList(Long lastPostId, int size) {
-
     return findPostListUsecase.excute(lastPostId, size);
   }
+
+  public GetPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
+    updatePostViewCountUsecase.execute(getPostDTO);
+    GetPostResponseDTO getPostResponseDTO =findPopularPostUsecase.execute(getPostDTO);
+    return getPostResponseDTO;
+  }
+
 }
