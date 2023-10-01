@@ -169,11 +169,90 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 
 ✅**4주차**
 
-```
-    - 4주차 github
+### **프로젝트 개발 환경 설정**
 
-    - 4주차 노션
-```
+- `.editorconfig` 파일 추가로 코드 스타일을 팀 전체에 일관되게 적용.
+- 다양한 개발 환경에 대응할 수 있는 `.gitignore` 파일 추가.
+- GitHub Actions CI 설정으로 `weekly` 브랜치 PR에 대한 CI 워크플로우 구성.
+  - 프로젝트 빌드 실패 시 알림 설정.
+
+### **게시글 및 파일 관리 기능 구현**
+
+- 게시글 업로드 및 파일 관리 기능 구현:
+  - Post, Image, Member 엔터티 및 레포지터리 구현.
+  - ApiResponse, Error 클래스 추가로 API 응답과 예외 처리 구현.
+  - FileUtils, UploadFileDTO 구현으로 파일 관리 로직 구현.
+  - 클린 아키텍처를 고려한 usecase와 service 로직 구현.
+  - PostController와 UploadPostRequestDTO 구현으로 게시글 업로드 API 엔드포인트 구현.
+- 웹서버 파일 저장 로직 및 DTO 클래스 구현:
+  - FileUtils 클래스에서는 웹서버의 정적 파일 저장 로직 구현.
+  - UploadFileDTO 클래스를 통해 파일의 원본 이름과 저장된 이름 관리.
+- 메시지 코드 enum 클래스 추가로 공통으로 사용될 메시지 코드 관리.
+- API 응답 및 예외 관련 코드 구현:
+  - API 응답 처리를 위한 ApiResponse 클래스와 예외 처리를 위한 Error 클래스 추가.
+  - ApiResponseGenerator 유틸리티 클래스 구현으로 응답 생성을 간편하게 함.
+- 데이터베이스 설정, 컴포넌트 스캔, build.gradle 의존성 추가:
+  - 필요한 설정과 의존성을 build.gradle에 추가.
+  - WebConfig.java에서 이미지 경로 설정.
+
+### 인기 피드 상세 조회 및 레디스 관련 설정
+
+1. **Redis 및 Cache 설정**:
+  - Redis와 Cache 관련 세팅을 진행하여 기반 환경을 구축.
+2. **인기 피드 상세 조회 기능 구현**:
+  - 홈 피드 게시글 상세 조회와 인기 게시글 상세 조회를 분리하여 구현.
+  - 인기 게시글 상세 조회에 Look Aside 캐시 전략 사용.
+3. **조회수 DB 반영 기능 구현**:
+  - 10분 주기로 조회수를 DB에 반영하는 기능 구현.
+  - 조회수의 빈번한 변동과 캐시 서버 문제 대응을 위해 Write Back 캐시 전략 사용.
+4. **중복 조회수 방지 기능**:
+  - Redis의 Set 자료구조를 사용해 한 게시글당 한 사람만 조회수가 늘어나도록 구현.
+5. **메서드 및 테스트 추가**:
+  - 게시글 조회수를 레디스에 저장하는 메서드 추가.
+  - 인기 게시글 가져오는 메서드 생성.
+  - 10분 주기로 레디스 서버에서 게시글당 조회수를 조회해 DB에 반영하는 기능 구현.
+  - 관련 테스트 케이스 작성 및 검증.
+6. **기타**:
+  - **`spring-boot-configuration-processor`** 추가.
+  - **`jpa.hibernate.ddl-auto`**를 create로 변경.
+  - Member Constructor 수정, fetch 전략 수정 등의 리팩토링 작업 진행.
+
+### Swagger 3.0 추가
+
+- SwaggerConfig.java 설정 파일 추가로 Swagger 3.0 API 문서화 활성화.
+- 설정에서 **`@RestController`** 애노테이션이 있는 컨트롤러만 문서화 대상으로 포함.
+- 애플리케이션 프로퍼티에서 매칭 전략 설정으로 swagger 3.0 경로 에러 해결
+
+### 홈 피드 조회 기능 구현
+
+1. **홈 피드 조회 기능 구현**
+  - **`PostService`** 클래스에서 홈 피드를 조회하는 로직 구현.
+  - **`FindPostListUsecase`**를 이용하여 최신 순으로 10개의 Post 게시물을 가져옴.
+2. **무한 스크롤 기능 구현**:
+  - 엔드포인트 **`@GetMapping("/post")`**를 구현, **`lastPostId`** 파라미터 기반의 no offset 방식 사용.
+  - 요청 시 마다 지정된 **`size`**만큼 게시글 반환, 클라이언트는 **`lastPostId`**를 통해 다음 요청의 시작점을 알 수 있음.
+3. **무한 스크롤 기능 최적화**:
+  - 무한 스크롤 로직에 **`hasNext`** 플래그 도입, 클라이언트에게 더 많은 데이터의 존재를 알림.
+  - **`FindPostListUsecase`**의 **`execute`** 메서드 수정, 반환된 게시글의 수가 요청된 **`size`**보다 큰 경우 **`hasNext`** 플래그를 **`true`**로 설정.
+
+### tearDown **SQL 추가**
+
+- 테스트용 초기 데이터 생성 SQL 스크립트 추가.
+- **`member`**, **`image`**, **`post`** 테이블의 데이터 재설정 및 새 레코드 삽입, 무한 스크롤 및 기타 기능 테스트에 활용
+
+### 카카오 OAuth2를 사용한 로그인 및 회원가입, 엑세스토큰 발급 및 검증 기능 구현
+
+1. **의존성 및 설정**:
+  - **`build.gradle`**에 SpringSecurity, OAuth2Client, java-jwt 의존성을 추가.
+  - **`application.properties`**에 OAuth2 관련 설정을 작성.
+2. **사용자 관리 및 권한 설정**:
+  - 사용자 관리를 위한 **`PrincipalDetails`** 클래스 작성.
+  - 권한 설정 및 로그인을 위한 **`SecurityConfig`** 클래스 작성.
+3. **JWT 생성 및 검증**:
+  - **`JwtProvider`**와 **`JwtAuthenticationFilter`** 클래스를 작성하여 JWT 생성 및 검증 구현.
+4. **로그인 로직**:
+  - 로그인 완료 시 필요한 로직을 실행하기 위한 **`AuthenticationSuccessHandler`**와 **`PrincipalOAuth2UserService`** 클래스 작성.
+  - 로그인을 위한 **`Member`** 엔티티, **`MemberRepository`**, **`TokenDTO`**, **`LoginController`** 클래스 작성.
 
 </div>
 </details>
