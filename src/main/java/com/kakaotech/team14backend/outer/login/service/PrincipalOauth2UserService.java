@@ -42,7 +42,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
           .instaId("none")
           .role(Role.ROLE_BEGINNER)
           .totalLike(0L)
-          .status(Status.STATUS_ACTIVE)
+          .userStatus(Status.STATUS_ACTIVE)
           .build();
       memberRepository.save(memberEntity);
     }

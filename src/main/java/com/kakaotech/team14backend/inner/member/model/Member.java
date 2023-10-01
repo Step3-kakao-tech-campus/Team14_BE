@@ -65,17 +65,6 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private Status userStatus; // 제재, 탈퇴, 정상 등등
 
-  @Builder
-  public Member(String userName, Role role, Status status, String kakaoId, String instaId, Long totalLike) {
-    this.userName = userName;
-    this.role = role;
-    this.kakaoId = kakaoId;
-    this.instaId = instaId;
-    this.userStatus = status;
-    this.totalLike = totalLike;
-  }
-
-
 
   @Builder
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
