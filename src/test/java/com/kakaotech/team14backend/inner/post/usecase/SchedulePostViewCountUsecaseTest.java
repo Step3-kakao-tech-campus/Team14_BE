@@ -3,6 +3,8 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.member.model.Role;
+import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
@@ -33,7 +35,7 @@ class SchedulePostViewCountUsecaseTest {
 
   @BeforeEach
   void setup(){
-    Member member = new Member("sonny", "sonny1234","asdf324","ROLE_BEGINNER",0L,"active");
+    Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
 
     Image image = new Image("/image/firstPhoto");
