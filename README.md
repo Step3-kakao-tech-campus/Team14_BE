@@ -1,12 +1,10 @@
 ## Chookting
 
----
 
 Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
 
 ## 사용기술 및 협업 툴
 
----
 
 - JDK 17
 - Springboot 2.7.15
@@ -18,7 +16,6 @@ Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
 
 ## 제공 기능 및 역할
 
----
 
 | 기능 | 설명 | 담당자 |
 | --- | --- | --- |
@@ -38,15 +35,12 @@ Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
 
 ## DB 설계
 
----
-
 ![ERD_chookting](https://github.com/Step3-kakao-tech-campus/Team14_BE/assets/91835827/7ac4a3cf-7d3e-40ef-a3ee-f4df0571b36f)
 
 
 
 ## 컨벤션
 
----
 
 - Commit Convention
 
@@ -59,7 +53,6 @@ Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
 
 ## 팀원
 
----
 
 <table>
   <tr>
@@ -76,8 +69,6 @@ Chookting은 축제의 포토부스를 이용한 소개팅 어플입니다.
   </tr>
 <table>
 
-
----
 
 
 
