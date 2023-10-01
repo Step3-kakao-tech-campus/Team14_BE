@@ -49,6 +49,7 @@ public class Member {
   private Role role;
 
 
+
   @Column(nullable = false)
   private Long totalLike = 0L; // 보유 좋아요 수
 
