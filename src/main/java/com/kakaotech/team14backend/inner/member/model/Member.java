@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,9 +14,18 @@ import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+
+
 @Entity
+@NoArgsConstructor(access=PROTECTED)
 @Getter
-@NoArgsConstructor(access = PROTECTED)
 public class Member {
 
   @Id
@@ -38,6 +48,7 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private Role role;
 
+
   @Column(nullable = false)
   private Long totalLike = 0L; // 보유 좋아요 수
 
@@ -46,7 +57,7 @@ public class Member {
   private LocalDateTime createdAt; // 생성일
 
   @Column(nullable = false)
-  @CreationTimestamp
+  @UpdateTimestamp
   private LocalDateTime updatedAt; // 수정일
 
   @Column(nullable = false, length = 20)
@@ -64,5 +75,15 @@ public class Member {
   }
 
 
+
+  @Builder
+  public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+    this.userName = userName;
+    this.kakaoId = kakaoId;
+    this.instaId = instaId;
+    this.role = role;
+    this.totalLike= totalLike;
+    this.userStatus = userStatus;
+  }
 
 }
