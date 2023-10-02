@@ -25,9 +25,10 @@ public class PostLike {
   @Id
   private Long postId;
 
-  @MapsId  // Post의 PK를 PostLike의 PK로 사용
-  @OneToOne
-  @JoinColumn(name = "postLikeId")
+
+  @MapsId
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "postId")
   private Post post;
 
   @Column(nullable = false)
