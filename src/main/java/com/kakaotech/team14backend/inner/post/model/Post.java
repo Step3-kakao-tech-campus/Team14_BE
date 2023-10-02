@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +35,7 @@ public class Post {
   private String nickname; // 닉네임
 
   @Column(nullable = false)
-  private LocalDateTime createdAt; // 생성일
+  private Instant createdAt; // 생성일
 
   @Column(nullable = false)
   private Boolean published; // 공개 여부
@@ -90,7 +91,7 @@ public class Post {
   public Post(String nickname, Boolean published, String hashtag,
       String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
-    this.createdAt = LocalDateTime.now();
+    this.createdAt = Instant.now();
     this.published = published;
     this.hashtag = hashtag;
     this.university = university;
@@ -102,6 +103,8 @@ public class Post {
   public void updateViewCount(Long viewCount){
     this.viewCount = viewCount;
   }
+
+
 
 
 }
