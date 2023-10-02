@@ -76,7 +76,7 @@ public class Post {
         .reportCount(0)
         .build();
 
-    PostLIke.builder().post(post).build();
+    PostLike.builder().post(post).build();
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
