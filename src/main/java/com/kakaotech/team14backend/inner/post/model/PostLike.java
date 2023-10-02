@@ -10,9 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
 public class PostLike {
 
