@@ -62,6 +62,9 @@ public class Post {
   public void mappingImage(Image image) {
     this.image = image;
   }
+  public void mappingPostLike() {
+    PostLike.builder().post(this).build();
+  }
 
   public static Post createPost(Member member, Image image, String nickname, Boolean published,
       String hashtag, String university) {
@@ -76,6 +79,7 @@ public class Post {
         .reportCount(0)
         .build();
 
+    post.mappingPostLike();
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
