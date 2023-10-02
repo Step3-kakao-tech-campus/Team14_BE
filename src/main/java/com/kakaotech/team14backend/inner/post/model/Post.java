@@ -7,6 +7,8 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Period;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -104,7 +106,15 @@ public class Post {
     this.viewCount = viewCount;
   }
 
+  public long measurePostAge(){
+    Instant now = Instant.now();
+    int time = now.compareTo(this.createdAt);
+    return time/5;
+  }
 
+  public void updatePopularity(long likeCount, long postAge){
+    this.popularity = (likeCount * 100 + this.viewCount * 50) / postAge;
+  }
 
 
 }
