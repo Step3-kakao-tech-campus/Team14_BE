@@ -30,7 +30,7 @@ public class SchedulePostViewCountUsecase {
     for(String key : keys){
       Object cnt = redisTemplate.opsForValue().get(key);
       Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new RuntimeException("Post not found"));
-      post.upadteViewCount(Long.valueOf((String) cnt));
+      post.updateViewCount(Long.valueOf((String) cnt));
     }
     // mysql에 update!
     clearPostViewCount();

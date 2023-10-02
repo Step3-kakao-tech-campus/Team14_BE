@@ -95,7 +95,9 @@ public class Post {
     this.reportCount = reportCount;
   }
 
-  public void upadteViewCount(Long viewCount){
+  public void updateViewCount(Long viewCount){
     this.viewCount = viewCount;
   }
+
+
 }
