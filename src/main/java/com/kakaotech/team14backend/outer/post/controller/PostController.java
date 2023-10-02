@@ -8,6 +8,8 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
+import com.kakaotech.team14backend.outer.post.dto.setPostLikeDTO;
+import com.kakaotech.team14backend.outer.post.dto.setPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -69,5 +71,15 @@ public class PostController {
     return ApiResponseGenerator.success(getPostResponseDTO,HttpStatus.OK);
   }
 
+  @ApiOperation(value = "게시물 좋아요(추천 수)", notes = "게시물 좋아요를 누른다, 1인당 1개의 게시물에 1번만 좋아요를 누를 수 있다")
+  @PostMapping("/post/{postId}/like")
+  public ApiResponse<ApiResponse.CustomBody<setPostLikeResponseDTO>> setPostLike(@PathVariable("postId") Long postId){
+    Long memberId = 1L;
+
+    setPostLikeDTO setPostLikeDTO = new setPostLikeDTO(postId, memberId);
+    setPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
+
+    return ApiResponseGenerator.success(setPostLikeResponseDTO,HttpStatus.OK);
+  }
 
 }
