@@ -55,6 +55,9 @@ public class Post {
   @Column(nullable = false)
   private Integer reportCount; // 제재 횟수
 
+  @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+  private PostLike postLike;
+
   public void mappingMember(Member member) {
     this.member = member;
   }
