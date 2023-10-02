@@ -55,9 +55,6 @@ public class Post {
   @Column(nullable = false)
   private Integer reportCount; // 제재 횟수
 
-  @Column(nullable = false)
-  private Long age;
-
   public void mappingMember(Member member) {
     this.member = member;
   }
@@ -77,7 +74,6 @@ public class Post {
         .viewCount(0L)
         .popularity(0L)
         .reportCount(0)
-        .age(0L)
         .build();
 
     post.mappingMember(member);
@@ -88,7 +84,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-      String university, Long viewCount, Long popularity, Integer reportCount, Long age) {
+      String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = LocalDateTime.now();
     this.published = published;
@@ -97,7 +93,6 @@ public class Post {
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
-    this.age = age;
   }
 
   public void upadteViewCount(Long viewCount){
