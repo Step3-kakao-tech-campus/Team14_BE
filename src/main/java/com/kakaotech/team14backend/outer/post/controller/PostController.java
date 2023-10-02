@@ -38,7 +38,7 @@ public class PostController {
     // todo: size와 lastPostId 예외처리, validation
 
     GetPostListResponseDTO getPostListResponseDTO = postService.getPostList(lastPostId, size);
-    return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.CREATED);
+    return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
 

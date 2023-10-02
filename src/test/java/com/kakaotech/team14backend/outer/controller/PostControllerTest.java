@@ -52,7 +52,7 @@ public class PostControllerTest {
 
     System.out.println("findAllHomeFeed_Test : " + responseBody);
 
-    resultActions.andExpect(status().isCreated());
+    resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
   }
@@ -69,7 +69,7 @@ public class PostControllerTest {
 
     System.out.println("findAllHomeFeedNoParam_Test : " + responseBody);
 
-    resultActions.andExpect(status().isCreated());
+    resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
   }
@@ -107,7 +107,7 @@ public class PostControllerTest {
 
     System.out.println("findAllHomeFeedNoLastPostId_Test : " + responseBody);
 
-    resultActions.andExpect(status().isCreated());
+    resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
   }
