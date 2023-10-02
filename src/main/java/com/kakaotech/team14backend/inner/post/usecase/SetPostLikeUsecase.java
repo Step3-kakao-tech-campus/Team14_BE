@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
-import com.kakaotech.team14backend.outer.post.dto.setPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.dto.setPostLikeResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ public class SetPostLikeUsecase {
   private final RedisTemplate<String, Object> redisTemplate;
   private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 
-  public setPostLikeResponseDTO execute(setPostLikeDTO setPostLikeDTO) {
+  public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
     Long memberId = setPostLikeDTO.memberId();
 
@@ -34,10 +34,10 @@ public class SetPostLikeUsecase {
     return (boolean) redisTemplate.opsForHash().get(key, memberId);
   }
 
-  private setPostLikeResponseDTO toggleLikeStatus(String key, Long memberId, Boolean isLiked) {
+  private SetPostLikeResponseDTO toggleLikeStatus(String key, Long memberId, Boolean isLiked) {
     boolean newStatus = (isLiked == null || !isLiked);
     redisTemplate.opsForHash().put(key, memberId, newStatus);
-    return new setPostLikeResponseDTO(newStatus);
+    return new SetPostLikeResponseDTO(newStatus);
 
   }
 

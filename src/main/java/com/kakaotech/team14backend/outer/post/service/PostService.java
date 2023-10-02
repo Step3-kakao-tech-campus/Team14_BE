@@ -15,8 +15,8 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.setPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.dto.setPostLikeResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class PostService {
     return getPostResponseDTO;
   }
 
-  public setPostLikeResponseDTO setPostLike(setPostLikeDTO setPostLikeDTO) {
+  public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
 
     return setPostLikeUsecase.execute(setPostLikeDTO);
   }
