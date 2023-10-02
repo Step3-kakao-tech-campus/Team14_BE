@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
-public class PostLIke {
+public class PostLike {
 
   @Id
   private Long postId;
@@ -35,7 +35,7 @@ public class PostLIke {
 
 
   @Builder
-  public PostLIke(Post post) {
+  public PostLike(Post post) {
     this.post = post;
     this.likeCount = 0L;
     this.createdAt = LocalDateTime.now();
