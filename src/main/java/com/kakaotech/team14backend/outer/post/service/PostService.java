@@ -4,16 +4,19 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostViewCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
-import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
+import com.kakaotech.team14backend.outer.post.dto.setPostLikeDTO;
+import com.kakaotech.team14backend.outer.post.dto.setPostLikeResponseDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,7 @@ public class PostService {
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPostUsecase findPopularPostUsecase;
   private final UpdatePostViewCountUsecase updatePostViewCountUsecase;
+  private final SetPostLikeUsecase setPostLikeUsecase;
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
@@ -54,6 +58,11 @@ public class PostService {
     updatePostViewCountUsecase.execute(getPostDTO);
     GetPostResponseDTO getPostResponseDTO =findPopularPostUsecase.execute(getPostDTO);
     return getPostResponseDTO;
+  }
+
+  public setPostLikeResponseDTO setPostLike(setPostLikeDTO setPostLikeDTO) {
+
+    return setPostLikeUsecase.execute(setPostLikeDTO);
   }
 
 }
