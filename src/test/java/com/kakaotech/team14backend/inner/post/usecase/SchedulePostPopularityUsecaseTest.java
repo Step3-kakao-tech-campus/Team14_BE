@@ -10,22 +10,22 @@ import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
+
+
+import java.time.Duration;
+import java.util.concurrent.Callable;
+
+import static org.awaitility.Awaitility.await;
 
 @SpringBootTest
-class SchedulePostViewCountUsecaseTest {
+class SchedulePostPopularityUsecaseTest {
 
   @Autowired
-  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
-
-  @Autowired
-  private SchedulePostViewCountUsecase schedulePostViewCountUsecase;
+  private SchedulePostPopularityUsecase schedulePostPopularityUsecase;
 
   @Autowired
   private PostRepository postRepository;
@@ -36,35 +36,39 @@ class SchedulePostViewCountUsecaseTest {
   @Autowired
   private ImageRepository imageRepository;
 
-  @Autowired
-  private PostLikeRepository postLikeRepository;
 
   @BeforeEach
-  void setup(){
-    Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
+  void setUp() {
+    Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
-
-    Image image = new Image("/image/firstPhoto");
+    Image image = Image.createImage("image_uri1");
     imageRepository.save(image);
 
     PostLike postLike = PostLike.createPostLike();
 
-    Post post = Post.createPost(member, image,postLike, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image,postLike, "Sonny", true, "#hashTag", "university4");
     postRepository.save(post);
 
   }
+
   @Test
   void execute() {
-    GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-    updatePostViewCountUsecase.execute(getPostDTO);
+    Callable<Boolean> popularirity = (Callable<Boolean>) () -> {
+      Post post = postRepository.findById(1L).get();
+      post.updateViewCount(10L);
+      postRepository.save(post);
 
-    GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
-    updatePostViewCountUsecase.execute(getPostDTO1);
+      schedulePostPopularityUsecase.execute();
 
-    schedulePostViewCountUsecase.execute();
+      if(post.getPopularity() !=0){
+        return false;
+      }
+      return true;
+    };
+    await()
+        .atMost(Duration.ofMinutes(21L)) // 최대 대기 시간
+        .pollDelay(Duration.ofMinutes(20L)) // Awaitility가 첫 번째로 결과를 확인하기 전에 기다릴 지연 시간
+        .until(popularirity);
 
-    Long viewCount = postRepository.findById(1L).get().getViewCount();
-    Assertions.assertThat(viewCount).isEqualTo(3);
   }
-
 }

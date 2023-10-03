@@ -7,6 +7,8 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
@@ -36,6 +38,9 @@ class FindPopularPostUsecaseTest {
   private ImageRepository imageRepository;
 
   @Autowired
+  private PostLikeRepository postLikeRepository;
+
+  @Autowired
   private EntityManager entityManager;
 
   @Autowired
@@ -50,7 +55,9 @@ class FindPopularPostUsecaseTest {
     Image image = new Image("/image/firstPhoto");
     imageRepository.save(image);
 
-    Post post = Post.createPost(member, image, "대선대선", true, "#가자", "전남대학교");
+    PostLike postLike = PostLike.createPostLike();
+
+    Post post = Post.createPost(member, image,postLike, "대선대선", true, "#가자", "전남대학교");
     postRepository.save(post);
 
     entityManager.clear();

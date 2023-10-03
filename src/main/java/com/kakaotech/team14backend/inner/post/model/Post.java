@@ -5,7 +5,10 @@ import static lombok.AccessLevel.PROTECTED;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Period;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,11 +33,14 @@ public class Post {
   @JoinColumn(name = "imageId")
   private Image image; // 사진 ID
 
+  @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+  private PostLike postLike;
+
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
 
   @Column(nullable = false)
-  private LocalDateTime createdAt; // 생성일
+  private Instant createdAt; // 생성일
 
   @Column(nullable = false)
   private Boolean published; // 공개 여부
@@ -62,11 +68,13 @@ public class Post {
   public void mappingImage(Image image) {
     this.image = image;
   }
-  public void mappingPostLike() {
-    PostLike.builder().post(this).build();
+
+  public void mappingPostLike(PostLike postLike){
+    postLike.mappingPost(this);
+    this.postLike = postLike;
   }
 
-  public static Post createPost(Member member, Image image, String nickname, Boolean published,
+  public static Post createPost(Member member, Image image, PostLike postLike, String nickname, Boolean published,
       String hashtag, String university) {
 
     Post post = Post.builder()
@@ -78,8 +86,7 @@ public class Post {
         .popularity(0L)
         .reportCount(0)
         .build();
-
-    post.mappingPostLike();
+    post.mappingPostLike(postLike);
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
@@ -90,7 +97,7 @@ public class Post {
   public Post(String nickname, Boolean published, String hashtag,
       String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
-    this.createdAt = LocalDateTime.now();
+    this.createdAt = Instant.now();
     this.published = published;
     this.hashtag = hashtag;
     this.university = university;
@@ -99,7 +106,19 @@ public class Post {
     this.reportCount = reportCount;
   }
 
-  public void upadteViewCount(Long viewCount){
+  public void updateViewCount(Long viewCount){
     this.viewCount = viewCount;
   }
+
+  public long measurePostAge(){
+    Instant now = Instant.now();
+    int time = now.compareTo(this.createdAt);
+    return time/5;
+  }
+
+  public void updatePopularity(long likeCount, long postAge){
+    this.popularity = (likeCount * 100 + this.viewCount * 50) / (postAge + 1L);
+  }
+
+
 }

@@ -3,8 +3,6 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,14 +23,13 @@ public class SchedulePostViewCountUsecase {
   private final PostRepository postRepository;
 
   @Transactional
-  @Scheduled(fixedDelay = 600000)
+  @Scheduled(initialDelay = 600000,fixedDelay = 600000)
   public void execute() {
-
     Set<String> keys = redisTemplate.keys("viewCnt*");
     for(String key : keys){
       Object cnt = redisTemplate.opsForValue().get(key);
       Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new RuntimeException("Post not found"));
-      post.upadteViewCount(Long.valueOf((String) cnt));
+      post.updateViewCount(Long.valueOf((String) cnt));
     }
     // mysql에 update!
     clearPostViewCount();
