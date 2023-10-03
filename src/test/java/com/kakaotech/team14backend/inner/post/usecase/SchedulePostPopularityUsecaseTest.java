@@ -8,7 +8,6 @@ import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,10 @@ import java.util.concurrent.Callable;
 
 import static org.awaitility.Awaitility.await;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+    "schedules.initialDelay:1000"
+    ,"schedules.fixedDelay:1000"
+})
 class SchedulePostPopularityUsecaseTest {
 
   @Autowired
@@ -66,8 +68,7 @@ class SchedulePostPopularityUsecaseTest {
       return true;
     };
     await()
-        .atMost(Duration.ofMinutes(21L)) // 최대 대기 시간
-        .pollDelay(Duration.ofMinutes(20L)) // Awaitility가 첫 번째로 결과를 확인하기 전에 기다릴 지연 시간
+        .atMost(Duration.ofMinutes(1L)) // 최대 대기 시간
         .until(popularirity);
 
   }
