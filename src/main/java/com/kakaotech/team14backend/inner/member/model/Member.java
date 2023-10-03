@@ -65,6 +65,8 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private Status userStatus; // 제재, 탈퇴, 정상 등등
 
+  @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+  private List<PostLikeHistory> postLikeHistories = new ArrayList<>();
 
   @Builder
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
@@ -72,7 +74,7 @@ public class Member {
     this.kakaoId = kakaoId;
     this.instaId = instaId;
     this.role = role;
-    this.totalLike= totalLike;
+    this.totalLike = totalLike;
     this.userStatus = userStatus;
   }
 
