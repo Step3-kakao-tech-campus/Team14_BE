@@ -33,6 +33,9 @@ public class Post {
   @JoinColumn(name = "imageId")
   private Image image; // 사진 ID
 
+  @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+  private PostLike postLike;
+
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
 
@@ -65,11 +68,13 @@ public class Post {
   public void mappingImage(Image image) {
     this.image = image;
   }
-  public void mappingPostLike() {
-    PostLike.builder().post(this).build();
+
+  public void mappingPostLike(PostLike postLike){
+    postLike.mappingPost(this);
+    this.postLike = postLike;
   }
 
-  public static Post createPost(Member member, Image image, String nickname, Boolean published,
+  public static Post createPost(Member member, Image image, PostLike postLike, String nickname, Boolean published,
       String hashtag, String university) {
 
     Post post = Post.builder()
@@ -81,8 +86,7 @@ public class Post {
         .popularity(0L)
         .reportCount(0)
         .build();
-
-    post.mappingPostLike();
+    post.mappingPostLike(postLike);
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
@@ -113,7 +117,7 @@ public class Post {
   }
 
   public void updatePopularity(long likeCount, long postAge){
-    this.popularity = (likeCount * 100 + this.viewCount * 50) / postAge;
+    this.popularity = (likeCount * 100 + this.viewCount * 50) / (postAge + 1L);
   }
 
 
