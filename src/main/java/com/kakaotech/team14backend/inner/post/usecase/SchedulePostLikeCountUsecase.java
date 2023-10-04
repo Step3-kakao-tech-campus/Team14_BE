@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SchedulePostLikeCountUsecase {
 
-  private final PostLikeRepository postLikeRepository;
+  private final PostLikeCountRepository postLikeCountRepository;
   private final RedisTemplate<String, Object> redisTemplate;
   private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 
@@ -25,7 +25,7 @@ public class SchedulePostLikeCountUsecase {
     for (String key : keys) {
       Long postId = Long.valueOf(key.replace(POST_LIKE_KEY_PREFIX, ""));
       Long likeCount = getLikeCount(key);
-      PostLikeCount postLikeCount = postLikeRepository.findById(postId)
+      PostLikeCount postLikeCount = postLikeCountRepository.findById(postId)
           .orElseThrow(() -> new RuntimeException("Post not found"));
       postLikeCount.updateLikeCount(likeCount);
     }

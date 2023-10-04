@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SetPostLikeUsecase {
 
-  private final PostLikeRepository postLikeRepository;
+  private final PostLikeCountRepository postLikeCountRepository;
   private final RedisTemplate<String, Object> redisTemplate;
   private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 

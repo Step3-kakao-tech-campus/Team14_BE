@@ -38,7 +38,7 @@ public class PostLikeCount {
   @UpdateTimestamp
   private LocalDateTime modifiedAt; // 수정일
 
-  public static PostLikeCount createPostLike(){
+  public static PostLikeCount createPostLike() {
     PostLikeCount postLikeCount = new PostLikeCount();
     return postLikeCount;
   }
