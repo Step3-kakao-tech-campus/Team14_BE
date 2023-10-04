@@ -7,7 +7,8 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import org.assertj.core.api.Assertions;
@@ -51,9 +52,9 @@ class SchedulePostViewCountUsecaseTest {
     Image image = new Image("/image/firstPhoto");
     imageRepository.save(image);
 
-    PostLike postLike = PostLike.createPostLike();
+    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
 
-    Post post = Post.createPost(member, image,postLike, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
     postRepository.save(post);
 
   }

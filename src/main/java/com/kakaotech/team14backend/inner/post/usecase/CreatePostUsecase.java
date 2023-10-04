@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import java.util.List;
@@ -20,8 +20,8 @@ public class CreatePostUsecase {
   @Transactional
   public Post execute(CreatePostDTO createPostDTO) {
     String attachedHashTag = attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
-    PostLike postLike = PostLike.createPostLike();
-    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(),postLike, createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
+    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
+    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount, createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
     return postRepository.save(post);
   }
 

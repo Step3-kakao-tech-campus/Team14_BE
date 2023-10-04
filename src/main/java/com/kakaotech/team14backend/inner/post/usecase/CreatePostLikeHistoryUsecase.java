@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLikeHistory;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeHistoryRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeHistoryDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class CreatePostLikeHistoryUsecase {
 
 
   @Transactional
-  public PostLikeHistory execute(GetPostLikeHistoryDTO getPostLikeHistoryDTO) {
+  public PostLike execute(GetPostLikeHistoryDTO getPostLikeHistoryDTO) {
     Member member = getPostLikeHistoryDTO.member();
     Post post = getPostLikeHistoryDTO.post();
-    PostLikeHistory postLikeHistory = PostLikeHistory.createPostLikeHistory(member, post);
-    return postLikeHistoryRepository.save(postLikeHistory);
+    PostLike postLike = PostLike.createPostLike(member, post);
+    return postLikeHistoryRepository.save(postLike);
 
   }
 }
