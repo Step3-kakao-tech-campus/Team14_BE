@@ -17,7 +17,10 @@ public class SchedulePostPopularityUsecase {
   @Transactional
   @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
-    postRepository.findAll().stream().forEach(post -> post.updatePopularity(post.getPostLike().getLikeCount(),post.measurePostAge()));
+    postRepository.findAll().stream().forEach(post -> {
+      Long likeCount = post.getPostLike().getLikeCount();
+      long postAge = post.measurePostAge();
+      post.updatePopularity(likeCount.longValue(), postAge);
+    });
   }
-
 }
