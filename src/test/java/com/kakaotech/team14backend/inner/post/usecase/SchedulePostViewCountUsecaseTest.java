@@ -29,7 +29,7 @@ import static org.awaitility.Awaitility.await;
 class SchedulePostViewCountUsecaseTest {
 
   @Autowired
-  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
+  private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
 
   @Autowired
   private SchedulePostViewCountUsecase schedulePostViewCountUsecase;
@@ -65,10 +65,10 @@ class SchedulePostViewCountUsecaseTest {
     Callable<Boolean> viewCount = (Callable<Boolean>) () -> {
 
       GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-      updatePostViewCountUsecase.execute(getPostDTO);
+      saveTemporaryPostViewCountUsecase.execute(getPostDTO);
 
       GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
-      updatePostViewCountUsecase.execute(getPostDTO1);
+      saveTemporaryPostViewCountUsecase.execute(getPostDTO1);
 
       schedulePostViewCountUsecase.execute();
 

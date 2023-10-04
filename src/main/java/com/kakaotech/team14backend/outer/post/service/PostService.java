@@ -9,7 +9,7 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.UpdatePostViewCountUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
@@ -33,7 +33,7 @@ public class PostService {
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPostUsecase findPopularPostUsecase;
-  private final UpdatePostViewCountUsecase updatePostViewCountUsecase;
+  private final SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
   private final SetPostLikeUsecase setPostLikeUsecase;
 
   @Transactional
@@ -45,7 +45,7 @@ public class PostService {
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
-    updatePostViewCountUsecase.execute(getPostDTO);
+    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
     GetPostResponseDTO getPostResponseDTO = findPostUsecase.execute(getPostDTO);
     return getPostResponseDTO;
   }
@@ -55,7 +55,7 @@ public class PostService {
   }
 
   public GetPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
-    updatePostViewCountUsecase.execute(getPostDTO);
+    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
     GetPostResponseDTO getPostResponseDTO =findPopularPostUsecase.execute(getPostDTO);
     return getPostResponseDTO;
   }

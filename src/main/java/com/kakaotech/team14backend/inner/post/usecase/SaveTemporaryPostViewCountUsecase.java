@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class UpdatePostViewCountUsecase {
+public class SaveTemporaryPostViewCountUsecase {
 
   private final RedisTemplate<String,Object> redisTemplate;
 
