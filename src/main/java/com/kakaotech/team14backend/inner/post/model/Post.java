@@ -36,7 +36,6 @@ public class Post {
   @JoinColumn(name = "memberId")
   private Member member; // 유저 아이디
 
-
   @OneToOne
   @JoinColumn(name = "imageId")
   private Image image; // 사진 ID
@@ -63,7 +62,7 @@ public class Post {
   @Column(nullable = true)
   private Long viewCount; // 조회수
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private Long popularity; // 인기도 값
 
   @Column(nullable = false)
@@ -124,11 +123,12 @@ public class Post {
   public long measurePostAge() {
     Instant now = Instant.now();
     int time = now.compareTo(this.createdAt);
-    return time / 5;
+    return  time < 5 ? 1 : time / 5;
   }
 
-  public void updatePopularity(long likeCount, long postAge) {
-    this.popularity = (likeCount * 100 + this.viewCount * 50) / (postAge + 1L);
+  public void updatePopularity(long likeCount, long postAge){
+    long popularity = (likeCount + this.viewCount) / postAge;
+    this.popularity = Long.valueOf(popularity);
   }
 
 

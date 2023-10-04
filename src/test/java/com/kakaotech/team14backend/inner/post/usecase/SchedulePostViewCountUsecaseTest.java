@@ -8,17 +8,24 @@ import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 
-@SpringBootTest
+import java.time.Duration;
+import java.util.concurrent.Callable;
+
+import static org.awaitility.Awaitility.await;
+
+@SpringBootTest(properties = {
+    "schedules.initialDelay:1000"
+    ,"schedules.fixedDelay:1000"
+})
 class SchedulePostViewCountUsecaseTest {
 
   @Autowired
@@ -36,9 +43,6 @@ class SchedulePostViewCountUsecaseTest {
   @Autowired
   private ImageRepository imageRepository;
 
-  @Autowired
-  private PostLikeRepository postLikeRepository;
-
   @BeforeEach
   void setup(){
     Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
@@ -53,18 +57,30 @@ class SchedulePostViewCountUsecaseTest {
     postRepository.save(post);
 
   }
+
+  @DisplayName("1번 게시물을 각각 1번과 2번 유저가 조회한 상황에서 레디스에 저장되어있는 게시글 당 조회수를 스케줄링을 사용하여 MySQL에 업데이트")
   @Test
   void execute() {
-    GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-    updatePostViewCountUsecase.execute(getPostDTO);
 
-    GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
-    updatePostViewCountUsecase.execute(getPostDTO1);
+    Callable<Boolean> viewCount = (Callable<Boolean>) () -> {
 
-    schedulePostViewCountUsecase.execute();
+      GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
+      updatePostViewCountUsecase.execute(getPostDTO);
 
-    Long viewCount = postRepository.findById(1L).get().getViewCount();
-    Assertions.assertThat(viewCount).isEqualTo(3);
+      GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
+      updatePostViewCountUsecase.execute(getPostDTO1);
+
+      schedulePostViewCountUsecase.execute();
+
+      Post post = postRepository.findById(1L).get();
+
+      Assertions.assertThat(post.getViewCount()).isEqualTo(3);
+      return true;
+    };
+
+    await()
+        .atMost(Duration.ofMinutes(1L))
+        .until(viewCount);
   }
 
 }

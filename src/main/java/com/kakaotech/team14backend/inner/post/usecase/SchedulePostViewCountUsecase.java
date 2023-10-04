@@ -23,7 +23,7 @@ public class SchedulePostViewCountUsecase {
   private final PostRepository postRepository;
 
   @Transactional
-  @Scheduled(initialDelay = 600000,fixedDelay = 600000)
+  @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
     Set<String> keys = redisTemplate.keys("viewCnt*");
     for(String key : keys){
