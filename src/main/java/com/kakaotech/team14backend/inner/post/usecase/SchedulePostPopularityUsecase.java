@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SchedulePostPopularityUsecase {
 
   private final PostRepository postRepository;
-  private final PostLikeRepository postLikeRepository;
+  private final PostLikeCountRepository postLikeRepository;
 
   @Transactional
   @Scheduled(initialDelay = 600000,fixedDelay = 600000)

@@ -8,7 +8,7 @@ import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import org.assertj.core.api.Assertions;
@@ -36,7 +36,7 @@ class SchedulePostViewCountUsecaseTest {
   private ImageRepository imageRepository;
 
   @Autowired
-  private PostLikeRepository postLikeRepository;
+  private PostLikeCountRepository postLikeRepository;
 
   @BeforeEach
   void setup(){
