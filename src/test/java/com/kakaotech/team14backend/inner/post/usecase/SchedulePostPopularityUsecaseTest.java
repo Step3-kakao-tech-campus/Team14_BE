@@ -9,13 +9,12 @@ import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-
+import javax.persistence.EntityManager;
 import java.time.Duration;
 import java.util.concurrent.Callable;
 
@@ -39,6 +38,9 @@ class SchedulePostPopularityUsecaseTest {
   @Autowired
   private ImageRepository imageRepository;
 
+  @Autowired
+  private EntityManager em;
+
 
   @BeforeEach
   void setUp() {
@@ -51,26 +53,41 @@ class SchedulePostPopularityUsecaseTest {
 
     Post post = Post.createPost(member, image,postLike, "Sonny", true, "#hashTag", "university4");
     postRepository.save(post);
+  }
+
+  @Test
+  void execute_schedule() {
+
+    await()
+        .atMost(Duration.ofMinutes(10L)) // 최대 대기 시간
+        .untilAsserted(() -> {
+          Post post = postRepository.findById(1L).get();
+          post.updateViewCount(500L);
+          postRepository.save(post);
+
+          try {
+            Thread.sleep(1500);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+
+          schedulePostPopularityUsecase.execute();
+          Post updatedPost = postRepository.findById(1L).get();
+          Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
+
+        });
 
   }
 
   @Test
   void execute() {
-    Callable<Boolean> popularirity = (Callable<Boolean>) () -> {
       Post post = postRepository.findById(1L).get();
       post.updateViewCount(500L);
       postRepository.save(post);
 
       schedulePostPopularityUsecase.execute();
-
       Post updatedPost = postRepository.findById(1L).get();
-
-      Assertions.assertEquals(updatedPost.getPopularity() !=0,true);
-      return true;
-    };
-    await()
-        .atMost(Duration.ofMinutes(3L)) // 최대 대기 시간
-        .until(popularirity);
+      Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
   }
 
 }
