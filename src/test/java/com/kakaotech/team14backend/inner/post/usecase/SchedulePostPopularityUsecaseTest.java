@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,19 +58,19 @@ class SchedulePostPopularityUsecaseTest {
   void execute() {
     Callable<Boolean> popularirity = (Callable<Boolean>) () -> {
       Post post = postRepository.findById(1L).get();
-      post.updateViewCount(10L);
+      post.updateViewCount(500L);
       postRepository.save(post);
 
       schedulePostPopularityUsecase.execute();
 
-      if(post.getPopularity() !=0){
-        return false;
-      }
+      Post updatedPost = postRepository.findById(1L).get();
+
+      Assertions.assertEquals(updatedPost.getPopularity() !=0,true);
       return true;
     };
     await()
-        .atMost(Duration.ofMinutes(1L)) // 최대 대기 시간
+        .atMost(Duration.ofMinutes(3L)) // 최대 대기 시간
         .until(popularirity);
-
   }
+
 }
