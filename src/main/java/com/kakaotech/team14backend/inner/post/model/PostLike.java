@@ -2,54 +2,43 @@ package com.kakaotech.team14backend.inner.post.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import java.time.LocalDateTime;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import com.kakaotech.team14backend.inner.member.model.Member;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
+@NoArgsConstructor(access = PROTECTED)
 @Getter
-@NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
 public class PostLike {
 
   @Id
-  private Long postId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long postLikeHistoryId;
 
-  @MapsId  // Post의 PK를 PostLike의 PK로 사용
-  @OneToOne
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "memberId")
+  private Member member;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "postId")
   private Post post;
 
-  @Column(nullable = false)
-  private Long likeCount = 0L;
 
-  @Column(nullable = false)
-  @CreationTimestamp
-  private LocalDateTime createdAt; // 생성일
-
-  @Column(nullable = false)
-  @UpdateTimestamp
-  private LocalDateTime modifiedAt; // 수정일
-
-  public static PostLike createPostLike(){
-    PostLike postLike = new PostLike();
-    return postLike;
+  public static PostLike createPostLike(Member member, Post post) {
+    return PostLike.builder().member(member).post(post).build();
   }
 
-  public void updateLikeCount(Long likeCount) {
-    this.likeCount = likeCount;
-  }
-
-  public void mappingPost(Post post) {
+  @Builder
+  public PostLike(Member member, Post post) {
+    this.member = member;
     this.post = post;
   }
 }

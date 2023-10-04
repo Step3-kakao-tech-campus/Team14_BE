@@ -8,7 +8,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 @Sql("classpath:db/teardown.sql")
 @SpringBootTest
-public class SchedulePostLikeCountUsecaseTest {
+public class SchedulePostLikeCountCountUsecaseTest {
 
   @Autowired
   private SchedulePostLikeCountUsecase schedulePostLikeCountUsecase;

@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +25,9 @@ public class SchedulePostLikeCountUsecase {
     for (String key : keys) {
       Long postId = Long.valueOf(key.replace(POST_LIKE_KEY_PREFIX, ""));
       Long likeCount = getLikeCount(key);
-      PostLike postLike = postLikeRepository.findById(postId)
+      PostLikeCount postLikeCount = postLikeRepository.findById(postId)
           .orElseThrow(() -> new RuntimeException("Post not found"));
-      postLike.updateLikeCount(likeCount);
+      postLikeCount.updateLikeCount(likeCount);
     }
   }
 

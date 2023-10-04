@@ -7,8 +7,7 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +43,9 @@ class SchedulePostPopularityUsecaseTest {
     Image image = Image.createImage("image_uri1");
     imageRepository.save(image);
 
-    PostLike postLike = PostLike.createPostLike();
+    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
 
-    Post post = Post.createPost(member, image,postLike, "Sonny", true, "#hashTag", "university4");
+    Post post = Post.createPost(member, image, postLikeCount, "Sonny", true, "#hashTag", "university4");
     postRepository.save(post);
 
   }

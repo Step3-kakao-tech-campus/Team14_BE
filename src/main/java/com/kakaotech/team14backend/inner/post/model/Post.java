@@ -42,7 +42,7 @@ public class Post {
   private Image image; // 사진 ID
 
   @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
-  private PostLike postLike;
+  private PostLikeCount postLikeCount;
 
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
@@ -70,7 +70,7 @@ public class Post {
   private Integer reportCount; // 제재 횟수
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<PostLikeHistory> postLikeHistories;
+  private List<PostLike> postLikeHistories;
   public void mappingMember(Member member) {
     this.member = member;
   }
@@ -79,12 +79,12 @@ public class Post {
     this.image = image;
   }
 
-  public void mappingPostLike(PostLike postLike) {
-    postLike.mappingPost(this);
-    this.postLike = postLike;
+  public void mappingPostLike(PostLikeCount postLikeCount) {
+    postLikeCount.mappingPost(this);
+    this.postLikeCount = postLikeCount;
   }
 
-  public static Post createPost(Member member, Image image, PostLike postLike, String nickname,
+  public static Post createPost(Member member, Image image, PostLikeCount postLikeCount, String nickname,
       Boolean published,
       String hashtag, String university) {
 
@@ -97,7 +97,7 @@ public class Post {
         .popularity(0L)
         .reportCount(0)
         .build();
-    post.mappingPostLike(postLike);
+    post.mappingPostLike(postLikeCount);
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
