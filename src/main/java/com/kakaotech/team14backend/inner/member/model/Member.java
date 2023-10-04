@@ -1,25 +1,26 @@
 package com.kakaotech.team14backend.inner.member.model;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLikeHistory;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static lombok.AccessLevel.PROTECTED;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 
 
@@ -65,6 +66,8 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private Status userStatus; // 제재, 탈퇴, 정상 등등
 
+  @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+  private List<PostLikeHistory> postLikeHistories = new ArrayList<>();
 
   @Builder
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
@@ -72,7 +75,7 @@ public class Member {
     this.kakaoId = kakaoId;
     this.instaId = instaId;
     this.role = role;
-    this.totalLike= totalLike;
+    this.totalLike = totalLike;
     this.userStatus = userStatus;
   }
 

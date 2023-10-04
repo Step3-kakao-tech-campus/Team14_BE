@@ -4,11 +4,19 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import javax.persistence.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Period;
-
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,6 +69,8 @@ public class Post {
   @Column(nullable = false)
   private Integer reportCount; // 제재 횟수
 
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  private List<PostLikeHistory> postLikeHistories;
   public void mappingMember(Member member) {
     this.member = member;
   }
@@ -69,12 +79,13 @@ public class Post {
     this.image = image;
   }
 
-  public void mappingPostLike(PostLike postLike){
+  public void mappingPostLike(PostLike postLike) {
     postLike.mappingPost(this);
     this.postLike = postLike;
   }
 
-  public static Post createPost(Member member, Image image, PostLike postLike, String nickname, Boolean published,
+  public static Post createPost(Member member, Image image, PostLike postLike, String nickname,
+      Boolean published,
       String hashtag, String university) {
 
     Post post = Post.builder()
@@ -106,17 +117,17 @@ public class Post {
     this.reportCount = reportCount;
   }
 
-  public void updateViewCount(Long viewCount){
+  public void updateViewCount(Long viewCount) {
     this.viewCount = viewCount;
   }
 
-  public long measurePostAge(){
+  public long measurePostAge() {
     Instant now = Instant.now();
     int time = now.compareTo(this.createdAt);
-    return time/5;
+    return time / 5;
   }
 
-  public void updatePopularity(long likeCount, long postAge){
+  public void updatePopularity(long likeCount, long postAge) {
     this.popularity = (likeCount * 100 + this.viewCount * 50) / (postAge + 1L);
   }
 
