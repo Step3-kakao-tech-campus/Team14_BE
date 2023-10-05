@@ -68,6 +68,9 @@ public class Post {
   @Column(nullable = false)
   private Integer reportCount; // 제재 횟수
 
+  @Column(nullable = false)
+  private Integer postPoint;
+
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<PostLikeHistory> postLikeHistories;
   public void mappingMember(Member member) {
@@ -95,6 +98,7 @@ public class Post {
         .viewCount(0L)
         .popularity(0L)
         .reportCount(0)
+        .postPoint(0)
         .build();
     post.mappingPostLike(postLike);
     post.mappingMember(member);
@@ -105,7 +109,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-      String university, Long viewCount, Long popularity, Integer reportCount) {
+      String university, Long viewCount, Long popularity, Integer reportCount, Integer postPoint) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;
@@ -114,6 +118,7 @@ public class Post {
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
+    this.postPoint = postPoint;
   }
 
   public void updateViewCount(Long viewCount) {
