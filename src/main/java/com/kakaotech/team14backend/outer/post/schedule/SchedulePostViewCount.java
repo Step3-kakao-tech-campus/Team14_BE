@@ -1,19 +1,22 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.outer.post.schedule;
 
+import com.kakaotech.team14backend.inner.post.usecase.UpdatePostViewCountUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
+
 @Component
 @RequiredArgsConstructor
-public class SchedulePostPopularityUsecase {
+public class SchedulePostViewCount {
 
-  private final UpdatePostPopularityUsecase updatePostPopularityUsecase;
+  private final UpdatePostViewCountUsecase updatePostViewCountUsecase;
 
   @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
-    updatePostPopularityUsecase.execute();
+    updatePostViewCountUsecase.execute();
   }
+
 
 }
