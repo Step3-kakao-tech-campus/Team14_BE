@@ -18,7 +18,7 @@ public class UpdatePostPopularityUsecase {
   public void execute() {
     List<Post> posts = postRepository.findAll();
     for (Post post : posts) {
-      Long likeCount = post.getPostLike().getLikeCount();
+      Long likeCount = post.getPostLikeCount().getLikeCount();
       long postAge = post.measurePostAge();
       post.updatePopularity(likeCount.longValue(), postAge);
       postRepository.save(post);
