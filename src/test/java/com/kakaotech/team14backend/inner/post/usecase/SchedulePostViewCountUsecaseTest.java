@@ -1,5 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import static org.awaitility.Awaitility.await;
+
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -11,17 +13,14 @@ import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import java.time.Duration;
+import java.util.concurrent.Callable;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.Duration;
-import java.util.concurrent.Callable;
-
-import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
@@ -55,7 +54,7 @@ class SchedulePostViewCountUsecaseTest {
     Image image = new Image("/image/firstPhoto");
     imageRepository.save(image);
 
-    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
     Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
     postRepository.save(post);

@@ -25,8 +25,7 @@ public class SchedulePostLikeCountUsecase {
     for (String key : keys) {
       Long postId = Long.valueOf(key.replace(POST_LIKE_KEY_PREFIX, ""));
       Long likeCount = getLikeCount(key);
-      PostLikeCount postLikeCount = postLikeCountRepository.findById(postId)
-          .orElseThrow(() -> new RuntimeException("Post not found"));
+      PostLikeCount postLikeCount = postLikeCountRepository.findById(postId).orElseThrow();
       postLikeCount.updateLikeCount(likeCount);
     }
   }

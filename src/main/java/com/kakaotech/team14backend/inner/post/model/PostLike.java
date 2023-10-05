@@ -21,7 +21,7 @@ public class PostLike {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long postLikeHistoryId;
+  private Long postLikeId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "memberId")

@@ -5,10 +5,9 @@ import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class CreatePostUsecase {
   @Transactional
   public Post execute(CreatePostDTO createPostDTO) {
     String attachedHashTag = attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
-    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
     Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount, createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
     return postRepository.save(post);
   }

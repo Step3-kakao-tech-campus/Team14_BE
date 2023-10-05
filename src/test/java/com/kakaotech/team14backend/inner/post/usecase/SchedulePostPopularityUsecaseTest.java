@@ -1,5 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import static org.awaitility.Awaitility.await;
+
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -9,20 +11,17 @@ import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import java.time.Duration;
+import javax.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import javax.persistence.EntityManager;
-import java.time.Duration;
-import java.util.concurrent.Callable;
-
-import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
-    ,"schedules.fixedDelay:1000"
+    , "schedules.fixedDelay:1000"
 })
 class SchedulePostPopularityUsecaseTest {
 
@@ -44,12 +43,13 @@ class SchedulePostPopularityUsecaseTest {
 
   @BeforeEach
   void setUp() {
-    Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L, Status.STATUS_ACTIVE);
+    Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
+        Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");
     imageRepository.save(image);
 
-    PostLikeCount postLikeCount = PostLikeCount.createPostLike();
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
     Post post = Post.createPost(member, image, postLikeCount, "Sonny", true, "#hashTag", "university4");
     postRepository.save(post);
@@ -81,13 +81,13 @@ class SchedulePostPopularityUsecaseTest {
 
   @Test
   void execute() {
-      Post post = postRepository.findById(1L).get();
-      post.updateViewCount(500L);
-      postRepository.save(post);
+    Post post = postRepository.findById(1L).get();
+    post.updateViewCount(500L);
+    postRepository.save(post);
 
-      schedulePostPopularityUsecase.execute();
-      Post updatedPost = postRepository.findById(1L).get();
-      Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
+    schedulePostPopularityUsecase.execute();
+    Post updatedPost = postRepository.findById(1L).get();
+    Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
   }
 
 }

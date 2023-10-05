@@ -78,7 +78,7 @@ public class Post {
     this.image = image;
   }
 
-  public void mappingPostLike(PostLikeCount postLikeCount) {
+  public void mappingPostLikeCount(PostLikeCount postLikeCount) {
     postLikeCount.mappingPost(this);
     this.postLikeCount = postLikeCount;
   }
@@ -96,7 +96,7 @@ public class Post {
         .popularity(0L)
         .reportCount(0)
         .build();
-    post.mappingPostLike(postLikeCount);
+    post.mappingPostLikeCount(postLikeCount);
     post.mappingMember(member);
     post.mappingImage(image);
     return post;
@@ -129,6 +129,7 @@ public class Post {
   public void updatePopularity(long likeCount, long postAge){
     long popularity = (likeCount + this.viewCount) / postAge;
     this.popularity = Long.valueOf(popularity);
+    System.out.println("popularity = " + popularity);
   }
 
 
