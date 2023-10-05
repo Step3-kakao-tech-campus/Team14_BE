@@ -11,7 +11,7 @@ public class SchedulePostPopularityUsecase {
 
   private final UpdatePostPopularityUsecase updatePostPopularityUsecase;
 
-  @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
+  @Scheduled(initialDelayString = "${schedules.initialDelay}", fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
     updatePostPopularityUsecase.execute();
   }

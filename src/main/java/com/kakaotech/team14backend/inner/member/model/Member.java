@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.inner.member.model;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLikeHistory;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class Member {
   private Status userStatus; // 제재, 탈퇴, 정상 등등
 
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-  private List<PostLikeHistory> postLikeHistories = new ArrayList<>();
+  private List<PostLike> postLikeHistories = new ArrayList<>();
 
   @Builder
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
