@@ -1,6 +1,11 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
+import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +16,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SetPostLikeUsecase {
 
-  private final PostLikeCountRepository postLikeCountRepository;
+  private final PostLikeRepository postLikeRepository;
+  private final PostRepository postRepository;
+  private final MemberRepository memberRepository;
   private final RedisTemplate<String, Object> redisTemplate;
   private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 
@@ -19,31 +26,25 @@ public class SetPostLikeUsecase {
     Long postId = setPostLikeDTO.postId();
     Long memberId = setPostLikeDTO.memberId();
 
-    String key = getRedisKeyForPost(postId);
-    Boolean isLiked = getUserLikeStatus(key, memberId);
+//    String key = getRedisKeyForPost(postId);
+    Member member = memberRepository.findById(memberId)
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+    Post post = postRepository.findById(postId)
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
+    boolean isLiked = toggleLike(member, post);
 
-    return toggleLikeStatus(key, memberId, isLiked);
-
+    return new SetPostLikeResponseDTO(isLiked);
   }
 
-  private String getRedisKeyForPost(Long postId) {
-    return POST_LIKE_KEY_PREFIX + postId;
-  }
-
-  private boolean getUserLikeStatus(String key, Long memberId) {
-    return redisTemplate.opsForZSet().score(key, memberId) != null;
-  }
-
-  // 좋아요를 눌렀다면, set에 member 저장, 좋아요를 취소했다면, set에서 member 삭제합니다
-  private SetPostLikeResponseDTO toggleLikeStatus(String key, Long memberId, Boolean isLiked) {
-    boolean newStatus = (isLiked == null || !isLiked);
-    if (newStatus) {
-      redisTemplate.opsForZSet().add(key, memberId, 0);
+  private boolean toggleLike(Member member, Post post) {
+    PostLike postLike = postLikeRepository.findByMemberAndPost(member, post);
+    if (postLike == null) {
+      postLikeRepository.save(PostLike.createPostLike(member, post));
+      return true;
     } else {
-      redisTemplate.opsForZSet().remove(key, memberId);
+      postLikeRepository.delete(postLike);
+      return false;
     }
-    boolean actualStatus = redisTemplate.opsForZSet().score(key, memberId) != null;
-    return new SetPostLikeResponseDTO(actualStatus);
   }
 
 }
