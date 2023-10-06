@@ -1,11 +1,13 @@
 package com.kakaotech.team14backend.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -35,9 +37,25 @@ public class RedisConfig {
   public String host;
 
 
+  @Primary
   @Bean
-  public LettuceConnectionFactory lettuceConnectionFactory() {
-    return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port));
+  public LettuceConnectionFactory lettuceConnectionFactory(){
+    RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration();
+    standaloneConfig.setHostName(host);
+    standaloneConfig.setPort(port);
+    standaloneConfig.setDatabase(0); // Set the database number to 0
+
+    return new LettuceConnectionFactory(standaloneConfig);
+  }
+
+  @Bean
+  public LettuceConnectionFactory lettuceConnectionFactoryJwt(){
+    RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration();
+    standaloneConfig.setHostName(host);
+    standaloneConfig.setPort(port);
+    standaloneConfig.setDatabase(1); // Set the database number to 1
+
+    return new LettuceConnectionFactory(standaloneConfig);
   }
 
   @Bean
@@ -57,6 +75,15 @@ public class RedisConfig {
     template.setKeySerializer(new StringRedisSerializer());  // Key: String
     template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));  // Value: Long
     return template;
+  }
+
+  @Bean
+  public RedisTemplate<String, String> redisTemplateJwt() {
+    RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(lettuceConnectionFactoryJwt());
+    redisTemplate.setKeySerializer(new StringRedisSerializer());   // Key: String
+    redisTemplate.setValueSerializer(new StringRedisSerializer());   // Key: String
+    return redisTemplate;
   }
 
   /**
@@ -92,7 +119,7 @@ public class RedisConfig {
   }
 
   @Bean
-  public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+  public CacheManager redisCacheManager(@Qualifier("lettuceConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
     return RedisCacheManager.RedisCacheManagerBuilder
         .fromConnectionFactory(redisConnectionFactory)
         .cacheDefaults(redisCacheDefaultConfiguration())
