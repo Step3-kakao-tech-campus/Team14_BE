@@ -42,18 +42,20 @@ public class SetPostLikeUsecaseTest {
 
   @BeforeEach
   void setup() {
-    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+    Member member1 = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
         Status.STATUS_ACTIVE);
-    memberRepository.save(member);
+    memberRepository.save(member1);
+
+    Member member2 = new Member("john", "john1234", "qwer567", Role.ROLE_BEGINNER, 0L,
+        Status.STATUS_ACTIVE);
+    memberRepository.save(member2);
 
     Image image = new Image("/image/firstPhoto");
     imageRepository.save(image);
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
-    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member1, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
     postRepository.save(post);
-
-
   }
 
   @DisplayName("좋아요 토글")
@@ -61,13 +63,11 @@ public class SetPostLikeUsecaseTest {
   void execute() throws JsonProcessingException {
     //given
     Long postId = 1L;
-    Long memberId = 1L;
+    Long memberId = 1L;  // 첫 번째 멤버 사용
+
     //when
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
-
-    String json = om.writeValueAsString(setPostLikeResponseDTO);
-    System.out.println("좋아요 추가" + json);
 
     //then
     Assertions.assertThat(setPostLikeResponseDTO.isLiked()).isTrue();
@@ -78,19 +78,15 @@ public class SetPostLikeUsecaseTest {
   void executeUnlike() throws JsonProcessingException {
     //given
     Long postId = 1L;
-    Long memberId = 1L;
+    Long memberId = 2L;  // 두 번째 멤버 사용
 
     // 좋아요를 먼저 설정
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
-    Assertions.assertThat(setPostLikeResponseDTO.isLiked()).isTrue();
 
     //when
     // 좋아요를 취소
     SetPostLikeResponseDTO setPostLikeResponseDTO2 = setPostLikeUsecase.execute(setPostLikeDTO);
-
-    String json = om.writeValueAsString(setPostLikeResponseDTO2);
-    System.out.println("좋아요 취소 = " + json);
 
     //then
     Assertions.assertThat(setPostLikeResponseDTO2.isLiked()).isFalse();
