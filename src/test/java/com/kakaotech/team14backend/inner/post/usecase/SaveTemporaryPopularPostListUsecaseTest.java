@@ -43,6 +43,7 @@ class SaveTemporaryPopularPostListUsecaseTest {
 
   @BeforeEach
   void setUp() {
+    redisTemplate.delete(key);
     Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
@@ -57,6 +58,7 @@ class SaveTemporaryPopularPostListUsecaseTest {
 
   @Test
   void execute() {
+
     saveTemporaryPopularPostListUsecase.execute();
     Long size = redisTemplate.opsForZSet().size(key);
     org.assertj.core.api.Assertions.assertThat(size).isEqualTo(1);
