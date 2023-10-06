@@ -5,10 +5,8 @@ import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +19,7 @@ public class UpdatePostViewCountUsecase {
   private final RedisTemplate<String,Object> redisTemplate;
 
   private final PostRepository postRepository;
+
   @Transactional
   public void execute() {
     Set<String> keys = redisTemplate.keys("viewCnt*");
