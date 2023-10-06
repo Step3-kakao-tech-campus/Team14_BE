@@ -15,6 +15,8 @@ import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import java.time.Duration;
 import java.util.concurrent.Callable;
+
+import com.kakaotech.team14backend.outer.post.schedule.SchedulePostViewCount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,13 +28,13 @@ import org.springframework.boot.test.context.SpringBootTest;
     "schedules.initialDelay:1000"
     ,"schedules.fixedDelay:1000"
 })
-class SchedulePostViewCountUsecaseTest {
+class SchedulePostViewCountTest {
 
   @Autowired
   private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
 
   @Autowired
-  private SchedulePostViewCountUsecase schedulePostViewCountUsecase;
+  private SchedulePostViewCount schedulePostViewCount;
 
   @Autowired
   private PostRepository postRepository;
@@ -73,7 +75,7 @@ class SchedulePostViewCountUsecaseTest {
       GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
       saveTemporaryPostViewCountUsecase.execute(getPostDTO1);
 
-      schedulePostViewCountUsecase.execute();
+      schedulePostViewCount.execute();
 
       Post post = postRepository.findById(1L).get();
 

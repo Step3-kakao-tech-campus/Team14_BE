@@ -13,20 +13,22 @@ import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import java.time.Duration;
 import javax.persistence.EntityManager;
+import com.kakaotech.team14backend.outer.post.schedule.SchedulePostPopularity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
     , "schedules.fixedDelay:1000"
 })
-class SchedulePostPopularityUsecaseTest {
+class SchedulePostPopularityTest {
 
   @Autowired
-  private SchedulePostPopularityUsecase schedulePostPopularityUsecase;
+  private SchedulePostPopularity schedulePostPopularity;
 
   @Autowired
   private PostRepository postRepository;
@@ -71,7 +73,7 @@ class SchedulePostPopularityUsecaseTest {
             throw new RuntimeException(e);
           }
 
-          schedulePostPopularityUsecase.execute();
+          schedulePostPopularity.execute();
           Post updatedPost = postRepository.findById(1L).get();
           Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
 
@@ -85,7 +87,7 @@ class SchedulePostPopularityUsecaseTest {
     post.updateViewCount(500L);
     postRepository.save(post);
 
-    schedulePostPopularityUsecase.execute();
+    schedulePostPopularity.execute();
     Post updatedPost = postRepository.findById(1L).get();
     Assertions.assertThat(updatedPost.getPopularity()).isEqualTo(500);
   }
