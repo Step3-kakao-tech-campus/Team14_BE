@@ -26,7 +26,6 @@ public class SetPostLikeUsecase {
     Long postId = setPostLikeDTO.postId();
     Long memberId = setPostLikeDTO.memberId();
 
-//    String key = getRedisKeyForPost(postId);
     Member member = memberRepository.findById(memberId)
         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
     Post post = postRepository.findById(postId)
