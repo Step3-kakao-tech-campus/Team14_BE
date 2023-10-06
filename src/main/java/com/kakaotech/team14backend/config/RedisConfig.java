@@ -36,8 +36,8 @@ public class RedisConfig {
 
 
   @Bean
-  public LettuceConnectionFactory lettuceConnectionFactory(){
-    return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host,port));
+  public LettuceConnectionFactory lettuceConnectionFactory() {
+    return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port));
   }
 
   @Bean
@@ -45,13 +45,22 @@ public class RedisConfig {
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(lettuceConnectionFactory());
     redisTemplate.setKeySerializer(new StringRedisSerializer());   // Key: String
-    redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));  // Value: 직렬화에 사용할 Object 사용하기
+    redisTemplate.setValueSerializer(
+        new Jackson2JsonRedisSerializer<>(String.class));  // Value: 직렬화에 사용할 Object 사용하기
     return redisTemplate;
   }
 
+  @Bean
+  public RedisTemplate<String, Long> longRedisTemplate() {
+    RedisTemplate<String, Long> template = new RedisTemplate<>();
+    template.setConnectionFactory(lettuceConnectionFactory());
+    template.setKeySerializer(new StringRedisSerializer());  // Key: String
+    template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));  // Value: Long
+    return template;
+  }
+
   /**
-   * 기본 캐시 설정
-   * ttl : 10분
+   * 기본 캐시 설정 ttl : 10분
    */
 
   @Bean
@@ -63,14 +72,13 @@ public class RedisConfig {
             RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())
         )
         .serializeValuesWith(
-            RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())
+            RedisSerializationContext.SerializationPair.fromSerializer(
+                new GenericJackson2JsonRedisSerializer())
         );
   }
 
   /**
-   * 추가 캐시 설정
-   * viewCount : 10분
-   * post : 15분
+   * 추가 캐시 설정 viewCount : 10분 post : 15분
    */
 
   private Map<String, RedisCacheConfiguration> redisCacheConfigurationMap() {
@@ -90,7 +98,6 @@ public class RedisConfig {
         .cacheDefaults(redisCacheDefaultConfiguration())
         .withInitialCacheConfigurations(redisCacheConfigurationMap()).build();
   }
-
 
 
 }

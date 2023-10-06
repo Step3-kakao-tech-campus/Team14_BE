@@ -8,15 +8,17 @@ import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ public class PostService {
   private final FindPopularPostUsecase findPopularPostUsecase;
   private final SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
   private final SetPostLikeUsecase setPostLikeUsecase;
+  private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
@@ -61,8 +64,14 @@ public class PostService {
   }
 
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
+    SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
 
-    return setPostLikeUsecase.execute(setPostLikeDTO);
+    Long postId = setPostLikeDTO.postId();
+    GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(postId, isLiked.isLiked());
+
+    // 좋아요 상태를 반환 할 때 카운트를 업데이트
+    updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
+    return isLiked;
   }
 
 }
