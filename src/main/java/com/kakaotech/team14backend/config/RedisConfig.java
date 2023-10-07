@@ -1,11 +1,13 @@
 package com.kakaotech.team14backend.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -35,9 +37,25 @@ public class RedisConfig {
   public String host;
 
 
+  @Primary
   @Bean
   public LettuceConnectionFactory lettuceConnectionFactory(){
-    return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host,port));
+    RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration();
+    standaloneConfig.setHostName(host);
+    standaloneConfig.setPort(port);
+    standaloneConfig.setDatabase(0); // Set the database number to 0
+
+    return new LettuceConnectionFactory(standaloneConfig);
+  }
+
+  @Bean
+  public LettuceConnectionFactory lettuceConnectionFactoryJwt(){
+    RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration();
+    standaloneConfig.setHostName(host);
+    standaloneConfig.setPort(port);
+    standaloneConfig.setDatabase(1); // Set the database number to 1
+
+    return new LettuceConnectionFactory(standaloneConfig);
   }
 
   @Bean
@@ -49,9 +67,26 @@ public class RedisConfig {
     return redisTemplate;
   }
 
+  @Bean
+  public RedisTemplate<String, Long> longRedisTemplate() {
+    RedisTemplate<String, Long> template = new RedisTemplate<>();
+    template.setConnectionFactory(lettuceConnectionFactory());
+    template.setKeySerializer(new StringRedisSerializer());  // Key: String
+    template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Long.class));  // Value: Long
+    return template;
+  }
+
+  @Bean
+  public RedisTemplate<String, String> redisTemplateJwt() {
+    RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(lettuceConnectionFactoryJwt());
+    redisTemplate.setKeySerializer(new StringRedisSerializer());   // Key: String
+    redisTemplate.setValueSerializer(new StringRedisSerializer());   // Key: String
+    return redisTemplate;
+  }
+
   /**
-   * 기본 캐시 설정
-   * ttl : 10분
+   * 기본 캐시 설정 ttl : 10분
    */
 
   @Bean
@@ -63,14 +98,13 @@ public class RedisConfig {
             RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())
         )
         .serializeValuesWith(
-            RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())
+            RedisSerializationContext.SerializationPair.fromSerializer(
+                new GenericJackson2JsonRedisSerializer())
         );
   }
 
   /**
-   * 추가 캐시 설정
-   * viewCount : 10분
-   * post : 15분
+   * 추가 캐시 설정 viewCount : 10분 post : 15분
    */
 
   private Map<String, RedisCacheConfiguration> redisCacheConfigurationMap() {
@@ -84,13 +118,12 @@ public class RedisConfig {
   }
 
   @Bean
-  public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+  public CacheManager redisCacheManager(@Qualifier("lettuceConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
     return RedisCacheManager.RedisCacheManagerBuilder
         .fromConnectionFactory(redisConnectionFactory)
         .cacheDefaults(redisCacheDefaultConfiguration())
         .withInitialCacheConfigurations(redisCacheConfigurationMap()).build();
   }
-
 
 
 }

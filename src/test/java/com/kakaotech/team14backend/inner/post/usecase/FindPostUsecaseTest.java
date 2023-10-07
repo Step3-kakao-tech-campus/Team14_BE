@@ -2,11 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.config.CacheProperties;
 import com.kakaotech.team14backend.config.RedisConfig;
-import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +20,7 @@ class FindPostUsecaseTest {
   private PostRepository postRepository;
 
   @Autowired
-  private RedisTemplate redisTemplate;
+  private RedisTemplate<String, Long> redisTemplate;
 
   @BeforeEach
   @DisplayName("게시글 1을 회원 2와 회원 3이 방문한 경우")
