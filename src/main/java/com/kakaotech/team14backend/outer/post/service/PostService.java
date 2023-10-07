@@ -44,11 +44,8 @@ public class PostService {
   private final FindPopularPostUsecase findPopularPostUsecase;
   private final SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
   private final SetPostLikeUsecase setPostLikeUsecase;
-<<<<<<< HEAD
   private final FindPopularPostListUsecase findPopularPostListUsecase;
-=======
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
->>>>>>> f2bd7542ec45e03c38dcf36443a91228e1fb34d7
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
