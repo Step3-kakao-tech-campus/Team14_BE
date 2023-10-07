@@ -26,7 +26,7 @@ public class UpdatePostViewCountUsecase {
     for(String key : keys){
       Object cnt = redisTemplate.opsForValue().get(key);
       Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new RuntimeException("Post not found"));
-      post.updateViewCount(Long.valueOf((String) cnt));
+      post.updateViewCount(castToLong((Integer) cnt));
     }
     // mysql에 update!
     clearPostViewCount();
@@ -40,6 +40,11 @@ public class UpdatePostViewCountUsecase {
   private Long splitKey(String key){
     List<String> stringList = Arrays.stream(key.split("::")).collect(Collectors.toList());
     return Long.valueOf(stringList.get(1));
+  }
+
+  private Long castToLong(Integer have){
+    Long want = have.longValue();
+    return want;
   }
 
 }
