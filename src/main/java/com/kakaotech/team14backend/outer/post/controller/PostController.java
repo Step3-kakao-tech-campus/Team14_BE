@@ -3,6 +3,9 @@ package com.kakaotech.team14backend.outer.post.controller;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
@@ -43,7 +46,7 @@ public class PostController {
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
-
+  @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping("/post")
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@RequestPart MultipartFile image,
       @RequestPart UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
@@ -55,6 +58,7 @@ public class PostController {
   }
 
 
+
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(@PathVariable("postId") Long postId){
     Long memberId = 1L;
@@ -63,12 +67,20 @@ public class PostController {
     return ApiResponseGenerator.success(getPostResponseDTO,HttpStatus.OK);
   }
 
+  @ApiOperation(value = "인기 피드 게시물 상세 조회")
   @GetMapping("/popular-post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPopularPost(@PathVariable("postId") Long postId){
     Long memberId = 1L;
     GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
     GetPostResponseDTO getPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO,HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "인기 피드 게시물 조회", notes = "레벨당 게시물이 몇개가 필요한 지를 받아, 해당 레벨별 게시물들을 반환한다.")
+  @GetMapping("/popular-post")
+  public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(GetPopularPostListRequestDTO getPopularPostListRequestDTO){
+    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(getPopularPostListRequestDTO);
+    return ApiResponseGenerator.success(popularPostList,HttpStatus.OK);
   }
 
   @ApiOperation(value = "게시물 좋아요(추천 수)", notes = "게시물 좋아요를 누른다, 1인당 1개의 게시물에 1번만 좋아요를 누를 수 있다")

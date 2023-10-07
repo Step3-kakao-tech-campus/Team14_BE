@@ -1,7 +1,8 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,7 +17,6 @@ public class SaveTemporaryPopularPostListUsecase {
   private final PostRepository postRepository;
   private final RedisTemplate redisTemplate;
   private final int POPULARITY_SIZE = 300;
-  private final String key = "popularPost";
 
   /**
    *  MySQL에서 상위 300개 포스트를 찾는다.
@@ -25,9 +25,9 @@ public class SaveTemporaryPopularPostListUsecase {
 
   @Transactional
   public void execute(){
-    List<GetPopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
-    top300Posts.stream().forEach(getPopularPostDTO -> {
-      redisTemplate.opsForZSet().add("popularPost",getPopularPostDTO, getPopularPostDTO.getPopularity().doubleValue());
+    List<GetIncompletePopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
+    top300Posts.stream().forEach(getIncompletePopularPostDTO -> {
+      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
     });
 
   }

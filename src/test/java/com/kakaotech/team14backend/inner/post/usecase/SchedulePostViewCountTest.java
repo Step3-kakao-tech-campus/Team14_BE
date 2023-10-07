@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
@@ -48,8 +49,15 @@ class SchedulePostViewCountTest {
   @Autowired
   private PostLikeCountRepository postLikeRepository;
 
+  @Autowired
+  private RedisTemplate redisTemplate;
+
+
   @BeforeEach
   void setup(){
+
+    redisTemplate.delete("viewCnt");
+
     Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
 

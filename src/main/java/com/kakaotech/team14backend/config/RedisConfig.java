@@ -63,8 +63,7 @@ public class RedisConfig {
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(lettuceConnectionFactory());
     redisTemplate.setKeySerializer(new StringRedisSerializer());   // Key: String
-    redisTemplate.setValueSerializer(
-        new Jackson2JsonRedisSerializer<>(String.class));  // Value: 직렬화에 사용할 Object 사용하기
+    redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
     return redisTemplate;
   }
 
