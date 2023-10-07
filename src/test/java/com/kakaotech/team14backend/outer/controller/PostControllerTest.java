@@ -28,72 +28,72 @@ public class PostControllerTest {
   private MockMvc mockMvc;
 
 
-//  @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
-//  @Test
-//  void findAllHomeFeed_Test() throws Exception {
-//
+  @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
+  @Test
+  void findAllHomeFeed_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post").param("lastPostId", "0").param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeed_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("처음 홈피드를 조회한다 - 파라미터 없음")
+  @Test
+  void findAllHomeFeedNoParam_Test() throws Exception {
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post").param("size", "10").contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeedNoParam_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("홈 피드를 조회한다 - 잘못된 파라미터")
+  @Test
+  void findAllHomeFeedWrongParam_Test() throws Exception {
+
 //    ResultActions resultActions = mockMvc.perform(
-//        get("/api/post").param("lastPostId", "0").param("size", "10")
+//        get("/api/post")
+//            .param("lastPostId", "0")
+//            .param("size", "-1")
 //            .contentType(MediaType.APPLICATION_JSON));
 //
 //    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 //
-//    System.out.println("findAllHomeFeed_Test : " + responseBody);
+//    System.out.println("findAllHomeFeedWrongParam_Test : " + responseBody);
 //
-//    resultActions.andExpect(status().isOk());
-//    resultActions.andExpect(jsonPath("$.success").value(true));
-//    resultActions.andExpect(jsonPath("$.response").exists());
-//  }
-//
-//  @DisplayName("처음 홈피드를 조회한다 - 파라미터 없음")
-//  @Test
-//  void findAllHomeFeedNoParam_Test() throws Exception {
-//    ResultActions resultActions = mockMvc.perform(
-//        get("/api/post").param("size", "10").contentType(MediaType.APPLICATION_JSON));
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("findAllHomeFeedNoParam_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().isOk());
-//    resultActions.andExpect(jsonPath("$.success").value(true));
-//    resultActions.andExpect(jsonPath("$.response").exists());
-//  }
-//
-//  @DisplayName("홈 피드를 조회한다 - 잘못된 파라미터")
-//  @Test
-//  void findAllHomeFeedWrongParam_Test() throws Exception {
-//
-////    ResultActions resultActions = mockMvc.perform(
-////        get("/api/post")
-////            .param("lastPostId", "0")
-////            .param("size", "-1")
-////            .contentType(MediaType.APPLICATION_JSON));
-////
-////    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-////
-////    System.out.println("findAllHomeFeedWrongParam_Test : " + responseBody);
-////
-////    resultActions.andExpect(status().isBadRequest());
-////    resultActions.andExpect(jsonPath("$.success").value(false));
-////    resultActions.andExpect(jsonPath("$.response").doesNotExist());
-//  }
-//
-//  @DisplayName("홈 피드를 조회한다 - 마지막 게시물 아이디가 없을 때")
-//  @Test
-//  void findAllHomeFeedNoLastPostId_Test() throws Exception {
-//
-//    ResultActions resultActions = mockMvc.perform(
-//        get("/api/post").param("lastPostId", "15").param("size", "10")
-//            .contentType(MediaType.APPLICATION_JSON));
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("findAllHomeFeedNoLastPostId_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().isOk());
-//    resultActions.andExpect(jsonPath("$.success").value(true));
-//    resultActions.andExpect(jsonPath("$.response").exists());
-//  }
+//    resultActions.andExpect(status().isBadRequest());
+//    resultActions.andExpect(jsonPath("$.success").value(false));
+//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+  }
+
+  @DisplayName("홈 피드를 조회한다 - 마지막 게시물 아이디가 없을 때")
+  @Test
+  void findAllHomeFeedNoLastPostId_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post").param("lastPostId", "15").param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeedNoLastPostId_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
 
 }
