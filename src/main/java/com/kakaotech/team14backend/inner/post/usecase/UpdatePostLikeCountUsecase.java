@@ -22,16 +22,17 @@ public class UpdatePostLikeCountUsecase {
     boolean isLiked = getPostLikeCountDTO.isLiked();
 
     PostLikeCount postLikeCount = postLikeCountRepository.findByPostId(postId);
+    Long likeCount = postLikeCount.getLikeCount();
+    
+//    Long cachedCount = redisTemplate.opsForValue().get(POST_LIKE_KEY_PREFIX + postId);
 
-    Long cachedCount = redisTemplate.opsForValue().get(POST_LIKE_KEY_PREFIX + postId);
-
-    if (cachedCount == null) {
-      cachedCount = postLikeCount.getLikeCount();
-    }
-    cachedCount = isLiked ? cachedCount + 1 : cachedCount - 1;
-    redisTemplate.opsForValue().set(POST_LIKE_KEY_PREFIX + postId, cachedCount);
-
-    postLikeCount.updateLikeCount(cachedCount);
+//    if (cachedCount == null) {
+//      cachedCount = postLikeCount.getLikeCount();
+//    }
+//    cachedCount = isLiked ? cachedCount + 1 : cachedCount - 1;
+//    redisTemplate.opsForValue().set(POST_LIKE_KEY_PREFIX + postId, cachedCount);
+    likeCount = isLiked ? likeCount + 1 : likeCount - 1;
+    postLikeCount.updateLikeCount(likeCount);
     postLikeCountRepository.save(postLikeCount);
   }
 
