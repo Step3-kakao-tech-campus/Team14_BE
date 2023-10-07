@@ -75,9 +75,6 @@ public class PostService {
   }
 
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
-<<<<<<< HEAD
-    return setPostLikeUsecase.execute(setPostLikeDTO);
-=======
     SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
 
     Long postId = setPostLikeDTO.postId();
@@ -86,7 +83,6 @@ public class PostService {
     // 좋아요 상태를 반환 할 때 카운트를 업데이트
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
     return isLiked;
->>>>>>> f2bd7542ec45e03c38dcf36443a91228e1fb34d7
   }
 
   public GetPopularPostListResponseDTO getPopularPostList(GetPopularPostListRequestDTO getPopularPostListRequestDTO){
