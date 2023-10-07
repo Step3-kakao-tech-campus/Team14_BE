@@ -47,3 +47,26 @@ VALUES (NOW(), 'nickname1', 100, true, 0, 'university1', 1000, 400, 1, 1, '#hash
        (NOW(), 'nickname18', 800, true, 7, 'university8', 8000, 400,8, 2, '#hashtag8'),
        (NOW(), 'nickname19', 900, false, 8, 'university9', 9000, 400,9, 3, '#hashtag9'),
        (NOW(), 'nickname20', 1000, true, 9, 'university10', 10000, 400,10, 1, '#hashtag10');
+
+-- PostLikeCount Table
+INSERT INTO post_like_count (post_id, like_count, created_at, modified_at)
+VALUES (1, 0, NOW(), NOW()),
+       (2, 0, NOW(), NOW()),
+       (3, 0, NOW(), NOW()),
+       (4, 0, NOW(), NOW()),
+       (5, 0, NOW(), NOW()),
+       (6, 0, NOW(), NOW()),
+       (7, 0, NOW(), NOW()),
+       (8, 0, NOW(), NOW()),
+       (9, 0, NOW(), NOW()),
+       (10, 0, NOW(), NOW()),
+       (11, 0, NOW(), NOW()),
+       (12, 0, NOW(), NOW()),
+       (13, 0, NOW(), NOW()),
+       (14, 0, NOW(), NOW()),
+       (15, 0, NOW(), NOW()),
+       (16, 0, NOW(), NOW()),
+       (17, 0, NOW(), NOW()),
+       (18, 0, NOW(), NOW()),
+       (19, 0, NOW(), NOW()),
+       (20, 0, NOW(), NOW());
