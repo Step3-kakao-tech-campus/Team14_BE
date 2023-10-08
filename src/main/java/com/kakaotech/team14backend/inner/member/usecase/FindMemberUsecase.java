@@ -11,8 +11,8 @@ public class FindMemberUsecase {
 
   private final MemberRepository memberRepository;
 
-  public Member execute(Long memberId) {
-    return memberRepository.findById(memberId).orElseThrow(
+  public Member execute(Long userId) {
+    return memberRepository.findById(userId).orElseThrow(
         () -> new RuntimeException("Member not found")
     );
   }
