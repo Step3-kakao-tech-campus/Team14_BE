@@ -1,11 +1,13 @@
 package com.kakaotech.team14backend.jwt.repository;
 
+import com.kakaotech.team14backend.exception.TokenValidationException;
 import com.kakaotech.team14backend.jwt.RefreshToken;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Repository
@@ -22,11 +24,11 @@ public class RefreshTokenRepository {
     redisTemplate.expire(refreshToken.getRefreshToken(), 60L, TimeUnit.SECONDS);
   }
 
-  public String findRTK(String kakaoId) throws Exception{
+  public Optional<String> findRTK(String kakaoId) throws TokenValidationException {
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-    return valueOperations.get(kakaoId);
+    return Optional.ofNullable(valueOperations.get(kakaoId));
   }
-  public String deleteRefreshToken(String kakaoId) throws Exception{
+  public String deleteRefreshToken(String kakaoId) throws TokenValidationException{
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
     return valueOperations.getAndDelete(kakaoId);
   }
