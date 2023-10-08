@@ -9,22 +9,20 @@ import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import javax.persistence.EntityManager;
-
 
 @SpringBootTest
-class FindPopularPostUsecaseTest {
+class SchedulePostViewCountUsecaseTest {
 
   @Autowired
-  private FindPopularPostUsecase findPopularPostUsecase;
+  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
+
+  @Autowired
+  private SchedulePostViewCountUsecase schedulePostViewCountUsecase;
 
   @Autowired
   private PostRepository postRepository;
@@ -35,15 +33,8 @@ class FindPopularPostUsecaseTest {
   @Autowired
   private ImageRepository imageRepository;
 
-  @Autowired
-  private EntityManager entityManager;
-
-  @Autowired
-  private CacheManager cacheManager;
-
   @BeforeEach
-  @DisplayName("게시물1 저장")
-  void setUp() {
+  void setup(){
     Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
 
@@ -52,34 +43,19 @@ class FindPopularPostUsecaseTest {
 
     Post post = Post.createPost(member, image, "대선대선", true, "#가자", "전남대학교");
     postRepository.save(post);
-
-    entityManager.clear();
-    Cache cache = cacheManager.getCache("popularPost");
-    cache.clear();
   }
-
   @Test
-  @DisplayName("DB에서 데이터를 가져온다.")
   void execute() {
-    GetPostDTO getPostDTO = new GetPostDTO(1L,2L);
-    GetPostResponseDTO getPostResponseDTO = findPopularPostUsecase.execute(getPostDTO);
-  }
-
-  @Test
-  @DisplayName("캐시서버에서 데이터를 가져온다. - sql 실행 안 됨")
-  void execute_cache() {
-    GetPostDTO getPostDTO = new GetPostDTO(1L,2L);
-    findPopularPostUsecase.execute(getPostDTO);
-
-    entityManager.clear();
+    GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
+    updatePostViewCountUsecase.execute(getPostDTO);
 
     GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
-    findPopularPostUsecase.execute(getPostDTO1);
+    updatePostViewCountUsecase.execute(getPostDTO1);
+
+    schedulePostViewCountUsecase.execute();
+
+    Long viewCount = postRepository.findById(1L).get().getViewCount();
+    Assertions.assertThat(viewCount).isEqualTo(3);
   }
 
-
-
-  }
-
-
-
+}
