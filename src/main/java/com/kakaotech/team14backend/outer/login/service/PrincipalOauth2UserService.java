@@ -31,11 +31,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     String kakaoId = Long.toString(oAuth2User.getAttribute("id"));
     Map<String, String> map = oAuth2User.getAttribute("properties");
     String userName = map.get("nickname");
+    String role = "ROLE_USER";
 
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
 
     if (memberEntity == null) {
-      memberEntity = Member.createMember(userName, kakaoId,"none",Role.ROLE_BEGINNER,0L,Status.STATUS_ACTIVE);
+      memberEntity = memberEntity.builder()
+          .kakaoId(kakaoId)
+          .userName(userName)
+          .instaId("none")
+          .role(Role.ROLE_BEGINNER)
+          .totalLike(0L)
+          .userStatus(Status.STATUS_ACTIVE)
+          .build();
       memberRepository.save(memberEntity);
     }
 
