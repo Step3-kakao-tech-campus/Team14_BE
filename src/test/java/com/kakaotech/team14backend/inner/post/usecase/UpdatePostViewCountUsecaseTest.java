@@ -14,13 +14,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class SaveTemporaryPostViewCountUsecaseTest {
+class UpdatePostViewCountUsecaseTest {
 
   @Autowired
   private RedisTemplate redisTemplate;
 
   @Autowired
-  private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
+  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
 
   @Autowired
   private CacheManager cacheManager;
@@ -40,7 +40,7 @@ class SaveTemporaryPostViewCountUsecaseTest {
     cache.clear();
 
     GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
+    updatePostViewCountUsecase.execute(getPostDTO);
     Long size = redisTemplate.opsForSet().size("1");
     Assertions.assertThat(size).isEqualTo(3);
   }
@@ -49,7 +49,7 @@ class SaveTemporaryPostViewCountUsecaseTest {
   @DisplayName("updatePostViewCountUsecase.execute(getPostDTO) 에서 Set 자료구조를 활용한 로직이 잘 동작하는 지 확인")
   void execute_updateUsingSet2() {
     GetPostDTO getPostDTO = new GetPostDTO(2L,1L);
-    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
+    updatePostViewCountUsecase.execute(getPostDTO);
     Long size = redisTemplate.opsForSet().size("1");
     Assertions.assertThat(size).isEqualTo(2);
   }
@@ -58,7 +58,7 @@ class SaveTemporaryPostViewCountUsecaseTest {
   @DisplayName("캐시가 잘 저장되어 있는 지 확인")
   void execute_saveCache() {
     GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-    Long result = saveTemporaryPostViewCountUsecase.execute(getPostDTO);
+    Long result = updatePostViewCountUsecase.execute(getPostDTO);
     assertEquals(result,3);
   }
 
