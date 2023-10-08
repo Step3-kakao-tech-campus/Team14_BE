@@ -3,6 +3,7 @@ package com.kakaotech.team14backend.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
 import com.kakaotech.team14backend.outer.login.service.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,31 +42,13 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-//      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized 상태 코드 설정
-//      response.setContentType("application/json"); // JSON 응답을 전송한다는 것을 명시
-//      response.setCharacterEncoding("UTF-8"); // 문자 인코딩 설정
-
-      // JSON 형태의 응답 메시지를 생성하여 응답에 쓰기
-      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("application/json");
-      response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
+      FilterResponseUtils.unAuthorized(response);
     });
 
 
     http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("application/json");
-      // 현재 사용자의 권한에 따라 다른 에러 메시지를 설정
-      if (request.isUserInRole("ROLE_BEGINNER")) {
-        ApiResponse<?> apiResponse = ApiResponseGenerator.fail("403", "인스타연동이 필요합니다", HttpStatus.FORBIDDEN);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
-//
-      }
-      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("application/json");
-      response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
+      boolean isRoleNotUser = request.isUserInRole("ROLE_BEGINNER");
+      FilterResponseUtils.forbidden(response,isRoleNotUser);
     });
 //
     http.apply(new CustomSecurityFilterManager());
@@ -78,7 +61,7 @@ public class SecurityConfig {
         .antMatchers("/api/user/**", "/api/board/*/like", "/api/kakao").authenticated()
         .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')") //인스타그램 연동X "ROLE_BEGINNER"
         .antMatchers("/api/board/point").access("hasRole('ROLE_USER')") //인스타그램 연동시 "ROLE_USER"
-        .antMatchers("/", "/api/login", "/h2-console/*", "api/board", "api/popluar-board").permitAll()
+        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/board", "api/popluar-board").permitAll()
         .and()
         .oauth2Login()
         .successHandler(authenticationSuccessHandler)
