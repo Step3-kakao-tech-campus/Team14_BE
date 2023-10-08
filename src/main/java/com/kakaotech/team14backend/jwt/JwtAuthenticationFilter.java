@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     if (jwt != null && TokenService.validateToken(jwt)) {
       if (!request.getRequestURI().equals("/api/reissue")) {
         try {
-          DecodedJWT decodedJWT = TokenService.verify(jwt);
+          DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
           String kakaoId = decodedJWT.getClaim("kakaoId").asString();
           String userName = decodedJWT.getClaim("username").asString();
           String instaId = decodedJWT.getClaim("instaId").asString();
