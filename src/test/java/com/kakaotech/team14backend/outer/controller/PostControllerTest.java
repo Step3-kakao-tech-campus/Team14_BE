@@ -64,19 +64,19 @@ public class PostControllerTest {
   @Test
   void findAllHomeFeedWrongParam_Test() throws Exception {
 
-//    ResultActions resultActions = mockMvc.perform(
-//        get("/api/post")
-//            .param("lastPostId", "0")
-//            .param("size", "-1")
-//            .contentType(MediaType.APPLICATION_JSON));
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("findAllHomeFeedWrongParam_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().isBadRequest());
-//    resultActions.andExpect(jsonPath("$.success").value(false));
-//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post")
+            .param("lastPostId", "0")
+            .param("size", "-1")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllHomeFeedWrongParam_Test : " + responseBody);
+
+    resultActions.andExpect(status().isBadRequest());
+    resultActions.andExpect(jsonPath("$.success").value(false));
+    resultActions.andExpect(jsonPath("$.response").doesNotExist());
   }
 
   @DisplayName("홈 피드를 조회한다 - 마지막 게시물 아이디가 없을 때")
