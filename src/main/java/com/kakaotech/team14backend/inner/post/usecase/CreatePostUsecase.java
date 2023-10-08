@@ -1,14 +1,13 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
+import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -17,11 +16,11 @@ public class CreatePostUsecase {
   //우리가 알던 서비스
   private final PostRepository postRepository;
 
-  public Post execute(Image image, UploadPostRequestDTO uploadPostRequestDTO, Member member) {
-    String attachedHashTag = attachHashTags(uploadPostRequestDTO.getHashTags());
-
-    Post post = Post.createPost(member, image, uploadPostRequestDTO.getNickname(), true,
-        attachedHashTag, uploadPostRequestDTO.getUniversity(), 0L, 0L, 0);
+  @Transactional
+  public Post execute(CreatePostDTO createPostDTO) {
+    String attachedHashTag = attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
+    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount, createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
     return postRepository.save(post);
   }
 
