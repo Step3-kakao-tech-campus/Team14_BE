@@ -60,7 +60,6 @@ public class TokenService {
   }
 
   public static DecodedJWT verifyToken(String jwt) throws SignatureVerificationException, TokenExpiredException {
-
     DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
         .build().verify(jwt.replace(TokenService.TOKEN_PREFIX, ""));
     return decodedJWT;

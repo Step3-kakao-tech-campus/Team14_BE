@@ -79,15 +79,4 @@ public class Member {
     this.userStatus = userStatus;
   }
 
-  public static Member createMember(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
-    return Member.builder()
-        .userName(userName)
-        .kakaoId(kakaoId)
-        .instaId(instaId)
-        .role(role)
-        .totalLike(totalLike)
-        .userStatus(userStatus)
-        .build();
-  }
-
 }
