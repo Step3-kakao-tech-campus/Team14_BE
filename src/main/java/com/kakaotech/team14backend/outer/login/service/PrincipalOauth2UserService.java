@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -21,6 +22,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
   private final MemberRepository memberRepository;
+  private final MemberService memberService;
 
   //후처리 되는 함수
   @Override
@@ -35,7 +37,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
 
     if (memberEntity == null) {
-      memberEntity = Member.createMember(userName, kakaoId,"none",Role.ROLE_BEGINNER,0L,Status.STATUS_ACTIVE);
+      memberEntity = memberService.createMember(userName, kakaoId,"none",Role.ROLE_BEGINNER,0L,Status.STATUS_ACTIVE);
       memberRepository.save(memberEntity);
     }
 
