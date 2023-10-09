@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,11 +41,12 @@ class SaveTemporaryPopularPostListUsecaseTest {
   @Autowired
   private RedisTemplate redisTemplate;
 
-  private final String key = "popularPost";
-
   @BeforeEach
   void setUp() {
-    redisTemplate.delete(key);
+    Set keys = redisTemplate.keys(RedisKey.POPULAR_POST_PREFIX + "*");
+    for(Object key : keys){
+      redisTemplate.delete(key);
+    }
     postRepository.deleteAll();
     Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
         Status.STATUS_ACTIVE);
@@ -62,7 +65,8 @@ class SaveTemporaryPopularPostListUsecaseTest {
     List<Post> posts = postRepository.findAll();
     System.out.println(posts.size());
     saveTemporaryPopularPostListUsecase.execute();
-    Long size = redisTemplate.opsForZSet().size(key);
+    Set keys = redisTemplate.keys(RedisKey.POPULAR_POST_PREFIX + "*");
+    int size = keys.size();
     org.assertj.core.api.Assertions.assertThat(size).isEqualTo(1);
   }
 }
