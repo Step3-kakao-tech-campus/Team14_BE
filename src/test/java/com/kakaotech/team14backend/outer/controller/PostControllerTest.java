@@ -16,6 +16,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
@@ -94,6 +97,46 @@ public class PostControllerTest {
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("인기 피드를 조회 - 정상 파라미터")
+  @Test
+  void findAllPopularPost_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/popular-post")
+            .param("level3", "4")
+            .param("level2", "3")
+            .param("level1", "3")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllPopularPost_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("인기 피드를 조회 - 정상 파라미터")
+  @Test
+  void findAllPopularPostExeedLevelSize_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/popular-post")
+            .param("level3", "20")
+            .param("level2", "3")
+            .param("level1", "3")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllPopularPost_Test : " + responseBody);
+
+    resultActions.andExpect(status().isBadRequest());
+    resultActions.andExpect(jsonPath("$.success").value(false));
+    resultActions.andExpect(jsonPath("$.response").doesNotExist());
   }
 
 }
