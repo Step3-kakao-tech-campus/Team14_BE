@@ -36,7 +36,6 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
     ApiResponse<?> apiResponse = ApiResponseGenerator.success(tokenDTO, HttpStatus.OK);
     response.setContentType("application/json");
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
-
   }
 }
 

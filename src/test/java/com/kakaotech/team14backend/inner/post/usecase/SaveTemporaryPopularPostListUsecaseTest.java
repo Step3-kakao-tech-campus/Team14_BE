@@ -7,6 +7,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.member.service.MemberService;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
@@ -39,6 +40,9 @@ class SaveTemporaryPopularPostListUsecaseTest {
   private ImageRepository imageRepository;
 
   @Autowired
+  private MemberService memberService;
+
+  @Autowired
   private RedisTemplate redisTemplate;
 
   @BeforeEach
@@ -48,7 +52,7 @@ class SaveTemporaryPopularPostListUsecaseTest {
       redisTemplate.delete(key);
     }
     postRepository.deleteAll();
-    Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
+    Member member = MemberService.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");
