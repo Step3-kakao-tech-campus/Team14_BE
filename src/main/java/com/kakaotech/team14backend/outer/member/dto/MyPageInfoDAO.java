@@ -1,21 +1,15 @@
-//package com.kakaotech.team14backend.Mypage;
-//
-//import com.kakaotech.team14backend.inner.post.model.Post;
-//
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class PostDAO {
-//  // 데이터베이스 연결 및 관련 메서드들
-//
-//  public List<Post> getPostsByAuthor(String author) {
-//    List<Post> posts = new ArrayList<>();
-//    String query = "SELECT * FROM posts WHERE author = ?";
+package com.kakaotech.team14backend.outer.member.dto;
+
+import com.kakaotech.team14backend.inner.post.model.Post;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyPageInfoDAO {
+  // 데이터베이스 연결 및 관련 메서드들
+
+  public List<Post> getPostsByAuthor(String author) {
+    List<Post> posts = new ArrayList<>();
+    String query = "SELECT * FROM posts WHERE author = ?";//Repository pattern 으로 옮기기
 //
 //    try (Connection conn = DriverManager.getConnection(url, username, password);
 //         PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -35,7 +29,7 @@
 //    } catch (SQLException e) {
 //      e.printStackTrace();
 //    }
-//
-//    return posts;
-//  }
-//}
+
+    return posts;
+  }
+}
