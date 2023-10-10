@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.member.service;
+package com.kakaotech.team14backend.outer.member.service;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;

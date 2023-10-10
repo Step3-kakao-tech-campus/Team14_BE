@@ -7,22 +7,18 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.member.service.MemberService;
+import com.kakaotech.team14backend.outer.member.service.MemberService;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SaveTemporaryPopularPostListUsecaseTest {
