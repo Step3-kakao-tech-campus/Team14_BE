@@ -11,7 +11,7 @@ import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import java.util.Set;
+import com.kakaotech.team14backend.outer.post.schedule.SchedulePostViewCount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.Set;
 
 @SpringBootTest
 class UpdatePostViewCountTest {
@@ -28,6 +30,7 @@ class UpdatePostViewCountTest {
 
   @Autowired
   private UpdatePostViewCountUsecase updatePostViewCountUsecase;
+
 
   @Autowired
   private PostRepository postRepository;
@@ -40,6 +43,9 @@ class UpdatePostViewCountTest {
 
   @Autowired
   private RedisTemplate redisTemplate;
+
+  @Autowired
+  private SchedulePostViewCount schedulePostViewCount;
 
 
   @BeforeEach
@@ -76,6 +82,7 @@ class UpdatePostViewCountTest {
     updatePostViewCountUsecase.execute();
 
     Post post = postRepository.findById(1L).get();
+    schedulePostViewCount.execute();
 
     Assertions.assertThat(post.getViewCount()).isEqualTo(2);
   }
