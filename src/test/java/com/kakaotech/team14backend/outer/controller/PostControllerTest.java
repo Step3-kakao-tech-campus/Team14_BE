@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Sql("classpath:db/teardown.sql")
@@ -30,6 +33,8 @@ public class PostControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private PostRepository postRepository;
 
   @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
   @Test
@@ -119,7 +124,7 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
-  @DisplayName("인기 피드를 조회 - 정상 파라미터")
+  @DisplayName("인기 피드를 조회 - 비정상 파라미터")
   @Test
   void findAllPopularPostExeedLevelSize_Test() throws Exception {
 
