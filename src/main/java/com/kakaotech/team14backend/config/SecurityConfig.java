@@ -61,7 +61,7 @@ public class SecurityConfig {
         .antMatchers("/api/user/**", "/api/board/*/like", "/api/kakao").authenticated()
         .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')") //인스타그램 연동X "ROLE_BEGINNER"
         .antMatchers("/api/board/point").access("hasRole('ROLE_USER')") //인스타그램 연동시 "ROLE_USER"
-        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/board", "api/popluar-board").permitAll()
+        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/post", "api/popluar-post").permitAll()
         .and()
         .oauth2Login()
         .successHandler(authenticationSuccessHandler)

@@ -27,7 +27,7 @@ public class SaveTemporaryPopularPostListUsecase {
   public void execute(){
     List<GetIncompletePopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
     top300Posts.stream().forEach(getIncompletePopularPostDTO -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
+      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_PREFIX.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
     });
 
   }
