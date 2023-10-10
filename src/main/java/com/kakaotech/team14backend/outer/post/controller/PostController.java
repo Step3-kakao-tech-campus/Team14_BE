@@ -16,9 +16,13 @@ import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,7 +88,19 @@ public class PostController {
   @ApiOperation(value = "인기 피드 게시물 조회", notes = "레벨당 게시물이 몇개가 필요한 지를 받아, 해당 레벨별 게시물들을 반환한다.")
   @GetMapping("/popular-post")
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(
-      GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
+      @RequestParam Integer level1 , @RequestParam Integer level2, @RequestParam Integer level3) {
+
+    if(level1 >= 20 | level2 >= 20 | level3 >= 20){
+      throw  new Exception400("Level size must be smaller than 20");
+    }
+
+    Map<Integer,Integer> levelSize = new HashMap<>();
+    levelSize.put(1,level1);
+    levelSize.put(2,level2);
+    levelSize.put(3,level3);
+
+    GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(levelSize);
+
     GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
         getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);

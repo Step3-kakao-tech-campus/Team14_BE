@@ -65,6 +65,15 @@ public class PostService {
     return findPostListUsecase.excute(lastPostId, size);
   }
 
+  /**
+   * 인기 게시물을 상세조회한다.
+   *
+   * @author : hwangdaesun
+   * @param : 게시물 구분자, 유저 구분자
+   * @return : 인기 게시물 상세 조회시 반환 값
+   * @see : saveTemporaryPostViewCountUsecase는 게시물 조회시 게시물의 조회수를 늘려주는 클래스
+   */
+
   public GetPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     saveTemporaryPostViewCountUsecase.execute(getPostDTO);
     GetPostResponseDTO getPostResponseDTO =findPopularPostUsecase.execute(getPostDTO);

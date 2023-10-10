@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,21 +15,17 @@ public class SaveTemporaryPostViewCountUsecase {
   private final RedisTemplate<String,Object> redisTemplate;
 
   /**
+   * 게시물에대한 조회수를 Redis에 임시 저장한다.
    *
-   * Set 자료구조에 key는 postId, value는 memberId를 저장
-   * 캐시에 key는 postId value에 해당 postId의 조회수 저장
+   * @author : hwangdaesun
+   * @param : 게시물 구분자, 유저 구분자
+   * @see : Redis의 Set 자료구조를 사용, key는 게시물 구분자, value는 유자 구분자
    */
 
   @Transactional
-  @CachePut(value = "viewCnt", key = "#getPostDTO.postId().toString()")
-  public Long execute(GetPostDTO getPostDTO) {
+  public void execute(GetPostDTO getPostDTO) {
     // 데이터를 Redis Set에 추가하는 코드
-    redisTemplate.opsForSet().add(String.valueOf(getPostDTO.postId()), getPostDTO.memberId());
-
-    // Redis Set 자료구조에서 해당 key 즉 postId에 있는 value들의 갯수 반환
-    long setSize = redisTemplate.opsForSet().size(String.valueOf(getPostDTO.postId()));
-
-    return setSize;
+    redisTemplate.opsForSet().add(RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId()), getPostDTO.memberId());
   }
 
 }

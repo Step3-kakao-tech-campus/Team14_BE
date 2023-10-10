@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.outer.post.mapper;
 
-import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
