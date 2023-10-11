@@ -19,17 +19,18 @@ public class SaveTemporaryPopularPostListUsecase {
   private final int POPULARITY_SIZE = 300;
 
   /**
-   *  MySQL에서 상위 300개 포스트를 찾는다.
-   *  이를 Redis에서 관리한다.
+   * MySQL에서 인기도가 높은 상위 300개의 게시물을 가져와 이를 Redis에 자장한다.
+   *
+   * @author : hwangdaesun
    */
 
   @Transactional
   public void execute(){
     List<GetIncompletePopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
+    redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
     top300Posts.stream().forEach(getIncompletePopularPostDTO -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_PREFIX.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
+      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_KEY.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
     });
-
   }
 
 }
