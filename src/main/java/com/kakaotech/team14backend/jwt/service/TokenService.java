@@ -16,6 +16,7 @@ import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.dto.TokenDTO;
 import com.kakaotech.team14backend.jwt.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +26,21 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-  public static final Long accessEXP = 1000L * 60 * 60 * 48;
-  public static final Long refreshEXP = 1000L * 60 * 60 * 168;
-  public static final String TOKEN_PREFIX = "Bearer ";
-  public static final String HEADER = "Authorization";
-  public static final String SECRET = "MySecretKey";
+  @Value("${jwt.token-validity-in-seconds-accessToken}")
+  private Long accessEXP;
+  @Value("${jwt.token-validity-in-seconds-refreshToken}")
+  private Long refreshEXP;
+
+  private static String SECRET;
+  @Value("${jwt.secret}")
+  public void setSecret(String secret) {
+    SECRET = secret;
+  }
+
+
+  public static String TOKEN_PREFIX = "Bearer ";
+
+  public static String HEADER = "Authorization";
 
   private final RefreshTokenRepository refreshTokenRepository;
   private final MemberRepository memberRepository;
@@ -55,13 +66,13 @@ public class TokenService {
         .sign(Algorithm.HMAC512(SECRET));
     RefreshToken refreshToken = new RefreshToken(jwt, member.getKakaoId());
     refreshTokenRepository.save(refreshToken);
-    return TOKEN_PREFIX + jwt;
+    return jwt;
 
   }
 
   public static DecodedJWT verifyToken(String jwt) throws SignatureVerificationException, TokenExpiredException {
     DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
-        .build().verify(jwt.replace(TokenService.TOKEN_PREFIX, ""));
+        .build().verify(jwt.replace(TOKEN_PREFIX, ""));
     return decodedJWT;
   }
 
@@ -77,8 +88,7 @@ public class TokenService {
     }
   }
 
-  public ReissueDTO reissueAccessToken(String bearerToken){
-    String refreshToken = bearerToken.replace("Bearer ", "");
+  public ReissueDTO reissueAccessToken(String refreshToken){
     DecodedJWT decodedJWT;
 
     try {
@@ -86,10 +96,7 @@ public class TokenService {
     } catch (TokenValidationException e) {
       throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
     }
-
     String kakaoId = decodedJWT.getClaim("kakaoId").asString();
-
-
     Optional<String> redisInRTKOptional = refreshTokenRepository.findRTK(kakaoId);
     String redisInRTK = redisInRTKOptional.orElseThrow(() -> new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN));
 
@@ -107,9 +114,8 @@ public class TokenService {
   }
 
 
-  public TokenDTO createOrUpdateToken(HttpServletResponse response, Member member){
-    String kakaoId = member.getKakaoId();
-    String rtkInRedis = Optional.ofNullable(refreshTokenRepository.deleteRefreshToken(kakaoId))
+  public TokenDTO createOrUpdateToken(HttpServletResponse response,Member member){
+    String rtkInRedis = Optional.ofNullable(refreshTokenRepository.deleteRefreshToken(member.getKakaoId()))
         .orElseThrow(() -> new TokenValidationException(MessageCode.INCORRECT_REFRESH_TOEKN));
     String accessToken = this.createToken(member);
     String refreshToken = this.createRefreshToken(member);
