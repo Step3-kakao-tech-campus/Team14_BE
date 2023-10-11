@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
@@ -35,6 +30,26 @@ public class PostControllerTest {
 
   @Autowired
   private PostRepository postRepository;
+
+  @DisplayName("단일 유저가 올린 게시물들을 조회합니다")
+  @Test
+  void getPersonalPostList_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/post/user")
+            .param("userId", "1")
+            .param("lastPostId", "0")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("getPostByUser_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
 
   @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
   @Test
