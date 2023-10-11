@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.Mypage;
+package com.kakaotech.team14backend.outer.member.dto;
 import java.util.ArrayList;
 
 public class MyPage {
