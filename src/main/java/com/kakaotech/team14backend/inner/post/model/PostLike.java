@@ -31,14 +31,16 @@ public class PostLike {
   @JoinColumn(name = "postId")
   private Post post;
 
+  private boolean isLiked;
 
-  public static PostLike createPostLike(Member member, Post post) {
-    return PostLike.builder().member(member).post(post).build();
+  public static PostLike createPostLike(Member member, Post post, boolean isLiked) {
+    return PostLike.builder().member(member).post(post).isLiked(isLiked).build();
   }
 
   @Builder
-  public PostLike(Member member, Post post) {
+  public PostLike(Member member, Post post, boolean isLiked) {
     this.member = member;
     this.post = post;
+    this.isLiked = isLiked;
   }
 }
