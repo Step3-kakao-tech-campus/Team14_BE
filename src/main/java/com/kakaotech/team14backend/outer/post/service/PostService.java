@@ -14,7 +14,6 @@ import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCount
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
@@ -86,6 +85,12 @@ public class PostService {
     return getPostResponseDTO;
   }
 
+  /*
+   * 게시물 좋아요를 설정한다.
+   * @param : 게시물 구분자, 유저 구분자
+   * @return : 게시물 좋아요 설정시 반환 값
+   * @see : setPostLikeUsecase는 게시물 좋아요를 설정하는 클래스
+   */
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
     SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
 
