@@ -1,6 +1,13 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
@@ -9,88 +16,134 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class SetPostLikeUsecaseTest {
 
-  @Autowired
+  @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
+  private SetPostLikeUsecase setPostLikeUsecase;
+
+  @Mock
   private PostLikeRepository postLikeRepository;
 
-  @Autowired
+  @Mock
   private PostRepository postRepository;
-  @Autowired
-  private MemberRepository memberRepository;
-  @Autowired
-  private ImageRepository imageRepository;
 
-  @Autowired
-  private SetPostLikeUsecase setPostLikeUsecase;
+  @Mock
+  private MemberRepository memberRepository;
+
+  @Mock
+  private ImageRepository imageRepository;
 
   @Autowired
   private ObjectMapper om;
 
-  @BeforeEach
-  void setup() {
-    Member member1 = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
-        Status.STATUS_ACTIVE);
-    memberRepository.save(member1);
 
-    Member member2 = new Member("john", "john1234", "qwer567", Role.ROLE_BEGINNER, 0L,
+  @Test
+  void execute() {
+    // Given
+    Long postId = 1L;
+    Long memberId = 1L;
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
+
+    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
         Status.STATUS_ACTIVE);
-    memberRepository.save(member2);
 
     Image image = new Image("/image/firstPhoto");
-    imageRepository.save(image);
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
 
-    Post post = Post.createPost(member1, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
-    postRepository.save(post);
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+
+    // When
+    SetPostLikeResponseDTO response = setPostLikeUsecase.execute(setPostLikeDTO);
+    System.out.println("response : " + response);
+    // Then
+    verify(memberRepository, times(1)).findById(memberId);
+    verify(postRepository, times(1)).findById(postId);
+    verify(postLikeRepository, times(1)).findFirstByMemberAndPostOrderByCreatedAtDesc(
+        any(Member.class), any(Post.class));
   }
 
-  @DisplayName("좋아요 토글")
   @Test
-  void execute() throws JsonProcessingException {
-    //given
+  void execute_unlike() {
+    // Given
     Long postId = 1L;
-    Long memberId = 1L;  // 첫 번째 멤버 사용
-
-    //when
+    Long memberId = 1L;
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-    SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
 
-    //then
-    Assertions.assertThat(setPostLikeResponseDTO.isLiked()).isTrue();
+    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+        Status.STATUS_ACTIVE);
+    Image image = new Image("/image/firstPhoto");
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+
+    PostLike postLike = PostLike.createPostLike(member, post,
+        true);  // Assumes a like already exists
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(member, post)).thenReturn(
+        Optional.of(postLike));
+
+    // When
+    SetPostLikeResponseDTO response = setPostLikeUsecase.execute(setPostLikeDTO);
+
+    // Then
+    assertFalse(response.isLiked());  // Assumes the like was toggled to false
   }
 
-  @DisplayName("좋아요 취소 토글")
   @Test
-  void executeUnlike() throws JsonProcessingException {
-    //given
+  void execute_nonExistentMember() {
+    // Given
     Long postId = 1L;
-    Long memberId = 2L;  // 두 번째 멤버 사용
-
-    // 좋아요를 먼저 설정
+    Long memberId = 1L;
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-    SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
 
-    //when
-    // 좋아요를 취소
-    SetPostLikeResponseDTO setPostLikeResponseDTO2 = setPostLikeUsecase.execute(setPostLikeDTO);
+    when(memberRepository.findById(memberId)).thenReturn(
+        Optional.empty());  // Assumes member does not exist
 
-    //then
-    Assertions.assertThat(setPostLikeResponseDTO2.isLiked()).isFalse();
+    // When
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      setPostLikeUsecase.execute(setPostLikeDTO);
+    });
+
+    // Then
+    assertEquals("존재하지 않는 회원입니다", exception.getMessage());
   }
 
+  @Test
+  void execute_nonExistentPost() {
+    // Given
+    Long postId = 1L;
+    Long memberId = 1L;
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
+
+    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+        Status.STATUS_ACTIVE);
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+    when(postRepository.findById(postId)).thenReturn(
+        Optional.empty());  // Assumes post does not exist
+
+    // When
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      setPostLikeUsecase.execute(setPostLikeDTO);
+    });
+
+    // Then
+    assertEquals("존재하지 않는 게시물입니다", exception.getMessage());
+  }
 
 }
