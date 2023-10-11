@@ -39,34 +39,35 @@ public class FindPopularPostListUsecase {
 
       for(int j = 0; j < levelIndexes.get(i).size(); j++){
 
-        Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_PREFIX.getKey(), levelIndexes.get(i).get(j) + 1, levelIndexes.get(i).get(j) + 1);
+        Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j) + 1, levelIndexes.get(i).get(j) + 1);
 
-        List<GetIncompletePopularPostDTO> dtos = posts.stream().map(postMap -> {
+        List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs = getIncompletePopularPostDTOs(posts);
 
-          Long postId = castToLong((Integer) postMap.get("postId"));
-          String imageUri = (String) postMap.get("imageUri");
-          String hashTag = (String) postMap.get("hashTag");
-          Long likeCount = castToLong((Integer) postMap.get("likeCount"));
-          Integer postPoint = (Integer) postMap.get("postPoint");
-          Long popularity = castToLong((Integer) postMap.get("popularity"));
-          String nickname = (String) postMap.get("nickname");
-
-          return new GetIncompletePopularPostDTO(
-              postId, imageUri, hashTag, likeCount, postPoint, popularity, nickname
-          );
-        }).collect(Collectors.toList());
-
-        incompletePopularPostDTOS.add(dtos.get(0));
-
+        incompletePopularPostDTOS.add(getIncompletePopularPostDTOs.get(0));
       }
       levelPosts.put(i,incompletePopularPostDTOS);
     }
 
-    // todo Redis에 게시물이 없을 경우 대처방안 생각하기
-    // todo 인기도 값이 같을 때 생각하기
-
     GetPopularPostListResponseDTO getPopularPostListResponseDTO = PostMapper.from(levelPosts);
     return getPopularPostListResponseDTO;
+  }
+
+  private List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs(Set<LinkedHashMap<String, Object>> posts) {
+    List<GetIncompletePopularPostDTO> dtos = posts.stream().map(postMap -> {
+
+      Long postId = castToLong((Integer) postMap.get("postId"));
+      String imageUri = (String) postMap.get("imageUri");
+      String hashTag = (String) postMap.get("hashTag");
+      Long likeCount = castToLong((Integer) postMap.get("likeCount"));
+      Integer postPoint = (Integer) postMap.get("postPoint");
+      Long popularity = castToLong((Integer) postMap.get("popularity"));
+      String nickname = (String) postMap.get("nickname");
+
+      return new GetIncompletePopularPostDTO(
+          postId, imageUri, hashTag, likeCount, postPoint, popularity, nickname
+      );
+    }).collect(Collectors.toList());
+    return dtos;
   }
 
   private Long castToLong(Integer have){
