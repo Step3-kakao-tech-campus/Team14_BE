@@ -22,11 +22,11 @@ spring:
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
 
-redis:
-  cache:
-    ttl:
-      viewCnt: 600000
-      popularPost: 3600000
+#redis:
+#  cache:
+#    ttl:
+#      viewCnt: 600000
+#      popularPost: 3600000
 
 schedules:
   fixedDelay: 600000
