@@ -39,7 +39,8 @@ public class FindPopularPostListUsecase {
 
       for(int j = 0; j < levelIndexes.get(i).size(); j++){
 
-        Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j) + 1, levelIndexes.get(i).get(j) + 1);
+        Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j)-1, levelIndexes.get(i).get(j)-1);
+        Long size = redisTemplate.opsForZSet().size(RedisKey.POPULAR_POST_KEY.getKey());
 
         List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs = getIncompletePopularPostDTOs(posts);
 
