@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -31,10 +32,7 @@ class SaveTemporaryPopularPostListUsecaseTest {
     List<Post> posts = postRepository.findAll();
     System.out.println(posts.size());
     saveTemporaryPopularPostListUsecase.execute();
-    Set keys = redisTemplate.keys(RedisKey.POPULAR_POST_KEY.getKey());
-    int keySize = keys.size();
     Long size = redisTemplate.opsForZSet().size(RedisKey.POPULAR_POST_KEY.getKey());
-    org.assertj.core.api.Assertions.assertThat(keySize).isEqualTo(1);
     org.assertj.core.api.Assertions.assertThat(size).isEqualTo(300);
   }
 
