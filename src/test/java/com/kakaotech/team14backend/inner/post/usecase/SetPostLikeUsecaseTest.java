@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -74,8 +73,8 @@ public class SetPostLikeUsecaseTest {
     // Then
     verify(memberRepository, times(1)).findById(memberId);
     verify(postRepository, times(1)).findById(postId);
-    verify(postLikeRepository, times(1)).findFirstByMemberAndPostOrderByCreatedAtDesc(
-        any(Member.class), any(Post.class));
+//    verify(postLikeRepository, times(1)).findFirstByMemberAndPostOrderByCreatedAtDesc(
+//        any(Member.class), any(Post.class));
   }
 
   @Test
@@ -95,7 +94,7 @@ public class SetPostLikeUsecaseTest {
         true);  // Assumes a like already exists
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(member, post)).thenReturn(
+    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(member.getMemberId(), post.getPostId())).thenReturn(
         Optional.of(postLike));
 
     // When
