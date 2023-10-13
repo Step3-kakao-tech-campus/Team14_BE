@@ -6,6 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +17,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.Set;
 
 
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-@DirtiesContext
 public class PostControllerTest {
 
   @Autowired
@@ -37,6 +40,29 @@ public class PostControllerTest {
 
   @Autowired
   private RedisTemplate redisTemplate;
+
+  @Autowired
+  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+
+  /**
+   *  추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
+   */
+
+  @BeforeEach
+  void init_start(){
+    Set<String> keys = redisTemplate.keys("*");
+    if (keys != null && !keys.isEmpty()) {
+      redisTemplate.delete(keys);
+    }
+  }
+
+  @AfterEach
+  void init_end(){
+    Set<String> keys = redisTemplate.keys("*");
+    if (keys != null && !keys.isEmpty()) {
+      redisTemplate.delete(keys);
+    }
+  }
 
   @DisplayName("단일 유저가 올린 게시물들을 조회합니다")
   @Test
@@ -129,6 +155,8 @@ public class PostControllerTest {
   @DisplayName("인기 피드를 조회 - 정상 파라미터")
   @Test
   void findAllPopularPost_Test() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
 
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post")
