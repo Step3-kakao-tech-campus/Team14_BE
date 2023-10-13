@@ -3,6 +3,9 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,6 @@ import java.util.Set;
 
 @SpringBootTest
 @Sql(value = "classpath:db/teardown.sql")
-@DirtiesContext
 class SaveTemporaryPopularPostListUsecaseTest {
 
   @Autowired
@@ -28,6 +30,22 @@ class SaveTemporaryPopularPostListUsecaseTest {
 
   @Autowired
   private RedisTemplate redisTemplate;
+
+  @BeforeEach
+  void init_start(){
+    Set<String> keys = redisTemplate.keys("*");
+    if (keys != null && !keys.isEmpty()) {
+      redisTemplate.delete(keys);
+    }
+  }
+
+  @AfterEach
+  void init_end(){
+    Set<String> keys = redisTemplate.keys("*");
+    if (keys != null && !keys.isEmpty()) {
+      redisTemplate.delete(keys);
+    }
+  }
 
   @Test
   void execute() {
