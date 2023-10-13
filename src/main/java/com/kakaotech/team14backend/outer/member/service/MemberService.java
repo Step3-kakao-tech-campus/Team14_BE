@@ -26,4 +26,13 @@ public class MemberService {
         .userStatus(userStatus)
         .build();
   }
+
+//  public Member createMember(){
+//    createMemberUsecase.execute();
+//    createPointUsecase.execute(member, PointPolicy.GET_100_WHEN_SIGN_UP);
+//  }
+
+// todo : createMemberusease를 이용해 주세요! ++ 주석 참고
+
+
 }
