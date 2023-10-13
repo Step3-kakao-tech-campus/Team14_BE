@@ -96,11 +96,17 @@ public class PostService {
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
     return isLiked;
   }
+  
+  /**
+   * 인기 게시물 전체 조회
+   *
+   * @author : hwangdaesun
+   * @param : 레벨별 게시물 size
+   * @return : 인기 게시물들 응답
+   */
 
-  public GetPopularPostListResponseDTO getPopularPostList(
-      GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
-        getPopularPostListRequestDTO.levelSize());
+  public GetPopularPostListResponseDTO getPopularPostList(GetPopularPostListRequestDTO getPopularPostListRequestDTO){
+    GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(getPopularPostListRequestDTO.levelSize());
     return getPopularPostListResponseDTO;
   }
 

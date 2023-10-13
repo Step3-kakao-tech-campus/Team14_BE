@@ -111,8 +111,7 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
-        getPopularPostListRequestDTO);
+    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }
 

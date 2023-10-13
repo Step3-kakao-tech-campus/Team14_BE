@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class PostRandomFetcher {
   private static final Random RANDOM = new Random();
 
-  private static final int LV3_RANGE_START = 0;
+  private static final int LV3_RANGE_START = 1;
   private static final int LV3_RANGE_END = 29;
   private static final int LV2_RANGE_START = 30;
   private static final int LV2_RANGE_END = 99;

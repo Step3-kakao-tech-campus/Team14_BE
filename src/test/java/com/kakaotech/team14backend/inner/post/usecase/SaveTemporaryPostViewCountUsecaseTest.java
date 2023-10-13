@@ -51,6 +51,4 @@ class SaveTemporaryPostViewCountUsecaseTest {
     Assertions.assertThat(size).isEqualTo(2);
   }
 
-
-
 }

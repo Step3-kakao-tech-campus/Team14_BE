@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -19,17 +20,34 @@ public class SaveTemporaryPopularPostListUsecase {
   private final int POPULARITY_SIZE = 300;
 
   /**
-   *  MySQL에서 상위 300개 포스트를 찾는다.
-   *  이를 Redis에서 관리한다.
+   * MySQL에서 인기도가 높은 상위 300개의 게시물을 가져와 이를 Redis에 자장한다.
+   *
+   * @author : hwangdaesun
    */
 
   @Transactional
   public void execute(){
-    List<GetIncompletePopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
-    top300Posts.stream().forEach(getIncompletePopularPostDTO -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_PREFIX.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
-    });
+    List<GetIncompletePopularPostDTO> top300Posts = getTop300Posts();
+    deletePopularPostsCache();
+    setPopularPostsCache(top300Posts);
+  }
 
+  private List<GetIncompletePopularPostDTO> getTop300Posts(){
+    return postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
+  }
+
+  private void deletePopularPostsCache(){
+    redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
+  }
+
+  private void setPopularPostsCache(List<GetIncompletePopularPostDTO> top300Posts){
+    top300Posts.forEach(this::setPopularPostCache);
+  }
+
+  private void setPopularPostCache(GetIncompletePopularPostDTO dto) {
+    ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+    double score = dto.getPopularity().doubleValue();
+    zSetOperations.add(RedisKey.POPULAR_POST_KEY.getKey(), dto, score);
   }
 
 }

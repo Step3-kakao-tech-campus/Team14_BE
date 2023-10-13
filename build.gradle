@@ -38,6 +38,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.awaitility:awaitility:4.2.0'
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
