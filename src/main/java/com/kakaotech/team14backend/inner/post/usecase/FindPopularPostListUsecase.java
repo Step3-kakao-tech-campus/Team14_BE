@@ -54,7 +54,7 @@ public class FindPopularPostListUsecase {
   }
 
   private List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs(Set<LinkedHashMap<String, Object>> posts) {
-    List<GetIncompletePopularPostDTO> dtos = posts.stream().map(postMap -> {
+    return posts.stream().map(postMap -> {
 
       Long postId = castToLong((Integer) postMap.get("postId"));
       String imageUri = (String) postMap.get("imageUri");
@@ -68,7 +68,6 @@ public class FindPopularPostListUsecase {
           postId, imageUri, hashTag, likeCount, postPoint, popularity, nickname
       );
     }).collect(Collectors.toList());
-    return dtos;
   }
 
   private Long castToLong(Integer have){
