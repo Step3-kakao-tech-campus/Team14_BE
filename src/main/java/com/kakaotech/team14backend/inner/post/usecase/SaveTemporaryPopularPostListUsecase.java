@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -26,11 +27,27 @@ public class SaveTemporaryPopularPostListUsecase {
 
   @Transactional
   public void execute(){
-    List<GetIncompletePopularPostDTO> top300Posts = postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
+    List<GetIncompletePopularPostDTO> top300Posts = getTop300Posts();
+    deletePopularPostsCache();
+    setPopularPostsCache(top300Posts);
+  }
+
+  private List<GetIncompletePopularPostDTO> getTop300Posts(){
+    return postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
+  }
+
+  private void deletePopularPostsCache(){
     redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
-    top300Posts.stream().forEach(getIncompletePopularPostDTO -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_KEY.getKey(), getIncompletePopularPostDTO, getIncompletePopularPostDTO.getPopularity().doubleValue());
-    });
+  }
+
+  private void setPopularPostsCache(List<GetIncompletePopularPostDTO> top300Posts){
+    top300Posts.forEach(this::setPopularPostsCache);
+  }
+
+  private void setPopularPostsCache(GetIncompletePopularPostDTO dto) {
+    ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+    double score = dto.getPopularity().doubleValue();
+    zSetOperations.add(RedisKey.POPULAR_POST_KEY.getKey(), dto, score);
   }
 
 }
