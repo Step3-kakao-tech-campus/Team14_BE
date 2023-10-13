@@ -41,10 +41,10 @@ public class SaveTemporaryPopularPostListUsecase {
   }
 
   private void setPopularPostsCache(List<GetIncompletePopularPostDTO> top300Posts){
-    top300Posts.forEach(this::setPopularPostsCache);
+    top300Posts.forEach(this::setPopularPostCache);
   }
 
-  private void setPopularPostsCache(GetIncompletePopularPostDTO dto) {
+  private void setPopularPostCache(GetIncompletePopularPostDTO dto) {
     ZSetOperations zSetOperations = redisTemplate.opsForZSet();
     double score = dto.getPopularity().doubleValue();
     zSetOperations.add(RedisKey.POPULAR_POST_KEY.getKey(), dto, score);
