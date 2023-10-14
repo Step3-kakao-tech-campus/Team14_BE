@@ -1,16 +1,15 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.common.RedisKey;
+import com.kakaotech.team14backend.common.ScanRedisKey;
+import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,31 +19,33 @@ public class UpdatePostViewCountUsecase {
 
   private final PostRepository postRepository;
 
+  /**
+   * Redis에 저장된 게시물당 방문자 데이터를 이용해 MySQL에 조회수를 Update한 후 해당 key - value는 레디스에서 제거
+   *
+   * @author : hwangdaesun
+   */
+
   @Transactional
   public void execute() {
-    Set<String> keys = redisTemplate.keys("viewCnt*");
+    List<String> keys = ScanRedisKey.scanKeysWithPattern(RedisKey.VIEW_COUNT_PREFIX + "*", redisTemplate);
     for(String key : keys){
-      Object cnt = redisTemplate.opsForValue().get(key);
-      Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new RuntimeException("Post not found"));
-      post.updateViewCount(castToLong((Integer) cnt));
+      Long cnt = redisTemplate.opsForSet().size(key);
+      Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new Exception500("Post not found"));
+      post.updateViewCount(cnt);
     }
     // mysql에 update!
-    clearPostViewCount();
+    clearPostViewCount(keys);
   }
 
-  @CacheEvict(value = "viewCnt", allEntries = true)
-  public void clearPostViewCount(){
-
+  public void clearPostViewCount(List<String> keys){
+    for(String key : keys){
+      redisTemplate.delete(key);
+    }
   }
 
   private Long splitKey(String key){
-    List<String> stringList = Arrays.stream(key.split("::")).collect(Collectors.toList());
-    return Long.valueOf(stringList.get(1));
-  }
-
-  private Long castToLong(Integer have){
-    Long want = have.longValue();
-    return want;
+    String[] split = key.split(":");
+    return Long.valueOf(split[1]);
   }
 
 }

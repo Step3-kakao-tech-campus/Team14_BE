@@ -8,6 +8,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.outer.member.service.MemberService;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 
 @SpringBootTest(properties = {
@@ -37,7 +39,12 @@ class SchedulePostPopularityTest {
   private MemberRepository memberRepository;
 
   @Autowired
+  private MemberService memberService;
+
+  @Autowired
   private ImageRepository imageRepository;
+
+
 
   @Autowired
   private EntityManager em;
@@ -45,7 +52,7 @@ class SchedulePostPopularityTest {
 
   @BeforeEach
   void setUp() {
-    Member member = Member.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
+    Member member = memberService.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");
