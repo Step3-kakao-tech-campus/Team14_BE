@@ -125,13 +125,13 @@ public class Post {
     this.viewCount = viewCount;
   }
 
-  public long measurePostAge() {
+  private long measurePostAge() {
     Instant now = Instant.now();
     int time = now.compareTo(this.createdAt);
     return  time < 5 ? 1 : time / 5;
   }
 
-  public void updatePopularity(long likeCount, long postAge){
+  private void updatePopularity(long likeCount, long postAge){
     long popularity = (likeCount + this.viewCount) / postAge;
     this.popularity = Long.valueOf(popularity);
     System.out.println("popularity = " + popularity);
