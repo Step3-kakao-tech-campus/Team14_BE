@@ -12,6 +12,7 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCountUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.UpdatePopularPostLevel;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -45,6 +46,7 @@ public class PostService {
   private final FindPopularPostListUsecase findPopularPostListUsecase;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
+  private final UpdatePopularPostLevel updatePopularPostLevel;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId, int size) {
 
@@ -96,7 +98,7 @@ public class PostService {
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
     return isLiked;
   }
-  
+
   /**
    * 인기 게시물 전체 조회
    *
@@ -107,6 +109,7 @@ public class PostService {
 
   public GetPopularPostListResponseDTO getPopularPostList(GetPopularPostListRequestDTO getPopularPostListRequestDTO){
     GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(getPopularPostListRequestDTO.levelSize());
+    updatePopularPostLevel.execute(getPopularPostListResponseDTO);
     return getPopularPostListResponseDTO;
   }
 
