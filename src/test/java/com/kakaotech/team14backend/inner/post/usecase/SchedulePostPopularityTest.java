@@ -8,25 +8,27 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.outer.member.service.MemberService;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.outer.member.service.MemberService;
+import com.kakaotech.team14backend.outer.post.schedule.SchedulePostPopularity;
 import java.time.Duration;
 import javax.persistence.EntityManager;
-import com.kakaotech.team14backend.outer.post.schedule.SchedulePostPopularity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
     , "schedules.fixedDelay:1000"
 })
+
+@ActiveProfiles("local")
 class SchedulePostPopularityTest {
 
   @Autowired
