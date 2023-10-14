@@ -22,7 +22,4 @@ public class CreatePointUsecase {
     pointRepository.save(userPoint);
   }
 
-  // create : 처음 유저가 포인트를 다룰 때, 회원가입 밖에 없긴함
-  // give, use
-  // 우려 사항 :
 }
