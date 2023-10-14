@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
+@ActiveProfiles("local")
 @Sql("classpath:db/teardown.sql")
 class FindPopularPostListUsecaseTest {
 

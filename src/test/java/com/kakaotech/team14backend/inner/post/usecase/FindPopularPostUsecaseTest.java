@@ -20,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.test.context.ActiveProfiles;
 
 
 @SpringBootTest
+@ActiveProfiles("local")
 class FindPopularPostUsecaseTest {
 
   @Autowired
