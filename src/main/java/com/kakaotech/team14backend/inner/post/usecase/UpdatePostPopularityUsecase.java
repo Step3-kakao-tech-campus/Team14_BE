@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -18,7 +19,7 @@ public class UpdatePostPopularityUsecase {
   public void execute() {
     List<Post> posts = postRepository.findAll();
     for (Post post : posts) {
-      post.updatePopularity();
+      post.updatePopularity(Instant.now());
       postRepository.save(post);
     }
   }

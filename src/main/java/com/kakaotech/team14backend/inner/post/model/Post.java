@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.inner.post.model;
 
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
@@ -20,12 +21,14 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
+@Setter(PACKAGE)
 public class Post {
 
   // Primary Key
@@ -127,19 +130,18 @@ public class Post {
     this.viewCount = viewCount;
   }
 
-  public void updatePopularity() {
-    popularity = calculatePopularity();
+  public void updatePopularity(final Instant now) {
+    popularity = calculatePopularity(now);
     log.info("popularity = {}", this.popularity);
   }
 
-  long calculatePopularity() {
+  long calculatePopularity(final Instant now) {
     Long likeCount = postLikeCount.getLikeCount();
-    long postAge = measurePostAge();
+    long postAge = measurePostAge(now);
     return ((long) likeCount + viewCount) / postAge;
   }
 
-  private long measurePostAge() {
-    Instant now = Instant.now();
+  private long measurePostAge(final Instant now) {
     int time = now.compareTo(createdAt);
     return  time < 5 ? 1 : time / 5;
   }
