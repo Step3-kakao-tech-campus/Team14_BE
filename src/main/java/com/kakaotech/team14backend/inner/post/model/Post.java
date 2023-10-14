@@ -5,6 +5,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
+
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -142,7 +144,7 @@ public class Post {
   }
 
   private long measurePostAge(final Instant now) {
-    int time = now.compareTo(createdAt);
+    int time = Duration.between(createdAt, now).toHoursPart();
     return  time < 5 ? 1 : time / 5;
   }
 
