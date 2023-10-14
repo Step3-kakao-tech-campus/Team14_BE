@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.jwt.service.TokenService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,47 +19,50 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Instant;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
+
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-    super(authenticationManager);
+    super(authenticationManager); // BasicAuthenticationFilter에 필요한 생성자 호출
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
     String jwt = request.getHeader(TokenService.HEADER);
-    if (jwt != null && TokenService.validateToken(jwt)) {
-      if (!request.getRequestURI().equals("/api/reissue")) {
-        try {
-          DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
-          String kakaoId = decodedJWT.getClaim("kakaoId").asString();
-          String userName = decodedJWT.getClaim("username").asString();
-          String instaId = decodedJWT.getClaim("instaId").asString();
-          Role role = Role.valueOf(decodedJWT.getClaim("role").asString());
-          Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).build();
-          PrincipalDetails myUserDetails = new PrincipalDetails(member);
-          Authentication authentication =
-              new UsernamePasswordAuthenticationToken(
-                  myUserDetails,
-                  myUserDetails.getPassword(),
-                  myUserDetails.getAuthorities()
-              );
-          SecurityContextHolder.getContext().setAuthentication(authentication);
-          log.debug("디버그 : 인증 객체 만들어짐");
-        } catch (NullPointerException | SignatureVerificationException |
-                 JWTDecodeException sve) {
-          log.error("토큰 검증 실패");
-        } catch (TokenExpiredException tee) {
-          log.error("토큰 만료됨");
+    try {
+      DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
+      String kakaoId = decodedJWT.getClaim("kakaoId").asString();
+      String userName = decodedJWT.getClaim("username").asString();
+      String instaId = decodedJWT.getClaim("instaId").asString();
+      Role role = Role.valueOf(decodedJWT.getClaim("role").asString());
+      Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).build();
+      PrincipalDetails myUserDetails = new PrincipalDetails(member);
+      Authentication authentication =
+          new UsernamePasswordAuthenticationToken(
+              myUserDetails,
+              myUserDetails.getPassword(),
+              myUserDetails.getAuthorities()
+          );
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+      log.debug("디버그 : 인증 객체 만들어짐");
+    } catch (NullPointerException | SignatureVerificationException |
+             JWTDecodeException sve) {
+      log.error("토큰 검증 실패");
+    } catch (TokenExpiredException tee) {
+      DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
+      Instant expiredOn = decodedJWT.getExpiresAt().toInstant();
+      log.error("토큰 만료기간 초과");
+      throw new TokenExpiredException("토큰이 만료되었습니다.", expiredOn);
 //        } finally {
 //          chain.doFilter(request, response);
-        }
-      }
+
     }
     chain.doFilter(request, response);
     return;

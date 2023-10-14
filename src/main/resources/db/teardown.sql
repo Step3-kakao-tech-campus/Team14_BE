@@ -24,6 +24,7 @@ VALUES (NOW(), 'image_uri1'),
        (NOW(), 'image_uri8'),
        (NOW(), 'image_uri9'),
        (NOW(), 'image_uri10');
+
 -- Post Table
 INSERT INTO post (created_at, nickname, popularity, published, report_count, university, view_count,
                   post_point,
@@ -49,8 +50,33 @@ VALUES (NOW(), 'nickname1', 100, true, 0, 'university1', 1000, 400, 1, 1, '#hash
        (NOW(), 'nickname19', 900, false, 8, 'university9', 9000, 400, 9, 3, '#hashtag9'),
        (NOW(), 'nickname20', 1000, true, 9, 'university10', 10000, 400, 10, 1, '#hashtag10');
 
--- PostLikeCount Table
+-- Using UNION ALL to generate numbers up to 280
+WITH RECURSIVE numbers(val) AS (
+    SELECT 1
+    UNION ALL
+    SELECT val + 1
+    FROM numbers
+    WHERE val < 280
+)
+
+INSERT INTO post (created_at, nickname, popularity, published, report_count, university, view_count, post_point, image_id, member_id, hashtag)
+SELECT
+    NOW(),
+    'nickname' || (val + 20),
+    (val * 100),
+    CASE WHEN val % 2 = 0 THEN true ELSE false END,
+    0,
+    'university' || ((val % 10) + 1),
+    (val * 1000),
+    400,
+    ((val % 10) + 1),
+    ((val % 3) + 1),
+    '#hashtag' || ((val % 10) + 1)
+FROM numbers;
+
+
+-- Insert PostLikeCount for all the 300 posts
 INSERT INTO post_like_count (post_id, like_count, created_at, modified_at)
 SELECT post_id, 0, NOW(), NOW()
 FROM post
-WHERE post_id BETWEEN 1 AND 20;
+WHERE post_id BETWEEN 1 AND 300;
