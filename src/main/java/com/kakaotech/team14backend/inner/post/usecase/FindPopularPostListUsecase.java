@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.post.model.PostRandomFetcher;
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
@@ -40,7 +41,6 @@ public class FindPopularPostListUsecase {
       for(int j = 0; j < levelIndexes.get(i).size(); j++){
 
         Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j)-1, levelIndexes.get(i).get(j)-1);
-        Long size = redisTemplate.opsForZSet().size(RedisKey.POPULAR_POST_KEY.getKey());
 
         List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs = getIncompletePopularPostDTOs(posts);
 
@@ -65,7 +65,7 @@ public class FindPopularPostListUsecase {
       String nickname = (String) postMap.get("nickname");
 
       return new GetIncompletePopularPostDTO(
-          postId, imageUri, hashTag, likeCount, postPoint, popularity, nickname
+          postId, imageUri, hashTag, likeCount, popularity, nickname
       );
     }).collect(Collectors.toList());
   }

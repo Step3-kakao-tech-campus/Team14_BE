@@ -42,7 +42,7 @@ class FindPopularPostListUsecaseTest {
     redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
     List<Post> posts = postRepository.findAll();
     posts.forEach(post -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_KEY.getKey(),new GetIncompletePopularPostDTO(post.getPostId(),post.getImage().getImageUri(),post.getHashtag(),post.getPostLikeCount().getLikeCount(),post.getPostPoint(),post.getPopularity(),post.getNickname()),post.getPopularity());
+      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_KEY.getKey(),new GetIncompletePopularPostDTO(post.getPostId(),post.getImage().getImageUri(),post.getHashtag(),post.getPostLikeCount().getLikeCount(),post.getPopularity(),post.getNickname()),post.getPopularity());
     });
   }
 

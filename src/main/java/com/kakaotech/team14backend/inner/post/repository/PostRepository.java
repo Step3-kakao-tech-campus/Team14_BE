@@ -12,7 +12,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   List<Post> findByPostIdGreaterThan(Long lastPostId, Pageable pageable);
 
-  @Query("SELECT new com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO(p.postId,i.imageUri,p.hashtag,pl.likeCount,p.postPoint,p.popularity,p.nickname) " +
+  @Query("SELECT new com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO(p.postId,i.imageUri,p.hashtag,pl.likeCount,p.popularity,p.nickname) " +
       "FROM Post p " +
       "JOIN p.image i " + // Image에 대한 JOIN
       "JOIN p.postLikeCount pl " + // PostLike에 대한 JOIN

@@ -65,11 +65,11 @@ public class Post {
   @Column(nullable = true)
   private Long popularity; // 인기도 값
 
-  @Column(nullable = false)
-  private Integer reportCount; // 제재 횟수
+  @Column(nullable = true)
+  private Integer postLevel; // 게시물 레벨
 
   @Column(nullable = false)
-  private Integer postPoint;
+  private Integer reportCount; // 제재 횟수
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<PostLike> postLikeHistories;
@@ -98,7 +98,6 @@ public class Post {
         .viewCount(0L)
         .popularity(0L)
         .reportCount(0)
-        .postPoint(0)
         .build();
     post.mappingPostLikeCount(postLikeCount);
     post.mappingMember(member);
@@ -109,7 +108,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-      String university, Long viewCount, Long popularity, Integer reportCount, Integer postPoint) {
+      String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;
@@ -118,7 +117,6 @@ public class Post {
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
-    this.postPoint = postPoint;
   }
 
   public void updateViewCount(Long viewCount) {
@@ -134,7 +132,10 @@ public class Post {
   public void updatePopularity(long likeCount, long postAge){
     long popularity = (likeCount + this.viewCount) / postAge;
     this.popularity = Long.valueOf(popularity);
-    System.out.println("popularity = " + popularity);
+  }
+
+  public void updatePostLevel(int postLevel) {
+    this.postLevel = postLevel;
   }
 
 
