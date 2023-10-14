@@ -139,7 +139,7 @@ public class Post {
 
 
   public void updatePopularity() {
-    Long likeCount = getPostLikeCount().getLikeCount();
+    Long likeCount = postLikeCount.getLikeCount();
     long postAge = measurePostAge();
     updatePopularity(likeCount.longValue(), postAge);
   }
