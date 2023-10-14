@@ -33,8 +33,10 @@ jobs:
 
       - name: Build and Test
         run: ./gradlew clean build
+        
       - name: Run Spring Boot App for 30 seconds
         run: |
+          export SPRING_PROFILES_ACTIVE=local
           ./gradlew bootRun &
           APP_PID=$!
           sleep 30
