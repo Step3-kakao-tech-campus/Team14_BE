@@ -1,0 +1,44 @@
+package com.kakaotech.team14backend.inner.post.model;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class PostTest {
+
+  @Test
+  @DisplayName("좋아요 100, 조회수 1000, 생성으로부터 1시간 경과했을 때 인기도는 1100이다.")
+  void calculatePopularity_case_0() {
+    // given
+    final var likeCount = 100L;
+    final var viewCount = 1000L;
+    final var postCreatedAt = LocalDateTime.of(2023, 10, 10, 18, 0, 0);
+    final var now = postCreatedAt.plusHours(1);
+    final var post = createPostWith(likeCount, viewCount, postCreatedAt);
+
+    // when
+    final long popularity = post.calculatePopularity(toInstant(now));
+
+    // then
+    assertThat(popularity).isEqualTo(1100L);
+  }
+
+  private Post createPostWith(final long likeCount, final long viewCount, final LocalDateTime postCreatedAt) {
+    final var count = new PostLikeCount();
+    count.updateLikeCount(likeCount);
+    final var post = new Post();
+    post.setPostLikeCount(count);
+    post.setViewCount(viewCount);
+    post.setCreatedAt(toInstant(postCreatedAt));
+    return post;
+  }
+
+  private Instant toInstant(final LocalDateTime dateTime) {
+    return dateTime.atZone(ZoneId.systemDefault()).toInstant();
+  }
+}
