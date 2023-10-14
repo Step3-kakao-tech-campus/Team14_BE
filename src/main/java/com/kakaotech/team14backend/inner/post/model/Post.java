@@ -125,6 +125,12 @@ public class Post {
     this.viewCount = viewCount;
   }
 
+  public void updatePopularity() {
+    Long likeCount = postLikeCount.getLikeCount();
+    long postAge = measurePostAge();
+    updatePopularity(likeCount.longValue(), postAge);
+  }
+
   private long measurePostAge() {
     Instant now = Instant.now();
     int time = now.compareTo(this.createdAt);
@@ -137,10 +143,4 @@ public class Post {
     System.out.println("popularity = " + popularity);
   }
 
-
-  public void updatePopularity() {
-    Long likeCount = postLikeCount.getLikeCount();
-    long postAge = measurePostAge();
-    updatePopularity(likeCount.longValue(), postAge);
-  }
 }
