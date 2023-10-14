@@ -17,9 +17,10 @@ public class UpdatePostPopularityUsecase {
 
   @Transactional
   public void execute() {
+    final Instant now = Instant.now();
     List<Post> posts = postRepository.findAll();
     for (Post post : posts) {
-      post.updatePopularity(Instant.now());
+      post.updatePopularity(now);
       postRepository.save(post);
     }
   }
