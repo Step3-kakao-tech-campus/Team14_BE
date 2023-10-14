@@ -28,6 +28,20 @@ class PostTest {
     assertThat(popularity).isEqualTo(1100L);
   }
 
+  @Test
+  @DisplayName("좋아요 100, 조회수 1000, 생성으로부터 10시간 경과했을 때 인기도는 550이다.")
+  void calculatePopularity_case_1() {
+    // given
+    final var now = postCreatedAt.plusHours(10);
+    final var post = createPostWith(likeCount, viewCount, postCreatedAt);
+
+    // when
+    final long popularity = post.calculatePopularity(toInstant(now));
+
+    // then
+    assertThat(popularity).isEqualTo(550L);
+  }
+
   private Post createPostWith(final long likeCount, final long viewCount, final LocalDateTime postCreatedAt) {
     final var count = new PostLikeCount();
     count.updateLikeCount(likeCount);
