@@ -10,14 +10,14 @@ import java.time.ZoneId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PostTest {
+  private final long likeCount = 100L;
+  private final long viewCount = 1000L;
+  private final LocalDateTime postCreatedAt = LocalDateTime.of(2023, 10, 10, 18, 0, 0);
 
   @Test
   @DisplayName("좋아요 100, 조회수 1000, 생성으로부터 1시간 경과했을 때 인기도는 1100이다.")
   void calculatePopularity_case_0() {
     // given
-    final var likeCount = 100L;
-    final var viewCount = 1000L;
-    final var postCreatedAt = LocalDateTime.of(2023, 10, 10, 18, 0, 0);
     final var now = postCreatedAt.plusHours(1);
     final var post = createPostWith(likeCount, viewCount, postCreatedAt);
 
