@@ -144,8 +144,8 @@ public class Post {
   }
 
   private long measurePostAge(final Instant now) {
-    int time = Duration.between(createdAt, now).toHoursPart();
-    return  time < 5 ? 1 : time / 5;
+    int hours = Duration.between(createdAt, now).toHoursPart();
+    return  hours < 5 ? 1 : hours / 5;
   }
 
 }
