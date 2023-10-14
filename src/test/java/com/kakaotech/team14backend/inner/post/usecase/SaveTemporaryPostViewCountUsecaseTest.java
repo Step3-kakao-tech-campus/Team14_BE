@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @SpringBootTest
 
-@ActiveProfiles("local")
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 class SaveTemporaryPostViewCountUsecaseTest {
 
   @Autowired
