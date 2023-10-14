@@ -5,9 +5,9 @@ resources:
   - backend.yaml
 #  - frontend.yaml
 configMapGenerator:
-#  - name: nginx
-#    files:
-#      - configs/default.conf
+  - name: nginx
+    files:
+      - configs/default.conf
   - name: init-db
     files:
       - configs/init.sql
