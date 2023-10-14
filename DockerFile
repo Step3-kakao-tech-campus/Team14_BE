@@ -2,7 +2,7 @@
 FROM gradle:7.3.1-jdk17 as builder
 
 # 작업 디렉토리 설정
-WORKDIR /app
+WORKDIR /home/gradle/project
 
 # Spring 소스 코드를 이미지에 복사
 COPY . .
@@ -13,11 +13,6 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 # gradlew를 이용한 프로젝트 빌드
 RUN ./gradlew clean build
 
-# 런타임 이미지
-FROM openjdk:17-jdk-slim
-
-# 작업 디렉토리 설정
-WORKDIR /app
 
 # 빌드 결과물을 현재 이미지로 복사
 COPY --from=builder /app/build/libs/*.jar ./app.jar
@@ -26,4 +21,4 @@ COPY --from=builder /app/build/libs/*.jar ./app.jar
 #ENV DATABASE_URL=jdbc:mariadb://mariadb/krampoline
 
 # 빌드 결과 jar 파일을 실행
-CMD ["java", "-jar", "-Dspring.profiles.active=prod", "./app.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/kakao-1.0.jar"]
