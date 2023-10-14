@@ -20,7 +20,9 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
@@ -140,7 +142,7 @@ public class Post {
   private void updatePopularity(long likeCount, long postAge){
     long popularity = (likeCount + this.viewCount) / postAge;
     this.popularity = Long.valueOf(popularity);
-    System.out.println("popularity = " + popularity);
+    log.info("popularity = {}", this.popularity);
   }
 
 }
