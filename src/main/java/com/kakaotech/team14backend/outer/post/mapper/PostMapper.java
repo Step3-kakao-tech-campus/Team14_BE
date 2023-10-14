@@ -48,10 +48,10 @@ public class PostMapper {
 
       for (GetIncompletePopularPostDTO incompletePost : incompletePosts) {
         List<String> hashTags = splitHashtag(incompletePost.getHashTag());
-        int boardPoint = 0;
+        int postPoint = 0;
 
         GetPopularPostDTO popularPost = new GetPopularPostDTO(incompletePost.getPostId(),
-            incompletePost.getImageUri(), hashTags, incompletePost.getLikeCount(), boardPoint,
+            incompletePost.getImageUri(), hashTags, incompletePost.getLikeCount(), postPoint,
             incompletePost.getNickname(), postLevel);
         popularPosts.add(popularPost);
       }
