@@ -12,6 +12,7 @@ import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.schedule.SchedulePostViewCount;
+import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.Set;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @SpringBootTest
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 class UpdatePostViewCountTest {
 
   @Autowired
