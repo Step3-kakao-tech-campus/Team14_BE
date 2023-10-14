@@ -130,8 +130,9 @@ public class Post {
   public void updatePopularity() {
     Long likeCount = postLikeCount.getLikeCount();
     long postAge = measurePostAge();
-    popularity = ((long) likeCount + viewCount) / postAge;
-    log.info("popularity = {}", popularity);
+    final long popularity = ((long) likeCount + viewCount) / postAge;
+    this.popularity = popularity;
+    log.info("popularity = {}", this.popularity);
   }
 
   private long measurePostAge() {
