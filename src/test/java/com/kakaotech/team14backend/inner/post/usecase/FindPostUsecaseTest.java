@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
+
+@ActiveProfiles("local")
 @Import({RedisConfig.class, CacheProperties.class})
 @DataJpaTest
 class FindPostUsecaseTest {
