@@ -224,9 +224,13 @@ public class PostControllerTest {
 
     ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
 
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("usePopularPost_Test : " + responseBody);
+
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
-    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+    resultActions.andExpect(jsonPath("$.response").exists());
   }
 
   @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판298를 구매하였으나 돈이 부족한 경우 - 정상 파라미터")
