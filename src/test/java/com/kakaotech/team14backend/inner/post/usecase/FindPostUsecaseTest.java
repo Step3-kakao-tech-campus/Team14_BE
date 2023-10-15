@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
+
 @Import({RedisConfig.class, CacheProperties.class})
 @DataJpaTest
 class FindPostUsecaseTest {

@@ -51,6 +51,7 @@ spring.security.oauth2.client.provider.kakao:
   user-info-uri: https://kapi.kakao.com/v2/user/me
   user-name-attribute: id
 
+
 instagram:
   connect-url: https://api.instagram.com/oauth/authorize%20?client_id=2456565514525348%20&redirect_uri=${common.base-url}/api/callback&scope=user_profile,user_media%20&response_type=code
   client-id: 2456565514525348
@@ -58,6 +59,7 @@ instagram:
   redirect-uri: ${common.base-url}/api/callback
   token-url: https://api.instagram.com/oauth/access_token
   user-info-url: https://graph.instagram.com/me?fields=id,username
+
 
 # (commented out) Header name and secret key for JWT authentication
 jwt:
