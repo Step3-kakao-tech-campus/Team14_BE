@@ -21,7 +21,7 @@ public class PointController {
   private final PointService pointService;
 
   @ApiOperation(value = "인기 피드 게시물 포인트 사용")
-  @PostMapping("/point")
+  @PostMapping("/point/popular-post")
   public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(@RequestBody UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
     Long memberId = 1L;
     String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, memberId);

@@ -218,7 +218,7 @@ public class PostControllerTest {
     String requestBody = objectMapper.writeValueAsString(requestDTO);
 
 
-    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point")
+    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
         .content(requestBody)
         .contentType(MediaType.APPLICATION_JSON);
 
@@ -246,7 +246,7 @@ public class PostControllerTest {
     String requestBody = objectMapper.writeValueAsString(requestDTO);
 
 
-    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point")
+    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
         .content(requestBody)
         .contentType(MediaType.APPLICATION_JSON);
 
@@ -275,7 +275,7 @@ public class PostControllerTest {
     String requestBody = objectMapper.writeValueAsString(requestDTO);
 
 
-    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point")
+    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
         .content(requestBody)
         .contentType(MediaType.APPLICATION_JSON);
 
