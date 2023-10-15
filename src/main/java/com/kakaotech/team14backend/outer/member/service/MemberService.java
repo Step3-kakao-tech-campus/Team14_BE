@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.outer.member.service;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
-import com.kakaotech.team14backend.inner.point.model.PointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
