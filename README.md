@@ -264,11 +264,30 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 
 ✅**5주차**
 
-```
-    - 5주차 github
+### 황대선
 
-    - 5주차 노션
-```
+- 인기 피드 정책 구현 및 관련 문서화.
+- **`Instant`** 클래스 도입으로 **`Post`** 엔터티의 **`createdAt`** 컬럼의 자료형을 **`Instant`**로 변경하여 정확한 시간 비교 가능 ([#43](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/43)).
+- 게시물 나이 및 인기도 업데이트 기능 구현 및 스케줄링 테스트 ([#48](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/48), [#50](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/50)).
+- 인기도 높은 게시물 선별 후 Redis에 저장 기능 구현 ([#55](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/55)).
+- Redis에서 인기도가 높은 상위 300개의 게시물 조회 기능 구현 ([#59](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/59)).
+
+### 고범수
+ 
+- 단일 게시물에 좋아요 기능 추가로 유저가 좋아요를 누르면 바로 DB로 업데이트 기능 구현 ([#54](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/54)).
+- 단일 게시물에 유저가 좋아요를 누르고, 반영되는 순간에 해당 게시물의 좋아요 갯수를 업데이트하는 로직 구현 ([#60](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/60)).
+
+### 김유선
+
+- 로그인 완료 시 리프레시 토큰을 발급 및 Redis에 저장 기능 구현 ([#57](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/57)).
+- 기존 엑세스 토큰 만료 시 리프레시 토큰을 사용해 엑세스 토큰을 새로 재발급하는 기능 구현 ([#57](https://github.com/Step3-kakao-tech-campus/Team14_BE/pull/57)).
+
+### 송가은
+
+- MyPage
+- DAO 클래스에 게시물 조회 메서드 추가
+- 서블릿에서 게시물 조회 요청 처리
+- JSP 파일 작성
 
 </div>
 </details>
