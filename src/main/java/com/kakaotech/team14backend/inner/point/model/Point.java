@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.inner.point.model;
 
+import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,14 +61,14 @@ public class Point {
         .build();
   }
 
-  public void useUserPoint(Member member, Long usePoint){
+  public void useUserPoint(Long usePoint){
     if(this.nowPoint - usePoint < 0){
-      throw new IllegalArgumentException("보유 폭죽이 부족합니다.");
+      throw new Exception500("보유 폭죽이 부족합니다.");
     }
     this.nowPoint -= usePoint;
   }
 
-  public void getUserPoint(Member member, Long usePoint){
+  public void getUserPoint(Long usePoint){
     this.nowPoint += usePoint;
   }
 
