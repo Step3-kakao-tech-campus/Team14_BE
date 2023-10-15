@@ -299,18 +299,46 @@ ex ) AWS(아마존), GCP(구글), Azure(마이크로소프트), Cloudtype
 <div>
 
 ✅**6주차**
+## 산출물
+<a id="section1"></a>
 
-```
-    - 6주차 github
+### Backend 쪽 이슈 요약
+1. **[BE API 명세 관련](https://www.notion.so/BE-BE-API-cee9b31d490a468dad6818cc4dcd4e42?pvs=21)**
+   - API 명세 문서 업데이트 완료
+2. **[API 명세서 업데이트](https://www.notion.so/BE-API-ed5fa71ca1e541d38fdadbb3bfd8769b?pvs=21)**
+   - 최신 상태로 업데이트 완료
+3. **[Upload API 요청 및 반환 데이터 관련](https://www.notion.so/BE-Upload-API-ca8b137bdfc844278394dc6d530aec30?pvs=21)**
+   - 멀티파트 파일 업로드 기능 개선
 
-    - 중간발표자료
+### 인증 및 계정 관리
+1. **[로그인 기능 전반적 수정](https://www.notion.so/BE-47dfe4a5d88546bb90a36e01ce06f823?pvs=21)**
+   - 비밀번호 해시 알고리즘 변경
+2. **[MyPage 계정 상세 조회](https://www.notion.so/BE-MyPage-51c3a49abc89414b998875b3e496fd52?pvs=21)**
+   - 상세 정보 조회 로직 구현 완료
 
-    - 피어리뷰시트
-```
+### 피드 관련
+1. **[인기 피드 리팩토링 및 테스트 보충](https://www.notion.so/BE-4016eb0eb2924804979f6bfffe672cfd?pvs=21)**
+   - 코드 최적화 및 유닛 테스트 추가
+2. **[인기 피드 전체 조회 기능 테스트 이슈](https://www.notion.so/BE-8f0ce04208b1460a8f99a11a3f97107a?pvs=21)**
+   - 테스트 케이스 작성 및 테스트 완료
+3. **[인기도에 따른 게시물 폭죽 사용](https://www.notion.so/BE-b420ba956a41417dbc7ec94b2af731d2?pvs=21)**
+   - 폭죽 로직 구현
+4. **[좋아요 로직 개선](https://www.notion.so/BE-6b4bda09642c490fa5e370f23dfcd933?pvs=21)**
+   - 중복 좋아요 방지 로직 추가
 
-</div>
-</details>
+### 포인트 및 좋아요 관련
+1. **[페어 프로그래밍 - 포인트](https://www.notion.so/BE-512d51dc825f43aa9ad6f0122d8c4e7a?pvs=21)**
+   - 포인트 로직 구현
+2. **[포인트 관련 기능 구현](https://www.notion.so/BE-37cf941c8fa54f528811690a2bc6931c?pvs=21)**
+   - 포인트 적립 및 사용 로직 추가
 
+### 협업 및 배포
+1. **[협업을 위한 주석 달기](https://www.notion.so/BE-45c8b5a9872a419bbf86bcde325a95c1?pvs=21)**
+   - 코드에 주석 추가 완료
+2. **[배포 관련 Master 브랜치 네이밍 변경](https://www.notion.so/BE-Master-d524958c1a5343508aad7ee48bf86308?pvs=21)**
+   - 브랜치 명 변경 완료
+3. **[도커 이미지 패키징 이슈 : Redis 의존 관련](https://www.notion.so/BE-Redis-2261383677904bacbd11426ed40b14fd?pvs=21)**
+    - Redis 도커 이미지 패키징 완료
 ---
 
 <details>
