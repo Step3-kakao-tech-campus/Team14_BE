@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,15 +19,16 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.Set;
 
 
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
+
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 public class PostControllerTest {
 
   @Autowired
@@ -45,11 +47,11 @@ public class PostControllerTest {
   private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
 
   /**
-   *  추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
+   * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
    */
 
   @BeforeEach
-  void init_start(){
+  void init_start() {
     Set<String> keys = redisTemplate.keys("*");
     if (keys != null && !keys.isEmpty()) {
       redisTemplate.delete(keys);
@@ -57,7 +59,7 @@ public class PostControllerTest {
   }
 
   @AfterEach
-  void init_end(){
+  void init_end() {
     Set<String> keys = redisTemplate.keys("*");
     if (keys != null && !keys.isEmpty()) {
       redisTemplate.delete(keys);
