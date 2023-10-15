@@ -3,6 +3,7 @@ TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
 TRUNCATE TABLE post_like_count;
+TRUNCATE TABLE point;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 -- Member Table
@@ -78,3 +79,9 @@ INSERT INTO post_like_count (post_id, like_count, created_at, modified_at)
 SELECT post_id, 0, NOW(), NOW()
 FROM post
 WHERE post_id BETWEEN 1 AND 300;
+
+-- Point Table
+INSERT INTO point (member_id, now_point, created_at, updated_at)
+VALUES (1, 200, NOW(), NOW()),
+       (2, 200, NOW(), NOW()),
+       (3, 300, NOW(), NOW());
