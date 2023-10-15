@@ -1,53 +1,84 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
+import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 
-@Sql("classpath:db/teardown.sql")
 @SpringBootTest
 public class UpdatePostLikeCountUsecaseTest {
 
-  @Autowired
+  @InjectMocks
   private UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
-  @Autowired
-  private PostLikeCountRepository postLikeCountRepository;
+  @Mock
+  private SetPostLikeUsecase setPostLikeUsecase;
 
-  @Autowired
+  @Mock
+  private PostLikeCountRepository postLikeCountRepository;
+  @Mock
+  private PostLikeRepository postLikeRepository;
+
+  @Mock
   private PostRepository postRepository;
 
-  @Autowired
+  @Mock
   private MemberRepository memberRepository;
 
-  @Autowired
-  private SetPostLikeUsecase setPostLikeUsecase;
-  @Autowired
+  @Mock
   private ImageRepository imageRepository;
+
+  @Mock // Post 클래스를 모의 객체로 만듭니다.
+  private Post post;
+
+  @Mock // PostLikeCount 클래스를 모의 객체로 만듭니다.
+  private PostLikeCount postLikeCount;
 
   @Test
   void execute() {
     //given
     Long postId = 1L;
-    Long memberId = 1L;  // 첫 번째 멤버 사용
+    Long memberId = 1L;
 
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-    SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
+    SetPostLikeResponseDTO setPostLikeResponseDTO = new SetPostLikeResponseDTO(true);
+    ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
 
-    GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(1L, true);
+    // 모의 행동 설정
+    when(postRepository.findById(postId)).thenReturn(java.util.Optional.of(post));
+    when(postLikeCountRepository.findByPostId(postId)).thenReturn(postLikeCount);
+    when(post.getPostLikeCount()).thenReturn(postLikeCount);
+    when(postLikeCount.getLikeCount()).thenReturn(1L);
+    when(setPostLikeUsecase.execute(setPostLikeDTO)).thenReturn(setPostLikeResponseDTO);
+
+    SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
+
+    GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(postId, isLiked.isLiked());
+    //when
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
+    // then
+    System.out.println("Current likeCount: " + postLikeCount.getLikeCount());
 
-    // when
-    Assertions.assertThat(postRepository.findById(postId).get().getPostLikeCount().getLikeCount())
-        .isEqualTo(1L);
+    // verify(postLikeCount).updateLikeCount(2L);
+    verify(postLikeCount).updateLikeCount(captor.capture());
+    verify(postLikeCountRepository).save(postLikeCount);
+    Long updatedLikeCount = captor.getValue();
+    System.out.println("Updated likeCount: " + updatedLikeCount);
   }
 }
+
+

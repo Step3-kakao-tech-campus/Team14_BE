@@ -31,7 +31,6 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long postId; // 게시글 ID
 
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "memberId")
   private Member member; // 유저 아이디
@@ -68,9 +67,6 @@ public class Post {
   @Column(nullable = false)
   private Integer reportCount; // 제재 횟수
 
-  @Column(nullable = false)
-  private Integer postPoint;
-
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<PostLike> postLikeHistories;
   public void mappingMember(Member member) {
@@ -98,7 +94,6 @@ public class Post {
         .viewCount(0L)
         .popularity(0L)
         .reportCount(0)
-        .postPoint(0)
         .build();
     post.mappingPostLikeCount(postLikeCount);
     post.mappingMember(member);
@@ -109,7 +104,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-      String university, Long viewCount, Long popularity, Integer reportCount, Integer postPoint) {
+      String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;
@@ -118,7 +113,6 @@ public class Post {
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
-    this.postPoint = postPoint;
   }
 
   public void updateViewCount(Long viewCount) {
@@ -134,7 +128,6 @@ public class Post {
   public void updatePopularity(long likeCount, long postAge){
     long popularity = (likeCount + this.viewCount) / postAge;
     this.popularity = Long.valueOf(popularity);
-    System.out.println("popularity = " + popularity);
   }
 
 

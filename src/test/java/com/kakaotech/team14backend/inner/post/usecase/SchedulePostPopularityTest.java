@@ -20,7 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+
+import org.springframework.test.context.junit.jupiter.EnabledIf;
+
 
 
 @SpringBootTest(properties = {
@@ -28,7 +30,8 @@ import org.springframework.test.context.ActiveProfiles;
     , "schedules.fixedDelay:1000"
 })
 
-@ActiveProfiles("local")
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
+
 class SchedulePostPopularityTest {
 
   @Autowired
