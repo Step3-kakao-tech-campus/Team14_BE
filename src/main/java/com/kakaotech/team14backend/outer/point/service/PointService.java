@@ -19,11 +19,12 @@ public class PointService {
   private final UsePointUsecase usePointUsecase;
   private final FindMemberUsecase findMemberUsecase;
 
-  public void usePointByPopularPost(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
+  public String usePointByPopularPost(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
     Member member = findMemberUsecase.execute(memberId);
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
     usePointUsecase.execute(member,point);
+    return member.getInstaId();
   }
 
 }
