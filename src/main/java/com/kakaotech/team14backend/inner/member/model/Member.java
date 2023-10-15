@@ -68,7 +68,11 @@ public class Member {
 
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
   private List<PostLike> postLikeHistories = new ArrayList<>();
-
+  public void updateInstagram(Role newRole,String instaId) {
+    // 선택적: 유효성 검사를 수행하려면 여기에 코드 추가
+    this.instaId = instaId;
+    this.role = newRole;
+  }
   @Builder
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
     this.userName = userName;

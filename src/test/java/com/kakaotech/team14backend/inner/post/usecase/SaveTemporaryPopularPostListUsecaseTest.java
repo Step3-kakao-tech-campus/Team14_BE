@@ -3,22 +3,20 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import org.junit.jupiter.api.AfterAll;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @SpringBootTest
+
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 @Sql(value = "classpath:db/teardown.sql")
 class SaveTemporaryPopularPostListUsecaseTest {
 

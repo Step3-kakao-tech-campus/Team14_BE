@@ -86,6 +86,12 @@ public class PostService {
     return getPostResponseDTO;
   }
 
+  /*
+   * 게시물 좋아요를 설정한다.
+   * @param : 게시물 구분자, 유저 구분자
+   * @return : 게시물 좋아요 설정시 반환 값
+   * @see : setPostLikeUsecase는 게시물 좋아요를 설정하는 클래스
+   */
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
     SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
 
@@ -105,8 +111,10 @@ public class PostService {
    * @return : 인기 게시물들 응답
    */
 
-  public GetPopularPostListResponseDTO getPopularPostList(GetPopularPostListRequestDTO getPopularPostListRequestDTO){
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(getPopularPostListRequestDTO.levelSize());
+  public GetPopularPostListResponseDTO getPopularPostList(
+      GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
+    GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
+        getPopularPostListRequestDTO.levelSize());
     return getPopularPostListResponseDTO;
   }
 

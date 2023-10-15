@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.outer.post.mapper;
 
+import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
@@ -48,16 +49,20 @@ public class PostMapper {
 
       for (GetIncompletePopularPostDTO incompletePost : incompletePosts) {
         List<String> hashTags = splitHashtag(incompletePost.getHashTag());
-        int boardPoint = 0;
 
         GetPopularPostDTO popularPost = new GetPopularPostDTO(incompletePost.getPostId(),
-            incompletePost.getImageUri(), hashTags, incompletePost.getLikeCount(), boardPoint,
+            incompletePost.getImageUri(), hashTags, incompletePost.getLikeCount(),  getPostPoint(postLevel),
             incompletePost.getNickname(), postLevel);
         popularPosts.add(popularPost);
       }
     }
 
     return new GetPopularPostListResponseDTO(popularPosts);
+  }
+
+  private static Long getPostPoint(int postLevel) {
+    Long postPoint = UsePointDecider.decidePoint(postLevel);
+    return postPoint;
   }
 
   private static List<String> splitHashtag(String hashTag) {

@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.inner.point.usecase;
 import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.Point;
-import com.kakaotech.team14backend.inner.point.model.PointPolicy;
+import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,9 @@ public class UsePointUsecase {
   private final PointRepository pointRepository;
 
   @Transactional
-  public void execute(Member member, PointPolicy pointPolicy) {
+  public void execute(Member member, Long usePoint) {
     Point point = pointRepository.findById(member.getMemberId()).orElseThrow(() -> new Exception500("NOT FOUND USER"));
-    point.useUserPoint(member,pointPolicy.getPoint());
+    point.useUserPoint(usePoint);
   }
 
 }

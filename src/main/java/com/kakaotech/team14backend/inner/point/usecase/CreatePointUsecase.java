@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.inner.point.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.Point;
-import com.kakaotech.team14backend.inner.point.model.PointPolicy;
+import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class CreatePointUsecase {
 
   @Transactional
   public void execute(Member member) {
-    Point userPoint = Point.createUserPoint(member, PointPolicy.GET_100_WHEN_SIGN_UP.getPoint());
+    Point userPoint = Point.createUserPoint(member, GetPointPolicy.GET_100_WHEN_SIGN_UP.getPoint());
     pointRepository.save(userPoint);
   }
 
