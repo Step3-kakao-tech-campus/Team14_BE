@@ -252,6 +252,11 @@ public class PostControllerTest {
 
     ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
 
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("usePopularPost_Test : " + responseBody);
+
+
     resultActions.andExpect(status().is5xxServerError());
     resultActions.andExpect(jsonPath("$.success").value(false));
     resultActions.andExpect(jsonPath("$.response").doesNotExist());
@@ -275,6 +280,10 @@ public class PostControllerTest {
         .contentType(MediaType.APPLICATION_JSON);
 
     ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("usePopularPost_Test : " + responseBody);
 
     resultActions.andExpect(status().is4xxClientError());
     resultActions.andExpect(jsonPath("$.success").value(false));
