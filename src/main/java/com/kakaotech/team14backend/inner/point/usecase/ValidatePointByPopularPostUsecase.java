@@ -35,7 +35,7 @@ public class ValidatePointByPopularPostUsecase {
       }
     }
     if(!flag){
-      throw new Exception400("Invalid postId: " + usePointByPopularPostRequestDTO.postId());
+      throw new Exception400("해당 포스트는 인기 피드에 존재하지 않습니다.");
     }
 
   }
