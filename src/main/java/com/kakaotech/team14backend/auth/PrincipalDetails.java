@@ -79,5 +79,7 @@ public class PrincipalDetails implements UserDetails,OAuth2User {
         return member.getUserName();
     }
 
+    public String getKakaoId() {return member.getKakaoId();}
+
 
 }
