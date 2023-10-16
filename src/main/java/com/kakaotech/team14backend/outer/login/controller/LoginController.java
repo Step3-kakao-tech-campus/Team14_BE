@@ -8,6 +8,7 @@ import com.kakaotech.team14backend.outer.login.dto.GetKakaoCode;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.login.service.InstagramService;
 import com.kakaotech.team14backend.outer.login.service.LoginService;
+import com.kakaotech.team14backend.outer.login.service.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,9 @@ public class LoginController {
   private final String GRANT_TYPE = "authorization_code";
 
   private final LoginService loginService;
-  private final TokenService tokenService;
+  private final LogoutService logoutService;
   private final InstagramService instagramService;
+
 
   @GetMapping("/currentUser")
   @ResponseBody
@@ -49,7 +51,7 @@ public class LoginController {
   }
 
 
-  @GetMapping("/api/user/instagram")
+  @PostMapping("/api/user/instagram")
   @ResponseBody
   public ApiResponse<?> instagramConnect(HttpServletResponse response,@RequestBody GetInstagramCode instagramCode, Authentication authentication) {
     PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -61,6 +63,16 @@ public class LoginController {
 
     return apiResponse;
   }
+
+  @GetMapping("/api/logout")
+  @ResponseBody
+  public ApiResponse<?> logout(HttpServletRequest request,Authentication authentication){
+    PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+    String kakaoId = principalDetails.getKakaoId();
+    ApiResponse<?> apiResponse = logoutService.logout(request,kakaoId);
+    return apiResponse;
+  }
+
 
 
 }

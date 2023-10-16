@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -44,7 +45,6 @@ public class InstagramService {
   private final TokenService tokenService;
   private final RestTemplate restTemplate;
   public String getAccessToken(String code) {
-
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 // 요청 파라미터 설정
@@ -64,14 +64,14 @@ public class InstagramService {
     return accessToken;
   }
 
+  @Transactional
   public void getInstagramAndSetNewToken(String kakaoId, String accessToken) {
-
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;
     ResponseEntity<Map> userResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
     String instaId = (String) userResponse.getBody().get("username");
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
-    memberEntity.updateInstagram(Role.ROLE_BEGINNER, instaId);
+    memberEntity.updateInstagram(Role.ROLE_USER, instaId);
   }
 
   public ApiResponse<?> connectInstagramSuccessHandler(HttpServletResponse response,String kakaoId){

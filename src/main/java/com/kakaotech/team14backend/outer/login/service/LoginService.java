@@ -58,6 +58,7 @@ public class LoginService {
   private final RestTemplate restTemplate;
   public String getKaKaoAccessToken(String code){
     //TODO : POST방식으로 key=value 데이터를 요청(카카오로)
+    RestTemplate rt = new RestTemplate();
     //httpHeader 오브젝트 생성
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

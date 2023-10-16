@@ -36,6 +36,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
     String jwt = request.getHeader(TokenService.HEADER);
+    if (jwt == null) {
+      chain.doFilter(request, response);
+      return;
+    }
     try {
       DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
       String kakaoId = decodedJWT.getClaim("kakaoId").asString();
@@ -52,19 +56,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
           );
       SecurityContextHolder.getContext().setAuthentication(authentication);
       log.debug("디버그 : 인증 객체 만들어짐");
-    } catch (NullPointerException | SignatureVerificationException |
-             JWTDecodeException sve) {
+    } catch (SignatureVerificationException | JWTDecodeException e) {
       log.error("토큰 검증 실패");
     } catch (TokenExpiredException tee) {
       DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
       Instant expiredOn = decodedJWT.getExpiresAt().toInstant();
       log.error("토큰 만료기간 초과");
       throw new TokenExpiredException("토큰이 만료되었습니다.", expiredOn);
-//        } finally {
-//          chain.doFilter(request, response);
-
+    } finally {
+      chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
-    return;
   }
 }
