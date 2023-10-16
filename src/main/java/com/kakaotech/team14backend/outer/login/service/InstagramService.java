@@ -42,13 +42,11 @@ public class InstagramService {
 
   private final MemberRepository memberRepository;
   private final TokenService tokenService;
-
+  private final RestTemplate restTemplate;
   public String getAccessToken(String code) {
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-    RestTemplate restTemplate = new RestTemplate();
 // 요청 파라미터 설정
     MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
     map.add("client_id", CLIENT_ID);
@@ -67,8 +65,6 @@ public class InstagramService {
   }
 
   public void getInstagramAndSetNewToken(String kakaoId, String accessToken) {
-
-    RestTemplate restTemplate = new RestTemplate();
 
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;

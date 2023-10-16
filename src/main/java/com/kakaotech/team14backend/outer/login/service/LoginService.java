@@ -55,10 +55,10 @@ public class LoginService {
   private final MemberRepository memberRepository;
   private final MemberService memberService;
   private final TokenService tokenService;
+  private final RestTemplate restTemplate;
   public String getKaKaoAccessToken(String code){
     //TODO : POST방식으로 key=value 데이터를 요청(카카오로)
     //httpHeader 오브젝트 생성
-    RestTemplate rt = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -74,7 +74,7 @@ public class LoginService {
         new HttpEntity<>(params, headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = rt.exchange(
+    ResponseEntity<String> response = restTemplate.exchange(
         KAKAO_TOKEN_URI,
         HttpMethod.POST,
         kakaoTokenRequest,
@@ -92,7 +92,6 @@ public class LoginService {
   }
 
   public KakaoProfileDTO getKakaoUserInfo(String AccessToken) throws IOException {
-    RestTemplate rt = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization","Bearer "+ AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -101,7 +100,7 @@ public class LoginService {
         new HttpEntity<>(headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = rt.exchange(
+    ResponseEntity<String> response = restTemplate.exchange(
         KAKAO_USER_INFO_URI,
         HttpMethod.POST,
         kakaoProfileRequest,
