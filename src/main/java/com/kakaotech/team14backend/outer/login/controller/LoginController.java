@@ -51,7 +51,7 @@ public class LoginController {
   }
 
 
-  @GetMapping("/api/user/instagram")
+  @PostMapping("/api/user/instagram")
   @ResponseBody
   public ApiResponse<?> instagramConnect(HttpServletResponse response,@RequestBody GetInstagramCode instagramCode, Authentication authentication) {
     PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
