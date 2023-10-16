@@ -28,6 +28,8 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-data-redis')
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'com.h2database:h2'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
 	implementation 'mysql:mysql-connector-java:8.0.33'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
