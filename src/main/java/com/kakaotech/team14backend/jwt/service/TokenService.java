@@ -114,7 +114,7 @@ public class TokenService {
   }
 
 
-  public TokenDTO createOrUpdateToken(HttpServletResponse response,Member member){
+  public TokenDTO createOrUpdateToken(Member member){
     String rtkInRedis = Optional.ofNullable(refreshTokenRepository.deleteRefreshToken(member.getKakaoId()))
         .orElseThrow(() -> new TokenValidationException(MessageCode.INCORRECT_REFRESH_TOEKN));
     String accessToken = this.createToken(member);
