@@ -1,9 +1,12 @@
 package com.kakaotech.team14backend.inner.post.model;
 
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
+
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -20,10 +23,12 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter
+@Setter(PACKAGE)
 public class Post {
 
   // Primary Key
@@ -119,15 +124,20 @@ public class Post {
     this.viewCount = viewCount;
   }
 
-  public long measurePostAge() {
-    Instant now = Instant.now();
-    int time = now.compareTo(this.createdAt);
-    return  time < 5 ? 1 : time / 5;
+  public void updatePopularity(final Instant now){
+    this.popularity = calculatePopularity(now);
   }
 
-  public void updatePopularity(long likeCount, long postAge){
-    long popularity = (likeCount + this.viewCount) / postAge;
-    this.popularity = Long.valueOf(popularity);
+  long calculatePopularity(final Instant now) {
+    long postAge = calculatePostAge(now);
+    Long likeCount = postLikeCount.getLikeCount();
+    return (likeCount.longValue() + viewCount) / postAge;
+  }
+
+  long calculatePostAge(final Instant now){
+    Duration between = Duration.between(createdAt, now);
+    long minutes = between.toMinutes();
+    return minutes / 5 > 1 ? minutes / 5 : 1;
   }
 
 
