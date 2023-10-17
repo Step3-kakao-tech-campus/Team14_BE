@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,7 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
-
+@ActiveProfiles("local")
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 public class PostControllerTest {

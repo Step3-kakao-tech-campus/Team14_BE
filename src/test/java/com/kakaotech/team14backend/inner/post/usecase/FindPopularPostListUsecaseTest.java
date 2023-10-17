@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 @SpringBootTest
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
-
+@ActiveProfiles("local")
 @Sql("classpath:db/teardown.sql")
 class FindPopularPostListUsecaseTest {
 
