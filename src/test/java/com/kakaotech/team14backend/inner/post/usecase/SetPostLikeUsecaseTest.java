@@ -27,10 +27,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("local")
 public class SetPostLikeUsecaseTest {
 
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
