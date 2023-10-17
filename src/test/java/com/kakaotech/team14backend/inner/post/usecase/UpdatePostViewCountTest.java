@@ -57,7 +57,7 @@ class UpdatePostViewCountTest {
       redisTemplate.delete(key);
     }
 
-    Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
+    Member member = new Member("sonny", "sonny1234","asdf324","none", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
 
     Image image = new Image("/image/firstPhoto");
