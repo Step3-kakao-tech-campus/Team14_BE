@@ -1,12 +1,14 @@
+
 server:
   address: 0.0.0.0
   port: 8080
 spring:
   datasource:
-    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name:  org.mariadb.jdbc.Driver
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:3306/choockting
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: admin
+    password: admin
+
   redis:
     host: 127.0.0.1
     port: 6379
@@ -24,7 +26,6 @@ spring:
       data-locations: classpath:db/teardown.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
-
 #redis:
 #  cache:
 #    ttl:
