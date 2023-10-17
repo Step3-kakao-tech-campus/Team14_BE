@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://mariadb/krampoline?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mariadb://localhost:3306/krampoline?allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name:  org.mariadb.jdbc.Driver
     username: root
     password: root
@@ -36,29 +36,22 @@ schedules:
     initialDelay: 0
 
 common:
-  base-url: localhost:8080
-spring.security.oauth2.client.registration.kakao:
-  client-id: b51d037debb98e9ae02735887894b407
-  redirect-uri: ${common.base-url}/login/oauth2/code/kakao
-  authorization-grant-type: authorization_code
-  client-authentication-method: POST
-  client-name: Kakao
-  scope: profile_nickname
+  frontend-server: localhost:3000
 
-spring.security.oauth2.client.provider.kakao:
-  authorization-uri: https://kauth.kakao.com/oauth/authorize
-  token-uri: https://kauth.kakao.com/oauth/token
-  user-info-uri: https://kapi.kakao.com/v2/user/me
-  user-name-attribute: id
+oauth2:
+  kakao:
+    client-id: b51d037debb98e9ae02735887894b407
+    redirect-uri: ${common.frontend-server}/kakao/callback
+    token-uri: https://kauth.kakao.com/oauth/token
+    user-info-uri: https://kapi.kakao.com/v2/user/me
 
 
-instagram:
-  connect-url: https://api.instagram.com/oauth/authorize%20?client_id=2456565514525348%20&redirect_uri=${common.base-url}/api/callback&scope=user_profile,user_media%20&response_type=code
-  client-id: 2456565514525348
-  client-secret: 640ed809676cf7480c2a28b1995f498d
-  redirect-uri: ${common.base-url}/api/callback
-  token-url: https://api.instagram.com/oauth/access_token
-  user-info-url: https://graph.instagram.com/me?fields=id,username
+  instagram:
+    client-id: 2456565514525348
+    client-secret: 640ed809676cf7480c2a28b1995f498d
+    redirect-uri: ${common.frontend-server}/instagram/callback
+    token-url: https://api.instagram.com/oauth/access_token
+    user-info-url: https://graph.instagram.com/me?fields=id,username
 
 
 # (commented out) Header name and secret key for JWT authentication
