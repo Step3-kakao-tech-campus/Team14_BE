@@ -87,4 +87,12 @@ public class Member {
     this.userStatus = userStatus;
   }
 
+  public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+    this.userName = userName;
+    this.kakaoId = kakaoId;
+    this.instaId = instaId;
+    this.role = role;
+    this.totalLike = totalLike;
+    this.userStatus = userStatus;
+  }
 }

@@ -57,7 +57,7 @@ class SchedulePostPopularityTest {
 
   @BeforeEach
   void setUp() {
-    Member member = memberService.createMember("Sonny", "1234", "asdfc","none", Role.ROLE_USER, 12L,
+    Member member = new Member("Sonny", "1234", "asdfc", Role.ROLE_USER,12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");
