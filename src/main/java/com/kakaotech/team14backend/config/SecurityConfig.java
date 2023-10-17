@@ -40,21 +40,7 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-      if (authException.getCause() instanceof TokenExpiredException) {
-        try {
-          String refreshToken = CookieUtils.getCookieValue(request, "RefreshToken");
-          ReissueDTO reissueDTO = tokenService.reissueAccessToken(refreshToken);
-          response.setContentType("application/json");
-          // 새로운 액세스 토큰을 HTTP 헤더에 추가
-          response.addHeader("Authorization", reissueDTO.getAccessToken());
-        }catch(NullPointerException | TokenExpiredException e){
-          // 쿠키에 리프레시토큰이 없을 시 혹은 리프레시토큰 검증 실패 시 로그인필요 에러메세지 전달
-          FilterResponseUtils.unAuthorized(response);
-        }
-      } else {
         FilterResponseUtils.unAuthorized(response);
-      }
-
     });
 
 

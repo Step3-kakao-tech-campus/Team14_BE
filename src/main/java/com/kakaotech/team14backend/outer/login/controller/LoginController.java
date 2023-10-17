@@ -64,7 +64,7 @@ public class LoginController {
     return apiResponse;
   }
 
-  @GetMapping("/api/logout")
+  @GetMapping("/api/user/logout")
   @ResponseBody
   public ApiResponse<?> logout(HttpServletRequest request,Authentication authentication){
     PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();

@@ -59,10 +59,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     } catch (SignatureVerificationException | JWTDecodeException e) {
       log.error("토큰 검증 실패");
     } catch (TokenExpiredException tee) {
-      DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
-      Instant expiredOn = decodedJWT.getExpiresAt().toInstant();
       log.error("토큰 만료기간 초과");
-      throw new TokenExpiredException("토큰이 만료되었습니다.", expiredOn);
     } finally {
       chain.doFilter(request, response);
     }
