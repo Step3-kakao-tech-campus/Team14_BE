@@ -45,6 +45,7 @@ public class InstagramService {
   private final TokenService tokenService;
   private final RestTemplate restTemplate;
   public String getAccessToken(String code) {
+    RestTemplate rt = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 // 요청 파라미터 설정
@@ -58,7 +59,7 @@ public class InstagramService {
     // Instagram API 호출
     String accessTokenRequestUrl = TOKEN_URL;
     HttpEntity<MultiValueMap<String, String>> requestMap = new HttpEntity<>(map, headers);
-    ResponseEntity<Map> responseEntity = restTemplate.postForEntity(accessTokenRequestUrl, requestMap, Map.class);
+    ResponseEntity<Map> responseEntity = rt.postForEntity(accessTokenRequestUrl, requestMap, Map.class);
     // 응답 받은 JSON 데이터 반환
     String accessToken = (String) responseEntity.getBody().get("access_token");
     return accessToken;
@@ -66,9 +67,10 @@ public class InstagramService {
 
   @Transactional
   public void getInstagramAndSetNewToken(String kakaoId, String accessToken) {
+    RestTemplate rt = new RestTemplate();
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;
-    ResponseEntity<Map> userResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
+    ResponseEntity<Map> userResponse = rt.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
     String instaId = (String) userResponse.getBody().get("username");
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
     memberEntity.updateInstagram(Role.ROLE_USER, instaId);

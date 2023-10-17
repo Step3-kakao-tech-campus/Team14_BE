@@ -45,6 +45,9 @@ public class Member {
   @Column(nullable = false, length = 50)
   private String instaId; // 인스타그램 아이디
 
+  @Column(nullable = false)
+  private String profileImageUrl;
+
   @Column(nullable = false, length = 50)
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -74,10 +77,11 @@ public class Member {
     this.role = newRole;
   }
   @Builder
-  public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+  public Member(String userName, String kakaoId, String instaId,String profileImageUrl, Role role, Long totalLike, Status userStatus) {
     this.userName = userName;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
+    this.profileImageUrl = profileImageUrl;
     this.role = role;
     this.totalLike = totalLike;
     this.userStatus = userStatus;
