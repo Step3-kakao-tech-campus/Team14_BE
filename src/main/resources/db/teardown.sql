@@ -7,11 +7,11 @@ TRUNCATE TABLE point;
 SET foreign_key_checks=1;
 
 -- Member Table
-INSERT INTO member (created_at, insta_id, kakao_id, total_like, updated_at, user_name, user_status,
+INSERT INTO member (created_at, insta_id, kakao_id,profile_image_url, total_like, updated_at, user_name, user_status,
                     role)
-VALUES (NOW(), 'insta1', 'kakao1', 10, NOW(), 'user1', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
-       (NOW(), 'insta2', 'kakao2', 20, NOW(), 'user2', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
-       (NOW(), 'insta3', 'kakao3', 30, NOW(), 'user3', 'STATUS_DORMANT', 'ROLE_BEGINNER');
+VALUES (NOW(), 'insta1', 'kakao1','http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 10, NOW(), 'user1', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
+       (NOW(), 'insta2', 'kakao2','http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 20, NOW(), 'user2', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
+       (NOW(), 'insta3', 'kakao3','http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 30, NOW(), 'user3', 'STATUS_DORMANT', 'ROLE_BEGINNER');
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
