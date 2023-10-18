@@ -3,6 +3,7 @@ package com.kakaotech.team14backend.auth;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @Data
+@Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
   private Member member;
