@@ -19,7 +19,7 @@ spec:
         - name: mariadb
           # 여러분의 디비 이미지 주소
 
-          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_39b747045e51:latest
+          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_39b747045e51
           env:
             - name: TZ
               value: Asia/Seoul
