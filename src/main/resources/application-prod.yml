@@ -3,7 +3,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/krampoline?allowPublicKeyRetrieval=true&useSSL=false
+    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name:  org.mariadb.jdbc.Driver
     username: root
     password: root
