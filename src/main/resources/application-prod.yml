@@ -1,5 +1,8 @@
 server:
-  address: 0.0.0.0
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
   port: 8080
 spring:
   datasource:
@@ -13,9 +16,13 @@ spring:
     timeout: 3000
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate # (commented out) When set to 'create', the database schema is created every time the application starts.
     show-sql: true
-    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+      default_batch_fetch_size: 100
+      open-in-view: false
   h2:
     console:
       enabled: true
