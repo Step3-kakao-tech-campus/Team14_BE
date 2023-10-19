@@ -16,17 +16,15 @@ public class WebConfig implements WebMvcConfigurer {
     ;
   }
 
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-        // 메서드 허용
-        .allowedMethods(
-            HttpMethod.POST.name(), HttpMethod.GET.name(),
-            HttpMethod.PUT.name(), HttpMethod.DELETE.name(),
-            HttpMethod.OPTIONS.name()
-        )
-        .allowedHeaders("Authorization")
-        .exposedHeaders("Authorization")
-        .allowedOrigins("http://localhost:3000", "https://k576830a43f26a.user-app.krampoline.com");
-  }
+
+//  @Override
+//  public void addCorsMappings(CorsRegistry registry) {
+//    registry.addMapping("/**")
+//        .allowedOrigins("*")  // 모든 origin 허용
+//        .allowedMethods("*")  // 모든 HTTP 메서드 허용
+//        .allowedHeaders("*")  // 모든 헤더 허용
+//        .allowCredentials(true)
+//        .maxAge(3600);
+//
+//  }
 }
