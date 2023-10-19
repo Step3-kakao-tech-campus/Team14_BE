@@ -50,8 +50,8 @@ public class SecurityConfig {
     });
 //
     http.apply(new CustomSecurityFilterManager());
-    http.cors().configurationSource(configurationSource());
     http.cors();
+    http.cors().configurationSource(configurationSource());
     http.headers().frameOptions().disable();
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
