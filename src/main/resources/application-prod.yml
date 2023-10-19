@@ -7,11 +7,11 @@ server:
 spring:
   datasource:
     url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name:  org.mariadb.jdbc.Driver
+    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: root
   redis:
-    host: 127.0.0.1
+    host: redis-service
     port: 6379
     timeout: 3000
   jpa:
