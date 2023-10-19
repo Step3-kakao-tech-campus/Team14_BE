@@ -1,21 +1,14 @@
 package com.kakaotech.team14backend.config;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.common.ApiResponse;
-import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.CookieUtils;
-import com.kakaotech.team14backend.exception.Exception401;
-import com.kakaotech.team14backend.exception.TokenValidationException;
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
 import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
-import com.kakaotech.team14backend.outer.login.service.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,8 +25,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final PrincipalOauth2UserService principalOauth2UserService;
-  private final AuthenticationSuccessHandler authenticationSuccessHandler;
   private final TokenService tokenService;
 
   public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
@@ -49,21 +40,7 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-      if (authException.getCause() instanceof TokenExpiredException) {
-        try {
-          String refreshToken = CookieUtils.getCookieValue(request, "RefreshToken");
-          ReissueDTO reissueDTO = tokenService.reissueAccessToken(refreshToken);
-          response.setContentType("application/json");
-          // 새로운 액세스 토큰을 HTTP 헤더에 추가
-          response.addHeader("Authorization", reissueDTO.getAccessToken());
-        }catch(NullPointerException | TokenExpiredException e){
-          // 쿠키에 리프레시토큰이 없을 시 혹은 리프레시토큰 검증 실패 시 로그인필요 에러메세지 전달
-          FilterResponseUtils.unAuthorized(response);
-        }
-      } else {
         FilterResponseUtils.unAuthorized(response);
-      }
-
     });
 
 
@@ -82,16 +59,12 @@ public class SecurityConfig {
         .antMatchers("/api/user/**", "/api/board/*/like", "/api/kakao").authenticated()
         .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')") //인스타그램 연동X "ROLE_BEGINNER"
         .antMatchers("/api/board/point").access("hasRole('ROLE_USER')") //인스타그램 연동시 "ROLE_USER"
-        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/post", "api/popluar-post").permitAll()
-        .and()
-        .oauth2Login()
-        .successHandler(authenticationSuccessHandler)
-        .userInfoEndpoint()
-        .userService(principalOauth2UserService);
+        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/post", "api/popluar-post").permitAll();
     return http.build();
   }
 
 
+  @Bean
   public CorsConfigurationSource configurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.addAllowedHeader("*");

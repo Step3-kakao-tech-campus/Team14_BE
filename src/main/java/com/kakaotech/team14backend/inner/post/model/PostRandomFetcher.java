@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Component
 public class PostRandomFetcher {
-  private static final Random RANDOM = new Random();
+  private static final ThreadLocalRandom random = ThreadLocalRandom.current();
+
 
   public Map<Integer, List<Integer>> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts) {
     Map<Integer, List<Integer>> result = new HashMap<>();
@@ -54,7 +55,7 @@ public class PostRandomFetcher {
     Set<Integer> randomIndexesSet = new HashSet<>();
 
     while (randomIndexesSet.size() < count) {
-      int randomIndex = start + RANDOM.nextInt(end - start + 1);
+      int randomIndex = start + random.nextInt(end - start + 1);
       randomIndexesSet.add(randomIndex);
     }
 

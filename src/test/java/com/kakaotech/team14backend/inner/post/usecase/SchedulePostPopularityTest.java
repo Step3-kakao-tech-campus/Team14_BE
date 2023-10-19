@@ -20,14 +20,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import org.springframework.test.context.junit.jupiter.EnabledIf;
+
 
 
 @SpringBootTest(properties = {
     "schedules.initialDelay:1000"
     , "schedules.fixedDelay:1000"
 })
+
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
+
 class SchedulePostPopularityTest {
 
   @Autowired
@@ -53,7 +57,7 @@ class SchedulePostPopularityTest {
 
   @BeforeEach
   void setUp() {
-    Member member = memberService.createMember("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
+    Member member = new Member("Sonny", "1234", "asdfc", Role.ROLE_USER,12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");

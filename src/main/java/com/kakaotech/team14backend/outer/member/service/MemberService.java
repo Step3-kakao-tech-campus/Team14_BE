@@ -18,13 +18,14 @@ public class MemberService {
   //private final CreateMemberUsecase createMemberUsecase;
   private final MemberRepository memberRepository; // 추후 Usecase 로 변경
 
-  public static Member createMember(String userName, String kakaoId, String instaId, Role role,
+  public static Member createMember(String userName, String kakaoId, String instaId,String profileImageUrl, Role role,
       Long totalLike, Status userStatus) {
     return Member.builder()
         .userName(userName)
         .kakaoId(kakaoId)
         .instaId(instaId)
         .role(role)
+        .profileImageUrl(profileImageUrl)
         .totalLike(totalLike)
         .userStatus(userStatus)
         .build();
