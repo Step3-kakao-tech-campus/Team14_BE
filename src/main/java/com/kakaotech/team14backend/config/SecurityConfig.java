@@ -69,7 +69,8 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.addAllowedHeader("*");
     configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
-    configuration.addAllowedOrigin("http://localhost:3000"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
+    configuration.addAllowedOrigin("http://localhost:3000");
+    configuration.addAllowedOrigin("https://k576830a43f26a.user-app.krampoline.com");
     configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
     configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
