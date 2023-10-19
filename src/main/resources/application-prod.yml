@@ -16,7 +16,7 @@ spring:
     timeout: 3000
   jpa:
     hibernate:
-      ddl-auto: validate # (commented out) When set to 'create', the database schema is created every time the application starts.
+      ddl-auto: update # (commented out) When set to 'create', the database schema is created every time the application starts.
     show-sql: true
     properties:
       hibernate:
