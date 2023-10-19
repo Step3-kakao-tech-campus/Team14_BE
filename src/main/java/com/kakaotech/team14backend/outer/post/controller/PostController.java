@@ -3,7 +3,9 @@ package com.kakaotech.team14backend.outer.post.controller;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.Exception400;
+import com.kakaotech.team14backend.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
@@ -100,7 +102,7 @@ public class PostController {
       @RequestParam Integer level1, @RequestParam Integer level2, @RequestParam Integer level3) {
 
     if (level1 >= 20 | level2 >= 20 | level3 >= 20) {
-      throw new Exception400("Level size must be smaller than 20");
+      throw new MaxLevelSizeException(MessageCode.LEVEL_SIZE_SMALLER_THAN_20);
     }
 
     Map<Integer, Integer> levelSize = new HashMap<>();
