@@ -70,7 +70,8 @@ public class SecurityConfig {
     configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE")); // 특정 HTTP 메서드 허용
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-    
+
+    // 여기에 중요한 부분이 추가됩니다.
     configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
