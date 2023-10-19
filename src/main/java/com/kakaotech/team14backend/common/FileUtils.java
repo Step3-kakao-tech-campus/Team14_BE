@@ -27,18 +27,6 @@ public class FileUtils {
     return fileDir + filename;
   }
 
-  public List<UploadFileDTO> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-    List<UploadFileDTO> storeFileResult = new ArrayList<>();
-    for (MultipartFile multipartFile : multipartFiles) {
-      if (!multipartFile.isEmpty()) {
-        storeFileResult.add(storeFile(multipartFile));
-      } else {
-        throw new FileNotFoundException();
-      }
-    }
-    return storeFileResult;
-  }
-
   public UploadFileDTO storeFile(MultipartFile multipartFile)
       throws IOException, IllegalStateException {
     if (multipartFile.isEmpty()) {
@@ -68,16 +56,5 @@ public class FileUtils {
     return ext;
   }
 
-  public MediaType toMediaType(String ext) {
-    MediaType mediaType = MediaType.ALL;
-    if (ext.equals("jpg") || ext.equals("jpeg")) {
-      mediaType = MediaType.IMAGE_JPEG;
-    } else if (ext.equals("png")) {
-      mediaType = MediaType.IMAGE_PNG;
-    } else if (ext.equals("pdf")) {
-      mediaType = MediaType.APPLICATION_PDF;
-    }
-    return mediaType;
-  }
 
 }
