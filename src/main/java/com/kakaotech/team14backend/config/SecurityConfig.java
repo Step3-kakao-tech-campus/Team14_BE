@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.config;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.kakaotech.team14backend.common.CookieUtils;
+import com.kakaotech.team14backend.filter.CorsFilter;
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
 import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
@@ -21,9 +22,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -54,9 +55,9 @@ public class SecurityConfig {
       FilterResponseUtils.forbidden(response,isRoleNotUser);
     });
 //
+    http.cors()
+        .configurationSource(corsConfigurationSource());
     http.apply(new CustomSecurityFilterManager());
-    http.cors();
-    http.cors().configurationSource(configurationSource());
     http.headers().frameOptions().disable();
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -70,35 +71,18 @@ public class SecurityConfig {
 
 
   @Bean
-  public CorsConfigurationSource configurationSource() {
+  public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    // 쿠키 사용 허용
+    configuration.setAllowedOrigins(Collections.singletonList("*")); // 모든 도메인 허용
+    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE")); // 특정 HTTP 메서드 허용
     configuration.setAllowCredentials(true);
-    configuration.setAllowedOrigins(
-        Arrays.asList("http://localhost:3000", "https://k576830a43f26a.user-app.krampoline.com")
-    );
-    // 메서드 허용
-    configuration.setAllowedMethods(
-        Arrays.asList(HttpMethod.POST.name(), HttpMethod.GET.name(),
-            HttpMethod.PUT.name(), HttpMethod.DELETE.name(),
-            HttpMethod.OPTIONS.name())
-    );
-    // 요청헤더 허용
-    configuration.setAllowedHeaders(
-        Arrays.asList("Authorization")
-        );
-    // 응답 헤더 허용
-    configuration.setExposedHeaders(
-        Arrays.asList("Content-Type")
-        );
+    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 
-    UrlBasedCorsConfigurationSource source
-        = new UrlBasedCorsConfigurationSource();
+    // 여기에 중요한 부분이 추가됩니다.
+    configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
-
-    FilterRegistrationBean bean
-        = new FilterRegistrationBean(new CorsFilter(source));
-    bean.setOrder(0);
     return source;
   }
 
