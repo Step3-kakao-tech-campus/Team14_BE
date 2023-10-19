@@ -29,5 +29,5 @@ public class WebConfig implements WebMvcConfigurer {
         .exposedHeaders("Authorization")
         .allowedOrigins("http://localhost:3000", "https://k576830a43f26a.user-app.krampoline.com");
   }
-  }
+  
 }
