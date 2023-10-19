@@ -1,24 +1,17 @@
 package com.kakaotech.team14backend.config;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.kakaotech.team14backend.common.CookieUtils;
-import com.kakaotech.team14backend.filter.CorsFilter;
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
-import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -73,12 +66,11 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Collections.singletonList("*")); // 모든 도메인 허용
+    configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 도메인 허용
     configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE")); // 특정 HTTP 메서드 허용
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-
-    // 여기에 중요한 부분이 추가됩니다.
+    
     configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
