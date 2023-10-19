@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.config;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.kakaotech.team14backend.common.CookieUtils;
+import com.kakaotech.team14backend.filter.CorsFilter;
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
 import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
@@ -21,7 +22,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -36,6 +36,7 @@ public class SecurityConfig {
     @Override
     public void configure(HttpSecurity builder) throws Exception {
       AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+      builder.addFilter(new CorsFilter());
       builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
       super.configure(builder);
     }
@@ -55,8 +56,8 @@ public class SecurityConfig {
     });
 //
     http.apply(new CustomSecurityFilterManager());
-    http.cors();
-    http.cors().configurationSource(configurationSource());
+    http.cors()
+        .configurationSource(corsConfigurationSource());
     http.headers().frameOptions().disable();
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -70,35 +71,16 @@ public class SecurityConfig {
 
 
   @Bean
-  public CorsConfigurationSource configurationSource() {
+  CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    // 쿠키 사용 허용
+
+    configuration.addAllowedOrigin("*");
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
     configuration.setAllowCredentials(true);
-    configuration.setAllowedOrigins(
-        Arrays.asList("http://localhost:3000", "https://k576830a43f26a.user-app.krampoline.com")
-    );
-    // 메서드 허용
-    configuration.setAllowedMethods(
-        Arrays.asList(HttpMethod.POST.name(), HttpMethod.GET.name(),
-            HttpMethod.PUT.name(), HttpMethod.DELETE.name(),
-            HttpMethod.OPTIONS.name())
-    );
-    // 요청헤더 허용
-    configuration.setAllowedHeaders(
-        Arrays.asList("Authorization")
-        );
-    // 응답 헤더 허용
-    configuration.setExposedHeaders(
-        Arrays.asList("Content-Type")
-        );
 
-    UrlBasedCorsConfigurationSource source
-        = new UrlBasedCorsConfigurationSource();
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
-
-    FilterRegistrationBean bean
-        = new FilterRegistrationBean(new CorsFilter(source));
-    bean.setOrder(0);
     return source;
   }
 
