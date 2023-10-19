@@ -36,7 +36,6 @@ public class SecurityConfig {
     @Override
     public void configure(HttpSecurity builder) throws Exception {
       AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-      builder.addFilter(new CorsFilter());
       builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
       super.configure(builder);
     }
@@ -55,9 +54,9 @@ public class SecurityConfig {
       FilterResponseUtils.forbidden(response,isRoleNotUser);
     });
 //
-    http.apply(new CustomSecurityFilterManager());
     http.cors()
         .configurationSource(corsConfigurationSource());
+    http.apply(new CustomSecurityFilterManager());
     http.headers().frameOptions().disable();
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -71,16 +70,14 @@ public class SecurityConfig {
 
 
   @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-
-    configuration.addAllowedOrigin("*");
-    configuration.addAllowedHeader("*");
-    configuration.addAllowedMethod("*");
-    configuration.setAllowCredentials(true);
-
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
+  public CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.addAllowedOrigin("*");
+    config.addAllowedHeader("*");
+    config.addAllowedMethod("*");
+    source.registerCorsConfiguration("/**", config);
     return source;
   }
 
