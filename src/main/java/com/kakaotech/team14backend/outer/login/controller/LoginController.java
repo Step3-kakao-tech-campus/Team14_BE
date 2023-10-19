@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.outer.login.controller;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
+import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.GetInstagramCode;
 import com.kakaotech.team14backend.outer.login.dto.GetKakaoCode;
@@ -11,6 +12,7 @@ import com.kakaotech.team14backend.outer.login.service.LoginService;
 import com.kakaotech.team14backend.outer.login.service.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,9 +35,9 @@ public class LoginController {
 
   @GetMapping("/currentUser")
   @ResponseBody
-  public String getCurrentUser(Authentication authentication) {
-    PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-    return "Currently authenticated user: " + userDetails.getKakaoId();
+  public String getCurrentUser(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    Member member = principalDetails.getMember();
+    return "Currently authenticated user: " + member.toString();
   }
 
   @PostMapping("/api/login")
@@ -53,9 +55,8 @@ public class LoginController {
 
   @PostMapping("/api/user/instagram")
   @ResponseBody
-  public ApiResponse<?> instagramConnect(HttpServletResponse response,@RequestBody GetInstagramCode instagramCode, Authentication authentication) {
-    PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-    String kakaoId = userDetails.getKakaoId();
+  public ApiResponse<?> instagramConnect(HttpServletResponse response,@RequestBody GetInstagramCode instagramCode, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    String kakaoId = principalDetails.getKakaoId();
     String InstagramAccessToken = instagramService.getAccessToken(instagramCode.getCode());
     instagramService.getInstagramAndSetNewToken(kakaoId,InstagramAccessToken);
 
@@ -66,8 +67,7 @@ public class LoginController {
 
   @GetMapping("/api/user/logout")
   @ResponseBody
-  public ApiResponse<?> logout(HttpServletRequest request,Authentication authentication){
-    PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+  public ApiResponse<?> logout(HttpServletRequest request,@AuthenticationPrincipal PrincipalDetails principalDetails){
     String kakaoId = principalDetails.getKakaoId();
     ApiResponse<?> apiResponse = logoutService.logout(request,kakaoId);
     return apiResponse;
