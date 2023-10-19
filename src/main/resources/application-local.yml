@@ -39,12 +39,12 @@ schedules:
     initialDelay: 0
 
 common:
-  frontend-server: http://localhost:3000
+  frontend-server: https://k576830a43f26a.user-app.krampoline.com
 
 oauth2:
   kakao:
     client-id: b51d037debb98e9ae02735887894b407
-    redirect-uri: ${common.frontend-server}/kakao/callback
+    redirect-uri: http://localhost:3000/kakao/callback
     token-uri: https://kauth.kakao.com/oauth/token
     user-info-uri: https://kapi.kakao.com/v2/user/me
 
