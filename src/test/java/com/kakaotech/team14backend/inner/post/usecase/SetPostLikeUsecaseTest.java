@@ -57,7 +57,7 @@ public class SetPostLikeUsecaseTest {
     Long memberId = 1L;
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
 
-    Member member = new Member("sonny", "sonny1234", "asdf324","none", Role.ROLE_BEGINNER, 0L,
+    Member member = new Member(memberId,"sonny", "sonny1234", "asdf324","none", Role.ROLE_BEGINNER, 0L,
         Status.STATUS_ACTIVE);
 
     Image image = new Image("/image/firstPhoto");
