@@ -43,9 +43,7 @@ public class LoginController {
   @PostMapping("/api/login")
   @ResponseBody
   public ApiResponse<?> kakaoLogin(HttpServletResponse response, @RequestBody GetKakaoCode kakaoCode) throws IOException {
-    System.out.println(kakaoCode.getCode());
     String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
-    System.out.println(kakaoAccessToken);
     KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
     loginService.createOrLoginMember(kakaoProfileDTO);
     ApiResponse<?> apiResponse = loginService.AuthenticationSuccessHandelr(response,kakaoProfileDTO);
@@ -59,9 +57,7 @@ public class LoginController {
     String kakaoId = principalDetails.getKakaoId();
     String InstagramAccessToken = instagramService.getAccessToken(instagramCode.getCode());
     instagramService.getInstagramAndSetNewToken(kakaoId,InstagramAccessToken);
-
     ApiResponse<?> apiResponse = instagramService.connectInstagramSuccessHandler(response,kakaoId);
-
     return apiResponse;
   }
 

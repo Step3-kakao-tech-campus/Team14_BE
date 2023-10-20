@@ -11,6 +11,7 @@ import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,6 +20,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Map;
 
 @Service
@@ -43,8 +46,14 @@ public class InstagramService {
 
   private final MemberRepository memberRepository;
   private final TokenService tokenService;
-  private final RestTemplate restTemplate;
+
+  //krmp-proxy.9rum.cc", 3128
   public String getAccessToken(String code) {
+    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+    requestFactory.setProxy(proxy);
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
+
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 // 요청 파라미터 설정
@@ -66,6 +75,11 @@ public class InstagramService {
 
   @Transactional
   public void getInstagramAndSetNewToken(String kakaoId, String accessToken) {
+    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+    requestFactory.setProxy(proxy);
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
+
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;
     ResponseEntity<Map> userResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
@@ -77,8 +91,6 @@ public class InstagramService {
   public ApiResponse<?> connectInstagramSuccessHandler(HttpServletResponse response,String kakaoId){
     Member member = memberRepository.findByKakaoId(kakaoId);
     TokenDTO tokenDTO = tokenService.createOrUpdateToken(member);
-//    ApiResponse<?> apiResponse = new ApiResponse<>(new ApiResponse.CustomBody(true,"accessToken:" + jwt,null), HttpStatus.OK);
-
     response.setContentType("application/json");
     // 토큰을 HTTP 헤더에 추가
     response.addHeader("Authorization", tokenDTO.getAccessToken());
