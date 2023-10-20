@@ -66,8 +66,8 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 도메인 허용
-    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE")); // 특정 HTTP 메서드 허용
+    configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 

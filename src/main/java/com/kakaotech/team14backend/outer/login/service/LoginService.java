@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +35,8 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 @Service
 @RequiredArgsConstructor
@@ -55,14 +58,15 @@ public class LoginService {
   private final MemberRepository memberRepository;
   private final MemberService memberService;
   private final TokenService tokenService;
-  private final RestTemplate restTemplate;
   public String getKaKaoAccessToken(String code){
-    //TODO : POST방식으로 key=value 데이터를 요청(카카오로)
-    //httpHeader 오브젝트 생성
+    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+    requestFactory.setProxy(proxy);
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
+
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-    //전송할 http 바디의 데이터형태를 전달
     //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("grant_type", "authorization_code");
@@ -93,6 +97,12 @@ public class LoginService {
 
   public KakaoProfileDTO getKakaoUserInfo(String AccessToken) throws IOException {
     HttpHeaders headers = new HttpHeaders();
+
+    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+    requestFactory.setProxy(proxy);
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
+
     headers.add("Authorization","Bearer "+ AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -106,7 +116,7 @@ public class LoginService {
         kakaoProfileRequest,
         String.class
     );
-    System.out.println(response.getBody());
+
     ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
     KakaoProfileDTO kakaoProfileDTO = null;
     try {
@@ -129,10 +139,8 @@ public class LoginService {
       memberRepository.save(memberEntity);
     }
 
-    // memberEntity를 기반으로 PrincipalDetails 객체 생성
     PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
 
-    // 인증 객체를 생성하고 인증 세션에 저장
     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
     return authentication;
@@ -142,14 +150,10 @@ public class LoginService {
     String kakaoId = kakaoProfileDTO.getId();
     Member member = memberRepository.findByKakaoId(kakaoId);
     TokenDTO tokenDTO = tokenService.createOrUpdateToken(member);
-//    ApiResponse<?> apiResponse = new ApiResponse<>(new ApiResponse.CustomBody(true,"accessToken:" + jwt,null), HttpStatus.OK);
-
 
     response.setContentType("application/json");
     // 토큰을 HTTP 헤더에 추가
     response.addHeader("Authorization", tokenDTO.getAccessToken());
-
-
 
     // 리프레시토큰을 쿠키에 저장한다.
     String refreshTokenCookieName = "RefreshToken";
