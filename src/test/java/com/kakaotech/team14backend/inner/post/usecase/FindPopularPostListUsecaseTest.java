@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 
@@ -22,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 
-@Sql("classpath:db/teardown.sql")
+@Sql("classpath:db/TestSetup.sql.sql")
 class FindPopularPostListUsecaseTest {
 
   @Autowired
