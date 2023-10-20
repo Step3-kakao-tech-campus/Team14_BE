@@ -77,7 +77,8 @@ public class Member {
     this.role = newRole;
   }
   @Builder
-  public Member(String userName, String kakaoId, String instaId,String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+  public Member(Long memberId,String userName, String kakaoId, String instaId,String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+    this.memberId = memberId;
     this.userName = userName;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
@@ -85,6 +86,20 @@ public class Member {
     this.role = role;
     this.totalLike = totalLike;
     this.userStatus = userStatus;
+  }
+
+
+  @Override
+  public String toString() {
+    return "Member{" +
+        "memberId=" + memberId +
+        ", posts=" + posts +
+        ", userName='" + userName + '\'' +
+        ", kakaoId='" + kakaoId + '\'' +
+        ", instaId='" + instaId + '\'' +
+        ", profileImageUrl='" + profileImageUrl + '\'' +
+        ", role=" + role +
+        '}';
   }
 
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
