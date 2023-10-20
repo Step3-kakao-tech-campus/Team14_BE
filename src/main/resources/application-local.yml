@@ -1,0 +1,72 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:Chookting;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: admin
+    password: admin
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3000
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      data-locations: classpath:db/teardown.sql
+      # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
+      # mode: always
+
+#redis:
+#  cache:
+#    ttl:
+#      viewCnt: 600000
+#      popularPost: 3600000
+
+schedules:
+  fixedDelay: 600000
+  initialDelay: 600000
+  popularPost:
+    fixedDelay: 36000000
+    initialDelay: 0
+
+common:
+  base-url: localhost:8080
+spring.security.oauth2.client.registration.kakao:
+  client-id: b51d037debb98e9ae02735887894b407
+  redirect-uri: ${common.base-url}/login/oauth2/code/kakao
+  authorization-grant-type: authorization_code
+  client-authentication-method: POST
+  client-name: Kakao
+  scope: profile_nickname
+
+spring.security.oauth2.client.provider.kakao:
+  authorization-uri: https://kauth.kakao.com/oauth/authorize
+  token-uri: https://kauth.kakao.com/oauth/token
+  user-info-uri: https://kapi.kakao.com/v2/user/me
+  user-name-attribute: id
+
+
+instagram:
+  connect-url: https://api.instagram.com/oauth/authorize%20?client_id=2456565514525348%20&redirect_uri=${common.base-url}/api/callback&scope=user_profile,user_media%20&response_type=code
+  client-id: 2456565514525348
+  client-secret: 640ed809676cf7480c2a28b1995f498d
+  redirect-uri: ${common.base-url}/api/callback
+  token-url: https://api.instagram.com/oauth/access_token
+  user-info-url: https://graph.instagram.com/me?fields=id,username
+
+
+# (commented out) Header name and secret key for JWT authentication
+jwt:
+  header: Authorization
+  secret: 4oCYbGVhLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtbmZ0LXNwcmluZy1ib290LWp3dC10dXRvcmlhbOKAmQo=
+  token-validity-in-seconds-accessToken: 86400
+  token-validity-in-seconds-refreshToken: 86400
+
+# Configuration related to matching strategy, required for SpringBoot 2.6 and springfox-swagger3.0
+spring.mvc.pathmatch.matching-strategy: ant_path_matcher

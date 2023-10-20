@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import static org.awaitility.Awaitility.await;
-
+import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -10,13 +9,10 @@ import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import java.time.Duration;
-import java.util.concurrent.Callable;
-
 import com.kakaotech.team14backend.outer.post.schedule.SchedulePostViewCount;
+import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,18 +20,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 
-@SpringBootTest(properties = {
-    "schedules.initialDelay:1000"
-    ,"schedules.fixedDelay:1000"
-})
-class SchedulePostViewCountTest {
+@SpringBootTest
+@EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
+class UpdatePostViewCountTest {
 
   @Autowired
   private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
 
   @Autowired
-  private SchedulePostViewCount schedulePostViewCount;
+  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
+
 
   @Autowired
   private PostRepository postRepository;
@@ -47,16 +43,19 @@ class SchedulePostViewCountTest {
   private ImageRepository imageRepository;
 
   @Autowired
-  private PostLikeCountRepository postLikeRepository;
+  private RedisTemplate redisTemplate;
 
   @Autowired
-  private RedisTemplate redisTemplate;
+  private SchedulePostViewCount schedulePostViewCount;
 
 
   @BeforeEach
   void setup(){
 
-    redisTemplate.delete("viewCnt");
+    Set keys = redisTemplate.keys(RedisKey.VIEW_COUNT_PREFIX + "*");
+    for (Object key : keys){
+      redisTemplate.delete(key);
+    }
 
     Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
     memberRepository.save(member);
@@ -71,29 +70,22 @@ class SchedulePostViewCountTest {
 
   }
 
-  @DisplayName("1번 게시물을 각각 1번과 2번 유저가 조회한 상황에서 레디스에 저장되어있는 게시글 당 조회수를 스케줄링을 사용하여 MySQL에 업데이트")
+  @DisplayName("게시물의 조회수 update 테스트")
   @Test
   void execute() {
 
-    Callable<Boolean> viewCount = (Callable<Boolean>) () -> {
+    GetPostDTO getPostDTO = new GetPostDTO(1L, 1L);
+    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
 
-      GetPostDTO getPostDTO = new GetPostDTO(1L,1L);
-      saveTemporaryPostViewCountUsecase.execute(getPostDTO);
+    GetPostDTO getPostDTO1 = new GetPostDTO(1L, 2L);
+    saveTemporaryPostViewCountUsecase.execute(getPostDTO1);
 
-      GetPostDTO getPostDTO1 = new GetPostDTO(1L,2L);
-      saveTemporaryPostViewCountUsecase.execute(getPostDTO1);
+    updatePostViewCountUsecase.execute();
 
-      schedulePostViewCount.execute();
+    Post post = postRepository.findById(1L).get();
+    schedulePostViewCount.execute();
 
-      Post post = postRepository.findById(1L).get();
-
-      Assertions.assertThat(post.getViewCount()).isEqualTo(3);
-      return true;
-    };
-
-    await()
-        .atMost(Duration.ofMinutes(1L))
-        .until(viewCount);
+    Assertions.assertThat(post.getViewCount()).isEqualTo(2);
   }
 
 }

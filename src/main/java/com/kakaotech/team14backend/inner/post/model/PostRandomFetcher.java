@@ -14,13 +14,6 @@ import java.util.stream.Collectors;
 public class PostRandomFetcher {
   private static final Random RANDOM = new Random();
 
-  private static final int LV3_RANGE_START = 0;
-  private static final int LV3_RANGE_END = 29;
-  private static final int LV2_RANGE_START = 30;
-  private static final int LV2_RANGE_END = 99;
-  private static final int LV1_RANGE_START = 100;
-  private static final int LV1_RANGE_END = 299;
-
   public Map<Integer, List<Integer>> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts) {
     Map<Integer, List<Integer>> result = new HashMap<>();
 
@@ -39,16 +32,16 @@ public class PostRandomFetcher {
 
     switch (level) {
       case 3:
-        start = LV3_RANGE_START;
-        end = LV3_RANGE_END;
+        start = PostLevel.LV3_RANGE_START.getValue();
+        end = PostLevel.LV3_RANGE_END.getValue();
         break;
       case 2:
-        start = LV2_RANGE_START;
-        end = LV2_RANGE_END;
+        start = PostLevel.LV2_RANGE_START.getValue();
+        end = PostLevel.LV2_RANGE_END.getValue();
         break;
       case 1:
-        start = LV1_RANGE_START;
-        end = LV1_RANGE_END;
+        start = PostLevel.LV1_RANGE_START.getValue();
+        end = PostLevel.LV1_RANGE_END.getValue();
         break;
       default:
         throw new IllegalArgumentException("Invalid level: " + level);

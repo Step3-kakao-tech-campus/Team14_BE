@@ -2,7 +2,8 @@ package com.kakaotech.team14backend.common;
 
 public enum RedisKey {
 
-  POPULAR_POST("popularPost"),
+  POPULAR_POST_KEY("popularPost"),
+  VIEW_COUNT_PREFIX("postViewCount:")
 
   ;
 
