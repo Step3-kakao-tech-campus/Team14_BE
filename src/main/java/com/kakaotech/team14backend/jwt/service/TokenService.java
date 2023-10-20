@@ -49,6 +49,7 @@ public class TokenService {
   public String createToken(Member member) {
     String jwt = JWT.create()
         .withExpiresAt(new Date(System.currentTimeMillis() + accessEXP * 1000))
+        .withClaim("memberId",member.getMemberId().toString())
         .withClaim("kakaoId", member.getKakaoId())
         .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
