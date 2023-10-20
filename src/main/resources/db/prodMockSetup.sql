@@ -1,11 +1,11 @@
-SET REFERENTIAL_INTEGRITY FALSE;
+SET foreign_key_checks=0;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
 TRUNCATE TABLE post_like_count;
 TRUNCATE TABLE point;
-SET REFERENTIAL_INTEGRITY TRUE;
-
+SET foreign_key_checks=1;
+SET REFERENTIAL_INTEGRITY FALSE;
 -- Member Table
 INSERT INTO member (created_at, insta_id, kakao_id,profile_image_url, total_like, updated_at, user_name, user_status,
                     role)
@@ -59,7 +59,8 @@ WITH RECURSIVE numbers(val) AS (
     WHERE val < 280
 )
 
-INSERT INTO post (created_at, nickname, popularity, published, report_count, university, view_count, image_id, member_id, hashtag)
+INSERT INTO post
+(created_at, nickname, popularity, published, report_count, university, view_count, image_id, member_id, hashtag)
 SELECT
     NOW(),
     'nickname' || (val + 20),
@@ -75,13 +76,17 @@ FROM numbers;
 
 
 -- Insert PostLikeCount for all the 300 posts
-INSERT INTO post_like_count (post_id, like_count, created_at, modified_at)
-SELECT post_id, 0, NOW(), NOW()
+INSERT INTO post_like_count
+(post_id, like_count, created_at, modified_at)
+SELECT
+    post_id, 0, NOW(), NOW()
 FROM post
 WHERE post_id BETWEEN 1 AND 300;
 
--- Point Table
-INSERT INTO point (member_id, now_point, created_at, updated_at)
-VALUES (1, 200, NOW(), NOW()),
-       (2, 200, NOW(), NOW()),
-       (3, 300, NOW(), NOW());
+-- Insert into Point Table
+INSERT INTO point
+(member_id, now_point, created_at, updated_at)
+VALUES
+    (1, 200, NOW(), NOW()),
+    (2, 200, NOW(), NOW()),
+    (3, 300, NOW(), NOW());

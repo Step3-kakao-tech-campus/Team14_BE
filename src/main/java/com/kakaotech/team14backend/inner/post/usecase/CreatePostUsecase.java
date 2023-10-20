@@ -20,7 +20,8 @@ public class CreatePostUsecase {
   public Post execute(CreatePostDTO createPostDTO) {
     String attachedHashTag = attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount, createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, createPostDTO.uploadPostRequestDTO().getUniversity());
+    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,
+        createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag);
     return postRepository.save(post);
   }
 
