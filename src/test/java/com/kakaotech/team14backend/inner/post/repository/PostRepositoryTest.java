@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 
-@Sql(value = "classpath:db/testSetup.sql.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = "classpath:db/testSetup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @SpringBootTest
 class PostRepositoryTest {
 
