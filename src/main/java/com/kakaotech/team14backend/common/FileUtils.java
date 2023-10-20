@@ -1,17 +1,13 @@
 package com.kakaotech.team14backend.common;
 
 import com.kakaotech.team14backend.exception.ExtentionNotAllowedException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @Slf4j
@@ -32,6 +28,11 @@ public class FileUtils {
     if (multipartFile.isEmpty()) {
       return null;
     }
+    File directory = new File(fileDir);
+    if (!directory.exists()) {
+      directory.mkdirs();
+    }
+
     String originalFilename = multipartFile.getOriginalFilename();
     String storeFileName = createStoreFileName(originalFilename);
     multipartFile.transferTo(new File(getFullPath(storeFileName)));
