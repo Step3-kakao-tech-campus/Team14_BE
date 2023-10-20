@@ -1,11 +1,10 @@
-SET foreign_key_checks=0;
+SET REFERENTIAL_INTEGRITY False;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
 TRUNCATE TABLE post_like_count;
 TRUNCATE TABLE point;
-SET foreign_key_checks=1;
-
+SET REFERENTIAL_INTEGRITY True;
 -- Member Table
 INSERT INTO member (created_at, insta_id, kakao_id,profile_image_url, total_like, updated_at, user_name, user_status,
                     role)
