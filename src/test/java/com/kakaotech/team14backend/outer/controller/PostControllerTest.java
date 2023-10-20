@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
-@Sql("classpath:db/TestSetup.sql.sql")
+@Sql("classpath:db/testSetup.sql.sql")
 @AutoConfigureMockMvc
 
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)

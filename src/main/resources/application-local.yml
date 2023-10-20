@@ -18,7 +18,7 @@ spring:
       enabled: true
   sql:
     init:
-      data-locations: classpath:db/TestSetup.sql.sql
+      data-locations: classpath:db/testSetup.sql.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
 
