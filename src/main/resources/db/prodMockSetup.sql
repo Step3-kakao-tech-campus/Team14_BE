@@ -15,16 +15,16 @@ VALUES (NOW(), 'insta1', 'kakao1','http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/O
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), 'image_uri1'),
-       (NOW(), 'image_uri2'),
-       (NOW(), 'image_uri3'),
-       (NOW(), 'image_uri4'),
-       (NOW(), 'image_uri5'),
-       (NOW(), 'image_uri6'),
-       (NOW(), 'image_uri7'),
-       (NOW(), 'image_uri8'),
-       (NOW(), 'image_uri9'),
-       (NOW(), 'image_uri10');
+VALUES (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg');
 
 -- Post Table
 INSERT INTO post (created_at, nickname, popularity, published, report_count, university, view_count,

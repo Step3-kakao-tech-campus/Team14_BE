@@ -1,12 +1,10 @@
-SET
-REFERENTIAL_INTEGRITY False;
+SET REFERENTIAL_INTEGRITY False;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
 TRUNCATE TABLE post_like_count;
 TRUNCATE TABLE point;
-SET
-REFERENTIAL_INTEGRITY True;
+SET REFERENTIAL_INTEGRITY True;
 -- Member Table
 INSERT INTO member (created_at, insta_id, kakao_id, profile_image_url, total_like, updated_at,
                     user_name, user_status,
@@ -23,16 +21,16 @@ VALUES (NOW(), 'insta1', 'kakao1',
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), 'image_uri1'),
-       (NOW(), 'image_uri2'),
-       (NOW(), 'image_uri3'),
-       (NOW(), 'image_uri4'),
-       (NOW(), 'image_uri5'),
-       (NOW(), 'image_uri6'),
-       (NOW(), 'image_uri7'),
-       (NOW(), 'image_uri8'),
-       (NOW(), 'image_uri9'),
-       (NOW(), 'image_uri10');
+VALUES (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg'),
+       (NOW(), '/image/test.jpg');
 
 -- Post Table
 INSERT INTO post (created_at, nickname, popularity, published, report_count, view_count,
@@ -67,7 +65,8 @@ WITH RECURSIVE numbers(val) AS (SELECT 1
 
 INSERT
 INTO post
-(created_at, nickname, popularity, published, report_count, view_count, image_id, member_id, hashtag)
+(created_at, nickname, popularity, published, report_count, view_count, image_id, member_id,
+ hashtag)
 SELECT NOW(),
        'nickname' || (val + 20),
        (val * 100),
