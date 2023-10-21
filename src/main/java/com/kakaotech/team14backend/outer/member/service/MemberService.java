@@ -5,7 +5,7 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
-import com.kakaotech.team14backend.outer.member.dto.MyPageResponseDTO;
+import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +38,15 @@ public class MemberService {
 
 // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
 
-  public MyPageResponseDTO getMyPageInfo(String kakaoId) {
+  public GetMemberInfoResponseDTO getMyPageInfo(String kakaoId) {
     Member member = memberRepository.findByKakaoId(kakaoId);
 
-    return MyPageResponseDTO.builder()
+    return GetMemberInfoResponseDTO.builder()
         .memberId(member.getMemberId())
         .userName(member.getUserName())
         .kakaoId(member.getKakaoId())
+        .totalLike(member.getTotalLike())
+        .profileImageUrl(member.getProfileImageUrl())
         .build();
   }
 }
