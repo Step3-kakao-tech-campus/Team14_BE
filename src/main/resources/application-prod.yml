@@ -5,6 +5,10 @@ server:
       force: true
   port: 8080
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
     url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: org.mariadb.jdbc.Driver
@@ -29,8 +33,7 @@ spring:
   sql:
     init:
       data-locations: classpath:db/prodMockSetup.sql
-      # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
-      # mode: always
+      mode: always # always, never, embedded
 
 #redis:
 #  cache:

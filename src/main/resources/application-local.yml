@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
     url: jdbc:h2:mem:Chookting;MODE=MariaDB;
     driver-class-name: org.h2.Driver
