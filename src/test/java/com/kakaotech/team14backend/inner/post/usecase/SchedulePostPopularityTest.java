@@ -20,9 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.test.context.junit.jupiter.EnabledIf;
-
 
 
 @SpringBootTest(properties = {
@@ -31,7 +29,6 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 })
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
-
 class SchedulePostPopularityTest {
 
   @Autowired
@@ -50,14 +47,13 @@ class SchedulePostPopularityTest {
   private ImageRepository imageRepository;
 
 
-
   @Autowired
   private EntityManager em;
 
 
   @BeforeEach
   void setUp() {
-    Member member = new Member("Sonny", "1234", "asdfc", Role.ROLE_USER,12L,
+    Member member = new Member("Sonny", "1234", "asdfc", Role.ROLE_USER, 12L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
     Image image = Image.createImage("image_uri1");
@@ -65,7 +61,7 @@ class SchedulePostPopularityTest {
 
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
-    Post post = Post.createPost(member, image, postLikeCount, "Sonny", true, "#hashTag", "university4");
+    Post post = Post.createPost(member, image, postLikeCount, "Sonny", true, "#hashTag");
     postRepository.save(post);
   }
 

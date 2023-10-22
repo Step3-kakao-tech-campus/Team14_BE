@@ -5,7 +5,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -59,8 +58,6 @@ public class Post {
   @Column(nullable = true, length = 30)
   private String hashtag; // 해시태그
 
-  @Column(nullable = true, length = 20)
-  private String university; // 대학교
 
   // Statistics
   @Column(nullable = true)
@@ -74,6 +71,7 @@ public class Post {
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<PostLike> postLikeHistories;
+
   public void mappingMember(Member member) {
     this.member = member;
   }
@@ -87,15 +85,15 @@ public class Post {
     this.postLikeCount = postLikeCount;
   }
 
-  public static Post createPost(Member member, Image image, PostLikeCount postLikeCount, String nickname,
+  public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
+      String nickname,
       Boolean published,
-      String hashtag, String university) {
+      String hashtag) {
 
     Post post = Post.builder()
         .nickname(nickname)
         .published(published)
         .hashtag(hashtag)
-        .university(university)
         .viewCount(0L)
         .popularity(0L)
         .reportCount(0)
@@ -114,7 +112,6 @@ public class Post {
     this.createdAt = Instant.now();
     this.published = published;
     this.hashtag = hashtag;
-    this.university = university;
     this.viewCount = viewCount;
     this.popularity = popularity;
     this.reportCount = reportCount;
@@ -124,7 +121,7 @@ public class Post {
     this.viewCount = viewCount;
   }
 
-  public void updatePopularity(final Instant now){
+  public void updatePopularity(final Instant now) {
     this.popularity = calculatePopularity(now);
   }
 
@@ -134,7 +131,7 @@ public class Post {
     return (likeCount.longValue() + viewCount) / postAge;
   }
 
-  long calculatePostAge(final Instant now){
+  long calculatePostAge(final Instant now) {
     Duration between = Duration.between(createdAt, now);
     long minutes = between.toMinutes();
     return minutes / 5 > 1 ? minutes / 5 : 1;

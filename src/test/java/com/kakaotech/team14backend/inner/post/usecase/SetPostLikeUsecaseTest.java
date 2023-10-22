@@ -57,12 +57,12 @@ public class SetPostLikeUsecaseTest {
     Long memberId = 1L;
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
 
-    Member member = new Member("sonny", "sonny1234", "asdf324","none", Role.ROLE_BEGINNER, 0L,
-        Status.STATUS_ACTIVE);
+
+    Member member = new Member(memberId,"sonny", "sonny1234", "asdf324","none", Role.ROLE_BEGINNER, 0L,Status.STATUS_ACTIVE);
 
     Image image = new Image("/image/firstPhoto");
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
@@ -88,13 +88,14 @@ public class SetPostLikeUsecaseTest {
         Status.STATUS_ACTIVE);
     Image image = new Image("/image/firstPhoto");
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
 
     PostLike postLike = PostLike.createPostLike(member, post,
         true);  // Assumes a like already exists
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(member.getMemberId(), post.getPostId())).thenReturn(
+    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(member.getMemberId(),
+        post.getPostId())).thenReturn(
         Optional.of(postLike));
 
     // When

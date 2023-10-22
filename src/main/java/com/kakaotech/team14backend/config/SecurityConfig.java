@@ -1,10 +1,7 @@
 package com.kakaotech.team14backend.config;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.kakaotech.team14backend.common.CookieUtils;
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
-import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -49,9 +48,9 @@ public class SecurityConfig {
       FilterResponseUtils.forbidden(response,isRoleNotUser);
     });
 //
+    http.cors()
+        .configurationSource(corsConfigurationSource());
     http.apply(new CustomSecurityFilterManager());
-
-    http.cors();
     http.headers().frameOptions().disable();
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -65,13 +64,16 @@ public class SecurityConfig {
 
 
   @Bean
-  public CorsConfigurationSource configurationSource() {
+  public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.addAllowedHeader("*");
-    configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
-    configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
-    configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
-    configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
+    configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+    configuration.setAllowCredentials(true);
+    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+
+    // 여기에 중요한 부분이 추가됩니다.
+    configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

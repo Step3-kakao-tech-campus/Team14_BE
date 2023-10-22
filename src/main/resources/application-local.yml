@@ -1,6 +1,10 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
-    url: jdbc:h2:mem:Chookting;MODE=MySQL
+    url: jdbc:h2:mem:Chookting;MODE=MariaDB;
     driver-class-name: org.h2.Driver
     username: admin
     password: admin
@@ -18,7 +22,7 @@ spring:
       enabled: true
   sql:
     init:
-      data-locations: classpath:db/teardown.sql
+      data-locations: classpath:db/testSetup.sql
       # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
       # mode: always
 
@@ -36,12 +40,12 @@ schedules:
     initialDelay: 0
 
 common:
-  frontend-server: http://localhost:3000
+  frontend-server: https://k576830a43f26a.user-app.krampoline.com
 
 oauth2:
   kakao:
     client-id: b51d037debb98e9ae02735887894b407
-    redirect-uri: ${common.frontend-server}/kakao/callback
+    redirect-uri: http://localhost:3000/kakao/callback
     token-uri: https://kauth.kakao.com/oauth/token
     user-info-uri: https://kapi.kakao.com/v2/user/me
 

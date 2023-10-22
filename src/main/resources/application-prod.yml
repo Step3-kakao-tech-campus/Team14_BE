@@ -1,26 +1,39 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+  port: 8080
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
-    url: jdbc:mariadb://mariadb/krampoline?allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name:  org.mariadb.jdbc.Driver
+    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
+    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: root
   redis:
-    host: 127.0.0.1
+    host: redis-service
     port: 6379
     timeout: 3000
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update # (commented out) When set to 'create', the database schema is created every time the application starts.
     show-sql: true
-    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+      default_batch_fetch_size: 100
+      open-in-view: false
   h2:
     console:
       enabled: true
   sql:
     init:
-      data-locations: classpath:db/teardown.sql
-      # (commented out) Sets the SQL file execution mode. When set to 'always', the SQL file is executed every time the application starts.
-      # mode: always
+      data-locations: classpath:db/prodMockSetup.sql
+      mode: always # always, never, embedded
 
 #redis:
 #  cache:
@@ -36,30 +49,21 @@ schedules:
     initialDelay: 0
 
 common:
-  base-url: localhost:8080
-spring.security.oauth2.client.registration.kakao:
-  client-id: b51d037debb98e9ae02735887894b407
-  redirect-uri: ${common.base-url}/login/oauth2/code/kakao
-  authorization-grant-type: authorization_code
-  client-authentication-method: POST
-  client-name: Kakao
-  scope: profile_nickname
+  frontend-server: https://k576830a43f26a.user-app.krampoline.com
 
-spring.security.oauth2.client.provider.kakao:
-  authorization-uri: https://kauth.kakao.com/oauth/authorize
-  token-uri: https://kauth.kakao.com/oauth/token
-  user-info-uri: https://kapi.kakao.com/v2/user/me
-  user-name-attribute: id
+oauth2:
+  kakao:
+    client-id: b51d037debb98e9ae02735887894b407
+    redirect-uri: http://localhost:3000/kakao/callback
+    token-uri: https://kauth.kakao.com/oauth/token
+    user-info-uri: https://kapi.kakao.com/v2/user/me
 
-
-instagram:
-  connect-url: https://api.instagram.com/oauth/authorize%20?client_id=2456565514525348%20&redirect_uri=${common.base-url}/api/callback&scope=user_profile,user_media%20&response_type=code
-  client-id: 2456565514525348
-  client-secret: 640ed809676cf7480c2a28b1995f498d
-  redirect-uri: ${common.base-url}/api/callback
-  token-url: https://api.instagram.com/oauth/access_token
-  user-info-url: https://graph.instagram.com/me?fields=id,username
-
+  instagram:
+    client-id: 2456565514525348
+    client-secret: 640ed809676cf7480c2a28b1995f498d
+    redirect-uri: ${common.frontend-server}/instagram/callback
+    token-url: https://api.instagram.com/oauth/access_token
+    user-info-url: https://graph.instagram.com/me?fields=id,username
 
 # (commented out) Header name and secret key for JWT authentication
 jwt:

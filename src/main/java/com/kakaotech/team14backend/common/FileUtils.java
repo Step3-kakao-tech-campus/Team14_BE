@@ -1,17 +1,13 @@
 package com.kakaotech.team14backend.common;
 
 import com.kakaotech.team14backend.exception.ExtentionNotAllowedException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @Slf4j
@@ -27,23 +23,16 @@ public class FileUtils {
     return fileDir + filename;
   }
 
-  public List<UploadFileDTO> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-    List<UploadFileDTO> storeFileResult = new ArrayList<>();
-    for (MultipartFile multipartFile : multipartFiles) {
-      if (!multipartFile.isEmpty()) {
-        storeFileResult.add(storeFile(multipartFile));
-      } else {
-        throw new FileNotFoundException();
-      }
-    }
-    return storeFileResult;
-  }
-
   public UploadFileDTO storeFile(MultipartFile multipartFile)
       throws IOException, IllegalStateException {
     if (multipartFile.isEmpty()) {
       return null;
     }
+    File directory = new File(fileDir);
+    if (!directory.exists()) {
+      directory.mkdirs();
+    }
+
     String originalFilename = multipartFile.getOriginalFilename();
     String storeFileName = createStoreFileName(originalFilename);
     multipartFile.transferTo(new File(getFullPath(storeFileName)));
@@ -68,16 +57,5 @@ public class FileUtils {
     return ext;
   }
 
-  public MediaType toMediaType(String ext) {
-    MediaType mediaType = MediaType.ALL;
-    if (ext.equals("jpg") || ext.equals("jpeg")) {
-      mediaType = MediaType.IMAGE_JPEG;
-    } else if (ext.equals("png")) {
-      mediaType = MediaType.IMAGE_PNG;
-    } else if (ext.equals("pdf")) {
-      mediaType = MediaType.APPLICATION_PDF;
-    }
-    return mediaType;
-  }
 
 }

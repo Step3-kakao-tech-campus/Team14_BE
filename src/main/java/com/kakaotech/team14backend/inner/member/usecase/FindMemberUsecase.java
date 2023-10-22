@@ -1,5 +1,7 @@
 package com.kakaotech.team14backend.inner.member.usecase;
 
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,7 @@ public class FindMemberUsecase {
 
   public Member execute(Long memberId) {
     return memberRepository.findById(memberId).orElseThrow(
-        () -> new RuntimeException("Member not found")
-    );
+        () -> new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER));
   }
 
 }
