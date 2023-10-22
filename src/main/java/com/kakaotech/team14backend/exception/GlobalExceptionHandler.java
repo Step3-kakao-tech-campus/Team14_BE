@@ -2,11 +2,40 @@ package com.kakaotech.team14backend.exception;
 
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(MemberNotFoundException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(MemberNotFoundException memberNotFoundException) {
+    return ApiResponseGenerator.fail(memberNotFoundException.getMessageCode().getCode(), memberNotFoundException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
+  @ExceptionHandler(ExtentionNotAllowedException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(ExtentionNotAllowedException extentionNotAllowedException) {
+    return ApiResponseGenerator.fail(extentionNotAllowedException.getMessageCode().getCode(), extentionNotAllowedException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(PostNotFoundException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(PostNotFoundException postNotFoundException) {
+    return ApiResponseGenerator.fail(postNotFoundException.getMessageCode().getCode(), postNotFoundException.getMessageCode().getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(MaxLevelSizeException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(MaxLevelSizeException maxLevelSizeException) {
+    return ApiResponseGenerator.fail(maxLevelSizeException.getMessageCode().getCode(), maxLevelSizeException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(MultiplePostsFoundException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(MultiplePostsFoundException multiplePostsFoundException) {
+    return ApiResponseGenerator.fail(multiplePostsFoundException.getMessageCode().getCode(), multiplePostsFoundException.getMessageCode().getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+
+
+
 
   private static final String EXCEPTION_400_CODE = "400";
   private static final String EXCEPTION_401_CODE = "401";

@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service  # Redis 서비스의 이름입니다.
+spec:
+  selector:
+    app: redis  # Redis Deployment와 연결되는 라벨입니다.
+  ports:
+    - port: 6379  # 서비스가 연결될 포트입니다.
+      targetPort: 6379  # 컨테이너가 리스닝하는 실제 포트입니다.

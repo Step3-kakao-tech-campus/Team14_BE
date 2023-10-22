@@ -36,13 +36,20 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
     String jwt = request.getHeader(TokenService.HEADER);
+    System.out.println("jwt : " + jwt);
+    if (jwt == null) {
+      chain.doFilter(request, response);
+      return;
+    }
     try {
       DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
+      Long memberId = Long.valueOf(decodedJWT.getClaim("memberId").asString());
       String kakaoId = decodedJWT.getClaim("kakaoId").asString();
       String userName = decodedJWT.getClaim("username").asString();
       String instaId = decodedJWT.getClaim("instaId").asString();
       Role role = Role.valueOf(decodedJWT.getClaim("role").asString());
-      Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).build();
+      Member member = Member.builder().userName(userName).kakaoId(kakaoId).role(role).instaId(instaId).memberId(memberId).build();
+      System.out.println("member :" + member);
       PrincipalDetails myUserDetails = new PrincipalDetails(member);
       Authentication authentication =
           new UsernamePasswordAuthenticationToken(
@@ -52,19 +59,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
           );
       SecurityContextHolder.getContext().setAuthentication(authentication);
       log.debug("디버그 : 인증 객체 만들어짐");
-    } catch (NullPointerException | SignatureVerificationException |
-             JWTDecodeException sve) {
-      log.error("토큰 검증 실패");
-    } catch (TokenExpiredException tee) {
-      DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
-      Instant expiredOn = decodedJWT.getExpiresAt().toInstant();
-      log.error("토큰 만료기간 초과");
-      throw new TokenExpiredException("토큰이 만료되었습니다.", expiredOn);
-//        } finally {
-//          chain.doFilter(request, response);
+    } catch(Exception ev){
+      ev.printStackTrace();
 
+//    } catch (SignatureVerificationException | JWTDecodeException e) {
+//      log.error("토큰 검증 실패");
+//    } catch (TokenExpiredException tee) {
+//      log.error("토큰 만료기간 초과");
+    } finally {
+      chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
-    return;
   }
 }

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PostMapper {
@@ -38,27 +37,19 @@ public class PostMapper {
     return editedPostList;
   }
 
-
-  public static GetPopularPostListResponseDTO from(
-      Map<Integer, Set<GetIncompletePopularPostDTO>> levelPosts) {
+  public static GetPopularPostListResponseDTO from(List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS, Map<Integer, List<Integer>> levelIndexes) {
     List<GetPopularPostDTO> popularPosts = new ArrayList<>();
-
-    for (Map.Entry<Integer, Set<GetIncompletePopularPostDTO>> entry : levelPosts.entrySet()) {
-      int postLevel = entry.getKey();
-      Set<GetIncompletePopularPostDTO> incompletePosts = entry.getValue();
-
-      for (GetIncompletePopularPostDTO incompletePost : incompletePosts) {
-        List<String> hashTags = splitHashtag(incompletePost.getHashTag());
-
-        GetPopularPostDTO popularPost = new GetPopularPostDTO(incompletePost.getPostId(),
-            incompletePost.getImageUri(), hashTags, incompletePost.getLikeCount(),  getPostPoint(postLevel),
-            incompletePost.getNickname(), postLevel);
-        popularPosts.add(popularPost);
+    int h = 0;
+    for(int i = 1; i <= levelIndexes.size(); i++){
+      for(int j = 0; j < levelIndexes.get(i).size(); j++){
+        GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(h++);
+        GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(getIncompletePopularPostDTO.getPostId(), getIncompletePopularPostDTO.getImageUri(), splitHashtag(getIncompletePopularPostDTO.getHashTag()), getIncompletePopularPostDTO.getLikeCount(), getPostPoint(i), getIncompletePopularPostDTO.getNickname(), i);
+        popularPosts.add(getPopularPostDTO);
       }
     }
-
     return new GetPopularPostListResponseDTO(popularPosts);
   }
+
 
   private static Long getPostPoint(int postLevel) {
     Long postPoint = UsePointDecider.decidePoint(postLevel);

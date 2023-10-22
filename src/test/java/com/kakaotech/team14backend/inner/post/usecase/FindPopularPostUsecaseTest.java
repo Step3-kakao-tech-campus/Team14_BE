@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @SpringBootTest
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
-
 class FindPopularPostUsecaseTest {
 
   @Autowired
@@ -61,7 +60,7 @@ class FindPopularPostUsecaseTest {
 
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
-    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
     postRepository.save(post);
 
     entityManager.clear();

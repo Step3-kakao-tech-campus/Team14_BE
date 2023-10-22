@@ -48,7 +48,8 @@ public class TokenService {
 
   public String createToken(Member member) {
     String jwt = JWT.create()
-        .withExpiresAt(new Date(System.currentTimeMillis() + accessEXP))
+        .withExpiresAt(new Date(System.currentTimeMillis() + accessEXP * 1000))
+        .withClaim("memberId",member.getMemberId().toString())
         .withClaim("kakaoId", member.getKakaoId())
         .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
@@ -59,7 +60,7 @@ public class TokenService {
 
   public String createRefreshToken(Member member) {
     String jwt = JWT.create()
-        .withExpiresAt(new Date(System.currentTimeMillis() + refreshEXP))
+        .withExpiresAt(new Date(System.currentTimeMillis() + refreshEXP * 1000))
         .withClaim("kakaoId", member.getKakaoId())
         .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
@@ -114,9 +115,9 @@ public class TokenService {
   }
 
 
-  public TokenDTO createOrUpdateToken(HttpServletResponse response,Member member){
+  public TokenDTO createOrUpdateToken(Member member){
     String rtkInRedis = Optional.ofNullable(refreshTokenRepository.deleteRefreshToken(member.getKakaoId()))
-        .orElseThrow(() -> new TokenValidationException(MessageCode.INCORRECT_REFRESH_TOEKN));
+        .orElse(null);
     String accessToken = this.createToken(member);
     String refreshToken = this.createRefreshToken(member);
 

@@ -50,14 +50,15 @@ class UpdatePostViewCountTest {
 
 
   @BeforeEach
-  void setup(){
+  void setup() {
 
     Set keys = redisTemplate.keys(RedisKey.VIEW_COUNT_PREFIX + "*");
-    for (Object key : keys){
+    for (Object key : keys) {
       redisTemplate.delete(key);
     }
 
-    Member member = new Member("sonny", "sonny1234","asdf324", Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
+    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+        Status.STATUS_ACTIVE);
     memberRepository.save(member);
 
     Image image = new Image("/image/firstPhoto");
@@ -65,7 +66,7 @@ class UpdatePostViewCountTest {
 
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
 
-    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", "전남대학교");
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
     postRepository.save(post);
 
   }
