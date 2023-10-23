@@ -104,13 +104,13 @@ SET foreign_key_checks = 0;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
-TRUNCATE TABLE post_like_count;
+TRUNCATE TABLE PostLikeCount;
 TRUNCATE TABLE point;
 SET foreign_key_checks = 1;
 
 -- Member Table
-INSERT INTO member (created_at, insta_id, kakao_id, profile_image_url, total_like, updated_at,
-                    user_name, user_status,
+INSERT INTO member (createdAt, instaId, kakaoId, profileImageUrl, totalLike, updatedAt,
+                    userName, userStatus,
                     role)
 VALUES (NOW(), 'insta1', 'kakao1',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 10,
@@ -123,7 +123,7 @@ VALUES (NOW(), 'insta1', 'kakao1',
         NOW(), 'user3', 'STATUS_DORMANT', 'ROLE_BEGINNER');
 
 -- Image Table
-INSERT INTO image (created_at, image_uri)
+INSERT INTO image (createdAt, imageUri)
 VALUES (NOW(), '/image/test.jpg'),
        (NOW(), '/image/test.jpg'),
        (NOW(), '/image/test.jpg'),
@@ -136,8 +136,8 @@ VALUES (NOW(), '/image/test.jpg'),
        (NOW(), '/image/test.jpg');
 
 -- Post Table
-INSERT INTO post (created_at, nickname, popularity, published, report_count, view_count,
-                  image_id, member_id, hashtag)
+INSERT INTO post (createdAt, nickname, popularity, published, reportCount, viewCount,
+                  imageId, memberId, hashtag)
 VALUES (NOW(), 'nickname1', 100, true, 0, 1000, 1, 1, '#hashtag1'),
        (NOW(), 'nickname2', 200, true, 1, 2000, 2, 2, '#hashtag2'),
        (NOW(), 'nickname3', 300, false, 2, 3000, 3, 3, '#hashtag3'),
@@ -673,18 +673,18 @@ VALUES (NOW(), 'nickname1', 100, true, 0, 1000, 1, 1, '#hashtag1'),
 
 
 -- Insert PostLikeCount for all the 300 posts
-INSERT INTO post_like_count
-    (post_id, like_count, created_at, modified_at)
-SELECT post_id,
+INSERT INTO PostLikeCount
+    (postId, likeCcount, createdAt, modifiedAt)
+SELECT postId,
        0,
        NOW(),
        NOW()
 FROM post
-WHERE post_id BETWEEN 1 AND 300;
+WHERE postId BETWEEN 1 AND 300;
 
 -- Insert into Point Table
 INSERT INTO point
-    (member_id, now_point, created_at, updated_at)
+    (memberId, nowPoint, createdAt, updatedAt)
 VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
