@@ -23,7 +23,7 @@ CREATE TABLE Image
 );
 
 -- Member 테이블 생성
-CREATE TABLE Member
+CREATE TABLE member
 (
     memberId        BIGINT(20)                               NOT NULL AUTO_INCREMENT,
     userName        VARCHAR(50)                              NOT NULL,
