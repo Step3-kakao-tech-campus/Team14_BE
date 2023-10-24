@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class SchedulePopularPost {
 
   private final SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
-  @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
+  @Scheduled(initialDelayString = "${schedules.popularPost.initialDelay}",fixedDelayString = "${schedules.popularPost.fixedDelay}")
   public void execute() {
     saveTemporaryPopularPostListUsecase.execute();
   }
