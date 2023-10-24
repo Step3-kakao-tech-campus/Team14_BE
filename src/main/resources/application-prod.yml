@@ -74,3 +74,6 @@ jwt:
 
 # Configuration related to matching strategy, required for SpringBoot 2.6 and springfox-swagger3.0
 spring.mvc.pathmatch.matching-strategy: ant_path_matcher
+
+file:
+  path: ./images/
