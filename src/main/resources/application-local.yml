@@ -33,11 +33,12 @@ spring:
 #      popularPost: 3600000
 
 schedules:
-  fixedDelay: 600000
-  initialDelay: 600000
   popularPost:
     fixedDelay: 36000000
     initialDelay: 0
+  fixedDelay: 600000
+  initialDelay: 600000
+
 
 common:
   frontend-server: https://k576830a43f26a.user-app.krampoline.com
