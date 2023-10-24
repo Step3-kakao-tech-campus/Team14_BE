@@ -89,6 +89,18 @@ SELECT post_id,
 FROM post
 WHERE post_id BETWEEN 1 AND 300;
 
+UPDATE post_like_count
+SET like_count  = CASE
+                      WHEN post_id BETWEEN 1 AND 60 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
+                      WHEN post_id BETWEEN 61 AND 120 THEN FLOOR(RAND() * 100) -- 0~99 (두 자리 숫자)
+                      WHEN post_id BETWEEN 121 AND 240 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
+                      WHEN post_id BETWEEN 241 AND 300 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
+                      ELSE 0
+    END,
+    modified_at = NOW()
+WHERE post_id BETWEEN 1 AND 300;
+
+
 -- Insert into Point Table
 INSERT INTO point
     (member_id, now_point, created_at, updated_at)
