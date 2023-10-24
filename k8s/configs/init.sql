@@ -8,13 +8,13 @@ GRANT ALL
 FLUSH
     PRIVILEGES;
 
--- image 테이블
-CREATE TABLE image
-(
-    image_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
-    image_uri  VARCHAR(100)                        NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
+# -- image 테이블
+# CREATE TABLE image
+# (
+#     image_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+#     image_uri  VARCHAR(100)                        NOT NULL,
+#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+# );
 #
 # -- member 테이블
 # CREATE TABLE member
