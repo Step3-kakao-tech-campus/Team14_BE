@@ -6,6 +6,7 @@ TRUNCATE TABLE post_like_count;
 TRUNCATE TABLE point;
 SET foreign_key_checks = 1;
 
+
 -- Member Table
 INSERT INTO member (created_at, insta_id, kakao_id, profile_image_url, total_like, updated_at,
                     user_name, user_status,
@@ -571,16 +572,13 @@ VALUES (NOW(), 'nickname1', 100, true, 0, 1000, 1, 1, '#hashtag1'),
 
 
 -- Insert PostLikeCount for all the 300 posts
-UPDATE post_like_count
-SET like_count  = FLOOR(
-        CASE
-            WHEN RAND(post_id) < 0.2 THEN RAND(post_id) * 10 -- 0~9 (한 자리 숫자)
-            WHEN RAND(post_id) < 0.4 THEN RAND(post_id) * 100 -- 0~99 (두 자리 숫자)
-            WHEN RAND(post_id) < 0.8 THEN RAND(post_id) * 1000 -- 0~999 (세 자리 숫자)
-            ELSE RAND(post_id) * 10000 -- 0~9999 (네 자리 숫자)
-            END
-    ),
-    modified_at = NOW()
+INSERT INTO post_like_count
+    (post_id, like_count, created_at, modified_at)
+SELECT post_id,
+       0,
+       NOW(),
+       NOW()
+FROM post
 WHERE post_id BETWEEN 1 AND 300;
 
 -- Insert into Point Table
@@ -681,3 +679,39 @@ WHERE insta_id = 'insta9';
 UPDATE member
 SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
 WHERE insta_id = 'insta10';
+
+-- Update post_like_count with random likeCount values between 1 and 9999
+UPDATE post_like_count
+SET likeCount = FLOOR(RAND() * 9999) + 1;
+
+-- Update each row in post_like_count with a unique random likeCount value between 1 and 9999
+SET @RAND_SEED := ROUND(RAND(CURTIME()) * 1000);
+DELIMITER //
+CREATE PROCEDURE UpdateLikeCount()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE p_id BIGINT(20);
+    DECLARE cur CURSOR FOR SELECT postId FROM post_like_count;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+
+    read_loop:
+    LOOP
+        FETCH cur INTO p_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        USE `krampoline`;
+
+        SET @RAND_SEED := @RAND_SEED + 1;
+        SET @NEW_COUNT := FLOOR(RAND(@RAND_SEED) * 9999) + 1;
+        UPDATE post_like_count SET likeCount = @NEW_COUNT WHERE postId = p_id;
+    END LOOP;
+
+    CLOSE cur;
+END;
+//
+DELIMITER ;
+CALL UpdateLikeCount();
+DROP PROCEDURE IF EXISTS UpdateLikeCount;
