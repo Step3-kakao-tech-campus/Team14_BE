@@ -58,3 +58,35 @@ CREATE TABLE post_like
     FOREIGN KEY (member_id) REFERENCES member (member_id),
     FOREIGN KEY (post_id) REFERENCES post (post_id)
 );
+-- PostLikeCount 테이블 생성
+CREATE TABLE post_like_count
+(
+    post_id     BIGINT                                                          NOT NULL,
+    like_count  BIGINT    DEFAULT 0                                             NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             NOT NULL,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (post_id),
+    FOREIGN KEY (post_id) REFERENCES post (post_id)
+);
+
+-- Point 테이블 생성
+CREATE TABLE point
+(
+    member_id  BIGINT                                                             NOT NULL,
+    now_point  BIGINT                                                             NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(6) NOT NULL,
+    PRIMARY KEY (member_id),
+    FOREIGN KEY (member_id) REFERENCES member (member_id)
+);
+
+-- PointHistory 테이블 생성
+CREATE TABLE point_history
+(
+    reciever_id      BIGINT AUTO_INCREMENT               NOT NULL,
+    sender_id        BIGINT,
+    transfer_point   BIGINT,
+    transaction_type INTEGER                             NOT NULL,
+    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (reciever_id)
+);
