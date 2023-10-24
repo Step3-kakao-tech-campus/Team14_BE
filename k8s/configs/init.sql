@@ -1,4 +1,11 @@
-CREATE SCHEMA IF NOT EXISTS `krampoline` DEFAULT CHARACTER SET utf8mb4;
+-- Check if the 'krampoline' database exists and create it if not
+IF NOT EXISTS (SELECT SCHEMA_NAME
+               FROM INFORMATION_SCHEMA.SCHEMATA
+               WHERE SCHEMA_NAME = 'krampoline') THEN
+    CREATE SCHEMA `krampoline` DEFAULT CHARACTER SET utf8mb4;
+END IF;
+USE `krampoline`;
+
 
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 GRANT ALL
@@ -6,7 +13,8 @@ GRANT ALL
 FLUSH
     PRIVILEGES;
 
-USE `krampoline`;
+
+`krampoline`;
 
 -- Image 테이블 생성
 CREATE TABLE image
@@ -25,7 +33,7 @@ CREATE TABLE member
     kakaoId         VARCHAR(50)                              NOT NULL,
     instaId         VARCHAR(50)                              NOT NULL,
     profileImageUrl VARCHAR(255)                             NOT NULL,
-    role            ENUM ('ROLE_USER', 'ROLE_ADMIN')         NOT NULL,
+    role            ENUM ('ROLE_R', 'ROLE_ADMIN')            NOT NULL,
     totalLike       BIGINT(20)                               NOT NULL DEFAULT 0,
     createdAt       DATETIME(6)                              NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updatedAt       DATETIME(6)                              NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -677,7 +685,67 @@ VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
 
-
+-- Update like_count and total_like dynamically
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 1;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 2;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 3;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 4;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 5;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 6;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 7;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 8;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE post_id = 9;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 10;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 11;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE post_id = 12;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 13;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE post_id = 14;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 15;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 16;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 17;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE post_id = 18;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 19;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 20;
 UPDATE member
 SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
 WHERE insta_id = 'insta1';
@@ -687,7 +755,27 @@ WHERE insta_id = 'insta2';
 UPDATE member
 SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
 WHERE insta_id = 'insta3';
-
+UPDATE member
+SET total_like = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE insta_id = 'insta4';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE insta_id = 'insta5';
+UPDATE member
+SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE insta_id = 'insta6';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE insta_id = 'insta7';
+UPDATE member
+SET total_like = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE insta_id = 'insta8';
+UPDATE member
+SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE insta_id = 'insta9';
+UPDATE member
+SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE insta_id = 'insta10';
 
 -- Update post_like_count with random likeCount values between 1 and 9999
 UPDATE post_like_count
@@ -711,6 +799,8 @@ BEGIN
         IF done THEN
             LEAVE read_loop;
         END IF;
+        USE `krampoline`;
+
         SET @RAND_SEED := @RAND_SEED + 1;
         SET @NEW_COUNT := FLOOR(RAND(@RAND_SEED) * 9999) + 1;
         UPDATE post_like_count SET likeCount = @NEW_COUNT WHERE postId = p_id;
