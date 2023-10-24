@@ -23,16 +23,16 @@ VALUES (NOW(), 'insta1', 'kakao1',
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg');
+VALUES (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg');
 
 -- Post Table
 INSERT INTO post (created_at, nickname, popularity, published, report_count, view_count,
