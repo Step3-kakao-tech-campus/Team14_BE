@@ -6,8 +6,7 @@ GRANT ALL
 FLUSH
     PRIVILEGES;
 
-USE
-    `krampoline`;
+USE `krampoline`;
 
 -- Image 테이블 생성
 CREATE TABLE image
