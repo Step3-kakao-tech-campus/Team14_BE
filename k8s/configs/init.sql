@@ -1,10 +1,7 @@
 -- Check if the 'krampoline' database exists and create it if not
-IF NOT EXISTS (SELECT SCHEMA_NAME
-               FROM INFORMATION_SCHEMA.SCHEMATA
-               WHERE SCHEMA_NAME = 'krampoline') THEN
-    CREATE SCHEMA `krampoline` DEFAULT CHARACTER SET utf8mb4;
-END IF;
+CREATE SCHEMA IF NOT EXISTS `krampoline` DEFAULT CHARACTER SET utf8mb4;
 USE `krampoline`;
+
 
 
 GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
