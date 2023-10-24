@@ -586,3 +586,95 @@ INSERT INTO point
 VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
+
+-- Update like_count and total_like dynamically
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 1;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 2;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 3;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 4;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 5;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 6;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 7;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 8;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE post_id = 9;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 10;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 11;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE post_id = 12;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 13;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE post_id = 14;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 15;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE post_id = 16;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 17;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE post_id = 18;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE post_id = 19;
+UPDATE post_like_count
+SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE post_id = 20;
+UPDATE member
+SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE insta_id = 'insta1';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE insta_id = 'insta2';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE insta_id = 'insta3';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
+WHERE insta_id = 'insta4';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE insta_id = 'insta5';
+UPDATE member
+SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE insta_id = 'insta6';
+UPDATE member
+SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
+WHERE insta_id = 'insta7';
+UPDATE member
+SET total_like = FLOOR(RAND() * (0 - 0 + 1)) + 0
+WHERE insta_id = 'insta8';
+UPDATE member
+SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
+WHERE insta_id = 'insta9';
+UPDATE member
+SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
+WHERE insta_id = 'insta10';
