@@ -597,6 +597,14 @@ UPDATE member
 SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
 WHERE insta_id = 'insta3';
 
--- Update post_like_count with random likeCount values between 1 and 9999
 UPDATE post_like_count
-SET like_count = FLOOR(RAND() * 9999) + 1;
+SET like_count  = CASE
+                      WHEN post_id BETWEEN 1 AND 60 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
+                      WHEN post_id BETWEEN 61 AND 120 THEN FLOOR(RAND() * 100) -- 0~99 (두 자리 숫자)
+                      WHEN post_id BETWEEN 121 AND 240 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
+                      WHEN post_id BETWEEN 241 AND 300 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
+                      ELSE 0
+    END,
+    modified_at = NOW()
+WHERE post_id BETWEEN 1 AND 300;
+
