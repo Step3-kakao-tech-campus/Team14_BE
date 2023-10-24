@@ -54,7 +54,7 @@ public class PostService {
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
-    Image savedImage = createImageUsecase.execute(uploadPostDTO.image(),
+    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage(),
         uploadPostDTO.uploadPostRequestDTO().getImageName());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);
@@ -102,7 +102,7 @@ public class PostService {
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
     return isLiked;
   }
-  
+
   /**
    * 인기 게시물 전체 조회
    *
