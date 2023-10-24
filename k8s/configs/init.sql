@@ -1,8 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS `krampoline` DEFAULT CHARACTER SET utf8mb4;
 
-GRANT
-    ALL
-        ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root' WITH GRANT OPTION;
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 GRANT ALL
     ON krampoline.* TO 'root'@'localhost';
 FLUSH
@@ -680,67 +679,7 @@ VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
 
--- Update like_count and total_like dynamically
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 1;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 2;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE post_id = 3;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 4;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 5;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 6;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE post_id = 7;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE post_id = 8;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
-WHERE post_id = 9;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 10;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE post_id = 11;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
-WHERE post_id = 12;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE post_id = 13;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (999 - 100 + 1)) + 100
-WHERE post_id = 14;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE post_id = 15;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE post_id = 16;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE post_id = 17;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (0 - 0 + 1)) + 0
-WHERE post_id = 18;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE post_id = 19;
-UPDATE post_like_count
-SET like_count = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE post_id = 20;
+
 UPDATE member
 SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
 WHERE insta_id = 'insta1';
@@ -750,24 +689,38 @@ WHERE insta_id = 'insta2';
 UPDATE member
 SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
 WHERE insta_id = 'insta3';
-UPDATE member
-SET total_like = FLOOR(RAND() * (9999 - 1000 + 1)) + 1000
-WHERE insta_id = 'insta4';
-UPDATE member
-SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE insta_id = 'insta5';
-UPDATE member
-SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE insta_id = 'insta6';
-UPDATE member
-SET total_like = FLOOR(RAND() * (9 - 1 + 1)) + 1
-WHERE insta_id = 'insta7';
-UPDATE member
-SET total_like = FLOOR(RAND() * (0 - 0 + 1)) + 0
-WHERE insta_id = 'insta8';
-UPDATE member
-SET total_like = FLOOR(RAND() * (999 - 100 + 1)) + 100
-WHERE insta_id = 'insta9';
-UPDATE member
-SET total_like = FLOOR(RAND() * (99 - 10 + 1)) + 10
-WHERE insta_id = 'insta10';
+
+
+-- Update post_like_count with random likeCount values between 1 and 9999
+UPDATE post_like_count
+SET likeCount = FLOOR(RAND() * 9999) + 1;
+
+-- Update each row in post_like_count with a unique random likeCount value between 1 and 9999
+SET @RAND_SEED := ROUND(RAND(CURTIME()) * 1000);
+DELIMITER //
+CREATE PROCEDURE UpdateLikeCount()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE p_id BIGINT(20);
+    DECLARE cur CURSOR FOR SELECT postId FROM post_like_count;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+
+    read_loop:
+    LOOP
+        FETCH cur INTO p_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SET @RAND_SEED := @RAND_SEED + 1;
+        SET @NEW_COUNT := FLOOR(RAND(@RAND_SEED) * 9999) + 1;
+        UPDATE post_like_count SET likeCount = @NEW_COUNT WHERE postId = p_id;
+    END LOOP;
+
+    CLOSE cur;
+END;
+//
+DELIMITER ;
+CALL UpdateLikeCount();
+DROP PROCEDURE IF EXISTS UpdateLikeCount;
