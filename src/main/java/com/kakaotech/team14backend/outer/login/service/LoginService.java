@@ -63,7 +63,6 @@ public class LoginService {
     SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
     requestFactory.setProxy(proxy);
     RestTemplate restTemplate = new RestTemplate(requestFactory);
-    RestTemplate rt = new RestTemplate();
 
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -79,7 +78,7 @@ public class LoginService {
         new HttpEntity<>(params, headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response =rt.exchange(
+    ResponseEntity<String> response = restTemplate.exchange(
         KAKAO_TOKEN_URI,
         HttpMethod.POST,
         kakaoTokenRequest,
@@ -99,12 +98,10 @@ public class LoginService {
   public KakaoProfileDTO getKakaoUserInfo(String AccessToken) throws IOException {
     HttpHeaders headers = new HttpHeaders();
 
-
     Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
     SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
     requestFactory.setProxy(proxy);
     RestTemplate restTemplate = new RestTemplate(requestFactory);
-    RestTemplate rt = new RestTemplate();
 
     headers.add("Authorization","Bearer "+ AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -113,7 +110,7 @@ public class LoginService {
         new HttpEntity<>(headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = rt.exchange(
+    ResponseEntity<String> response = restTemplate.exchange(
         KAKAO_USER_INFO_URI,
         HttpMethod.POST,
         kakaoProfileRequest,
