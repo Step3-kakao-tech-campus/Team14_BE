@@ -571,13 +571,16 @@ VALUES (NOW(), 'nickname1', 100, true, 0, 1000, 1, 1, '#hashtag1'),
 
 
 -- Insert PostLikeCount for all the 300 posts
-INSERT INTO post_like_count
-    (post_id, like_count, created_at, modified_at)
-SELECT post_id,
-       0,
-       NOW(),
-       NOW()
-FROM post
+UPDATE post_like_count
+SET like_count  = FLOOR(
+        CASE
+            WHEN RAND(post_id) < 0.2 THEN RAND(post_id) * 10 -- 0~9 (한 자리 숫자)
+            WHEN RAND(post_id) < 0.4 THEN RAND(post_id) * 100 -- 0~99 (두 자리 숫자)
+            WHEN RAND(post_id) < 0.8 THEN RAND(post_id) * 1000 -- 0~999 (세 자리 숫자)
+            ELSE RAND(post_id) * 10000 -- 0~9999 (네 자리 숫자)
+            END
+    ),
+    modified_at = NOW()
 WHERE post_id BETWEEN 1 AND 300;
 
 -- Insert into Point Table
