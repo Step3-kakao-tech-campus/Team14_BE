@@ -7,7 +7,6 @@ import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,13 @@ public class PostMapper {
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {
-    List<GetPostResponseDTO> editedPostList = postList.stream().map(PostMapper::from).toList();
+    List<GetPostResponseDTO> editedPostList = new ArrayList<>();  // 빈 리스트로 초기화
+    for (Post post : postList) {
+      editedPostList.add(
+          new GetPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
+              splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
+              post.getNickname()));
+    }
     return editedPostList;
   }
 
@@ -37,13 +42,20 @@ public class PostMapper {
     return editedPostList;
   }
 
-  public static GetPopularPostListResponseDTO from(List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS, Map<Integer, List<Integer>> levelIndexes) {
+  public static GetPopularPostListResponseDTO from(
+      List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS,
+      Map<Integer, List<Integer>> levelIndexes) {
     List<GetPopularPostDTO> popularPosts = new ArrayList<>();
     int h = 0;
-    for(int i = 1; i <= levelIndexes.size(); i++){
-      for(int j = 0; j < levelIndexes.get(i).size(); j++){
-        GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(h++);
-        GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(getIncompletePopularPostDTO.getPostId(), getIncompletePopularPostDTO.getImageUri(), splitHashtag(getIncompletePopularPostDTO.getHashTag()), getIncompletePopularPostDTO.getLikeCount(), getPostPoint(i), getIncompletePopularPostDTO.getNickname(), i);
+    for (int i = 1; i <= levelIndexes.size(); i++) {
+      for (int j = 0; j < levelIndexes.get(i).size(); j++) {
+        GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(
+            h++);
+        GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
+            getIncompletePopularPostDTO.getPostId(), getIncompletePopularPostDTO.getImageUri(),
+            splitHashtag(getIncompletePopularPostDTO.getHashTag()),
+            getIncompletePopularPostDTO.getLikeCount(), getPostPoint(i),
+            getIncompletePopularPostDTO.getNickname(), i);
         popularPosts.add(getPopularPostDTO);
       }
     }
