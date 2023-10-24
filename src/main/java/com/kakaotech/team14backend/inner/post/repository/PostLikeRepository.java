@@ -11,6 +11,6 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
   PostLike findByMemberAndPost(Member member, Post post);
 
-  @Query("select pl from PostLike pl where pl.member.memberId = :memberId and pl.post.postId = :postId")
+  @Query("select pl from post_like pl where pl.member.memberId = :memberId and pl.post.postId = :postId")
   Optional<PostLike> findFirstByMemberAndPostOrderByCreatedAtDesc(Long memberId, Long postId);
 }

@@ -24,7 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 
 
-@Entity
+@Entity(name = "member")
 @NoArgsConstructor(access=PROTECTED)
 @Getter
 public class Member {
