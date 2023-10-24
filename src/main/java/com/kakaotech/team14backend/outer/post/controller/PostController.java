@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,12 +69,11 @@ public class PostController {
   }
 
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
-  @PostMapping("/post")
-  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@RequestPart MultipartFile image,
-      @RequestPart UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
+  @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@ModelAttribute UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
 
     Long memberId = 1L;
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(memberId, image, uploadPostRequestDTO);
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(memberId, uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
