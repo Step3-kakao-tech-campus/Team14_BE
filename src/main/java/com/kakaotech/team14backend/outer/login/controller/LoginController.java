@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.outer.login.controller;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
+import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.GetInstagramCode;
@@ -11,6 +12,7 @@ import com.kakaotech.team14backend.outer.login.service.InstagramService;
 import com.kakaotech.team14backend.outer.login.service.LoginService;
 import com.kakaotech.team14backend.outer.login.service.LogoutService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -43,11 +45,18 @@ public class LoginController {
   @PostMapping("/api/login")
   @ResponseBody
   public ApiResponse<?> kakaoLogin(HttpServletResponse response, @RequestBody GetKakaoCode kakaoCode) throws IOException {
-    String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
-    KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
-    loginService.createOrLoginMember(kakaoProfileDTO);
-    ApiResponse<?> apiResponse = loginService.AuthenticationSuccessHandelr(response,kakaoProfileDTO);
-    return apiResponse;
+    try {
+      String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
+      KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
+      loginService.createOrLoginMember(kakaoProfileDTO);
+      ApiResponse<?> apiResponse = loginService.AuthenticationSuccessHandelr(response, kakaoProfileDTO);
+      return apiResponse;
+    }catch(Exception e){
+      e.printStackTrace();
+      return ApiResponseGenerator.fail("500","확인예정", HttpStatus.CONFLICT);
+      }
+
+
   }
 
 
