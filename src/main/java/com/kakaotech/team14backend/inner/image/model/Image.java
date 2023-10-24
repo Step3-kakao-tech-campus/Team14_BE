@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 
-@Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Entity(name = "image")
 public class Image {
 
   @Id

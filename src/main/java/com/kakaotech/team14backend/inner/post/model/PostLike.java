@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "post_like")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class PostLike {

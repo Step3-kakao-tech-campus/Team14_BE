@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Entity
+@Entity(name = "post_like_count")
 @Getter
 @NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
 public class PostLikeCount {
