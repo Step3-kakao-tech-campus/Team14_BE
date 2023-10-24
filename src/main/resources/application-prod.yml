@@ -30,10 +30,10 @@ spring:
   h2:
     console:
       enabled: true
-  sql:
-    init:
-      data-locations: classpath:db/prodMockSetup.sql
-      mode: always # always, never, embedded
+#  sql:
+#    init:
+#      data-locations: classpath:db/prodMockSetup.sql
+#      mode: always # always, never, embedded
 
 #redis:
 #  cache:
