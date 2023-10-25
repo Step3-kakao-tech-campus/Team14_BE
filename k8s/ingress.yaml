@@ -4,6 +4,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1tb"
   labels:
     app.kubernetes.io/managed-by: kargocd
   name: krampoline
