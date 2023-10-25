@@ -23,29 +23,31 @@ public class FindPostListUsecase {
   /**
    * 홈 피드의 게시글들을 가져오는 유즈케이스. lastPostId와 size를 사용하여 페이지네이션을 지원합니다.
    */
+  private static final int PAGE_MULTIPLIER = 2;
+  private static final int PAGE_OFFSET = 1;
+
   public GetPostListResponseDTO execute(Long lastPostId, int size) {
-    Pageable pageable = PageRequest.of(0, size * 2 + 1);  // 첫 페이지에 대한 요청, 페이지 크기는 10
-    List<Post> postList;
-    boolean hasNext = false;
+    Pageable pageable = createPageable(size);
+    List<Post> postList = fetchPosts(lastPostId, pageable);
 
-    // lastPostId가 null인지 확인 (첫 페이지를 가져오는 것을 나타냄)
-    // 그렇지 않으면 lastPostId를 기반으로 다음 페이지를 가져옴
-    if (lastPostId == null) {
-      postList = new ArrayList<>(postRepository.findAll(pageable).getContent());
-    } else {
-      postList = new ArrayList<>(postRepository.findNextPosts(lastPostId, pageable));
+    boolean hasNext = postList.size() > size * PAGE_MULTIPLIER;
+    Long nextLastPostId = hasNext ? postList.get(size * PAGE_MULTIPLIER).getPostId() : null;
+
+    if (hasNext) {
+      Collections.shuffle(postList);
     }
+    List<Post> selectedPosts = hasNext ? postList.subList(0, size) : postList;
 
-    if (postList.size() > size) {
-      hasNext = true;
-      lastPostId = postList.get(size * 2).getPostId();
-    } else {
-      lastPostId = null;
-    }
+    return new GetPostListResponseDTO(nextLastPostId, PostMapper.from(selectedPosts), hasNext);
+  }
 
-    Collections.shuffle(postList);
-    List<Post> selectedPosts = postList.subList(0, size);
+  private Pageable createPageable(int size) {
+    return PageRequest.of(0, size * PAGE_MULTIPLIER + PAGE_OFFSET);
+  }
 
-    return new GetPostListResponseDTO(lastPostId, PostMapper.from(selectedPosts), hasNext);
+  private List<Post> fetchPosts(Long lastPostId, Pageable pageable) {
+    return (lastPostId == null) ?
+        new ArrayList<>(postRepository.findAll(pageable).getContent()) :
+        new ArrayList<>(postRepository.findNextPosts(lastPostId, pageable));
   }
 }
