@@ -46,7 +46,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     #    nginx.ingress.kubernetes.io/client-max-body-size: 100m
-    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+#    nginx.ingress.kubernetes.io/proxy-body-size: 8m
   labels:
     app.kubernetes.io/managed-by: kargocd
   name: nginx
@@ -59,3 +59,10 @@ spec:
               servicePort: 80
               path: /
               pathType: Prefix
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx
+data:
+  client-max-body-size: "8m"
