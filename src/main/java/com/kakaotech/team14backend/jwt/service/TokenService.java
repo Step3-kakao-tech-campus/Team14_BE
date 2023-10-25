@@ -106,7 +106,6 @@ public class TokenService {
     }
     try {
       Member member = memberRepository.findByKakaoId(kakaoId);
-
       String newAccessToken = this.createToken(member);
       return new ReissueDTO(newAccessToken);
     } catch (NullPointerException e) {
