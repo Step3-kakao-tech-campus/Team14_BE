@@ -6,10 +6,11 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.jwt.service.TokenService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,11 +20,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
@@ -59,15 +58,14 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
           );
       SecurityContextHolder.getContext().setAuthentication(authentication);
       log.debug("디버그 : 인증 객체 만들어짐");
-    } catch(Exception ev){
-      ev.printStackTrace();
-
-//    } catch (SignatureVerificationException | JWTDecodeException e) {
-//      log.error("토큰 검증 실패");
-//    } catch (TokenExpiredException tee) {
-//      log.error("토큰 만료기간 초과");
-    } finally {
-      chain.doFilter(request, response);
+      chain.doFilter(request,response);
+    } catch (SignatureVerificationException | JWTDecodeException e) {
+      log.error("토큰 검증 실패");
+      return;
+    } catch (TokenExpiredException tee) {
+      log.error("토큰 만료기간 초과");
+      FilterResponseUtils.AccessTokenExpired(response);
+      return;
     }
   }
 }
