@@ -46,7 +46,8 @@ public class PostService {
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
 
-  public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId, int size) {
+  public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
+                                                            int size) {
 
     return findPersonalPostListUsecase.excute(userId, lastPostId, size);
   }
@@ -54,7 +55,7 @@ public class PostService {
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
-    Image savedImage = createImageUsecase.execute(uploadPostDTO.image(),
+    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage(),
         uploadPostDTO.uploadPostRequestDTO().getImageName());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);
@@ -68,7 +69,7 @@ public class PostService {
   }
 
   public GetPostListResponseDTO getPostList(Long lastPostId, int size) {
-    return findPostListUsecase.excute(lastPostId, size);
+    return findPostListUsecase.execute(lastPostId, size);
   }
 
   /**
@@ -102,13 +103,13 @@ public class PostService {
     updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
     return isLiked;
   }
-  
+
   /**
    * 인기 게시물 전체 조회
    *
-   * @author : hwangdaesun
    * @param : 레벨별 게시물 size
    * @return : 인기 게시물들 응답
+   * @author : hwangdaesun
    */
 
   public GetPopularPostListResponseDTO getPopularPostList(

@@ -15,7 +15,7 @@ public class FileUtils {
 
   private final String rootPath = System.getProperty("user.dir");
 
-  private final String fileDir = rootPath + "/src/main/resources/image/";
+  private final String fileDir = rootPath + "/images/";
 
   private final List<String> fileExts = List.of("pdf", "jpg", "jpeg", "png");
 

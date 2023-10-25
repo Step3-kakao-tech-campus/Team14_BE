@@ -21,16 +21,16 @@ VALUES (NOW(), 'insta1', 'kakao1',
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg');
+VALUES (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg');
 
 -- Post Table
 INSERT INTO post (created_at, nickname, popularity, published, report_count, view_count,
@@ -88,6 +88,18 @@ SELECT post_id,
        NOW()
 FROM post
 WHERE post_id BETWEEN 1 AND 300;
+
+UPDATE post_like_count
+SET like_count  = CASE
+                      WHEN post_id BETWEEN 1 AND 60 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
+                      WHEN post_id BETWEEN 61 AND 120 THEN FLOOR(RAND() * 100) -- 0~99 (두 자리 숫자)
+                      WHEN post_id BETWEEN 121 AND 240 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
+                      WHEN post_id BETWEEN 241 AND 300 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
+                      ELSE 0
+    END,
+    modified_at = NOW()
+WHERE post_id BETWEEN 1 AND 300;
+
 
 -- Insert into Point Table
 INSERT INTO point

@@ -16,4 +16,4 @@ spec:
               serviceName: backend
               servicePort: 8080
             # 여러분의 app path 를 넣어주세요.
-            path: /kb0572eda580ca(/|$)(.*)
+            path: /kdbfec802580ca(/|$)(.*)
