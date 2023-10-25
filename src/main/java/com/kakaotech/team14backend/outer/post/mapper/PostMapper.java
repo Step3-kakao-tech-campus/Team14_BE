@@ -17,7 +17,8 @@ public class PostMapper {
 
   public static GetPostResponseDTO from(Post post) {
     return new GetPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
-        splitHashtag(post.getHashtag()), 0L, 0, post.getNickname());
+        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
+        post.getNickname());
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {
