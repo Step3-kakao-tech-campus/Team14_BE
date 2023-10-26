@@ -59,26 +59,38 @@ VALUES (NOW(), '/images/test.jpg'),
 --        (NOW(), 'nickname20', 1000, true, 9, 10000, 10, 1, '#hashtag10');
 
 -- Using UNION ALL to generate numbers up to 280
-WITH RECURSIVE numbers(val) AS (SELECT 1
-                                UNION ALL
-                                SELECT val + 1
-                                FROM numbers
-                                WHERE val < 300)
-
-INSERT
-INTO post
-(created_at, nickname, popularity, published, report_count, view_count, image_id, member_id,
- hashtag)
-SELECT NOW(),
-       'nickname' || (val + 20),
-       (val * 100),
-       CASE WHEN val % 2 = 0 THEN true ELSE false END,
+Delimiters
+CREATE PROCEDURE CreatePosts()
+BEGIN
+  DECLARE
+counter INT DEFAULT 1;
+  WHILE
+counter <= 200 DO
+    INSERT INTO post
+      (created_at, nickname, popularity, published, report_count, view_count, image_id, member_id, hashtag)
+    VALUES
+      (NOW(),
+       CONCAT('nickname', counter + 20),
+       (counter * 100),
+       CASE WHEN counter % 2 = 0 THEN true ELSE false END,
        0,
-       (val * 1000),
-       ((val % 10) + 1),
-       ((val % 3) + 1),
-       '#hashtag' || ((val % 10) + 1)
-FROM numbers;
+       (counter * 1000),
+       ((counter % 10) + 1),
+       ((counter % 3) + 1),
+       CONCAT('#hashtag', ((counter % 10) + 1))
+      );
+    SET
+counter = counter + 1;
+END WHILE;
+END;
+//
+DELIMITER ;
+
+-- Call the procedure
+CALL CreatePosts();
+
+-- Optionally, you can remove the procedure after the posts have been created
+DROP PROCEDURE IF EXISTS CreatePosts;
 
 
 -- Insert PostLikeCount for all the 300 posts
