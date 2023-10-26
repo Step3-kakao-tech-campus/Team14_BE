@@ -20,8 +20,10 @@ public class MemberController {
 
   @ApiOperation(value = "마이페이지 계정 상세 조회")
   @GetMapping("/user/info")
-  public ApiResponse<ApiResponse.CustomBody<GetMemberInfoResponseDTO>> getMyPageInfo(String kakaoId) {
-    GetMemberInfoResponseDTO myPageInfo = memberService.getMyPageInfo(kakaoId);
+  public ApiResponse<ApiResponse.CustomBody<GetMemberInfoResponseDTO>> getMyPageInfo() {
+    Long memberId = 1L;
+
+    GetMemberInfoResponseDTO myPageInfo = memberService.getMyPageInfo(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
 }

@@ -15,8 +15,7 @@ RUN ./gradlew clean build -x test
 FROM krmp-d2hub-idock.9rum.cc/goorm/gradle:7.3.1-jdk17
 
 COPY --from=builder /home/gradle/project/build/libs/team14-backend-0.0.1-SNAPSHOT.jar .
-COPY --from=builder /home/gradle/project/Team14_BE/src/main/resources/images ./images
-
+COPY --from=builder /home/gradle/project/src/main/resources/images ./images
 # DATABASE_URL을 환경 변수로 삽입
 ENV DATABASE_URL=jdbc:mariadb://mariadb:3306/krampoline
 
