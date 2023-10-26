@@ -45,6 +45,9 @@ public class Member {
   @Column(nullable = false, length = 50)
   private String instaId; // 인스타그램 아이디
 
+  @Column(nullable = false)
+  private String profileImageUrl;
+
   @Column(nullable = false, length = 50)
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -74,13 +77,38 @@ public class Member {
     this.role = newRole;
   }
   @Builder
-  public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+  public Member(Long memberId,String userName, String kakaoId, String instaId,String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+    this.memberId = memberId;
     this.userName = userName;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
+    this.profileImageUrl = profileImageUrl;
     this.role = role;
     this.totalLike = totalLike;
     this.userStatus = userStatus;
   }
 
+
+  @Override
+  public String toString() {
+    return "Member{" +
+        "memberId=" + memberId +
+        ", posts=" + posts +
+        ", userName='" + userName + '\'' +
+        ", kakaoId='" + kakaoId + '\'' +
+        ", instaId='" + instaId + '\'' +
+        ", profileImageUrl='" + profileImageUrl + '\'' +
+        ", role=" + role +
+        '}';
+  }
+
+  public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+    this.userName = userName;
+    this.kakaoId = kakaoId;
+    this.instaId = instaId;
+    this.profileImageUrl = "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg";
+    this.role = role;
+    this.totalLike = totalLike;
+    this.userStatus = userStatus;
+  }
 }

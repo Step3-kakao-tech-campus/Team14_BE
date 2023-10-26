@@ -1,7 +1,9 @@
 package com.kakaotech.team14backend.exception;
 
 import com.kakaotech.team14backend.common.MessageCode;
+import lombok.Getter;
 
+@Getter
 public class MemberNotFoundException extends RuntimeException{
   public final MessageCode messageCode;
 
@@ -9,8 +11,4 @@ public class MemberNotFoundException extends RuntimeException{
     this.messageCode = messageCode;
   }
 
-
-  public MemberNotFoundException(MessageCode messageCode, Exception e) {
-    this.messageCode = messageCode;
-  }
 }
