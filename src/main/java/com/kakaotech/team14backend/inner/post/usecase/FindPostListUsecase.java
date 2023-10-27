@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class FindPostListUsecase {
   private static final int PAGE_MULTIPLIER = 2;
   private static final int PAGE_OFFSET = 1;
 
-  public GetPostListResponseDTO execute(Long lastPostId, int size) {
+  public GetHomePostListResponseDTO execute(Long lastPostId, int size) {
     Pageable pageable = createPageable(size);
     List<Post> postList = fetchPosts(lastPostId, pageable);
 
@@ -38,7 +38,7 @@ public class FindPostListUsecase {
     }
     List<Post> selectedPosts = hasNext ? postList.subList(0, size) : postList;
 
-    return new GetPostListResponseDTO(nextLastPostId, PostMapper.from(selectedPosts), hasNext);
+    return new GetHomePostListResponseDTO(nextLastPostId, PostMapper.from(selectedPosts), hasNext);
   }
 
   private Pageable createPageable(int size) {
