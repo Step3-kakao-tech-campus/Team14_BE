@@ -55,10 +55,8 @@ public class PostService {
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
-    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage(),
-        uploadPostDTO.uploadPostRequestDTO().getImageName());
-    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
-        uploadPostDTO.uploadPostRequestDTO(), savedMember);
+    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
+    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), savedMember);
     createPostUsecase.execute(createPostDTO);
   }
 
