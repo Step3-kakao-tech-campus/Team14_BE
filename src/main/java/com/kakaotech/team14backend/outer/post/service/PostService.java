@@ -19,7 +19,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
@@ -68,7 +68,7 @@ public class PostService {
     return getPostResponseDTO;
   }
 
-  public GetPostListResponseDTO getPostList(Long lastPostId, int size) {
+  public GetHomePostListResponseDTO getPostList(Long lastPostId, int size) {
     return findPostListUsecase.execute(lastPostId, size);
   }
 

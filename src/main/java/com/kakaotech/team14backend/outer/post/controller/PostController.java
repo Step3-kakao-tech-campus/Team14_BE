@@ -10,7 +10,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
@@ -30,9 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,7 +52,7 @@ public class PostController {
 
   @ApiOperation(value = "홈 피드의 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post")
-  public ApiResponse<CustomBody<GetPostListResponseDTO>> getPosts(
+  public ApiResponse<CustomBody<GetHomePostListResponseDTO>> getPosts(
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
@@ -64,7 +62,7 @@ public class PostController {
     if (lastPostId != null && lastPostId < 0) {
       throw new Exception400("lastPostId parameter must be greater than 0");
     }
-    GetPostListResponseDTO getPostListResponseDTO = postService.getPostList(lastPostId, size);
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getPostList(lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
