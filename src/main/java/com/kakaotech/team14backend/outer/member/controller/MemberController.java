@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MemberController {
 
-  private MemberService memberService;
+  private final MemberService memberService;
 
   @ApiOperation(value = "마이페이지 계정 상세 조회")
   @GetMapping("/user/info")
