@@ -3,6 +3,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -103,6 +104,52 @@ public class SetPostLikeUsecaseTest {
 
     // Then
     assertFalse(response.isLiked());  // Assumes the like was toggled to false
+  }
+
+
+  @Test
+  public void testToggleLike() {
+    // Given
+    Long postId = 1L;
+    Long memberId = 1L;
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
+
+    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+        Status.STATUS_ACTIVE);
+    Image image = new Image("/image/firstPhoto");
+    PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
+    Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
+
+    when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+
+    // When
+    SetPostLikeResponseDTO responseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
+
+    // Then
+    assertTrue(responseDTO.isLiked());
+
+    // Mocking for unlike scenario
+    PostLike postLike = PostLike.createPostLike(member, post, true);
+    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(
+        member.getMemberId(), post.getPostId())).thenReturn(Optional.of(postLike));
+
+    // When
+    responseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
+
+    // Then
+    assertFalse(responseDTO.isLiked());
+
+    // Mocking for like scenario again
+    postLike = PostLike.createPostLike(member, post, false);
+    when(postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(
+        member.getMemberId(), post.getPostId())).thenReturn(Optional.of(postLike));
+
+    // When
+    responseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
+
+    // Then
+    assertTrue(responseDTO.isLiked());
   }
 
   @Test
