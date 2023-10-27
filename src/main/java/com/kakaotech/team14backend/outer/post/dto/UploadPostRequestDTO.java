@@ -9,7 +9,6 @@ public class UploadPostRequestDTO {
 
   private List<String> hashTags;
   private String nickname;
-  private String imageName;
   private MultipartFile image;
 
 }

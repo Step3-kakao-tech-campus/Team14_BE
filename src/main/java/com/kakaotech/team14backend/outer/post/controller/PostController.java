@@ -30,9 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -102,7 +100,7 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(
       @RequestParam Integer level1, @RequestParam Integer level2, @RequestParam Integer level3) {
 
-    if (level1 >= 20 | level2 >= 20 | level3 >= 20) {
+    if (level1 >= 20 || level2 >= 20 || level3 >= 20) {
       throw new MaxLevelSizeException(MessageCode.LEVEL_SIZE_SMALLER_THAN_20);
     }
 
