@@ -76,6 +76,15 @@ public class PostController {
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
+  @GetMapping("/post/{postId}/user")
+  public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
+      @PathVariable("postId") Long postId) {
+    Long memberId = principalDetails.getMember().getMemberId();
+    GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
+    return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
+  }
+
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
       @PathVariable("postId") Long postId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
