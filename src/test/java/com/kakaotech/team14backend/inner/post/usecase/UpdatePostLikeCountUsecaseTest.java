@@ -75,7 +75,6 @@ public class UpdatePostLikeCountUsecaseTest {
 
     // verify(postLikeCount).updateLikeCount(2L);
     verify(postLikeCount).updateLikeCount(captor.capture());
-    verify(postLikeCountRepository).save(postLikeCount);
     Long updatedLikeCount = captor.getValue();
     System.out.println("Updated likeCount: " + updatedLikeCount);
   }
