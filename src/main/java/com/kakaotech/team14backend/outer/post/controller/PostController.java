@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.outer.post.controller;
 
+import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
@@ -24,6 +25,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,19 +70,16 @@ public class PostController {
 
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@ModelAttribute UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
-
-    Long memberId = 1L;
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(memberId, uploadPostRequestDTO);
+  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@ModelAttribute UploadPostRequestDTO uploadPostRequestDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(), uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
-      @PathVariable("postId") Long postId) {
-    Long memberId = 1L;
-    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+      @PathVariable("postId") Long postId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
@@ -88,9 +87,8 @@ public class PostController {
   @ApiOperation(value = "인기 피드 게시물 상세 조회")
   @GetMapping("/popular-post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPopularPost(
-      @PathVariable("postId") Long postId) {
-    Long memberId = 1L;
-    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+      @PathVariable("postId") Long postId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
