@@ -48,9 +48,10 @@ VALUES (NOW(), 'nickname1', 200, true, 1, 2000, 2, 1, '#hashtag2'),
        (NOW(), 'nickname12', 300, true, 2, 3000, 3, 0, '#hashtag3'),
        (NOW(), 'nickname13', 400, true, 3, 4000, 4, 1, '#hashtag4'),
        (NOW(), 'nickname14', 500, true, 4, 5000, 5, 2, '#hashtag5'),
-       (NOW(), 'nickname15', 600, true, 5, 6000, 6, 0, '#hashtag6')
+       (NOW(), 'nickname15', 600, true, 5, 6000, 6, 0, '#hashtag6');
 -- Insert PostLikeCount for all the 300 posts
-INSERT INTO post_like_count
+    INSERT
+INTO post_like_count
     (post_id, like_count, created_at, modified_at)
 SELECT post_id,
        0,
