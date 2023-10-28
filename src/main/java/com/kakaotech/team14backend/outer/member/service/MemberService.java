@@ -20,17 +20,10 @@ public class MemberService {
   private final MemberRepository memberRepository; // 추후 Usecase 로 변경
 
   public static Member createMember(String userName, String kakaoId, String instaId,
-                                    String profileImageUrl, Role role,
-                                    Long totalLike, Status userStatus) {
-    return Member.builder()
-        .userName(userName)
-        .kakaoId(kakaoId)
-        .instaId(instaId)
-        .role(role)
-        .profileImageUrl(profileImageUrl)
-        .totalLike(totalLike)
-        .userStatus(userStatus)
-        .build();
+                                    String profileImageUrl, Role role, Long totalLike,
+                                    Status userStatus) {
+    return Member.builder().userName(userName).kakaoId(kakaoId).instaId(instaId).role(role)
+        .profileImageUrl(profileImageUrl).totalLike(totalLike).userStatus(userStatus).build();
   }
 
 //  public Member createMember(){
@@ -45,13 +38,8 @@ public class MemberService {
     if (member.isEmpty()) {
       throw new IllegalArgumentException("존재하지 않는 회원입니다.");
     }
-    return GetMemberInfoResponseDTO.builder()
-        .memberId(member.get().getMemberId())
-        .userName(member.get().getUserName())
-        .kakaoId(member.get().getKakaoId())
-        .totalLike(member.get().getTotalLike())
-        .profileImageUrl(member.get().getProfileImageUrl())
-        .build();
+    return new GetMemberInfoResponseDTO(member.get().getMemberId(), member.get().getUserName(),
+        member.get().getKakaoId(), member.get().getTotalLike(), member.get().getProfileImageUrl());
   }
 }
 

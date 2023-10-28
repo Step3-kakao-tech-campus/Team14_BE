@@ -22,16 +22,16 @@ VALUES (NOW(), 'insta1', 'kakao1',
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg'),
-       (NOW(), '/image/test.jpg');
+VALUES (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg'),
+       (NOW(), '/images/test.jpg');
 INSERT INTO post (created_at, nickname, popularity, published, report_count, view_count, image_id, member_id, hashtag)
 VALUES (NOW(), 'nickname1', 200, true, 1, 2000, 2, 1, '#hashtag2'),
        (NOW(), 'nickname2', 300, true, 2, 3000, 3, 2, '#hashtag3'),
