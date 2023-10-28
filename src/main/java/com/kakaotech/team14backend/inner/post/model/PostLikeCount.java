@@ -28,7 +28,7 @@ public class PostLikeCount {
   private Post post;
 
   @Column(nullable = false)
-  private Long likeCount = 0L;
+  private Long likeCount;
 
   @Column(nullable = false)
   @CreationTimestamp

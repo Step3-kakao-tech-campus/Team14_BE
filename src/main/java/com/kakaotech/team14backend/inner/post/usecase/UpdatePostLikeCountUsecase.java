@@ -18,7 +18,6 @@ public class UpdatePostLikeCountUsecase {
 
   // todo :  캐싱하는 로직과 순순하게 업데이트하는 로직을 변경해야 함
   // 좋아요 상태를 반환 할 때 그 타이밍에 카운트를 업데이트하면 될거 같은데
-  @Transactional
   public void execute(GetPostLikeCountDTO getPostLikeCountDTO) {
     Long postId = getPostLikeCountDTO.postId();
     boolean isLiked = getPostLikeCountDTO.isLiked();
