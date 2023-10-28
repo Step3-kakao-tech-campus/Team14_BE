@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.outer.post.controller;
 
+import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
@@ -24,6 +25,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,12 +43,12 @@ public class PostController {
 
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
   public ApiResponse<CustomBody<GetPersonalPostListResponseDTO>> getPersonalPostList(
-      @RequestParam("userId") Long userId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
-
-    GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(userId,
-        lastPostId, size);
+    Long memberId = principalDetails.getMember().getMemberId();
+    GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
+        memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
@@ -68,7 +70,8 @@ public class PostController {
 
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@ModelAttribute UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
+  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
+      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO) throws IOException {
 
     Long memberId = 1L;
     UploadPostDTO uploadPostDTO = new UploadPostDTO(memberId, uploadPostRequestDTO);
@@ -112,7 +115,8 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(getPopularPostListRequestDTO);
+    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
+        getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }
 
