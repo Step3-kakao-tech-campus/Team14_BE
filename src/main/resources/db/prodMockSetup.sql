@@ -67,15 +67,14 @@ VALUES (NOW(), 'nickname1', 200, true, 1, 2000, 2, 1, '#hashtag2'),
 
 
 -- Insert PostLikeCount for all the 300 posts
-    INSERT
-INTO post_like_count
+INSERT INTO post_like_count
     (post_id, like_count, created_at, modified_at)
 SELECT post_id,
        0,
        NOW(),
        NOW()
 FROM post
-WHERE post_id BETWEEN 1 AND 15;
+WHERE post_id BETWEEN 1 AND 30;
 
 UPDATE post_like_count
 SET like_count  = CASE
