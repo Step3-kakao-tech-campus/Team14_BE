@@ -22,8 +22,8 @@ public class ValidatePointByPopularPostUsecase {
   private final RedisTemplate redisTemplate;
 
   public void execute(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
-    int[] levelRange = PostLevel.getLevelRange(usePointByPopularPostRequestDTO.postLevel());
-    Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), levelRange[0], levelRange[1]);
+    PostLevel postLevel = PostLevel.from(usePointByPopularPostRequestDTO.postLevel());
+    Set<LinkedHashMap<String, Object>> posts = redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), postLevel.start(), postLevel.end());
     List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOs = getIncompletePopularPostDTOs(posts);
 
     boolean flag = false;
