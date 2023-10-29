@@ -91,6 +91,7 @@ public class PostService {
    * @return : 게시물 좋아요 설정시 반환 값
    * @see : setPostLikeUsecase는 게시물 좋아요를 설정하는 클래스
    */
+  @Transactional
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
     SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
 
