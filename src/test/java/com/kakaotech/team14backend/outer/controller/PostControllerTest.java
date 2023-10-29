@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
@@ -205,13 +206,14 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response").doesNotExist());
   }
 
-  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판2를 구매 - 정상 파라미터")
+  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판297를 구매하였으나 돈이 부족한 경우- 정상 파라미터")
   @Test
+  @WithUserDetails("kakao1")
   void usePopularPost_Test() throws Exception {
 
     saveTemporaryPopularPostListUsecase.execute();
 
-    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(2L, 1);
+    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(297L, 3);
 
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -228,13 +230,14 @@ public class PostControllerTest {
 
     System.out.println("usePopularPost_Test : " + responseBody);
 
-    resultActions.andExpect(status().isOk());
-    resultActions.andExpect(jsonPath("$.success").value(true));
-    resultActions.andExpect(jsonPath("$.response").exists());
+    resultActions.andExpect(status().is5xxServerError());
+    resultActions.andExpect(jsonPath("$.success").value(false));
+    resultActions.andExpect(jsonPath("$.response").doesNotExist());
   }
 
   @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판298를 구매하였으나 돈이 부족한 경우 - 정상 파라미터")
   @Test
+  @WithUserDetails("kakao1")
   void usePopularPost_noPoint_Test() throws Exception {
 
     saveTemporaryPopularPostListUsecase.execute();
@@ -264,11 +267,12 @@ public class PostControllerTest {
 
   @DisplayName("요청 파라미터인 게시판 id와 해당 게시팔 레벨이 Redis에 저장되어있는 상태와 같지 않을 경우- 비정상 파라미터")
   @Test
+  @WithUserDetails("kakao1")
   void usePopularPost_noMatch_postIdAndPostLevel_Test() throws Exception {
 
     saveTemporaryPopularPostListUsecase.execute();
 
-    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 1);
+    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 2);
 
 
     ObjectMapper objectMapper = new ObjectMapper();

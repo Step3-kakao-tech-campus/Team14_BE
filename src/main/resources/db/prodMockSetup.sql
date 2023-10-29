@@ -48,7 +48,24 @@ VALUES (NOW(), 'nickname1', 200, true, 1, 2000, 2, 1, '#hashtag2'),
        (NOW(), 'nickname12', 300, true, 2, 3000, 3, 0, '#hashtag3'),
        (NOW(), 'nickname13', 400, true, 3, 4000, 4, 1, '#hashtag4'),
        (NOW(), 'nickname14', 500, true, 4, 5000, 5, 2, '#hashtag5'),
-       (NOW(), 'nickname15', 600, true, 5, 6000, 6, 0, '#hashtag6');
+       (NOW(), 'nickname15', 600, true, 5, 6000, 6, 0, '#hashtag6'),
+       (NOW(), 'nickname16', 700, true, 6, 7000, 7, 1, '#hashtag7'),
+       (NOW(), 'nickname17', 800, true, 7, 8000, 8, 2, '#hashtag8'),
+       (NOW(), 'nickname18', 900, true, 8, 9000, 9, 0, '#hashtag9'),
+       (NOW(), 'nickname19', 1000, true, 9, 10000, 10, 1, '#hashtag10'),
+       (NOW(), 'nickname20', 100, true, 0, 1000, 1, 2, '#hashtag1'),
+       (NOW(), 'nickname21', 200, true, 1, 2000, 2, 0, '#hashtag2'),
+       (NOW(), 'nickname22', 300, true, 2, 3000, 3, 1, '#hashtag3'),
+       (NOW(), 'nickname23', 400, true, 3, 4000, 4, 2, '#hashtag4'),
+       (NOW(), 'nickname24', 500, true, 4, 5000, 5, 0, '#hashtag5'),
+       (NOW(), 'nickname25', 600, true, 5, 6000, 6, 1, '#hashtag6'),
+       (NOW(), 'nickname26', 700, true, 6, 7000, 7, 2, '#hashtag7'),
+       (NOW(), 'nickname27', 800, true, 7, 8000, 8, 0, '#hashtag8'),
+       (NOW(), 'nickname28', 900, true, 8, 9000, 9, 1, '#hashtag9'),
+       (NOW(), 'nickname29', 1000, true, 9, 10000, 10, 2, '#hashtag10'),
+       (NOW(), 'nickname30', 100, true, 0, 1000, 1, 0, '#hashtag1');
+
+
 -- Insert PostLikeCount for all the 300 posts
     INSERT
 INTO post_like_count
@@ -64,12 +81,12 @@ UPDATE post_like_count
 SET like_count  = CASE
                       WHEN post_id BETWEEN 1 AND 3 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
                       WHEN post_id BETWEEN 4 AND 7 THEN FLOOR(RAND() * 100) -- 0~99 (두 자리 숫자)
-                      WHEN post_id BETWEEN 8 AND 12 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
-                      WHEN post_id BETWEEN 13 AND 15 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
+                      WHEN post_id BETWEEN 8 AND 17 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
+                      WHEN post_id BETWEEN 18 AND 30 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
                       ELSE 0
     END,
     modified_at = NOW()
-WHERE post_id BETWEEN 1 AND 15;
+WHERE post_id BETWEEN 1 AND 30;
 
 
 -- Insert into Point Table

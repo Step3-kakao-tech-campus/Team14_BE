@@ -33,16 +33,16 @@ public class PostRandomFetcher {
 
     switch (level) {
       case 3:
-        start = PostLevel.LV3_RANGE_START.getValue();
-        end = PostLevel.LV3_RANGE_END.getValue();
+        start = PostLevel.LV3.start();
+        end = PostLevel.LV3.end();
         break;
       case 2:
-        start = PostLevel.LV2_RANGE_START.getValue();
-        end = PostLevel.LV2_RANGE_END.getValue();
+        start = PostLevel.LV2.start();
+        end = PostLevel.LV2.end();
         break;
       case 1:
-        start = PostLevel.LV1_RANGE_START.getValue();
-        end = PostLevel.LV1_RANGE_END.getValue();
+        start = PostLevel.LV1.start();
+        end = PostLevel.LV1.end();
         break;
       default:
         throw new IllegalArgumentException("Invalid level: " + level);
