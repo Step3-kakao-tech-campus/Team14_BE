@@ -37,7 +37,7 @@ public class FindPopularPostListUsecase {
 
     for(int i = 1; i <= levelIndexes.size(); i++){
       for(int j = 0; j < levelIndexes.get(i).size(); j++){
-        Set<LinkedHashMap<String, Object>> post = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j)-1, levelIndexes.get(i).get(j)-1);
+        Set<LinkedHashMap<String, Object>> post = redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j)-1, levelIndexes.get(i).get(j)-1);
         // todo 해당 게시물이 Redis에 없을 때 MySQL에서 조회하는 방법 생각!
         if(post.isEmpty()){
           throw new PostNotFoundException(MessageCode.NOT_REGISTER_POST);
