@@ -5,6 +5,7 @@ import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
@@ -14,6 +15,7 @@ import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCount
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
@@ -45,6 +47,7 @@ public class PostService {
   private final FindPopularPostListUsecase findPopularPostListUsecase;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
+  private final FindMyPostUsecase findMyPostUsecase;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
                                                             int size) {
