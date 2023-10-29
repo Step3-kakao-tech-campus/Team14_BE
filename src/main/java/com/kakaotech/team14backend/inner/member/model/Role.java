@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.inner.member.model;
 
 public enum Role {
-  ROLE_BEGINNER("ROLE_BEGINNER"),
-  ROLE_USER("ROLE_USER");
+  ROLE_BEGINNER("BEGINNER"),
+  ROLE_USER("USER");
 
   String role;
 
