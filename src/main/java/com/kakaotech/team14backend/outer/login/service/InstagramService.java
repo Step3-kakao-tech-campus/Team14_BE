@@ -27,7 +27,6 @@ import java.net.Proxy;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class InstagramService {
 
   private final String GRANT_TYPE = "authorization_code";
