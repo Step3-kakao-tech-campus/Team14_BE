@@ -62,8 +62,7 @@ public class LoginService {
     Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
     SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
     requestFactory.setProxy(proxy);
-//    RestTemplate restTemplate = new RestTemplate(requestFactory);
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -102,9 +101,7 @@ public class LoginService {
     Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
     SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
     requestFactory.setProxy(proxy);
-    //    RestTemplate restTemplate = new RestTemplate(requestFactory);
-    RestTemplate restTemplate = new RestTemplate();
-
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     headers.add("Authorization","Bearer "+ AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
