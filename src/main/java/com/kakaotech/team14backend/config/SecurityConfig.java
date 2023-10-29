@@ -57,17 +57,17 @@ public class SecurityConfig {
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.authorizeRequests()
         //인스타그램을 안한 사람만 접근 가능 "ROLE_BEGINNER"
-        .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')")
+        .antMatchers("/api/user/instagram").access("hasRole('BEGINNER')")
         //카카오로그인을 해야 접근 가능
         .antMatchers("/api/user/**", "/api/post/*/like", "/api/popular-post/*", "/api/popular-post").authenticated()
         //인스타그램 연동 한 사람만 접근 가능 "ROLE_USER"
-        .antMatchers("/api/board/point", "/api/point", "/api/point/popular-post", "/api/points/**").access("hasRole('ROLE_USER')")
+        .antMatchers("/api/board/point", "/api/point", "/api/point/popular-post", "/api/points/**").access("hasRole('USER')")
         //모든 사용자 접근 가능
         .antMatchers("/", "/api/login", "/api/reissue", "/h2-console/*","/api/post/**").permitAll()
         // GET 메서드에 대한 /api/post 는 모든 사용자가 접근 가능
         .antMatchers(HttpMethod.GET, "/api/post").permitAll()
         // POST 메서드에 대한 /api/post 는 "ROLE_USER" 역할이 필요
-        .antMatchers(HttpMethod.POST, "/api/post").hasRole("ROLE_USER");
+        .antMatchers(HttpMethod.POST, "/api/post").hasRole("USER");
     return http.build();
   }
 
