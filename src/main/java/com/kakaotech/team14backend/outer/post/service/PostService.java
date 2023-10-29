@@ -117,4 +117,8 @@ public class PostService {
     return getPopularPostListResponseDTO;
   }
 
+  public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
+    GetMyPostResponseDTO getMyPostResponseDTO = findMyPostUsecase.execute(memberId, postId);
+    return getMyPostResponseDTO;
+  }
 }
