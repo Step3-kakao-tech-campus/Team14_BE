@@ -32,7 +32,7 @@ public class FilterResponseUtils {
     }
   }
   public static void AccessTokenExpired(HttpServletResponse response) throws IOException {
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "엑세스 토큰 만료", HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("4111", "엑세스 토큰 만료", HttpStatus.valueOf(4111));
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));
