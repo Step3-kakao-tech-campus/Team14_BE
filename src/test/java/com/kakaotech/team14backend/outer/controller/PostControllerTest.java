@@ -192,7 +192,7 @@ public class PostControllerTest {
 
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post")
-            .param("level3", "20")
+            .param("level3", "10")
             .param("level2", "3")
             .param("level1", "3")
             .contentType(MediaType.APPLICATION_JSON));
