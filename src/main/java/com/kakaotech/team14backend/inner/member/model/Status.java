@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.member.model;
 
 public enum Status {
   STATUS_ACTIVE("STATUS_ACTIVE"),
-  STATUS_DORMANT("STATUS_DORMANT");
+  STATUS_INACTIVE("STATUS_INACTIVE");
 
   String status;
   Status(String status){
