@@ -61,7 +61,7 @@ oauth2:
   instagram:
     client-id: 2456565514525348
     client-secret: 640ed809676cf7480c2a28b1995f498d
-    redirect-uri: ${common.frontend-server}/instagram/callback
+    redirect-uri: https://localhost:443/instagram/callback
     token-url: https://api.instagram.com/oauth/access_token
     user-info-url: https://graph.instagram.com/me?fields=id,username
 
