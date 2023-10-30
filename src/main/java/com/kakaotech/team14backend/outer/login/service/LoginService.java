@@ -154,6 +154,9 @@ public class LoginService {
       memberEntity = memberService.createMember(userName, kakaoId,"none",profileImage, Role.ROLE_BEGINNER,0L, Status.STATUS_ACTIVE);
       memberRepository.save(memberEntity);
     }
+    if (memberEntity.getUserStatus().equals(Status.STATUS_INACTIVE)){
+      memberService.makeUserActive(memberEntity.getMemberId());
+    }
 
     PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
 

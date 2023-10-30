@@ -49,7 +49,16 @@ public class MemberService {
     if (member.isEmpty()) {
       throw new IllegalArgumentException("존재하지 않는 회원입니다.");
     }
-    memberRepository.deleteByMemberId(memberId);
+    member.get().makeUserInactive();
+  }
+
+  @Transactional
+  public void makeUserActive(Long memberId){
+    Optional<Member> member = memberRepository.findById(memberId);
+    if (member.isEmpty()) {
+      throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+    }
+    member.get().makeUserActive();
   }
 }
 
