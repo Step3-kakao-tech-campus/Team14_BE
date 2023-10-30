@@ -101,6 +101,12 @@ public class Member {
         ", role=" + role +
         '}';
   }
+  public void makeUserInactive() {
+    this.userStatus = Status.STATUS_INACTIVE;
+  }
+  public void makeUserActive() {
+    this.userStatus = Status.STATUS_ACTIVE;
+  }
 
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
     this.userName = userName;
