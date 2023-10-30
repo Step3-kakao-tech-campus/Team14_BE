@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,15 @@ public class MemberService {
     }
     return new GetMemberInfoResponseDTO(member.get().getMemberId(), member.get().getUserName(),
         member.get().getKakaoId(), member.get().getTotalLike(), member.get().getProfileImageUrl());
+  }
+
+  @Transactional
+  public void deleteAccount(Long memberId){
+    Optional<Member> member = memberRepository.findById(memberId);
+    if (member.isEmpty()) {
+      throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+    }
+    memberRepository.deleteByMemberId(memberId);
   }
 }
 

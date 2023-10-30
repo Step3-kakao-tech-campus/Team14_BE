@@ -37,4 +37,11 @@ public class FilterResponseUtils {
     response.setContentType("application/json");
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));
   }
+
+  public static void RefreshTokenValidationException(HttpServletResponse response) throws  IOException{
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "리프레시 토큰 만료", HttpStatus.UNAUTHORIZED);
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json");
+    response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));
+  }
 }

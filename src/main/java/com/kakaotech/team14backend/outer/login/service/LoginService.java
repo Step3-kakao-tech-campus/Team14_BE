@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.config.RestTemplateConfig;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
@@ -17,7 +18,10 @@ import com.kakaotech.team14backend.outer.login.dto.GetKakaoOauth2TokenDTO;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,7 +43,6 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 @Service
-@RequiredArgsConstructor
 public class LoginService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
@@ -53,16 +56,29 @@ public class LoginService {
   @Value("${oauth2.kakao.token-uri}")
   private String KAKAO_TOKEN_URI;
 
-
-
+  private final RestTemplate proxyRestTemplate;
   private final MemberRepository memberRepository;
   private final MemberService memberService;
   private final TokenService tokenService;
+
+  @Autowired
+  public LoginService(
+      @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
+      MemberRepository memberRepository,
+      MemberService memberService,
+      TokenService tokenService) {
+    this.proxyRestTemplate = proxyRestTemplate;
+    this.memberRepository = memberRepository;
+    this.memberService = memberService;
+    this.tokenService = tokenService;
+  }
+
+
   public String getKaKaoAccessToken(String code){
-    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-    requestFactory.setProxy(proxy);
-    RestTemplate restTemplate = new RestTemplate(requestFactory);
+//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//    requestFactory.setProxy(proxy);
+//    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -78,7 +94,7 @@ public class LoginService {
         new HttpEntity<>(params, headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = restTemplate.exchange(
+    ResponseEntity<String> response = proxyRestTemplate.exchange(
         KAKAO_TOKEN_URI,
         HttpMethod.POST,
         kakaoTokenRequest,
@@ -98,10 +114,10 @@ public class LoginService {
   public KakaoProfileDTO getKakaoUserInfo(String AccessToken) throws IOException {
     HttpHeaders headers = new HttpHeaders();
 
-    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-    requestFactory.setProxy(proxy);
-    RestTemplate restTemplate = new RestTemplate(requestFactory);
+//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//    requestFactory.setProxy(proxy);
+//    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     headers.add("Authorization","Bearer "+ AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -110,7 +126,7 @@ public class LoginService {
         new HttpEntity<>(headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = restTemplate.exchange(
+    ResponseEntity<String> response = proxyRestTemplate.exchange(
         KAKAO_USER_INFO_URI,
         HttpMethod.POST,
         kakaoProfileRequest,
