@@ -26,6 +26,7 @@ public class PostMapper {
   public static GetMyPostResponseDTO from(Post post, PostLike postLike) {
     boolean isLiked = postLike != null && postLike.isLiked();
     return new GetMyPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
+        post.getNickname(),
         splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
         isLiked, post.getViewCount());
   }
