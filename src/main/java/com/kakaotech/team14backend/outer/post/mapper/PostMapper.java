@@ -62,15 +62,15 @@ public class PostMapper {
       Map<Integer, List<Integer>> levelIndexes) {
     List<GetPopularPostDTO> popularPosts = new ArrayList<>();
     int h = 0;
-    for (int i = 1; i <= levelIndexes.size(); i++) {
-      for (int j = 0; j < levelIndexes.get(i).size(); j++) {
+    for (Map.Entry<Integer, List<Integer>> entry : levelIndexes.entrySet()) {
+      for(Integer index : entry.getValue()){
         GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(
             h++);
         GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
             getIncompletePopularPostDTO.getPostId(), getIncompletePopularPostDTO.getImageUri(),
             splitHashtag(getIncompletePopularPostDTO.getHashTag()),
-            getIncompletePopularPostDTO.getLikeCount(), getPostPoint(i),
-            getIncompletePopularPostDTO.getNickname(), i);
+            getIncompletePopularPostDTO.getLikeCount(), getPostPoint(entry.getKey()),
+            getIncompletePopularPostDTO.getNickname(), entry.getKey());
         popularPosts.add(getPopularPostDTO);
       }
     }
@@ -79,8 +79,7 @@ public class PostMapper {
 
 
   private static Long getPostPoint(int postLevel) {
-    Long postPoint = UsePointDecider.decidePoint(postLevel);
-    return postPoint;
+    return UsePointDecider.decidePoint(postLevel);
   }
 
   private static List<String> splitHashtag(String hashTag) {
