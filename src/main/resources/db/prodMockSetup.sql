@@ -1,4 +1,5 @@
-SET foreign_key_checks = 0;
+SET
+foreign_key_checks = 0;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
@@ -77,7 +78,10 @@ WHERE post_id BETWEEN 1 AND 30;
 
 UPDATE post_like_count
 SET like_count  = CASE
-                      WHEN post_id BETWEEN 1 AND 30 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
+                      WHEN post_id BETWEEN 1 AND 3 THEN FLOOR(RAND() * 10) -- 0~9 (한 자리 숫자)
+                      WHEN post_id BETWEEN 4 AND 7 THEN FLOOR(RAND() * 100) -- 0~99 (두 자리 숫자)
+                      WHEN post_id BETWEEN 8 AND 17 THEN FLOOR(RAND() * 1000) -- 0~999 (세 자리 숫자)
+                      WHEN post_id BETWEEN 18 AND 30 THEN FLOOR(RAND() * 10000) -- 0~9999 (네 자리 숫자)
                       ELSE 0
     END,
     modified_at = NOW()
@@ -90,4 +94,5 @@ INSERT INTO point
 VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
-SET foreign_key_checks = 1;
+SET
+foreign_key_checks = 1;
