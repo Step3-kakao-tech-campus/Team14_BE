@@ -82,6 +82,9 @@ public class PostController {
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @PathVariable("postId") Long postId) {
     Long memberId = principalDetails.getMember().getMemberId();
+    if (postId == null) {
+      throw new Exception400("postId parameter must be not null");
+    }
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
