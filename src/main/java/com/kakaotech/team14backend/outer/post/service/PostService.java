@@ -21,7 +21,6 @@ import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
@@ -91,10 +90,10 @@ public class PostService {
    * @see : saveTemporaryPostViewCountUsecase는 게시물 조회시 게시물의 조회수를 늘려주는 클래스
    */
 
-  public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
+  public GetPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     saveTemporaryPostViewCountUsecase.execute(getPostDTO);
-    GetPopularPostResponseDTO getPopularPostResponseDTO = findPopularPostUsecase.execute(getPostDTO);
-    return getPopularPostResponseDTO;
+    GetPostResponseDTO getPostResponseDTO = findPopularPostUsecase.execute(getPostDTO);
+    return getPostResponseDTO;
   }
 
   /*

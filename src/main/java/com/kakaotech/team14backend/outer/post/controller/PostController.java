@@ -12,7 +12,6 @@ import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
@@ -112,12 +111,12 @@ public class PostController {
 
   @ApiOperation(value = "인기 피드 게시물 상세 조회")
   @GetMapping("/popular-post/{postId}")
-  public ApiResponse<ApiResponse.CustomBody<GetPopularPostResponseDTO>> getPopularPost(
+  public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPopularPost(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
-    return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
+    GetPostResponseDTO getPostResponseDTO = postService.getPopularPost(getPostDTO);
+    return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
 
   @ApiOperation(value = "인기 피드 게시물 조회", notes = "레벨당 게시물이 몇개가 필요한 지를 받아, 해당 레벨별 게시물들을 반환한다.")
