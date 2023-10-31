@@ -112,8 +112,9 @@ public class PostService {
 
   public GetPopularPostListResponseDTO getPopularPostList(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
+    int size = findPostListUsecase.findPostListSize();
     GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
-        getPopularPostListRequestDTO.levelSize());
+        getPopularPostListRequestDTO.levelSize(),size);
     return getPopularPostListResponseDTO;
   }
 
