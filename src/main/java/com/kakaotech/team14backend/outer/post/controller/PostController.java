@@ -7,6 +7,7 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.Exception400;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
@@ -65,14 +66,24 @@ public class PostController {
     if (lastPostId != null && lastPostId < 0) {
       throw new Exception400("lastPostId parameter must be greater than 0");
     }
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getPostList(lastPostId, size);
+    if (principalDetails == null) {
+      GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(lastPostId, size);
+      return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
+    }
+
+    Long memberId = principalDetails.getMember().getMemberId();
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getAuthenticatedPostList(lastPostId, size,
+        memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(@ModelAttribute UploadPostRequestDTO uploadPostRequestDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(), uploadPostRequestDTO);
+  public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
+      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
+      @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(),
+        uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
@@ -91,7 +102,8 @@ public class PostController {
 
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
-      @PathVariable("postId") Long postId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+      @PathVariable("postId") Long postId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
@@ -100,7 +112,8 @@ public class PostController {
   @ApiOperation(value = "인기 피드 게시물 상세 조회")
   @GetMapping("/popular-post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPopularPost(
-      @PathVariable("postId") Long postId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+      @PathVariable("postId") Long postId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
