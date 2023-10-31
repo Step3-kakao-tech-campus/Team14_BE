@@ -29,4 +29,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId > :lastPostId")
   List<Post> findByMemberIdAndPostIdGreaterThan(Long memberId, Long lastPostId, Pageable pageable);
+
+  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId = :postId")
+  Post findByPostIdAndMemberId(Long memberId, Long postId);
 }

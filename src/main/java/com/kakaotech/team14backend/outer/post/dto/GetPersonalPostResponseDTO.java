@@ -1,9 +1,7 @@
 package com.kakaotech.team14backend.outer.post.dto;
 
-import java.time.Instant;
-
-public record GetPersonalPostResponseDTO(Long postid, String imageUri, String nickname,
-                                         Instant createdAt, Long viewCount, Long likeCount) {
+public record GetPersonalPostResponseDTO(Long postId, String imageUri, String nickname,
+                                         String createdAt, Long viewCount, Long likeCount) {
 
 //  {
 //    "postid": "123456",
