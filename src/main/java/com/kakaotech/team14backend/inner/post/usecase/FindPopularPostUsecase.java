@@ -4,12 +4,10 @@ import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +27,14 @@ public class FindPopularPostUsecase {
    */
 
   @Transactional(readOnly = true)
-  public GetPostResponseDTO execute(GetPostDTO getPostDTO) {
+  public GetPopularPostResponseDTO execute(GetPostDTO getPostDTO) {
     Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER));
-    GetPostResponseDTO getPostResponseDTO = PostMapper.from(popularPost);
-    return getPostResponseDTO;
+    GetPopularPostResponseDTO getPopularPostResponseDTO = PostMapper.from(popularPost, isLiked(getPostDTO, popularPost));
+    return getPopularPostResponseDTO;
+  }
+
+  private Boolean isLiked(GetPostDTO getPostDTO, Post post){
+    return post.getPostLikeHistories().stream().anyMatch(postLike -> postLike.getMember().getMemberId().equals(getPostDTO.memberId()));
   }
 
 }
