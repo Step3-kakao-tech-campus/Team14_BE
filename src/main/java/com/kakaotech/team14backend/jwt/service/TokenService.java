@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -94,7 +95,7 @@ public class TokenService {
 
     try {
       decodedJWT = JWT.require(Algorithm.HMAC512(SECRET)).build().verify(refreshToken);
-    } catch (TokenValidationException e) {
+    } catch (TokenValidationException | JWTDecodeException e) {
       throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
     }
     String kakaoId = decodedJWT.getClaim("kakaoId").asString();

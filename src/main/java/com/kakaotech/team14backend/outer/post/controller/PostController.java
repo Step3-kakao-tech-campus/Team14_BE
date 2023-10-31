@@ -7,6 +7,7 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.Exception400;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
@@ -43,12 +44,12 @@ public class PostController {
 
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
   public ApiResponse<CustomBody<GetPersonalPostListResponseDTO>> getPersonalPostList(
-      @RequestParam("userId") Long userId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
-
-    GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(userId,
-        lastPostId, size);
+    Long memberId = principalDetails.getMember().getMemberId();
+    GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
+        memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
@@ -74,6 +75,18 @@ public class PostController {
     UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(), uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
     return ApiResponseGenerator.success(HttpStatus.CREATED);
+  }
+
+  @GetMapping("/post/{postId}/user")
+  public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
+      @PathVariable("postId") Long postId) {
+    Long memberId = principalDetails.getMember().getMemberId();
+    if (postId == null) {
+      throw new Exception400("postId parameter must be not null");
+    }
+    GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
+    return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
   @GetMapping("/post/{postId}")
@@ -110,16 +123,17 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(getPopularPostListRequestDTO);
+    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
+        getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }
 
   @ApiOperation(value = "게시물 좋아요(추천 수)", notes = "게시물 좋아요를 누른다, 1인당 1개의 게시물에 1번만 좋아요를 누를 수 있다")
   @PostMapping("/post/{postId}/like")
   public ApiResponse<ApiResponse.CustomBody<SetPostLikeResponseDTO>> setPostLike(
-      @PathVariable("postId") Long postId) {
-    Long memberId = 1L;
-
+      @PathVariable("postId") Long postId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    Long memberId = principalDetails.getMember().getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
 

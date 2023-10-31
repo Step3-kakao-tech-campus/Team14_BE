@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,10 +52,10 @@ public class LoginController {
       loginService.createOrLoginMember(kakaoProfileDTO);
       ApiResponse<?> apiResponse = loginService.AuthenticationSuccessHandelr(response, kakaoProfileDTO);
       return apiResponse;
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
-      return ApiResponseGenerator.fail("500","확인예정", HttpStatus.CONFLICT);
-      }
+      return ApiResponseGenerator.fail("500", "확인예정", HttpStatus.CONFLICT);
+    }
 
 
   }
@@ -62,22 +63,21 @@ public class LoginController {
 
   @PostMapping("/api/user/instagram")
   @ResponseBody
-  public ApiResponse<?> instagramConnect(HttpServletResponse response,@RequestBody GetInstagramCode instagramCode, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+  public ApiResponse<?> instagramConnect(HttpServletResponse response, @RequestBody GetInstagramCode instagramCode, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     String kakaoId = principalDetails.getKakaoId();
     String InstagramAccessToken = instagramService.getAccessToken(instagramCode.getCode());
-    instagramService.getInstagramAndSetNewToken(kakaoId,InstagramAccessToken);
-    ApiResponse<?> apiResponse = instagramService.connectInstagramSuccessHandler(response,kakaoId);
+    instagramService.getInstagramAndSetNewToken(kakaoId, InstagramAccessToken);
+    ApiResponse<?> apiResponse = instagramService.connectInstagramSuccessHandler(response, kakaoId);
     return apiResponse;
   }
 
-  @GetMapping("/api/user/logout")
+  @PostMapping("/api/user/logout")
   @ResponseBody
-  public ApiResponse<?> logout(HttpServletRequest request,@AuthenticationPrincipal PrincipalDetails principalDetails){
+  public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     String kakaoId = principalDetails.getKakaoId();
-    ApiResponse<?> apiResponse = logoutService.logout(request,kakaoId);
+    ApiResponse<?> apiResponse = logoutService.logout(request,response, kakaoId);
     return apiResponse;
   }
-
 
 
 }

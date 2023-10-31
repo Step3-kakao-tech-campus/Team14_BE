@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
-import com.kakaotech.team14backend.exception.Exception401;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +31,14 @@ public class FilterResponseUtils {
     }
   }
   public static void AccessTokenExpired(HttpServletResponse response) throws IOException {
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "엑세스 토큰 만료", HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("4111", "엑세스 토큰 만료 : 재발급 요망", HttpStatus.UNAUTHORIZED);
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json");
+    response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));
+  }
+
+  public static void RefreshTokenValidationException(HttpServletResponse response) throws  IOException{
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "리프레시 토큰 만료", HttpStatus.UNAUTHORIZED);
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));

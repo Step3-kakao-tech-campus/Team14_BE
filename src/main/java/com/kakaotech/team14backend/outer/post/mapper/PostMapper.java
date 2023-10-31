@@ -2,11 +2,16 @@ package com.kakaotech.team14backend.outer.post.mapper;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +24,14 @@ public class PostMapper {
     return new GetPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
         splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
         post.getNickname());
+  }
+
+  public static GetMyPostResponseDTO from(Post post, PostLike postLike) {
+    boolean isLiked = postLike != null && postLike.isLiked();
+    return new GetMyPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
+        post.getNickname(),
+        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
+        isLiked, post.getViewCount());
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {
@@ -37,11 +50,12 @@ public class PostMapper {
     for (Post post : postList) {
       editedPostList.add(
           new GetPersonalPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
-              post.getNickname(), post.getCreatedAt(), post.getViewCount(),
+              post.getNickname(), formatDate(post.getCreatedAt()), post.getViewCount(),
               post.getPostLikeCount().getLikeCount()));
     }
     return editedPostList;
   }
+
 
   public static GetPopularPostListResponseDTO from(
       List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS,
@@ -72,5 +86,10 @@ public class PostMapper {
     String cuttingHashTag = hashTag.substring(1);
     String[] splitHashtags = cuttingHashTag.split("#");
     return Arrays.stream(splitHashtags).collect(Collectors.toList());
+  }
+
+  private static String formatDate(Instant createdAt) {
+    return createdAt.atZone(ZoneId.of("Asia/Seoul"))
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
   }
 }
