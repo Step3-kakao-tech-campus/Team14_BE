@@ -59,6 +59,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
       log.debug("디버그 : 인증 객체 만들어짐");
       chain.doFilter(request,response);
     } catch (SignatureVerificationException | JWTDecodeException e) {
+      FilterResponseUtils.AccessTokenValidationException(response);
       log.error("토큰 검증 실패");
       return;
     } catch (TokenExpiredException tee) {
