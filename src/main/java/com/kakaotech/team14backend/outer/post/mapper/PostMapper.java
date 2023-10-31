@@ -9,6 +9,9 @@ import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,11 +50,12 @@ public class PostMapper {
     for (Post post : postList) {
       editedPostList.add(
           new GetPersonalPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
-              post.getNickname(), post.getCreatedAt(), post.getViewCount(),
+              post.getNickname(), formatDate(post.getCreatedAt()), post.getViewCount(),
               post.getPostLikeCount().getLikeCount()));
     }
     return editedPostList;
   }
+
 
   public static GetPopularPostListResponseDTO from(
       List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS,
@@ -83,5 +87,10 @@ public class PostMapper {
     String cuttingHashTag = hashTag.substring(1);
     String[] splitHashtags = cuttingHashTag.split("#");
     return Arrays.stream(splitHashtags).collect(Collectors.toList());
+  }
+
+  private static String formatDate(Instant createdAt) {
+    return createdAt.atZone(ZoneId.of("Asia/Seoul"))
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
   }
 }
