@@ -193,6 +193,26 @@ public class PostControllerTest {
   @WithUserDetails("kakao1")
   void findAllPopularPostExeedLevelSize_Test() throws Exception {
 
+    String param = "1";
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/popular-post/" + param)
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findPopularPost_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("인기 피드를 상세 조회 - 정상 파라미터")
+  @Test
+  @WithUserDetails("kakao1")
+  void findPopularPost_Test() throws Exception {
+
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post")
             .param("level3", "10")
