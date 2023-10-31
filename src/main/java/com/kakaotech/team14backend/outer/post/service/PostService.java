@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
@@ -15,13 +16,13 @@ import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCount
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
@@ -48,6 +49,7 @@ public class PostService {
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final FindMyPostUsecase findMyPostUsecase;
+  private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
                                                             int size) {
@@ -59,7 +61,8 @@ public class PostService {
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
     Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), savedMember);
+    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
+        uploadPostDTO.uploadPostRequestDTO(), savedMember);
     createPostUsecase.execute(createPostDTO);
   }
 
@@ -69,8 +72,13 @@ public class PostService {
     return getPostResponseDTO;
   }
 
-  public GetPostListResponseDTO getPostList(Long lastPostId, int size) {
-    return findPostListUsecase.execute(lastPostId, size);
+  public GetHomePostListResponseDTO getAuthenticatedPostList(Long lastPostId, int size,
+                                                             Long memberId) {
+    return findPostListUsecase.execute(lastPostId, size, memberId);
+  }
+
+  public GetHomePostListResponseDTO getNonAuthenticatedPostList(Long lastPostId, int size) {
+    return findNonAuthPostListUsecase.execute(lastPostId, size);
   }
 
   /**
