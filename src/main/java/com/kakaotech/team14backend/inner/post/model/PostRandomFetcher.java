@@ -72,7 +72,9 @@ public class PostRandomFetcher {
 
     Set<Integer> randomIndexesSet = new HashSet<>();
 
-    while (randomIndexesSet.size() < totalSize) {
+    int bound = totalSize < size ? totalSize : size;
+
+    while (randomIndexesSet.size() < bound) {
       int randomIndex = 1 + random.nextInt(size);
       randomIndexesSet.add(randomIndex);
     }
