@@ -70,4 +70,9 @@ public class FindPostListUsecase {
     return (lastPostId == null) ? new ArrayList<>(postRepository.findAll(pageable).getContent())
         : new ArrayList<>(postRepository.findNextPosts(lastPostId, pageable));
   }
+
+  public int findPostListSize(){
+    return postRepository.findAll().size();
+  }
+
 }

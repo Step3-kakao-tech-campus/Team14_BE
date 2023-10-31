@@ -124,7 +124,7 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(
       @RequestParam Integer level1, @RequestParam Integer level2, @RequestParam Integer level3) {
 
-    if (level1 >= 20 || level2 >= 20 || level3 >= 20) {
+    if (level1 >= 10 || level2 >= 10 || level3 >= 10) {
       throw new MaxLevelSizeException(MessageCode.LEVEL_SIZE_SMALLER_THAN_20);
     }
 
