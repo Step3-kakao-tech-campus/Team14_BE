@@ -3,12 +3,16 @@ package com.kakaotech.team14backend.outer.post.mapper;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetNonAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -26,21 +30,42 @@ public class PostMapper {
         post.getNickname());
   }
 
+  public static List<GetAuthenticatedHomePostDTO> fromAuthenticatedHomePostList(
+      List<SetAuthenticatedHomePostDTO> postList) {
+    List<GetAuthenticatedHomePostDTO> editedPostList = new ArrayList<>();  // 빈 리스트로 초기화
+
+    for (SetAuthenticatedHomePostDTO post : postList) {
+      editedPostList.add(new GetAuthenticatedHomePostDTO(post.postId(), post.imageUri(),
+          splitHashtag(post.hashTags()), 0, post.nickname(), post.isLiked()));
+    }
+    return editedPostList;
+  }
+
+  public static List<GetNonAuthenticatedHomePostDTO> fromNonAuthenticatedHomePostList(
+      List<SetNonAuthenticatedHomePostDTO> postList) {
+
+    List<GetNonAuthenticatedHomePostDTO> editedPostList = new ArrayList<>();  // 빈 리스트로 초기화
+    for (SetNonAuthenticatedHomePostDTO post : postList) {
+      editedPostList.add(new GetNonAuthenticatedHomePostDTO(post.postId(), post.imageUri(),
+          splitHashtag(post.hashTags()), post.nickname()));
+    }
+    return editedPostList;
+  }
+
+
   public static GetMyPostResponseDTO from(Post post, PostLike postLike) {
     boolean isLiked = postLike != null && postLike.isLiked();
     return new GetMyPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
-        post.getNickname(),
-        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
+        post.getNickname(), splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
         isLiked, post.getViewCount());
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {
     List<GetPostResponseDTO> editedPostList = new ArrayList<>();  // 빈 리스트로 초기화
     for (Post post : postList) {
-      editedPostList.add(
-          new GetPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
-              splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
-              post.getNickname()));
+      editedPostList.add(new GetPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
+          splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
+          post.getNickname()));
     }
     return editedPostList;
   }
