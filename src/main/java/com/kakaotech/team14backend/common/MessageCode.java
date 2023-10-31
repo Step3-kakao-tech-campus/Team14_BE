@@ -13,7 +13,7 @@ public enum MessageCode {
   ,
   NOT_REGISTER_MEMBER("401","회원정보가 존재하지 않습니다")
   ,
-  LEVEL_SIZE_SMALLER_THAN_20("403","각 레벨당 사이즈는 20보다 작아야합니다."),
+  LEVEL_SIZE_SMALLER_THAN_20("403","각 레벨당 사이즈는 10보다 작아야합니다."),
 
   NOT_REGISTER_POST("444","해당 게시물이 존재하지 않습니다."),
 
