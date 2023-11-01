@@ -9,7 +9,6 @@ import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +46,9 @@ public class FindPostListUsecase {
     List<SetAuthenticatedHomePostDTO> postDTOs = new ArrayList<>();
     for (Post post : selectedPosts) {
 
-      Optional<PostLike> latestPostLike = post.getPostLikeHistories().stream()
-          .sorted(Comparator.comparing(PostLike::getCreatedAt).reversed()).findFirst();
-
-      boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().getMember().getMemberId()
-          .equals(memberId);
+      Optional<PostLike> latestPostLike = postLikeRepository
+          .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
+      boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().isLiked();
       SetAuthenticatedHomePostDTO postDTO = new SetAuthenticatedHomePostDTO(post.getPostId(),
           post.getImage().getImageUri(), post.getHashtag(), 0, post.getNickname(), isLiked);
 
@@ -71,7 +68,7 @@ public class FindPostListUsecase {
         : new ArrayList<>(postRepository.findNextPosts(lastPostId, pageable));
   }
 
-  public int findPostListSize(){
+  public int findPostListSize() {
     return postRepository.findAll().size();
   }
 

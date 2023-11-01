@@ -18,12 +18,12 @@ public class FindMyPostUsecase {
 
   public GetMyPostResponseDTO execute(Long memberId, Long postId) {
     Post post = postRepository.findByPostIdAndMemberId(memberId, postId);
-    Optional<PostLike> optionalPostLike = postLikeRepository.findFirstByMemberAndPostOrderByCreatedAtDesc(
-        memberId,
-        postId);
-    PostLike postLike = optionalPostLike.orElse(null);
+    Optional<PostLike> latestPostLike = postLikeRepository
+        .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
+    boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().isLiked();
 
-    GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, postLike);
+
+    GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, isLiked);
     return getPostResponseDTO;
   }
 }

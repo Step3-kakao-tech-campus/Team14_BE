@@ -2,7 +2,6 @@ package com.kakaotech.team14backend.outer.post.mapper;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
@@ -60,8 +59,7 @@ public class PostMapper {
   }
 
 
-  public static GetMyPostResponseDTO from(Post post, PostLike postLike) {
-    boolean isLiked = postLike != null && postLike.isLiked();
+  public static GetMyPostResponseDTO from(final Post post, final boolean isLiked) {
     return new GetMyPostResponseDTO(post.getPostId(), post.getImage().getImageUri(),
         post.getNickname(), splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
         isLiked, post.getViewCount());
