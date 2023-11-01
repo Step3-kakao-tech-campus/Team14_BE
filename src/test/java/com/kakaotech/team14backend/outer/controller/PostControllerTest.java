@@ -229,6 +229,27 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response").doesNotExist());
   }
 
+  @DisplayName("인기 피드를 상세 조회 좋아요 요청후 취소한 후에 반영되어있는 지 확인 - 정상 파라미터")
+  @Test
+  @WithUserDetails("kakao1")
+  void findPopularPost_isLike_Test() throws Exception {
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/popular-post")
+            .param("level3", "10")
+            .param("level2", "3")
+            .param("level1", "3")
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findAllPopularPost_Test : " + responseBody);
+
+    resultActions.andExpect(status().isBadRequest());
+    resultActions.andExpect(jsonPath("$.success").value(false));
+    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+  }
+
 
 //  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판297를 구매하였으나 돈이 부족한 경우- 정상 파라미터")
 //  @Test
