@@ -7,13 +7,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
 
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 
+import java.util.Optional;
 import java.util.Set;
+
+import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.outer.post.service.PostService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,6 +65,9 @@ public class PostControllerTest {
 
   @Autowired
   private MemberRepository memberRepository;
+
+  @Autowired
+  private PostService postService;
 
   /**
    * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
@@ -234,20 +246,29 @@ public class PostControllerTest {
   @WithUserDetails("kakao1")
   void findPopularPost_isLike_Test() throws Exception {
 
+    GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
+
+
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L,1L);
+    postService.setPostLike(setPostLikeDTO);
+
+    String param = "10";
+
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post")
-            .param("level3", "10")
-            .param("level2", "3")
-            .param("level1", "3")
+        get("/api/popular-post/" + param)
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
     System.out.println("findAllPopularPost_Test : " + responseBody);
 
-    resultActions.andExpect(status().isBadRequest());
-    resultActions.andExpect(jsonPath("$.success").value(false));
-    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response").exists());
+    resultActions.andExpect(jsonPath("$.response").exists());
+    resultActions.andExpect(jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
+
   }
 
 
