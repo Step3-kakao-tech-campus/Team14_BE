@@ -32,6 +32,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -43,6 +44,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 @Service
+@Transactional
 public class LoginService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
@@ -143,6 +145,7 @@ public class LoginService {
 
     return kakaoProfileDTO;
   }
+
 
   public Authentication createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
     String kakaoId = kakaoProfileDTO.getId();
