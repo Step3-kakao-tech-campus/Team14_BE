@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
@@ -28,7 +29,7 @@ public class FindPopularPostUsecase {
 
   @Transactional(readOnly = true)
   public GetPopularPostResponseDTO execute(GetPostDTO getPostDTO) {
-    Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER));
+    Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POST));
     GetPopularPostResponseDTO getPopularPostResponseDTO = PostMapper.from(popularPost, isLiked(getPostDTO, popularPost));
     return getPopularPostResponseDTO;
   }
