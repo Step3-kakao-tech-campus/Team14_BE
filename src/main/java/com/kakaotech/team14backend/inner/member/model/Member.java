@@ -39,7 +39,7 @@ public class Member {
   @Column(nullable = false, length = 50)
   private String userName; // 유저 이름
 
-  @Column(nullable = false, length = 50)
+  @Column(nullable = false, length = 50, unique = true)
   private String kakaoId; // 카카오 아이디
 
   @Column(nullable = false, length = 50)
