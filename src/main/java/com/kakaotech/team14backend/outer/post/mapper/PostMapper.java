@@ -123,8 +123,7 @@ public class PostMapper {
   }
 
   private static List<String> splitHashtag(String hashTag) {
-    String cuttingHashTag = hashTag.substring(1);
-    String[] splitHashtags = cuttingHashTag.split(" ");
+    String[] splitHashtags = hashTag.split(" ");
     return Arrays.stream(splitHashtags).collect(Collectors.toList());
   }
 
