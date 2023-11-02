@@ -4,6 +4,7 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
+import com.kakaotech.team14backend.inner.post.port.PostUseCasePort;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
@@ -52,8 +53,11 @@ public class PostService {
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
 
+  private final PostUseCasePort postUseCasePort;
+
+
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
-                                                            int size) {
+      int size) {
 
     return findPersonalPostListUsecase.excute(userId, lastPostId, size);
   }
@@ -74,8 +78,8 @@ public class PostService {
   }
 
   public GetHomePostListResponseDTO getAuthenticatedPostList(Long lastPostId, int size,
-                                                             Long memberId) {
-    return findPostListUsecase.execute(lastPostId, size, memberId);
+      Long memberId) {
+    return postUseCasePort.getAuthenticatedPostList(lastPostId, size, memberId);
   }
 
   public GetHomePostListResponseDTO getNonAuthenticatedPostList(Long lastPostId, int size) {
@@ -93,7 +97,8 @@ public class PostService {
 
   public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     saveTemporaryPostViewCountUsecase.execute(getPostDTO);
-    GetPopularPostResponseDTO getPopularPostResponseDTO = findPopularPostUsecase.execute(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = findPopularPostUsecase.execute(
+        getPostDTO);
     return getPopularPostResponseDTO;
   }
 
@@ -127,7 +132,7 @@ public class PostService {
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
     int size = findPostListUsecase.findPostListSize();
     GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
-        getPopularPostListRequestDTO.levelSize(),size);
+        getPopularPostListRequestDTO.levelSize(), size);
     return getPopularPostListResponseDTO;
   }
 
