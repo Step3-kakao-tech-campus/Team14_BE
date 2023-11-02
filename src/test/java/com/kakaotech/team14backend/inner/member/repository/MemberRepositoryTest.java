@@ -38,7 +38,7 @@ public class MemberRepositoryTest {
     // Given
     Member mockMember = new Member(
         "TestUser",
-        "testKakaoId",
+        "1111",
         "testInstaId",
         Role.ROLE_USER,
         0L,
@@ -65,7 +65,7 @@ public class MemberRepositoryTest {
     Long testId = 1L;
     Member mockMember = new Member(
         "TestUser",
-        "testKakaoId",
+        "1111",
         "testInstaId",
         Role.ROLE_USER,
         0L,
@@ -86,7 +86,7 @@ public class MemberRepositoryTest {
     // Given
     Member mockMember1 = new Member(
         "TestUser1",
-        "testKakaoId1",
+        "1111",
         "testInstaId1",
         Role.ROLE_USER,
         0L,
@@ -94,7 +94,7 @@ public class MemberRepositoryTest {
     );
     Member mockMember2 = new Member(
         "TestUser2",
-        "testKakaoId2",
+        "2222",
         "testInstaId2",
         Role.ROLE_USER,
         0L,
@@ -118,7 +118,7 @@ public class MemberRepositoryTest {
     Long testId = 1L;
     Member mockMember = new Member(
         "TestUser",
-        "testKakaoId",
+        "1111",
         "testInstaId",
         Role.ROLE_USER,
         0L,
