@@ -77,3 +77,6 @@ spring.mvc.pathmatch.matching-strategy: ant_path_matcher
 
 file:
   path: ./images/
+
+url:
+  https://k68e1c3f0911fa.user-app.krampoline.com
