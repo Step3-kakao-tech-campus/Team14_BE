@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
-@Transactional
 public class LoginService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
@@ -71,15 +70,9 @@ public class LoginService {
 
 
   public String getKaKaoAccessToken(String code){
-//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-//    requestFactory.setProxy(proxy);
-//    RestTemplate restTemplate = new RestTemplate(requestFactory);
-
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-    //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("grant_type", "authorization_code");
     params.add("client_id", KAKAO_CLIENT_ID);
@@ -140,7 +133,8 @@ public class LoginService {
     return kakaoProfileDTO;
   }
 
-  public Authentication createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
+  @Transactional
+  public void createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
     String kakaoId = kakaoProfileDTO.getId();
     String userName = kakaoProfileDTO.getProperties().getNickname();
     String profileImage = kakaoProfileDTO.getProperties().getProfileImage();
@@ -158,7 +152,6 @@ public class LoginService {
 
     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    return authentication;
   }
 
   public ApiResponse<?> AuthenticationSuccessHandelr(HttpServletResponse response,KakaoProfileDTO kakaoProfileDTO){
