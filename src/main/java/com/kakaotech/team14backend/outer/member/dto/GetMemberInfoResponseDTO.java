@@ -8,6 +8,7 @@ public record GetMemberInfoResponseDTO(
     Long totalLike,
     String profileImageUrl,
     boolean isInstaConnected,
-    Long points
-) {
+    Long totalPoint,
+    ) {
+
 }
