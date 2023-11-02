@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
-import com.kakaotech.team14backend.config.RestTemplateConfig;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
@@ -27,12 +26,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -40,11 +37,8 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 @Service
-@Transactional
 public class LoginService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
@@ -145,7 +139,6 @@ public class LoginService {
 
     return kakaoProfileDTO;
   }
-
 
   public Authentication createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
     String kakaoId = kakaoProfileDTO.getId();

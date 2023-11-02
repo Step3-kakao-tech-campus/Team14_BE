@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.outer.member.dto;
 
-public record GetMemberInfoResponseDTO(Long memberId, String userName, String kakaoId,
+public record GetMemberInfoResponseDTO(Long memberId, String userName, String kakaoId,String instaId,
                                        Long totalLike,
                                        String profileImageUrl) {
 

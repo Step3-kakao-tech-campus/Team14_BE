@@ -40,7 +40,7 @@ public class MemberService {
       throw new IllegalArgumentException("존재하지 않는 회원입니다.");
     }
     return new GetMemberInfoResponseDTO(member.get().getMemberId(), member.get().getUserName(),
-        member.get().getKakaoId(), member.get().getTotalLike(), member.get().getProfileImageUrl());
+        member.get().getKakaoId(),member.get().getInstaId(), member.get().getTotalLike(), member.get().getProfileImageUrl());
   }
 
   @Transactional
