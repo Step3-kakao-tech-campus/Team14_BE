@@ -28,8 +28,7 @@ public class MemberService {
   private PostLikeCount postLikeCount;
 
   public static Member createMember(String userName, String kakaoId, String instaId,
-                                    String profileImageUrl, Role role, Long totalLike,
-                                    Status userStatus) {
+      String profileImageUrl, Role role, Long totalLike, Status userStatus) {
     return Member.builder().userName(userName).kakaoId(kakaoId).instaId(instaId).role(role)
         .profileImageUrl(profileImageUrl).totalLike(totalLike).userStatus(userStatus).build();
   }
@@ -53,14 +52,16 @@ public class MemberService {
     // 좋아요의 총합을 스트림을 이용하여 계산합니다.
     Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
         .mapToLong(PostLikeCount::getLikeCount).sum();
-
+    boolean isInstaConnected = member.getInstaId() != null;
+    Long points = 0L;
     // DTO를 생성하여 반환합니다.
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), member.getInstaId(), totalLike, member.getProfileImageUrl());
+        member.getKakaoId(), member.getInstaId(), totalLike, member.getProfileImageUrl(),
+        isInstaConnected, points);
   }
 
   @Transactional
-  public void deleteAccount(Long memberId){
+  public void deleteAccount(Long memberId) {
     Optional<Member> member = memberRepository.findById(memberId);
     if (member.isEmpty()) {
       throw new IllegalArgumentException("존재하지 않는 회원입니다.");
@@ -69,7 +70,7 @@ public class MemberService {
   }
 
   @Transactional
-  public void makeUserActive(Long memberId){
+  public void makeUserActive(Long memberId) {
     Optional<Member> member = memberRepository.findById(memberId);
     if (member.isEmpty()) {
       throw new IllegalArgumentException("존재하지 않는 회원입니다.");
