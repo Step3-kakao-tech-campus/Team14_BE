@@ -71,3 +71,5 @@ spring.mvc.pathmatch.matching-strategy: ant_path_matcher
 
 file:
   path: ./images/
+
+url: http://localhost:8080
