@@ -16,11 +16,9 @@ import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.GetKakaoOauth2TokenDTO;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,6 +28,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -71,15 +70,9 @@ public class LoginService {
 
 
   public String getKaKaoAccessToken(String code){
-//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-//    requestFactory.setProxy(proxy);
-//    RestTemplate restTemplate = new RestTemplate(requestFactory);
-
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-    //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("grant_type", "authorization_code");
     params.add("client_id", KAKAO_CLIENT_ID);
@@ -140,7 +133,8 @@ public class LoginService {
     return kakaoProfileDTO;
   }
 
-  public Authentication createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
+  @Transactional
+  public void createOrLoginMember(KakaoProfileDTO kakaoProfileDTO){
     String kakaoId = kakaoProfileDTO.getId();
     String userName = kakaoProfileDTO.getProperties().getNickname();
     String profileImage = kakaoProfileDTO.getProperties().getProfileImage();
@@ -158,7 +152,6 @@ public class LoginService {
 
     Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    return authentication;
   }
 
   public ApiResponse<?> AuthenticationSuccessHandelr(HttpServletResponse response,KakaoProfileDTO kakaoProfileDTO){
