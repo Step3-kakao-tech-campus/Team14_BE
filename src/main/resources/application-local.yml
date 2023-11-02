@@ -46,7 +46,7 @@ common:
 oauth2:
   kakao:
     client-id: b51d037debb98e9ae02735887894b407
-    redirect-uri: http://localhost:3000/kakao/callback
+    redirect-uri: https://localhost:3000/kakao/callback
     token-uri: https://kauth.kakao.com/oauth/token
     user-info-uri: https://kapi.kakao.com/v2/user/me
 
