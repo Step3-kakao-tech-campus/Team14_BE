@@ -56,7 +56,7 @@ public class MemberService {
     Long points = 0L;
     // DTO를 생성하여 반환합니다.
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), member.getInstaId(), totalLike, member.getProfileImageUrl(),
+        member.getKakaoId(), totalLike, member.getProfileImageUrl(),
         isInstaConnected, points);
   }
 
