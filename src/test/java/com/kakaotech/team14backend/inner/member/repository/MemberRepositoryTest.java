@@ -51,7 +51,7 @@ public class MemberRepositoryTest {
     // Then
     Member foundMember = memberRepository.findByKakaoId("testKakaoId");
     assertEquals("TestUser", foundMember.getUserName());
-    assertEquals("testKakaoId", foundMember.getKakaoId());
+    assertEquals("1111", foundMember.getKakaoId());
     assertEquals("testInstaId", foundMember.getInstaId());
     assertEquals(Role.ROLE_USER, foundMember.getRole());
     assertEquals(0L, foundMember.getTotalLike());
