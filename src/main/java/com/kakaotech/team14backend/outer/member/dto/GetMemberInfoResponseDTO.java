@@ -4,7 +4,6 @@ public record GetMemberInfoResponseDTO(
     Long memberId,
     String userName,
     String kakaoId,
-    String instaId,
     Long totalLike,
     String profileImageUrl,
     boolean isInstaConnected,
