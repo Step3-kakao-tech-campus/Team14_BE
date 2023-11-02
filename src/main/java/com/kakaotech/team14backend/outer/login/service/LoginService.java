@@ -16,11 +16,9 @@ import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.GetKakaoOauth2TokenDTO;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,6 +28,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -39,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
+@Transactional
 public class LoginService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
