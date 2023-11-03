@@ -4,6 +4,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
@@ -25,19 +26,14 @@ public class MemberService {
   //private final CreateMemberUsecase createMemberUsecase;
   private final MemberRepository memberRepository; // 추후 Usecase 로 변경
   private final PostLikeCountRepository postLikeCountRepository;
-  private PostLikeCount postLikeCount;
+  private final PointRepository pointRepository;
 
   public static Member createMember(String userName, String kakaoId, String instaId,
-                                    String profileImageUrl, Role role, Long totalLike,
-                                    Status userStatus) {
-    return Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName).kakaoId(kakaoId).instaId(instaId).role(role)
-        .profileImageUrl(profileImageUrl).totalLike(totalLike).userStatus(userStatus).build();
+      String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+    return Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName).kakaoId(kakaoId)
+        .instaId(instaId).role(role).profileImageUrl(profileImageUrl).totalLike(totalLike)
+        .userStatus(userStatus).build();
   }
-
-//  public Member createMember(){
-//    createMemberUsecase.execute();
-//    createPointUsecase.execute(member, PointPolicy.GET_100_WHEN_SIGN_UP);
-//  }
 
   // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
   // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할
@@ -54,11 +50,12 @@ public class MemberService {
     Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
         .mapToLong(PostLikeCount::getLikeCount).sum();
     boolean isInstaConnected = member.getInstaId() != null;
-    Long points = 0L;
+
+    // todo: 어색한 도메인의 getter 고치기
+    Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
     // DTO를 생성하여 반환합니다.
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), totalLike, member.getProfileImageUrl(),
-        isInstaConnected, points);
+        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
   }
 
   @Transactional
