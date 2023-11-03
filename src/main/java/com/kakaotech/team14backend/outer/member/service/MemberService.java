@@ -53,7 +53,7 @@ public class MemberService {
     // 좋아요의 총합을 스트림을 이용하여 계산합니다.
     Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
         .mapToLong(PostLikeCount::getLikeCount).sum();
-    boolean isInstaConnected = member.getInstaId() != null;
+    boolean isInstaConnected = !member.getInstaId().equals("none");
     Long points = 0L;
     // DTO를 생성하여 반환합니다.
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
