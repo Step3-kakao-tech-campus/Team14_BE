@@ -23,9 +23,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
-
 @Entity(name = "member")
-@NoArgsConstructor(access=PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Member {
   @Id
@@ -51,9 +50,8 @@ public class Member {
   private Role role;
 
 
-
   @Column(nullable = false)
-  private Long totalLike = 0L; // 보유 좋아요 수
+  private Long totalLike; // 보유 좋아요 수
 
   @Column(nullable = false)
   @CreationTimestamp
@@ -67,15 +65,19 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private Status userStatus; // 제재, 탈퇴, 정상 등등
 
+
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
   private List<PostLike> postLikeHistories = new ArrayList<>();
-  public void updateInstagram(Role newRole,String instaId) {
+
+  public void updateInstagram(Role newRole, String instaId) {
     // 선택적: 유효성 검사를 수행하려면 여기에 코드 추가
     this.instaId = instaId;
     this.role = newRole;
   }
+
   @Builder
-  public Member(Long memberId,String userName, String kakaoId, String instaId,String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+  public Member(Long memberId, String userName, String kakaoId, String instaId,
+                String profileImageUrl, Role role, Long totalLike, Status userStatus) {
     this.memberId = memberId;
     this.userName = userName;
     this.kakaoId = kakaoId;
@@ -99,9 +101,11 @@ public class Member {
         ", role=" + role +
         '}';
   }
+
   public void makeUserInactive() {
     this.userStatus = Status.STATUS_INACTIVE;
   }
+
   public void makeUserActive() {
     this.userStatus = Status.STATUS_ACTIVE;
   }

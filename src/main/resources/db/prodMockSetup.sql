@@ -11,13 +11,13 @@ TRUNCATE TABLE point;
 INSERT INTO member (member_id,created_at, insta_id, kakao_id, profile_image_url, total_like, updated_at,
                     user_name, user_status,
                     role)
-VALUES (1L,NOW(), 'insta1', 'kakao1',
+VALUES (1,NOW(), 'insta1', 'kakao1',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 10,
         NOW(), 'user1', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
-       (2L,NOW(), 'insta2', 'kakao2',
+       (2,NOW(), 'insta2', 'kakao2',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 20,
         NOW(), 'user2', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
-       (3L,NOW(), 'insta3', 'kakao3',
+       (3,NOW(), 'insta3', 'kakao3',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 30,
         NOW(), 'user3', 'STATUS_DORMANT', 'ROLE_BEGINNER');
 
