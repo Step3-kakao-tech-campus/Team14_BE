@@ -19,7 +19,7 @@ CREATE TABLE image
 -- member 테이블
 CREATE TABLE member
 (
-    member_id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id         BIGINT PRIMARY KEY,
     user_name         VARCHAR(50)                                                     NOT NULL,
     kakao_id          VARCHAR(50)                                                     NOT NULL,
     insta_id          VARCHAR(50)                                                     NOT NULL,
