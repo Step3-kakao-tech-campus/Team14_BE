@@ -4,12 +4,15 @@ package com.kakaotech.team14backend.common;
 public enum MessageCode {
 
   NOT_ALLOWED_FILE_EXT("4003","파일 확장명은 pdf, jpg, jpeg, png만 가능합니다."),
+
+  NEED_LOGIN("401","로그인이 필요합니다."),
+  NEED_INSTAGRAM("401","인스타 연동이 필요합니다."),
   INVALIDATE_REFRESH_TOKEN("401","잘못된 리프레시 토큰입니다."),
   INVALIDATE_ACCESS_TOKEN("401","잘못된 엑세스 토큰입니다.")
   ,
   INCORRECT_REFRESH_TOEKN("401","요청된 리프레시토큰과 불일치합니다.")
   ,
-  EXPIRED_ACCESS_TOKEN("401","만료된 토큰입니다.")
+  EXPIRED_ACCESS_TOKEN("4111","만료된 토큰입니다.")
   ,
   NOT_REGISTER_MEMBER("401","회원정보가 존재하지 않습니다")
   ,
