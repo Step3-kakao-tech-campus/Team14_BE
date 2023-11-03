@@ -28,9 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor(access=PROTECTED)
 @Getter
 public class Member {
-
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long memberId;
 
   @OneToMany(mappedBy = "member")
@@ -109,6 +107,7 @@ public class Member {
   }
 
   public Member(String userName, String kakaoId, String instaId, Role role, Long totalLike, Status userStatus) {
+    this.memberId = Long.valueOf(kakaoId);
     this.userName = userName;
     this.kakaoId = kakaoId;
     this.instaId = instaId;
