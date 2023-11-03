@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.jwt.dto.TokenDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.GetKakaoOauth2TokenDTO;
@@ -53,23 +54,26 @@ public class LoginService {
   private final MemberService memberService;
   private final TokenService tokenService;
 
+  private final CreatePointUsecase createPointUsecase;
+
   @Autowired
   public LoginService(
       @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
       MemberRepository memberRepository,
       MemberService memberService,
-      TokenService tokenService) {
+      TokenService tokenService,
+      CreatePointUsecase createPointUsecase) {
     this.proxyRestTemplate = proxyRestTemplate;
     this.memberRepository = memberRepository;
     this.memberService = memberService;
     this.tokenService = tokenService;
+    this.createPointUsecase = createPointUsecase;
   }
 
 
   public String getKaKaoAccessToken(String code) {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-    RestTemplate rt = new RestTemplate();
 
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("grant_type", "authorization_code");
@@ -81,7 +85,7 @@ public class LoginService {
         new HttpEntity<>(params, headers);
 
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = rt.exchange(
+    ResponseEntity<String> response = proxyRestTemplate.exchange(
         KAKAO_TOKEN_URI,
         HttpMethod.POST,
         kakaoTokenRequest,
@@ -103,10 +107,9 @@ public class LoginService {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization", "Bearer " + AccessToken);
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-    RestTemplate rt = new RestTemplate();
     HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = rt.exchange(
+    ResponseEntity<String> response = proxyRestTemplate.exchange(
         KAKAO_USER_INFO_URI,
         HttpMethod.POST,
         kakaoProfileRequest,
@@ -126,6 +129,7 @@ public class LoginService {
 
     if (memberEntity == null) {
       memberEntity = memberService.createMember(userName, kakaoId, "none", profileImage, Role.ROLE_BEGINNER, 0L, Status.STATUS_ACTIVE);
+      createPointUsecase.execute(memberEntity);
       memberRepository.save(memberEntity);
     }
     if (memberEntity.getUserStatus().equals(Status.STATUS_INACTIVE)) {
@@ -151,7 +155,7 @@ public class LoginService {
     // 리프레시토큰을 쿠키에 저장한다.
     String refreshTokenCookieName = "RefreshToken";
     String refreshTokenCookieValue = tokenDTO.getRefreshToken();
-    Cookie refreshTokenCookie = new Cookie("RefreshToken", refreshTokenCookieValue);
+    Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshTokenCookieValue);
     refreshTokenCookie.setHttpOnly(true);  //httponly 옵션 설정
     refreshTokenCookie.setSecure(true); //https 옵션 설정
     refreshTokenCookie.setPath("/"); // 모든 곳에서 쿠키열람이 가능하도록 설정
