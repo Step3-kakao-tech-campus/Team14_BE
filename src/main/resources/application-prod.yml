@@ -42,26 +42,26 @@ spring:
 #      popularPost: 3600000
 
 schedules:
-  fixedDelay: 600000
-  initialDelay: 600000
   popularPost:
     fixedDelay: 36000000
     initialDelay: 0
+  fixedDelay: 600000
+  initialDelay: 600000
 
 common:
-  frontend-server: https://k576830a43f26a.user-app.krampoline.com
+  frontend-server: https://k2bf481c846ffa.user-app.krampoline.com/
 
 oauth2:
   kakao:
     client-id: b51d037debb98e9ae02735887894b407
-    redirect-uri: http://localhost:3000/kakao/callback
+    redirect-uri: https://localhost:3000/kakao/callback
     token-uri: https://kauth.kakao.com/oauth/token
     user-info-uri: https://kapi.kakao.com/v2/user/me
 
   instagram:
     client-id: 2456565514525348
     client-secret: 640ed809676cf7480c2a28b1995f498d
-    redirect-uri: ${common.frontend-server}/instagram/callback
+    redirect-uri: https://localhost:3000/instagram/callback
     token-url: https://api.instagram.com/oauth/access_token
     user-info-url: https://graph.instagram.com/me?fields=id,username
 
@@ -74,3 +74,9 @@ jwt:
 
 # Configuration related to matching strategy, required for SpringBoot 2.6 and springfox-swagger3.0
 spring.mvc.pathmatch.matching-strategy: ant_path_matcher
+
+file:
+  path: ./images/
+
+url:
+  https://k68e1c3f0911fa.user-app.krampoline.com

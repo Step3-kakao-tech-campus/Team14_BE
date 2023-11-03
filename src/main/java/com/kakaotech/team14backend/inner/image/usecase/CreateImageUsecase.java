@@ -1,6 +1,7 @@
 package com.kakaotech.team14backend.inner.image.usecase;
 
 import com.kakaotech.team14backend.common.FileUtils;
+import com.kakaotech.team14backend.common.UploadFileDTO;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import java.io.IOException;
@@ -16,9 +17,10 @@ public class CreateImageUsecase {
   private final FileUtils fileUtils;
   private final ImageRepository imageRepository;
 
-  public Image execute(MultipartFile image, String imageName) throws IOException {
-    fileUtils.storeFile(image);
-    Image createdImage = Image.createImage(fileUtils.getFullPath(imageName));//
+  public Image execute(MultipartFile image) throws IOException {
+    UploadFileDTO uploadFileDTO = fileUtils.storeFile(image);
+    Image createdImage = Image.createImage(fileUtils.getPath(uploadFileDTO.getStoreFileName()));
     return imageRepository.save(createdImage);
   }
+
 }

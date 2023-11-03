@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.inner.post.model;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,16 +34,16 @@ public class PostRandomFetcher {
 
     switch (level) {
       case 3:
-        start = PostLevel.LV3_RANGE_START.getValue();
-        end = PostLevel.LV3_RANGE_END.getValue();
+        start = PostLevel.LV3.start();
+        end = PostLevel.LV3.end();
         break;
       case 2:
-        start = PostLevel.LV2_RANGE_START.getValue();
-        end = PostLevel.LV2_RANGE_END.getValue();
+        start = PostLevel.LV2.start();
+        end = PostLevel.LV2.end();
         break;
       case 1:
-        start = PostLevel.LV1_RANGE_START.getValue();
-        end = PostLevel.LV1_RANGE_END.getValue();
+        start = PostLevel.LV1.start();
+        end = PostLevel.LV1.end();
         break;
       default:
         throw new IllegalArgumentException("Invalid level: " + level);
@@ -64,6 +65,51 @@ public class PostRandomFetcher {
         .collect(Collectors.toList());
 
     return sortedRandomIndexes;
+  }
+
+  public Map<Integer, List<Integer>> fetchRandomIndexesUnder30ForAllLevels(Map<Integer, Integer> levelCounts, int size) {
+    int totalSize = levelCounts.get(1) + levelCounts.get(2) + levelCounts.get(3);
+
+    Set<Integer> randomIndexesSet = new HashSet<>();
+
+    int bound = totalSize < size ? totalSize : size;
+
+    while (randomIndexesSet.size() < bound) {
+      int randomIndex = 1 + random.nextInt(size);
+      randomIndexesSet.add(randomIndex);
+    }
+
+    List<Integer> sortedRandomIndexes = randomIndexesSet.stream()
+        .sorted()
+        .collect(Collectors.toList());
+
+    Map<Integer, List<Integer>> result = new HashMap<>();
+
+    List<Integer> level3 = new ArrayList<>();
+    List<Integer> level2 = new ArrayList<>();
+    List<Integer> level1 = new ArrayList<>();
+
+    for(int i=0; i<sortedRandomIndexes.size(); i++){
+        if(sortedRandomIndexes.get(i) < PostLevel.LV3.end()){
+          level3.add(sortedRandomIndexes.get(i));
+        }else if(sortedRandomIndexes.get(i) < PostLevel.LV2.end()) {
+          level2.add(sortedRandomIndexes.get(i));
+        }else{
+          level1.add(sortedRandomIndexes.get(i));
+        }
+    }
+
+    if(!level3.isEmpty()){
+      result.put(3, level3);
+    }
+    if (!level2.isEmpty()) {
+      result.put(2, level2);
+    }
+    if (!level1.isEmpty()) {
+      result.put(1, level1);
+    }
+
+    return result;
   }
 
 }

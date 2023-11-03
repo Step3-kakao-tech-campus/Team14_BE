@@ -22,7 +22,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 
 @Sql("classpath:db/testSetup.sql")
-class FindPopularPostListUsecaseTest {
+class FindPopularPostListUsecaseOver30Test {
 
   @Autowired
   private FindPopularPostListUsecase findPopularPostListUsecase;
@@ -58,7 +58,7 @@ class FindPopularPostListUsecaseTest {
     levelCounts.put(1, 3);
 
     GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
-        levelCounts);
+        levelCounts,300);
     int size = getPopularPostListResponseDTO.popularPosts().size();
 
     org.assertj.core.api.Assertions.assertThat(size).isEqualTo(10);
