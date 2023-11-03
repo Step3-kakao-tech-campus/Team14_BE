@@ -28,8 +28,9 @@ public class MemberService {
   private PostLikeCount postLikeCount;
 
   public static Member createMember(String userName, String kakaoId, String instaId,
-      String profileImageUrl, Role role, Long totalLike, Status userStatus) {
-    return Member.builder().userName(userName).kakaoId(kakaoId).instaId(instaId).role(role)
+                                    String profileImageUrl, Role role, Long totalLike,
+                                    Status userStatus) {
+    return Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName).kakaoId(kakaoId).instaId(instaId).role(role)
         .profileImageUrl(profileImageUrl).totalLike(totalLike).userStatus(userStatus).build();
   }
 
