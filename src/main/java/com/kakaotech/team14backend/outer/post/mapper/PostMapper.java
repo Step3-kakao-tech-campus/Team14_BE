@@ -11,6 +11,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,10 +41,10 @@ public class PostMapper {
         post.getNickname());
   }
 
-  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked, Integer postLevel) {
+  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked, PostLevelPoint postLevelPoint) {
     return new GetPopularPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
-        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
-        post.getNickname(), isLiked, postLevel);
+        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), postLevelPoint.postPoint(),
+        post.getNickname(), isLiked, postLevelPoint.postLevel());
   }
 
   public static List<GetAuthenticatedHomePostDTO> fromAuthenticatedHomePostList(
