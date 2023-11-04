@@ -2,7 +2,8 @@ package com.kakaotech.team14backend.inner.point.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.kakaotech.team14backend.exception.Exception500;
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Instant;
 import javax.persistence.Column;
@@ -61,7 +62,7 @@ public class Point {
 
   public void useUserPoint(Long usePoint){
     if(this.nowPoint - usePoint < 0){
-      throw new Exception500("보유 폭죽이 부족합니다.");
+      throw new NotEnoughPointException(MessageCode.NOT_ENOUGH_POINT);
     }
     this.nowPoint -= usePoint;
   }

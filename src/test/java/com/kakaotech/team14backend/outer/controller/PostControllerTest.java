@@ -7,18 +7,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
-
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
-
-import java.util.Optional;
 import java.util.Set;
 
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import org.junit.jupiter.api.AfterEach;
@@ -196,10 +190,12 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
-  @DisplayName("인기 피드를 조회 - 비정상 파라미터")
+  @DisplayName("인기 피드 상세 조회 - 비정상 파라미터")
   @Test
   @WithUserDetails("kakao1")
-  void findAllPopularPostExeedLevelSize_Test() throws Exception {
+  void findPopularPost_Test() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
 
     String param = "1";
 
@@ -213,13 +209,15 @@ public class PostControllerTest {
 
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response.postPoint").exists());
+    resultActions.andExpect(jsonPath("$.response.postLevel").exists());
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
-  @DisplayName("인기 피드를 상세 조회 - 정상 파라미터")
+  @DisplayName("인기 피드 전체 조회 - 비정상 파라미터로 맥스 사이즈 예외처리")
   @Test
   @WithUserDetails("kakao1")
-  void findPopularPost_Test() throws Exception {
+  void findAllPopularPostMaxSize_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post")
@@ -241,6 +239,8 @@ public class PostControllerTest {
   @Test
   @WithUserDetails("kakao1")
   void findPopularPost_isLike_Test() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
 
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);

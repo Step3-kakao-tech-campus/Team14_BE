@@ -19,8 +19,7 @@ public class PointService {
   private final UsePointUsecase usePointUsecase;
   private final FindMemberService findMemberService;
 
-  public String usePointByPopularPost(
-      UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
+  public String usePointByPopularPost(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
     Member member = findMemberService.execute(memberId);
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());

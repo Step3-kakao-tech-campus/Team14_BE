@@ -19,6 +19,9 @@ public enum MessageCode {
   LEVEL_SIZE_SMALLER_THAN_20("403","각 레벨당 사이즈는 10보다 작아야합니다."),
 
   NOT_REGISTER_POST("444","해당 게시물이 존재하지 않습니다."),
+  NOT_REGISTER_POPULARPOST("445", "해당 인기 게시물이 존재하지 않습니다."),
+
+  NOT_ENOUGH_POINT("446","포인트가 부족합니다."),
 
   POST_MUST_FOUND_ONE("888","게시물이 1개만 조회되어야 합니다.")
 
