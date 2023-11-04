@@ -27,12 +27,15 @@ public class MemberService {
   private final MemberRepository memberRepository; // 추후 Usecase 로 변경
   private final PostLikeCountRepository postLikeCountRepository;
   private final PointRepository pointRepository;
+  private final CreatePointUsecase createPointUsecase;
 
-  public static Member createMember(String userName, String kakaoId, String instaId,
+  public Member createMember(String userName, String kakaoId, String instaId,
       String profileImageUrl, Role role, Long totalLike, Status userStatus) {
-    return Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName).kakaoId(kakaoId)
-        .instaId(instaId).role(role).profileImageUrl(profileImageUrl).totalLike(totalLike)
-        .userStatus(userStatus).build();
+    Member member = Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName)
+        .kakaoId(kakaoId).instaId(instaId).role(role).profileImageUrl(profileImageUrl)
+        .totalLike(totalLike).userStatus(userStatus).build();
+    createPointUsecase.execute(member);
+    return member;
   }
 
   // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
