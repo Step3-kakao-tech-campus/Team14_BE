@@ -27,7 +27,6 @@ public class MemberService {
   private final MemberRepository memberRepository; // 추후 Usecase 로 변경
   private final PostLikeCountRepository postLikeCountRepository;
   private final PointRepository pointRepository;
-  private final CreatePointUsecase createPointUsecase;
 
   public Member createMember(String userName, String kakaoId, String instaId,
       String profileImageUrl, Role role, Long totalLike, Status userStatus) {
