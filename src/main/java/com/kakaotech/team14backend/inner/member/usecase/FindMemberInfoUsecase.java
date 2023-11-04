@@ -7,9 +7,14 @@ import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
-import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
+import com.kakaotech.team14backend.outer.member.dto.InstagramDetails;
+import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +28,7 @@ public class FindMemberInfoUsecase {
 
   private final PostLikeCountRepository postLikeCountRepository;
   private final PointRepository pointRepository;
+  private final PostRepository postRepository;
 
 
   // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
@@ -37,18 +43,29 @@ public class FindMemberInfoUsecase {
     List<Long> postIds = member.getPosts().stream().map(Post::getPostId)
         .collect(Collectors.toList());
 
+
     // 좋아요의 총합을 스트림을 이용하여 계산합니다.
     Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
         .mapToLong(PostLikeCount::getLikeCount).sum();
-    boolean isInstaConnected = !member.getInstaId().equals("none");
+    boolean isLinked = !member.getInstaId().equals("none");
 
     // todo: 어색한 도메인의 getter 고치기
     Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
-    Long totalReceivedPoint = 0L;
+
+    Long totalView = postRepository.sumViewCountByMemberId(memberId);
     // DTO를 생성하여 반환합니다.
-    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint,
-        totalReceivedPoint);
+//    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
+//        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
+
+    if (isLinked) {
+      return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(), member.getProfileImageUrl(), totalPoint,
+          new InstagramInfo(true,
+              new InstagramDetails(totalLike,totalView)));
+    } else {
+      return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(), member.getProfileImageUrl(), totalPoint,
+          new InstagramInfo(false,
+              new InstagramDetails(null, null)));
+    }
   }
 
 }
