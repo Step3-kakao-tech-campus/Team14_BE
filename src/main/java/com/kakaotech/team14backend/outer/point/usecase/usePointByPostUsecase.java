@@ -1,5 +1,7 @@
 package com.kakaotech.team14backend.outer.point.usecase;
 
+import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
+
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
@@ -27,8 +29,7 @@ public class usePointByPostUsecase {
 
     Member memberOfPost = post.getMember();
     Member member = findMemberService.execute(cureentMemberId);
-    final Long GET_POINT = 1L;
-    usePointUsecase.execute(member, GET_POINT);
+    usePointUsecase.execute(member, USE_100_WHEN_GET_INSTA_ID.getPoint());
     return memberOfPost.getInstaId();
   }
 }
