@@ -15,15 +15,15 @@ import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
+
 @Component
 public class PostMapper {
 
@@ -120,11 +120,6 @@ public class PostMapper {
 
   private static Long getPostPoint(int postLevel) {
     return UsePointDecider.decidePoint(postLevel);
-  }
-
-  private static List<String> splitHashtag(String hashTag) {
-    String[] splitHashtags = hashTag.split(" ");
-    return Arrays.stream(splitHashtags).collect(Collectors.toList());
   }
 
   private static String formatDate(Instant createdAt) {
