@@ -40,7 +40,7 @@ public class FindMemberInfoUsecase {
     // 좋아요의 총합을 스트림을 이용하여 계산합니다.
     Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
         .mapToLong(PostLikeCount::getLikeCount).sum();
-    boolean isInstaConnected = member.getInstaId() != null;
+    boolean isInstaConnected = !member.getInstaId().equals("none");
 
     // todo: 어색한 도메인의 getter 고치기
     Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();

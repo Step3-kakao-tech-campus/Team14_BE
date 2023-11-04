@@ -12,7 +12,7 @@ import java.io.IOException;
 public class FilterResponseUtils {
 
   public static void unAuthorized(HttpServletResponse response) throws IOException {
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.NOT_LOGIN.getCode(), MessageCode.NOT_LOGIN.getValue(), HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.NEED_LOGIN.getCode(), MessageCode.NEED_LOGIN.getValue(), HttpStatus.UNAUTHORIZED);
     response.setCharacterEncoding("UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType("application/json");
