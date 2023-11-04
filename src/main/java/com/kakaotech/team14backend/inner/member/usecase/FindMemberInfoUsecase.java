@@ -44,9 +44,11 @@ public class FindMemberInfoUsecase {
 
     // todo: 어색한 도메인의 getter 고치기
     Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
+    Long totalReceivedPoint = 0L;
     // DTO를 생성하여 반환합니다.
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
+        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint,
+        totalReceivedPoint);
   }
 
 }
