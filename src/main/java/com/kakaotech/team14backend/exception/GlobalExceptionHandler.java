@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+  @ExceptionHandler(NotEnoughPointException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleException(NotEnoughPointException e) {
+    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.NOT_FOUND);
+  }
   @ExceptionHandler(MemberNotFoundException.class)
   public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(MemberNotFoundException memberNotFoundException) {
     return ApiResponseGenerator.fail(memberNotFoundException.getMessageCode().getCode(), memberNotFoundException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
