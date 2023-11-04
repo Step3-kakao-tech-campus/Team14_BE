@@ -40,10 +40,10 @@ public class PostMapper {
         post.getNickname());
   }
 
-  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked) {
+  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked, Integer postLevel) {
     return new GetPopularPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
         splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
-        post.getNickname(), isLiked);
+        post.getNickname(), isLiked, postLevel);
   }
 
   public static List<GetAuthenticatedHomePostDTO> fromAuthenticatedHomePostList(
