@@ -4,7 +4,6 @@ import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.inner.member.usecase.FindMemberInfoUsecase;
-import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

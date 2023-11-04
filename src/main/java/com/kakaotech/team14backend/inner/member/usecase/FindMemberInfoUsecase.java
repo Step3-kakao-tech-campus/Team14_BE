@@ -7,9 +7,12 @@ import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
-import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
+import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +48,9 @@ public class FindMemberInfoUsecase {
     // todo: 어색한 도메인의 getter 고치기
     Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
     // DTO를 생성하여 반환합니다.
-    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
+//    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
+//        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
+    return new GetMemberInfoResponseDTO(member.getMemberId(),member.getUserName(),member.getProfileImageUrl(),new InstagramInfo())
   }
 
 }
