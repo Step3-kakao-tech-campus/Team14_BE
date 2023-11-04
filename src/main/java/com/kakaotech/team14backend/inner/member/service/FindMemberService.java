@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.member.usecase;
+package com.kakaotech.team14backend.inner.member.service;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindMemberUsecase {
+public class FindMemberService {
 
   private final MemberRepository memberRepository;
 

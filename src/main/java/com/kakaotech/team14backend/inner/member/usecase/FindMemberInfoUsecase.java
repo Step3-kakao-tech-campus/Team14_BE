@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.member.service;
+package com.kakaotech.team14backend.inner.member.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindMemberInfoService {
+public class FindMemberInfoUsecase {
 
   private final MemberRepository memberRepository;
 
