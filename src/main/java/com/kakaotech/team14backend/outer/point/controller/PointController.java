@@ -1,8 +1,13 @@
 package com.kakaotech.team14backend.outer.point.controller;
 
+import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
+
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.member.service.FindMemberService;
+import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;
@@ -26,6 +31,9 @@ public class PointController {
   private final PointService pointService;
   private final usePointByPostUsecase usePointByPostUsecase;
 
+  private final FindMemberService findMemberService;
+  private final UsePointUsecase usePointUsecase;
+
   @ApiOperation(value = "인기 피드 게시물 포인트 사용")
   @PostMapping("/point/popular-post")
   public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(
@@ -42,8 +50,11 @@ public class PointController {
   public ApiResponse<ApiResponse.CustomBody<UsePointByPostResponseDTO>> usePointByPost(
       @RequestBody UsePointByPostRequestDTO usePointByPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
-    String instaId = usePointByPostUsecase.getInstaId(usePointByPostRequestDTO,
-        principalDetails.getMember().getMemberId());
+    String instaId = usePointByPostUsecase.getInstaId(usePointByPostRequestDTO);
+
+    Member member = findMemberService.execute(principalDetails.getMember().getMemberId());
+    usePointUsecase.execute(member, USE_100_WHEN_GET_INSTA_ID.getPoint());
+
     UsePointByPostResponseDTO usePointByPostResponseDTO = new UsePointByPostResponseDTO(instaId);
     return ApiResponseGenerator.success(usePointByPostResponseDTO, HttpStatus.OK);
   }
