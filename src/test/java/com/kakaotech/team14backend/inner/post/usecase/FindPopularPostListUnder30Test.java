@@ -1,10 +1,8 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostRandomFetcher;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,13 +13,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
-
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
-
 @Sql("classpath:db/testSetup.sql")
 public class FindPopularPostListUnder30Test {
 
@@ -37,13 +32,13 @@ public class FindPopularPostListUnder30Test {
   @Autowired
   private PostRepository postRepository;
 
+  @Autowired
+  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+
   @BeforeEach
   void setUp() {
     redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
-    List<Post> posts = postRepository.findAll().subList(0,29);
-    posts.forEach(post -> {
-      redisTemplate.opsForZSet().add(RedisKey.POPULAR_POST_KEY.getKey(),new GetIncompletePopularPostDTO(post.getPostId(),post.getImage().getImageUri(),post.getHashtag(),post.getPostLikeCount().getLikeCount(),post.getPopularity(),post.getNickname()),post.getPopularity());
-    });
+    saveTemporaryPopularPostListUsecase.execute();
   }
 
   @Test
