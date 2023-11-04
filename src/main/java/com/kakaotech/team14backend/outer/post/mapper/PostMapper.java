@@ -109,8 +109,7 @@ public class PostMapper {
         GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
             getIncompletePopularPostDTO.getPostId(), makeUrl(getIncompletePopularPostDTO.getImageUri()),
             splitHashtag(getIncompletePopularPostDTO.getHashTag()),
-            getIncompletePopularPostDTO.getLikeCount(), getPostPoint(entry.getKey()),
-            getIncompletePopularPostDTO.getNickname(), entry.getKey());
+            getIncompletePopularPostDTO.getLikeCount(), getIncompletePopularPostDTO.getNickname(), getIncompletePopularPostDTO.getPostLevel());
         popularPosts.add(getPopularPostDTO);
       }
     }
