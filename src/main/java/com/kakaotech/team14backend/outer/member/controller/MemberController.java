@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,6 @@ public class MemberController {
   public ApiResponse<ApiResponse.CustomBody<GetMemberInfoResponseDTO>> getMyPageInfo(
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
     Long memberId = principalDetails.getMember().getMemberId();
-    GetMemberInfoResponseDTO myPageInfo = memberService.getMyPageInfo(memberId);
     GetMemberInfoResponseDTO myPageInfo = findMemberInfoService.getMyPageInfo(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
