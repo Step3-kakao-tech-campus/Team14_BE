@@ -28,10 +28,16 @@ public class PointController {
 
   @ApiOperation(value = "인기 피드 게시물 포인트 사용")
   @PostMapping("/point/popular-post")
-  public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(@RequestBody UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, principalDetails.getMember().getMemberId());
-    UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(instaId);
-    return ApiResponseGenerator.success(usePointByPopularPostResponseDTO,HttpStatus.OK);
+  public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(
+      @RequestBody UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO,
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO,
+        principalDetails.getMember().getMemberId());
+    UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
+        instaId);
+    return ApiResponseGenerator.success(usePointByPopularPostResponseDTO, HttpStatus.OK);
+  }
+
   @PostMapping("/point/post")
   public ApiResponse<ApiResponse.CustomBody<UsePointByPostResponseDTO>> usePointByPost(
       @RequestBody UsePointByPostRequestDTO usePointByPostRequestDTO,
