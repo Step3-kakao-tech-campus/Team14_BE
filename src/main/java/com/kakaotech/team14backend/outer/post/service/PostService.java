@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.outer.post.service;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.usecase.FindMemberUsecase;
+import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.post.port.PostUseCasePort;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
@@ -41,7 +41,6 @@ public class PostService {
 
   private final CreateImageUsecase createImageUsecase;
   private final CreatePostUsecase createPostUsecase;
-  private final FindMemberUsecase findMemberUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPostUsecase findPopularPostUsecase;
@@ -54,6 +53,7 @@ public class PostService {
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
 
   private final PostUseCasePort postUseCasePort;
+  private final FindMemberService findMemberService;
 
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
@@ -64,7 +64,7 @@ public class PostService {
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
-    Member savedMember = findMemberUsecase.execute(uploadPostDTO.memberId());
+    Member savedMember = findMemberService.execute(uploadPostDTO.memberId());
     Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);

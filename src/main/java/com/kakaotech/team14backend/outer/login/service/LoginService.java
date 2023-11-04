@@ -129,7 +129,6 @@ public class LoginService {
 
     if (memberEntity == null) {
       memberEntity = memberService.createMember(userName, kakaoId, "none", profileImage, Role.ROLE_BEGINNER, 0L, Status.STATUS_ACTIVE);
-      createPointUsecase.execute(memberEntity);
       memberRepository.save(memberEntity);
     }
     if (memberEntity.getUserStatus().equals(Status.STATUS_INACTIVE)) {

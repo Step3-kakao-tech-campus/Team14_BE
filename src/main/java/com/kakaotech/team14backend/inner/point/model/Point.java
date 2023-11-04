@@ -26,7 +26,7 @@ public class Point {
   @Id
   private Long memberId;
 
-  @MapsId  // Post의 PK를 PostLike의 PK로 사용
+  @MapsId
   @OneToOne
   @JoinColumn(name = "memberId")
   private Member member;
