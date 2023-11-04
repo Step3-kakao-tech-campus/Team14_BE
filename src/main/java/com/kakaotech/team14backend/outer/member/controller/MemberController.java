@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.outer.member.controller;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.member.service.FindMemberInfoService;
 import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
   private final MemberService memberService;
+  private final FindMemberInfoService findMemberInfoService;
 
   @ApiOperation(value = "마이페이지 계정 상세 조회")
   @GetMapping("/user/info")
@@ -29,6 +30,7 @@ public class MemberController {
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
     Long memberId = principalDetails.getMember().getMemberId();
     GetMemberInfoResponseDTO myPageInfo = memberService.getMyPageInfo(memberId);
+    GetMemberInfoResponseDTO myPageInfo = findMemberInfoService.getMyPageInfo(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
 

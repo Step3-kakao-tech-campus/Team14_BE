@@ -37,28 +37,6 @@ public class MemberService {
     return member;
   }
 
-  // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
-  // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할
-  public GetMemberInfoResponseDTO getMyPageInfo(Long memberId) {
-    // 회원 정보를 조회하고, 없다면 예외를 발생시킵니다.
-    Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-
-    // 회원이 작성한 게시물의 ID 목록을 스트림을 이용해 가져옵니다.
-    List<Long> postIds = member.getPosts().stream().map(Post::getPostId)
-        .collect(Collectors.toList());
-
-    // 좋아요의 총합을 스트림을 이용하여 계산합니다.
-    Long totalLike = postIds.stream().map(postLikeCountRepository::findByPostId)
-        .mapToLong(PostLikeCount::getLikeCount).sum();
-    boolean isInstaConnected = member.getInstaId() != null;
-
-    // todo: 어색한 도메인의 getter 고치기
-    Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
-    // DTO를 생성하여 반환합니다.
-    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
-  }
 
   @Transactional
   public void deleteAccount(Long memberId) {
