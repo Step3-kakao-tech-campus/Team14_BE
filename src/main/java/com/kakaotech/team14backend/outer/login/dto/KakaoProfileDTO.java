@@ -27,8 +27,6 @@ public class KakaoProfileDTO {
 
     @JsonProperty("profile_image")
     private String profileImage;
-
-    // ... getters, setters ...
   }
 }
 

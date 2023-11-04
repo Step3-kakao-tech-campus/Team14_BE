@@ -29,7 +29,7 @@ public class MemberService {
   private final PointRepository pointRepository;
 
   public Member createMember(String userName, String kakaoId, String instaId,
-      String profileImageUrl, Role role, Long totalLike, Status userStatus) {
+                             String profileImageUrl, Role role, Long totalLike, Status userStatus) {
     Member member = Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName)
         .kakaoId(kakaoId).instaId(instaId).role(role).profileImageUrl(profileImageUrl)
         .totalLike(totalLike).userStatus(userStatus).build();
@@ -56,5 +56,3 @@ public class MemberService {
     member.get().makeUserActive();
   }
 }
-
-
