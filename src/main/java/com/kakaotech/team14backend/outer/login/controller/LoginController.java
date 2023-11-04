@@ -69,8 +69,8 @@ public class LoginController {
   @ResponseBody
   public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     String kakaoId = principalDetails.getKakaoId();
-    ApiResponse<?> apiResponse = logoutService.logout(request, response, kakaoId);
-    return apiResponse;
+    logoutService.logout(response, kakaoId);
+    return ApiResponseGenerator.success(HttpStatus.OK);
   }
 
 

@@ -32,4 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId = :postId")
   Post findByPostIdAndMemberId(Long memberId, Long postId);
+
+  @Query("SELECT COALESCE(SUM(p.viewCount), 0) FROM post p WHERE p.member.memberId = :memberId")
+  Long sumViewCountByMemberId(@Param("memberId") Long memberId);
 }
