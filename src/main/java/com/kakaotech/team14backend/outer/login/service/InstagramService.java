@@ -104,8 +104,6 @@ public class InstagramService {
   }
 
   public ApiResponse<?> connectInstagramSuccessHandler(HttpServletResponse response,String kakaoId){
-    // 기존 엑세스토큰 및 리프레시토큰 정보 로그아웃 api를 통한 삭제
-    logoutService.logout(response,kakaoId);
 
     Member member = memberRepository.findByKakaoId(kakaoId);
     TokenDTO tokenDTO = tokenService.createOrUpdateToken(member);
