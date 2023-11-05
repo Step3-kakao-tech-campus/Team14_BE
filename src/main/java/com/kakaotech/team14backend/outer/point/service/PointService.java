@@ -5,6 +5,8 @@ import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.point.usecase.ValidatePointByPopularPostUsecase;
+import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,17 @@ public class PointService {
   private final UsePointUsecase usePointUsecase;
   private final FindMemberService findMemberService;
 
-  public String usePointByPopularPost(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
+  private final PostRepository postRepository;
+
+  public String usePointByPopularPost(
+      UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long memberId) {
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
     Member member = findMemberService.execute(memberId);
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
-    usePointUsecase.execute(member, point);
+
+    Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId()).orElseThrow();
+    Member received = post.getMember();
+    usePointUsecase.execute(received.getMemberId(), member.getMemberId(), point);
     return member.getInstaId();
   }
 
