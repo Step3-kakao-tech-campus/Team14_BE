@@ -59,8 +59,9 @@ public class PointController {
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
-
-    usePointUsecase.execute(1L, received.getMemberId(),
+    
+    Long senderId = principalDetails.getMember().getMemberId();
+    usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
 
     UsePointByPostResponseDTO usePointByPostResponseDTO = new UsePointByPostResponseDTO(instaId);
