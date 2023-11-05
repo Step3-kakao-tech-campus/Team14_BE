@@ -2,7 +2,6 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.exception.MultiplePostsFoundException;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.PostRandomFetcher;
@@ -28,25 +27,43 @@ public class FindPopularPostListUsecase {
 
   private final RedisTemplate redisTemplate;
   private final PostRandomFetcher postRandomFetcher;
-
-  public GetPopularPostListResponseDTO execute(Map<Integer, Integer> levelCounts){
-
-    Map<Integer, List<Integer>> levelIndexes = postRandomFetcher.fetchRandomIndexesForAllLevels(levelCounts);
+  private static final int MINIMUM_SIZE = 30;
+  public GetPopularPostListResponseDTO execute(Map<Integer, Integer> levelCounts, int size) {
 
     List<GetIncompletePopularPostDTO> incompletePopularPostDTOS = new ArrayList<>();
+    GetPopularPostListResponseDTO getPopularPostListResponseDTO = null;
+    Map<Integer, List<Integer>> levelIndexes = null;
 
-    for(int i = 1; i <= levelIndexes.size(); i++){
-      for(int j = 0; j < levelIndexes.get(i).size(); j++){
-        Set<LinkedHashMap<String, Object>> post = redisTemplate.opsForZSet().range(RedisKey.POPULAR_POST_KEY.getKey(), levelIndexes.get(i).get(j)-1, levelIndexes.get(i).get(j)-1);
+    levelIndexes = getLevelIndexes(levelCounts, size);
+
+    for (Map.Entry<Integer, List<Integer>> entry : levelIndexes.entrySet()) {
+      List<Integer> indexes = entry.getValue();
+      for (Integer index : indexes) {
+        Set<LinkedHashMap<String, Object>> post = redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), index - 1, index - 1);
         // todo 해당 게시물이 Redis에 없을 때 MySQL에서 조회하는 방법 생각!
-        if(post.isEmpty()){
+        if (post.isEmpty()) {
           throw new PostNotFoundException(MessageCode.NOT_REGISTER_POST);
         }
         incompletePopularPostDTOS.add(getIncompletePopularPostDTO(post));
       }
+
     }
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO = PostMapper.from(incompletePopularPostDTOS,levelIndexes);
+
+    getPopularPostListResponseDTO = PostMapper.from(incompletePopularPostDTOS, levelIndexes);
+
     return getPopularPostListResponseDTO;
+  }
+
+  private Map<Integer, List<Integer>> getLevelIndexes(Map<Integer, Integer> levelCounts, int size) {
+    Map<Integer, List<Integer>> levelIndexes;
+    if(size < MINIMUM_SIZE){
+      levelIndexes = postRandomFetcher.fetchRandomIndexesUnder30ForAllLevels(levelCounts, size);
+
+    }else{
+      levelIndexes = postRandomFetcher.fetchRandomIndexesForAllLevels(levelCounts);
+
+    }
+    return levelIndexes;
   }
 
   private GetIncompletePopularPostDTO getIncompletePopularPostDTO(Set<LinkedHashMap<String, Object>> post) {

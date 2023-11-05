@@ -9,6 +9,8 @@ import com.kakaotech.team14backend.jwt.dto.TokenDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -25,7 +27,6 @@ import java.net.Proxy;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class InstagramService {
 
   private final String GRANT_TYPE = "authorization_code";
@@ -44,15 +45,26 @@ public class InstagramService {
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private int cookieAge;
 
+  private final RestTemplate proxyRestTemplate;
   private final MemberRepository memberRepository;
   private final TokenService tokenService;
 
+  @Autowired
+  public InstagramService(
+      @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
+      MemberRepository memberRepository,
+      TokenService tokenService) {
+    this.proxyRestTemplate = proxyRestTemplate;
+    this.memberRepository = memberRepository;
+    this.tokenService = tokenService;
+  }
+
   //krmp-proxy.9rum.cc", 3128
   public String getAccessToken(String code) {
-    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-    requestFactory.setProxy(proxy);
-    RestTemplate restTemplate = new RestTemplate(requestFactory);
+//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//    requestFactory.setProxy(proxy);
+//    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -67,7 +79,7 @@ public class InstagramService {
     // Instagram API 호출
     String accessTokenRequestUrl = TOKEN_URL;
     HttpEntity<MultiValueMap<String, String>> requestMap = new HttpEntity<>(map, headers);
-    ResponseEntity<Map> responseEntity = restTemplate.postForEntity(accessTokenRequestUrl, requestMap, Map.class);
+    ResponseEntity<Map> responseEntity = proxyRestTemplate.postForEntity(accessTokenRequestUrl, requestMap, Map.class);
     // 응답 받은 JSON 데이터 반환
     String accessToken = (String) responseEntity.getBody().get("access_token");
     return accessToken;
@@ -75,14 +87,14 @@ public class InstagramService {
 
   @Transactional
   public void getInstagramAndSetNewToken(String kakaoId, String accessToken) {
-    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
-    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-    requestFactory.setProxy(proxy);
-    RestTemplate restTemplate = new RestTemplate(requestFactory);
+//    Proxy proxy = new Proxy(Proxy.Type.HTTP,new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+//    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//    requestFactory.setProxy(proxy);
+//    RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;
-    ResponseEntity<Map> userResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
+    ResponseEntity<Map> userResponse = proxyRestTemplate.exchange(userInfoUrl, HttpMethod.GET, null, Map.class);
     String instaId = (String) userResponse.getBody().get("username");
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
     memberEntity.updateInstagram(Role.ROLE_USER, instaId);

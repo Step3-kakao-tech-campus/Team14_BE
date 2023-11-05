@@ -1,25 +1,23 @@
 package com.kakaotech.team14backend.inner.point.model;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
-
-import static lombok.AccessLevel.PROTECTED;
-
-@Entity
+@Entity(name = "point")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Point {

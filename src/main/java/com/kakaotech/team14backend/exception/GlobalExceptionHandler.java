@@ -35,8 +35,6 @@ public class GlobalExceptionHandler {
 
 
 
-
-
   private static final String EXCEPTION_400_CODE = "400";
   private static final String EXCEPTION_401_CODE = "401";
   private static final String EXCEPTION_403_CODE = "403";

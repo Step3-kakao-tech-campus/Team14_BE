@@ -7,11 +7,13 @@ public enum MessageCode {
   INVALIDATE_REFRESH_TOKEN("401","잘못된 리프레시 토큰입니다."),
   INVALIDATE_ACCESS_TOKEN("401","잘못된 엑세스 토큰입니다.")
   ,
-  INCORRECT_REFRESH_TOEKN("401","요청된 리프레시토큰과 불일치합니다")
+  INCORRECT_REFRESH_TOEKN("401","요청된 리프레시토큰과 불일치합니다.")
+  ,
+  EXPIRED_ACCESS_TOKEN("401","만료된 토큰입니다.")
   ,
   NOT_REGISTER_MEMBER("401","회원정보가 존재하지 않습니다")
   ,
-  LEVEL_SIZE_SMALLER_THAN_20("403","각 레벨당 사이즈는 20보다 작아야합니다."),
+  LEVEL_SIZE_SMALLER_THAN_20("403","각 레벨당 사이즈는 10보다 작아야합니다."),
 
   NOT_REGISTER_POST("444","해당 게시물이 존재하지 않습니다."),
 

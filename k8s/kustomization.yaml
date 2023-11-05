@@ -2,7 +2,7 @@ namespace: default
 resources:
   - mariadb.yaml
   - backend.yaml
-  - ingress.yaml
+  #  - ingress.yaml
   - nginx.yaml
   - redis.yaml
 configMapGenerator:
