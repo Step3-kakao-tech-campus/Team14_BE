@@ -47,18 +47,11 @@ public class LoginController {
   @PostMapping("/api/login")
   @ResponseBody
   public ApiResponse<?> kakaoLogin(HttpServletResponse response, @RequestBody GetKakaoCode kakaoCode) throws IOException {
-    try {
-      String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
-      KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
-      loginService.createOrLoginMember(kakaoProfileDTO);
-      ApiResponse<?> apiResponse = loginService.AuthenticationSuccessHandelr(response, kakaoProfileDTO);
-      return apiResponse;
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ApiResponseGenerator.fail("500", "확인예정", HttpStatus.CONFLICT);
-    }
-
-
+    String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
+    KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
+    loginService.createOrLoginMember(kakaoProfileDTO);
+    loginService.AuthenticationSuccessHandelr(response, kakaoProfileDTO);
+    return ApiResponseGenerator.success(HttpStatus.OK);
   }
 
 
@@ -76,8 +69,8 @@ public class LoginController {
   @ResponseBody
   public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     String kakaoId = principalDetails.getKakaoId();
-    ApiResponse<?> apiResponse = logoutService.logout(request,response, kakaoId);
-    return apiResponse;
+    logoutService.logout(response, kakaoId);
+    return ApiResponseGenerator.success(HttpStatus.OK);
   }
 
 

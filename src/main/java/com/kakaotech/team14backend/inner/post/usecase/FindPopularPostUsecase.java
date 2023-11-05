@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,9 +34,9 @@ public class FindPopularPostUsecase {
    */
 
   @Transactional(readOnly = true)
-  public GetPopularPostResponseDTO execute(GetPostDTO getPostDTO) {
+  public GetPopularPostResponseDTO execute(GetPostDTO getPostDTO, PostLevelPoint postLevelPoint) {
     Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POST));
-    GetPopularPostResponseDTO getPopularPostResponseDTO = PostMapper.from(popularPost, isLiked(getPostDTO, popularPost));
+    GetPopularPostResponseDTO getPopularPostResponseDTO = PostMapper.from(popularPost, isLiked(getPostDTO, popularPost),postLevelPoint);
     return getPopularPostResponseDTO;
   }
 

@@ -41,7 +41,7 @@ schedules:
 
 
 common:
-  frontend-server: https://k576830a43f26a.user-app.krampoline.com
+  frontend-server: https://localhost:3000
 
 oauth2:
   kakao:

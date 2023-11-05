@@ -7,22 +7,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
-
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
-
-import java.util.Optional;
 import java.util.Set;
 
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,9 +30,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 
 @Sql("classpath:db/testSetup.sql")
 @AutoConfigureMockMvc
@@ -200,10 +190,12 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
-  @DisplayName("인기 피드를 조회 - 비정상 파라미터")
+  @DisplayName("인기 피드 상세 조회 - 비정상 파라미터")
   @Test
   @WithUserDetails("kakao1")
-  void findAllPopularPostExeedLevelSize_Test() throws Exception {
+  void findPopularPost_Test() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
 
     String param = "1";
 
@@ -217,13 +209,15 @@ public class PostControllerTest {
 
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response.postPoint").exists());
+    resultActions.andExpect(jsonPath("$.response.postLevel").exists());
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
-  @DisplayName("인기 피드를 상세 조회 - 정상 파라미터")
+  @DisplayName("인기 피드 전체 조회 - 비정상 파라미터로 맥스 사이즈 예외처리")
   @Test
   @WithUserDetails("kakao1")
-  void findPopularPost_Test() throws Exception {
+  void findAllPopularPostMaxSize_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post")
@@ -245,6 +239,8 @@ public class PostControllerTest {
   @Test
   @WithUserDetails("kakao1")
   void findPopularPost_isLike_Test() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
 
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
@@ -270,95 +266,6 @@ public class PostControllerTest {
     resultActions.andExpect(jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
 
   }
-
-
-//  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판297를 구매하였으나 돈이 부족한 경우- 정상 파라미터")
-//  @Test
-//  @WithUserDetails("kakao1")
-//  void usePopularPost_Test() throws Exception {
-//
-//    saveTemporaryPopularPostListUsecase.execute();
-//
-//    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(297L, 3);
-//
-//
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    String requestBody = objectMapper.writeValueAsString(requestDTO);
-//
-//
-//    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
-//        .content(requestBody)
-//        .contentType(MediaType.APPLICATION_JSON);
-//
-//    ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("usePopularPost_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().isOk());
-//    resultActions.andExpect(jsonPath("$.success").value(true));
-//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
-//  }
-
-//  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판298를 구매하였으나 돈이 부족한 경우 - 정상 파라미터")
-//  @Test
-//  @WithUserDetails("kakao1")
-//  void usePopularPost_noPoint_Test() throws Exception {
-//
-//    saveTemporaryPopularPostListUsecase.execute();
-//
-//    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 3);
-//
-//
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    String requestBody = objectMapper.writeValueAsString(requestDTO);
-//
-//
-//    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
-//        .content(requestBody)
-//        .contentType(MediaType.APPLICATION_JSON);
-//
-//    ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("usePopularPost_Test : " + responseBody);
-//
-//
-//    resultActions.andExpect(status().is5xxServerError());
-//    resultActions.andExpect(jsonPath("$.success").value(false));
-//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
-//  }
-//
-//  @DisplayName("요청 파라미터인 게시판 id와 해당 게시팔 레벨이 Redis에 저장되어있는 상태와 같지 않을 경우- 비정상 파라미터")
-//  @Test
-//  @WithUserDetails("kakao1")
-//  void usePopularPost_noMatch_postIdAndPostLevel_Test() throws Exception {
-//
-//    saveTemporaryPopularPostListUsecase.execute();
-//
-//    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 2);
-//
-//
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    String requestBody = objectMapper.writeValueAsString(requestDTO);
-//
-//
-//    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
-//        .content(requestBody)
-//        .contentType(MediaType.APPLICATION_JSON);
-//
-//    ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("usePopularPost_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().is4xxClientError());
-//    resultActions.andExpect(jsonPath("$.success").value(false));
-//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
-//  }
 
 }
 
