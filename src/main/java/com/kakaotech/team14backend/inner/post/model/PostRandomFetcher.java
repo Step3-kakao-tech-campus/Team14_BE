@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class PostRandomFetcher {
-  private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
 
   public Map<Integer, List<Integer>> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts) {
@@ -56,7 +55,7 @@ public class PostRandomFetcher {
     Set<Integer> randomIndexesSet = new HashSet<>();
 
     while (randomIndexesSet.size() < count) {
-      int randomIndex = start + random.nextInt(end - start + 1);
+      int randomIndex = start + ThreadLocalRandom.current().nextInt(end - start + 1);
       randomIndexesSet.add(randomIndex);
     }
 
@@ -75,7 +74,7 @@ public class PostRandomFetcher {
     int bound = totalSize < size ? totalSize : size;
 
     while (randomIndexesSet.size() < bound) {
-      int randomIndex = 1 + random.nextInt(size);
+      int randomIndex = 1 + ThreadLocalRandom.current().nextInt(size);
       randomIndexesSet.add(randomIndex);
     }
 

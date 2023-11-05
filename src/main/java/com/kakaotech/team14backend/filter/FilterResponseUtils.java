@@ -3,6 +3,7 @@ package com.kakaotech.team14backend.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.common.MessageCode;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class FilterResponseUtils {
 
   public static void unAuthorized(HttpServletResponse response) throws IOException {
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.NEED_LOGIN.getCode(), MessageCode.NEED_LOGIN.getValue(), HttpStatus.UNAUTHORIZED);
     response.setCharacterEncoding("UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType("application/json");
@@ -25,7 +26,7 @@ public class FilterResponseUtils {
     response.setStatus(HttpStatus.FORBIDDEN.value());
     // 현재 사용자의 권한에 따라 다른 에러 메시지를 설정
     if (isRoleNotUser) {
-      ApiResponse<?> apiResponse = ApiResponseGenerator.fail("403", "인스타연동이 필요합니다", HttpStatus.FORBIDDEN);
+      ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.NEED_INSTAGRAM.getCode(), MessageCode.NEED_INSTAGRAM.getValue(), HttpStatus.FORBIDDEN);
       response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse.getBody()));
 //
     } else {
@@ -33,7 +34,7 @@ public class FilterResponseUtils {
     }
   }
   public static void AccessTokenExpired(HttpServletResponse response) throws IOException {
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("4111", "엑세스 토큰 만료 : 재발급 요망", HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.EXPIRED_ACCESS_TOKEN.getCode(), MessageCode.EXPIRED_ACCESS_TOKEN.getValue(), HttpStatus.UNAUTHORIZED);
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -41,7 +42,7 @@ public class FilterResponseUtils {
   }
 
   public static void AccessTokenValidationException(HttpServletResponse response) throws  IOException{
-    ApiResponse<?> apiResponse = ApiResponseGenerator.fail("401", "유효하지 않은 엑세스토큰", HttpStatus.UNAUTHORIZED);
+    ApiResponse<?> apiResponse = ApiResponseGenerator.fail(MessageCode.INVALIDATE_ACCESS_TOKEN.getCode(), MessageCode.INVALIDATE_ACCESS_TOKEN.getValue(), HttpStatus.UNAUTHORIZED);
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());

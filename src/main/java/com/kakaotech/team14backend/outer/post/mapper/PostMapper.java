@@ -11,19 +11,20 @@ import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
+
 @Component
 public class PostMapper {
 
@@ -40,10 +41,10 @@ public class PostMapper {
         post.getNickname());
   }
 
-  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked) {
+  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked, PostLevelPoint postLevelPoint) {
     return new GetPopularPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
-        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
-        post.getNickname(), isLiked);
+        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), postLevelPoint.postPoint(),
+        post.getNickname(), isLiked, postLevelPoint.postLevel());
   }
 
   public static List<GetAuthenticatedHomePostDTO> fromAuthenticatedHomePostList(
@@ -109,8 +110,7 @@ public class PostMapper {
         GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
             getIncompletePopularPostDTO.getPostId(), makeUrl(getIncompletePopularPostDTO.getImageUri()),
             splitHashtag(getIncompletePopularPostDTO.getHashTag()),
-            getIncompletePopularPostDTO.getLikeCount(), getPostPoint(entry.getKey()),
-            getIncompletePopularPostDTO.getNickname(), entry.getKey());
+            getIncompletePopularPostDTO.getLikeCount(), getIncompletePopularPostDTO.getNickname(), getIncompletePopularPostDTO.getPostLevel());
         popularPosts.add(getPopularPostDTO);
       }
     }
@@ -120,11 +120,6 @@ public class PostMapper {
 
   private static Long getPostPoint(int postLevel) {
     return UsePointDecider.decidePoint(postLevel);
-  }
-
-  private static List<String> splitHashtag(String hashTag) {
-    String[] splitHashtags = hashTag.split(" ");
-    return Arrays.stream(splitHashtags).collect(Collectors.toList());
   }
 
   private static String formatDate(Instant createdAt) {

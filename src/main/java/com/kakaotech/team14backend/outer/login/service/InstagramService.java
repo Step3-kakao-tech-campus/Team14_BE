@@ -48,15 +48,18 @@ public class InstagramService {
   private final RestTemplate proxyRestTemplate;
   private final MemberRepository memberRepository;
   private final TokenService tokenService;
+  private  final LogoutService logoutService;
 
   @Autowired
   public InstagramService(
       @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
       MemberRepository memberRepository,
-      TokenService tokenService) {
+      TokenService tokenService,
+      LogoutService logoutService) {
     this.proxyRestTemplate = proxyRestTemplate;
     this.memberRepository = memberRepository;
     this.tokenService = tokenService;
+    this.logoutService = logoutService;
   }
 
   //krmp-proxy.9rum.cc", 3128
@@ -101,8 +104,11 @@ public class InstagramService {
   }
 
   public ApiResponse<?> connectInstagramSuccessHandler(HttpServletResponse response,String kakaoId){
+
     Member member = memberRepository.findByKakaoId(kakaoId);
     TokenDTO tokenDTO = tokenService.createOrUpdateToken(member);
+
+
     response.setContentType("application/json");
     // 토큰을 HTTP 헤더에 추가
     response.addHeader("Authorization", tokenDTO.getAccessToken());

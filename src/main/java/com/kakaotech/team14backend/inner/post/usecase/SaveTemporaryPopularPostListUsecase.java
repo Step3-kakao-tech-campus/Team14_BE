@@ -47,7 +47,7 @@ public class SaveTemporaryPopularPostListUsecase {
   private void setPopularPostCache(GetIncompletePopularPostDTO dto) {
     ZSetOperations zSetOperations = redisTemplate.opsForZSet();
     double score = dto.getPopularity().doubleValue();
-    zSetOperations.add(RedisKey.POPULAR_POST_KEY.getKey(), dto, score);
+    zSetOperations.add(RedisKey.POPULAR_POST_KEY.getKey(), dto.getPostId(), score);
   }
 
 }

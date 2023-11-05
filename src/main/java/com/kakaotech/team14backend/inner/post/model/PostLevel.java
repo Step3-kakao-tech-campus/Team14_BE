@@ -23,6 +23,16 @@ public enum PostLevel {
     };
   }
 
+  public static Integer to(final int rank) {
+    if(rank <= 10) {
+      return 3;
+    } else if(rank <= 20) {
+      return 2;
+    } else{
+      return 1;
+    }
+  }
+
   public int start() {
     return start;
   }
