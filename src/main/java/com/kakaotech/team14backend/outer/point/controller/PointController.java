@@ -6,7 +6,6 @@ import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
@@ -31,7 +30,6 @@ public class PointController {
 
   private final PointService pointService;
 
-  private final FindMemberService findMemberService;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
 
@@ -61,7 +59,7 @@ public class PointController {
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
-    
+
     Long senderId = principalDetails.getMember().getMemberId();
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
