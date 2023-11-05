@@ -83,9 +83,10 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(),
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
+
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
