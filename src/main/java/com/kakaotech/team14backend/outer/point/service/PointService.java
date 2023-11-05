@@ -31,7 +31,7 @@ public class PointService {
 
     Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId()).orElseThrow();
     Member received = post.getMember();
-    usePointUsecase.execute(received.getMemberId(), member.getMemberId(), point);
+    usePointUsecase.execute(member.getMemberId(), received.getMemberId(), point);
     return member.getInstaId();
   }
 
