@@ -40,8 +40,10 @@ public class PointController {
   public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(
       @RequestBody UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
-    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO,
-        principalDetails.getMember().getMemberId());
+
+    Long senderId = principalDetails.getMember().getMemberId();
+    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
+
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
     return ApiResponseGenerator.success(usePointByPopularPostResponseDTO, HttpStatus.OK);
