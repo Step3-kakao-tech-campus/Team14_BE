@@ -2,7 +2,6 @@ package com.kakaotech.team14backend.inner.member.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.point.model.Point;
 import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
@@ -49,10 +48,7 @@ public class FindMemberInfoUsecase {
     boolean isLinked = !member.getInstaId().equals("none");
 
     // todo: 어색한 도메인의 getter 고치기
-    Point point = pointRepository.findByMemberId(memberId);
-    Long totalPoint = point.getNowPoint();
-
-    System.out.println("point = " + point.getNowPoint() + point.getMemberId());
+    Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
 
     Long totalView = postRepository.sumViewCountByMemberId(memberId);
     // DTO를 생성하여 반환합니다.
