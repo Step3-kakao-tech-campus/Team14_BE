@@ -75,8 +75,7 @@ public class PostService {
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
     saveTemporaryPostViewCountUsecase.execute(getPostDTO);
-    GetPostResponseDTO getPostResponseDTO = findPostUsecase.execute(getPostDTO);
-    return getPostResponseDTO;
+    return findPostUsecase.execute(getPostDTO);
   }
 
   public GetHomePostListResponseDTO getAuthenticatedPostList(Long lastPostId, int size,
@@ -91,7 +90,6 @@ public class PostService {
   /**
    * 인기 게시물을 상세조회한다.
    *
-   * @param : 게시물 구분자, 유저 구분자
    * @return : 인기 게시물 상세 조회시 반환 값
    * @author : hwangdaesun
    * @see : saveTemporaryPostViewCountUsecase는 게시물 조회시 게시물의 조회수를 늘려주는 클래스
@@ -100,8 +98,7 @@ public class PostService {
   public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     saveTemporaryPostViewCountUsecase.execute(getPostDTO);
     PostLevelPoint postLevelPoint = getPopularPostPointUsecase.execute(getPostDTO.postId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = findPopularPostUsecase.execute(getPostDTO, postLevelPoint);
-    return getPopularPostResponseDTO;
+    return findPopularPostUsecase.execute(getPostDTO, postLevelPoint);
   }
 
   /*
@@ -125,7 +122,6 @@ public class PostService {
   /**
    * 인기 게시물 전체 조회
    *
-   * @param : 레벨별 게시물 size
    * @return : 인기 게시물들 응답
    * @author : hwangdaesun
    */
@@ -133,13 +129,11 @@ public class PostService {
   public GetPopularPostListResponseDTO getPopularPostList(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
     int size = findPostListUsecase.findPostListSize();
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO = findPopularPostListUsecase.execute(
+    return findPopularPostListUsecase.execute(
         getPopularPostListRequestDTO.levelSize(), size);
-    return getPopularPostListResponseDTO;
   }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
-    GetMyPostResponseDTO getMyPostResponseDTO = findMyPostUsecase.execute(memberId, postId);
-    return getMyPostResponseDTO;
+    return findMyPostUsecase.execute(memberId, postId);
   }
 }
