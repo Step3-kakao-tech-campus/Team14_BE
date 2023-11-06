@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 @Transactional(readOnly = true)
@@ -30,7 +29,7 @@ public class FindPopularPostListUsecase {
   public GetPopularPostListResponseDTO execute(Map<Integer, Integer> levelCounts, int size) {
 
     List<GetIncompletePopularPostDTO> incompletePopularPostDTOS = new ArrayList<>();
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO = null;
+    GetPopularPostListResponseDTO getPopularPostListResponseDTO;
 
     Map<Integer, List<Integer>> levelIndexes =  getLevelIndexes(levelCounts, size);
 
@@ -63,8 +62,4 @@ public class FindPopularPostListUsecase {
     return levelIndexes;
   }
 
-  private Long castToLong(Integer have){
-    Long want = have.longValue();
-    return want;
-  }
 }
