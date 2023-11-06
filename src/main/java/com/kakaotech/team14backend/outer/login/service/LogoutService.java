@@ -22,7 +22,7 @@ public class LogoutService {
   private final MemberRepository memberRepository;
   private final RefreshTokenRepository refreshTokenRepository;
 
-  public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response, String kakaoId) {
+  public void logout(HttpServletResponse response, String kakaoId) {
     refreshTokenRepository.deleteRefreshToken(kakaoId);
     String refreshTokenCookieName = "RefreshToken";
     Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, null);
@@ -31,6 +31,5 @@ public class LogoutService {
     refreshTokenCookie.setPath("/");
     refreshTokenCookie.setMaxAge(0);
     response.addCookie(refreshTokenCookie);
-    return ApiResponseGenerator.success(HttpStatus.OK);
   }
 }

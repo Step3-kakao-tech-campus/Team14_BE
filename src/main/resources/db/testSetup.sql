@@ -17,7 +17,7 @@ VALUES (1L,NOW(), 'insta1', 'kakao1',
         NOW(), 'user2', 'STATUS_ACTIVE', 'ROLE_BEGINNER'),
        (3L,NOW(), 'insta3', 'kakao3',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 30,
-        NOW(), 'user3', 'STATUS_DORMANT', 'ROLE_BEGINNER');
+        NOW(), 'user3', 'STATUS_INACTIVE', 'ROLE_BEGINNER');
 
 -- Image Table
 INSERT INTO image (created_at, image_uri)

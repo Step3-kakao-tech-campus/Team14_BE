@@ -36,16 +36,17 @@ public class PointHistory {
 
   @Builder
   public PointHistory(Long recieverId, Long senderId, Long transferPoint,
-                      TransactionType transactionType) {
+      TransactionType transactionType) {
     this.recieverId = recieverId;
     this.senderId = senderId;
     this.transferPoint = transferPoint;
     this.transactionType = transactionType;
+    this.createdAt = LocalDateTime.now();
   }
 
   public static PointHistory createPointTransferRecord(Long recieverId, Long senderId,
-                                                       Long transferPoint,
-                                                       TransactionType transactionType) {
+      Long transferPoint,
+      TransactionType transactionType) {
     return PointHistory.builder()
         .recieverId(recieverId)
         .senderId(senderId)
