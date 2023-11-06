@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PointHistoryRepository extends JpaRepository<PointHistory, Long> {
 
-  @Query("select ph from point_history ph where ph.recieverId = :receivedId")
+  @Query("select ph from point_history ph where ph.recieverId = :receiverId")
   Optional<List<PointHistory>> receivedFireworksByReceivedId(Long receiverId);
 }
