@@ -5,14 +5,10 @@ metadata:
   name: backend-ingress
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "64m"
+
 spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: backend
-                port:
-                  number: 8080
+  defaultBackend:
+    service:
+      name: backend
+      port:
+        number: 8080
