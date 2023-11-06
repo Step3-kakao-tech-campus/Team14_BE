@@ -197,7 +197,7 @@ public class PostControllerTest {
 
     saveTemporaryPopularPostListUsecase.execute();
 
-    String param = "1";
+    String param = "289";
 
     ResultActions resultActions = mockMvc.perform(
         get("/api/popular-post/" + param)
@@ -209,8 +209,32 @@ public class PostControllerTest {
 
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
-    resultActions.andExpect(jsonPath("$.response.postPoint").exists());
-    resultActions.andExpect(jsonPath("$.response.postLevel").exists());
+    resultActions.andExpect(jsonPath("$.response.postPoint").value(300));
+    resultActions.andExpect(jsonPath("$.response.postLevel").value(2));
+    resultActions.andExpect(jsonPath("$.response").exists());
+  }
+
+  @DisplayName("인기 피드 상세 조회2 - 비정상 파라미터")
+  @Test
+  @WithUserDetails("kakao1")
+  void findPopularPost_Test2() throws Exception {
+
+    saveTemporaryPopularPostListUsecase.execute();
+
+    String param = "290";
+
+    ResultActions resultActions = mockMvc.perform(
+        get("/api/popular-post/" + param)
+            .contentType(MediaType.APPLICATION_JSON));
+
+    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+
+    System.out.println("findPopularPost_Test : " + responseBody);
+
+    resultActions.andExpect(status().isOk());
+    resultActions.andExpect(jsonPath("$.success").value(true));
+    resultActions.andExpect(jsonPath("$.response.postPoint").value(400));
+    resultActions.andExpect(jsonPath("$.response.postLevel").value(3));
     resultActions.andExpect(jsonPath("$.response").exists());
   }
 
