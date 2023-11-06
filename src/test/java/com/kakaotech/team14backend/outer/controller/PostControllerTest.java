@@ -36,25 +36,16 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
-public class PostControllerTest {
-
-  @Autowired
-  private ObjectMapper objectMapper;
+class PostControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-
-  @Autowired
-  private PostRepository postRepository;
 
   @Autowired
   private RedisTemplate redisTemplate;
 
   @Autowired
   private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
-
-  @Autowired
-  private MemberRepository memberRepository;
 
   @Autowired
   private PostService postService;
@@ -78,26 +69,6 @@ public class PostControllerTest {
       redisTemplate.delete(keys);
     }
   }
-
-//  @DisplayName("단일 유저가 올린 게시물들을 조회합니다")
-//  @Test
-//  void getPersonalPostList_Test() throws Exception {
-//
-//    ResultActions resultActions = mockMvc.perform(
-//        get("/api/post/user")
-//            .param("userId", "1")
-//            .param("lastPostId", "0")
-//            .param("size", "10")
-//            .contentType(MediaType.APPLICATION_JSON));
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("getPostByUser_Test : " + responseBody);
-//
-//    resultActions.andExpect(status().isOk());
-//    resultActions.andExpect(jsonPath("$.success").value(true));
-//    resultActions.andExpect(jsonPath("$.response").exists());
-//  }
 
   @DisplayName("홈 피드를 조회한다 - 정상 파라미터")
   @Test
