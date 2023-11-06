@@ -3,7 +3,6 @@ resources:
   - mariadb.yaml
   - backend.yaml
   - ingress.yaml
-  - nginx.yaml
   - redis.yaml
 configMapGenerator:
   - name: init-db
