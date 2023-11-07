@@ -19,6 +19,11 @@ public class GlobalExceptionHandler {
     return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(ImageIOException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleException(ImageIOException e) {
+    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
   @ExceptionHandler(NotEnoughPointException.class)
   public ApiResponse<ApiResponse.CustomBody> handleException(NotEnoughPointException e) {
     return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.NOT_FOUND);
