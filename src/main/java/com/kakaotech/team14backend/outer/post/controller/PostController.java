@@ -21,7 +21,6 @@ import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import io.swagger.annotations.ApiOperation;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +83,7 @@ public class PostController {
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
-      @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+      @AuthenticationPrincipal PrincipalDetails principalDetails){
     UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
