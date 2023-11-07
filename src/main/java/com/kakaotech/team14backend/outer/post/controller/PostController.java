@@ -45,6 +45,7 @@ public class PostController {
 
   private final PostService postService;
 
+  @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
   public ApiResponse<CustomBody<GetPersonalPostListResponseDTO>> getPersonalPostList(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -96,6 +97,7 @@ public class PostController {
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
+  @ApiOperation(value = "내가 올린 게시물 상세 조회", notes = "내가 올린 게시물을 상세 조회한다")
   @GetMapping("/post/{postId}/user")
   public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -108,7 +110,7 @@ public class PostController {
     System.out.println("/post/{postId}/user Response: " + getMyPostResponseDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
-
+  @ApiOperation(value = "게시물 상세 조회", notes = "게시물을 상세 조회한다")
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
       @PathVariable("postId") Long postId,
