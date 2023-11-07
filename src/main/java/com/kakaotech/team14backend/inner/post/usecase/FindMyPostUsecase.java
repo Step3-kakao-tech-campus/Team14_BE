@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class FindMyPostUsecase {
+
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
 
@@ -20,8 +21,7 @@ public class FindMyPostUsecase {
     Post post = postRepository.findByPostIdAndMemberId(memberId, postId);
     Optional<PostLike> latestPostLike = postLikeRepository
         .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
-    boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().isLiked();
-
+    boolean isLiked = latestPostLike.map(PostLike::isLiked).orElse(false);
 
     GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, isLiked);
     return getPostResponseDTO;

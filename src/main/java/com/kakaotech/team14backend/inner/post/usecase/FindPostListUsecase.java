@@ -48,7 +48,7 @@ public class FindPostListUsecase {
 
       Optional<PostLike> latestPostLike = postLikeRepository
           .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
-      boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().isLiked();
+      boolean isLiked = latestPostLike.map(PostLike::isLiked).orElse(false);
       SetAuthenticatedHomePostDTO postDTO = new SetAuthenticatedHomePostDTO(post.getPostId(),
           post.getImage().getImageUri(), post.getHashtag(), 0, post.getNickname(), isLiked);
 
