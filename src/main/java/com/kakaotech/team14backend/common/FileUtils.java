@@ -18,8 +18,6 @@ public class FileUtils {
 
   private final String fullFileDir = rootPath + "/images/";
 
-  private final String fileDir = "/images/";
-
   private final List<String> fileExts = List.of("pdf", "jpg", "jpeg", "png");
 
   public String getFullPath(String filename) {
@@ -27,7 +25,7 @@ public class FileUtils {
   }
 
   public String getPath(String filename){
-    return fileDir + filename;
+    return "/images/" + filename;
   }
 
 
