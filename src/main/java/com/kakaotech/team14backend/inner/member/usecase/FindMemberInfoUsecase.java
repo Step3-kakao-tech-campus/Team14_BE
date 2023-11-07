@@ -42,8 +42,10 @@ public class FindMemberInfoUsecase {
 
   private InstagramInfo createInstagramInfo(Member member, Long totalLike, Long totalView) {
     boolean isInstagramLinked = !member.getInstaId().equals("none");
-    InstagramDetails details =
-        isInstagramLinked ? new InstagramDetails(totalLike, totalView) : null;
+    InstagramDetails details = new InstagramDetails(
+        isInstagramLinked ? totalLike : null,
+        isInstagramLinked ? totalView : null
+    );
     return new InstagramInfo(isInstagramLinked, details);
   }
 
