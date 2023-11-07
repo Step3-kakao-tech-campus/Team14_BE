@@ -5,10 +5,10 @@ import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.Exception400;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
+import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -52,6 +52,10 @@ public class PostController {
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
+
     if (size <= 0) {
       throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
     }
@@ -68,8 +72,8 @@ public class PostController {
   @ApiOperation(value = "홈 피드의 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post")
   public ApiResponse<CustomBody<GetHomePostListResponseDTO>> getPosts(
-      @AuthenticationPrincipal PrincipalDetails principalDetails
-      , @RequestParam(value = "lastPostId", required = false) Long lastPostId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
+      @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
     if (size <= 0) {
@@ -80,8 +84,8 @@ public class PostController {
     }
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMember().getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(
-        lastPostId, size, memberId);
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(lastPostId,
+        size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
@@ -90,6 +94,9 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
     UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
@@ -102,19 +109,26 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @PathVariable("postId") Long postId) {
-    Long memberId = principalDetails.getMember().getMemberId();
-    if (postId == null) {
-      throw new Exception400("postId parameter must be not null");
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
     }
+
+    Long memberId = principalDetails.getMember().getMemberId();
+
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
     System.out.println("/post/{postId}/user Response: " + getMyPostResponseDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
+
   @ApiOperation(value = "게시물 상세 조회", notes = "게시물을 상세 조회한다")
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
@@ -125,6 +139,10 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostResponseDTO>> getPopularPost(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
@@ -157,6 +175,11 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<SetPostLikeResponseDTO>> setPostLike(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
+
     Long memberId = principalDetails.getMember().getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
