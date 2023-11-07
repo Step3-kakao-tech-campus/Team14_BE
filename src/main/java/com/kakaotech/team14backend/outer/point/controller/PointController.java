@@ -46,6 +46,7 @@ public class PointController {
     String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
+
     return ApiResponseGenerator.success(usePointByPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -65,8 +66,12 @@ public class PointController {
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
 
-    UsePointByPostResponseDTO usePointByPostResponseDTO = new UsePointByPostResponseDTO(instaId);
-    return ApiResponseGenerator.success(usePointByPostResponseDTO, HttpStatus.OK);
+    UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
+    return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);
+  }
+
+  private UsePointByPostResponseDTO createUsePointResponse(String instaId) {
+    return new UsePointByPostResponseDTO(instaId);
   }
 
   private void validatePrincipalDetails(PrincipalDetails principalDetails) {
