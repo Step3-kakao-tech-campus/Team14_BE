@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.point.model;
 
 import static lombok.AccessLevel.PROTECTED;
-
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -48,10 +47,6 @@ public class Point {
     this.member = member;
     this.nowPoint = nowPoint;
   }
-
-  /*
-    도메인 로직을 엔터티 클래스에 위치시키는 것은 도메인 주도 설계(DDD: Domain-Driven Design)의 전략
-  */
 
   public static Point createUserPoint(Member member, Long point){
     return Point.builder()

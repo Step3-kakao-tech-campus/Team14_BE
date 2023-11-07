@@ -21,7 +21,13 @@ public enum MessageCode {
 
   NOT_ENOUGH_POINT("446", "포인트가 부족합니다."),
 
-  POST_MUST_FOUND_ONE("888", "게시물이 1개만 조회되어야 합니다.");
+  POST_MUST_FOUND_ONE("888","게시물이 1개만 조회되어야 합니다."),
+
+  IMAGE_NOT_SAVE("999","이미지 저장에 실패하였습니다."),
+
+  NOT_RANGE_POST_LEVEL("998","게시물 레벨이 범위를 벗어났습니다."),
+
+  ;
 
   private final String code;
   private final String value;

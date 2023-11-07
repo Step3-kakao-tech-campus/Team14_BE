@@ -13,11 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class CreateImageUsecase {
 
-  //우리가 알던 서비스
   private final FileUtils fileUtils;
   private final ImageRepository imageRepository;
 
-  public Image execute(MultipartFile image) throws IOException {
+  public Image execute(MultipartFile image){
     UploadFileDTO uploadFileDTO = fileUtils.storeFile(image);
     Image createdImage = Image.createImage(fileUtils.getPath(uploadFileDTO.getStoreFileName()));
     return imageRepository.save(createdImage);
