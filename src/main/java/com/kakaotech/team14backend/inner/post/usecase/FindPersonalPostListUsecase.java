@@ -36,7 +36,7 @@ public class FindPersonalPostListUsecase {
 
 
   private List<Post> fetchPosts(Long memberId, Long lastPostId, Pageable pageable) {
-    if (lastPostId == null) {
+    if (lastPostId == null || lastPostId == 0) {
       return postRepository.findByMemberIdOrderByPostIdDesc(memberId, pageable);
     } else {
       return postRepository.findByMemberIdAndPostIdLessThanOrderByPostIdDesc(memberId, lastPostId,
