@@ -54,10 +54,8 @@ public class FindPopularPostListUsecase {
     Map<Integer, List<Integer>> levelIndexes;
     if(size < MINIMUM_SIZE){
       levelIndexes = postRandomFetcher.fetchRandomIndexesUnder30ForAllLevels(levelCounts, size);
-
     }else{
       levelIndexes = postRandomFetcher.fetchRandomIndexesForAllLevels(levelCounts);
-
     }
     return levelIndexes;
   }
