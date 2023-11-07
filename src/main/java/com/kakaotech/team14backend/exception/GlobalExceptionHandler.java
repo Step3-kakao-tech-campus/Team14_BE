@@ -14,6 +14,10 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(PostLevelOutOfRangeException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleException(PostLevelOutOfRangeException e) {
+    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
 
   @ExceptionHandler(NotEnoughPointException.class)
   public ApiResponse<ApiResponse.CustomBody> handleException(NotEnoughPointException e) {
