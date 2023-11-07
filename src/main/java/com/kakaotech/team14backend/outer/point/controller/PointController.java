@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
@@ -57,7 +58,8 @@ public class PointController {
     validatePrincipalDetails(principalDetails);
 
     Long postId = usePointByPostRequestDTO.postId();
-    Post post = postRepository.findById(postId).orElseThrow();
+    Post post = postRepository.findById(postId)
+        .orElseThrow(() -> new PostNotFoundException(MessageCode.POST_NOT_FOUND));
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
