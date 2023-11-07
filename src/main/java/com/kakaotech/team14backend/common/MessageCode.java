@@ -27,6 +27,8 @@ public enum MessageCode {
 
   IMAGE_NOT_SAVE("999","이미지 저장에 실패하였습니다."),
 
+  NOT_RANGE_POST_LEVEL("998","게시물 레벨이 범위를 벗어났습니다."),
+
   ;
 
   private final String code;
