@@ -30,7 +30,6 @@ import lombok.Setter;
 @Setter(PACKAGE)
 public class Post {
 
-  // Primary Key
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long postId; // 게시글 ID
