@@ -18,7 +18,7 @@ public class FindPersonalPostListUsecase {
 
   private final PostRepository postRepository;
 
-  public GetPersonalPostListResponseDTO excute(Long memberId, Long lastPostId, int size) {
+  public GetPersonalPostListResponseDTO execute(Long memberId, Long lastPostId, int size) {
 
     Pageable pageable = PageRequest.of(0, size + 1, Sort.by(Direction.DESC, "postId"));
     boolean hasNext = false;

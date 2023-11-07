@@ -64,13 +64,13 @@ public class PostService {
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
       int size) {
 
-    return findPersonalPostListUsecase.excute(userId, lastPostId, size);
+    return findPersonalPostListUsecase.execute(userId, lastPostId, size);
   }
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
     Member savedMember = uploadPostDTO.member();
-    
+
     Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);
