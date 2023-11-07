@@ -1,5 +1,7 @@
 package com.kakaotech.team14backend.outer.point.service;
 
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
@@ -18,20 +20,17 @@ public class PointService {
 
   private final ValidatePointByPopularPostUsecase validatePointByPopularPostUsecase;
   private final UsePointUsecase usePointUsecase;
-
   private final PostRepository postRepository;
 
   public String usePointByPopularPost(
       UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
+
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
-
     Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId())
-        .orElseThrow(() -> new RuntimeException("NOT FOUND POST"));
+        .orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POST));
     Member receiver = post.getMember();
-
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
-
-    usePointUsecase.execute(senderId, receiver.getMemberId(), point);
+    usePointUsecase.execute(senderId, post.getMember().getMemberId(), point);
     return receiver.getInstaId();
   }
 
