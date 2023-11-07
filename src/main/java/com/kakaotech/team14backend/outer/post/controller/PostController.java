@@ -68,12 +68,14 @@ public class PostController {
       throw new Exception400("lastPostId parameter must be greater than 0");
     }
     if (principalDetails == null) {
-      GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(lastPostId, size);
+      GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(
+          lastPostId, size);
       return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
     }
 
     Long memberId = principalDetails.getMember().getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getAuthenticatedPostList(lastPostId, size,
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getAuthenticatedPostList(
+        lastPostId, size,
         memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -83,9 +85,10 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember().getMemberId(),
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
+
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
@@ -98,6 +101,7 @@ public class PostController {
       throw new Exception400("postId parameter must be not null");
     }
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
+    System.out.println("/post/{postId}/user Response: " + getMyPostResponseDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
@@ -150,7 +154,7 @@ public class PostController {
     Long memberId = principalDetails.getMember().getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
-
+    System.out.println("/post/{postId}/like Response: " + setPostLikeResponseDTO);
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 

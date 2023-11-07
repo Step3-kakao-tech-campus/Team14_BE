@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.inner.member.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.point.model.PointHistory;
 import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
@@ -13,6 +14,7 @@ import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.dto.InstagramDetails;
 import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -54,18 +56,20 @@ public class FindMemberInfoUsecase {
     // DTO를 생성하여 반환합니다.
 //    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
 //        member.getKakaoId(), totalLike, member.getProfileImageUrl(), isInstaConnected, totalPoint);
-    Long totalReceivedfireworks = pointHistoryRepository.sumReceivedFireworksByReceivedId(memberId);
+
+    Long totalReceivedFireworks = pointHistoryRepository.receivedFireworksByReceivedId(memberId)
+        .map(list -> list.stream() // Optional<List<PointHistory>>를 Stream<PointHistory>로 변환
+            .map(PointHistory::getTransferPoint).filter(Objects::nonNull) // null 값 필터링
+            .mapToLong(Long::longValue).sum()).orElse(0L); // 리스트가 없거나 비어있을 경우 0을 반환
 
     if (isLinked) {
       return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-          member.getProfileImageUrl(), totalPoint,
-          new InstagramInfo(true,
-              new InstagramDetails(totalLike, totalView, totalReceivedfireworks)));
+          member.getProfileImageUrl(), totalPoint, new InstagramInfo(true,
+          new InstagramDetails(totalLike, totalView, totalReceivedFireworks)));
     } else {
       return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
           member.getProfileImageUrl(), totalPoint,
-          new InstagramInfo(false,
-              new InstagramDetails(null, null, null)));
+          new InstagramInfo(false, new InstagramDetails(null, null, null)));
     }
   }
 

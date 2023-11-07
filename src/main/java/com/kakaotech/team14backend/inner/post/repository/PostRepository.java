@@ -21,18 +21,21 @@ public interface PostRepository extends JpaRepository<Post, Long> {
           "ORDER BY p.popularity DESC")
   List<GetIncompletePopularPostDTO> findTop300ByOrderByPopularityDesc(Pageable pageable);
 
-  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId")
-  List<Post> findByMemberId(Long memberId, Pageable pageable);
 
   @Query("SELECT p FROM post p WHERE p.postId > :lastPostId ORDER BY p.postId asc ")
   List<Post> findNextPosts(@Param("lastPostId") Long lastPostId, Pageable pageable);
-
-  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId > :lastPostId")
-  List<Post> findByMemberIdAndPostIdGreaterThan(Long memberId, Long lastPostId, Pageable pageable);
 
   @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId = :postId")
   Post findByPostIdAndMemberId(Long memberId, Long postId);
 
   @Query("SELECT COALESCE(SUM(p.viewCount), 0) FROM post p WHERE p.member.memberId = :memberId")
   Long sumViewCountByMemberId(@Param("memberId") Long memberId);
+
+
+  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId <= :lastPostId ORDER BY p.postId DESC")
+  List<Post> findByMemberIdAndPostIdLessThanOrderByPostIdDesc(Long memberId, Long lastPostId,
+      Pageable pageable);
+
+  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId ORDER BY p.postId DESC")
+  List<Post> findByMemberIdOrderByPostIdDesc(Long memberId, Pageable pageable);
 }

@@ -17,7 +17,7 @@ class HashTagUtilsTest {
     //then
     String attachHashTags = HashTagUtils.attachHashTags(hashTags);
 
-    Assertions.assertEquals("해시태그1 해시태그2 해시태그3 ", attachHashTags);
+    Assertions.assertEquals("해시태그1 해시태그2 해시태그3", attachHashTags);
 
   }
 

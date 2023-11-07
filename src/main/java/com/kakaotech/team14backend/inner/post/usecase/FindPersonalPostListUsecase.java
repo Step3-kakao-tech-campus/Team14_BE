@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,22 +17,32 @@ public class FindPersonalPostListUsecase {
 
   private final PostRepository postRepository;
 
-  public GetPersonalPostListResponseDTO excute(Long memberId, Long lastPostId, int size) {
+  public GetPersonalPostListResponseDTO execute(Long memberId, Long lastPostId, int size) {
 
-    Pageable pageable = PageRequest.of(0, size + 1, Sort.by(Direction.DESC, "postId"));
-
-    List<Post> postList;
-    if (lastPostId == null) {
-      postList = postRepository.findByMemberId(memberId, pageable);
-    } else {
-      postList = postRepository.findByMemberIdAndPostIdGreaterThan(memberId, lastPostId, pageable);
-    }
-
+    Pageable pageable = PageRequest.of(0, size + 1, Sort.by("postId").descending());
     boolean hasNext = false;
+    Long nextLastPostId = null;
+
+    List<Post> postList = fetchPosts(memberId, lastPostId, pageable);
+
     if (postList.size() > size) {
       hasNext = true;
-      postList.subList(0, size);
+      nextLastPostId = postList.get(size).getPostId();
+      postList = postList.subList(0, size);
     }
-    return new GetPersonalPostListResponseDTO(PostMapper.fromPersonalPostList(postList), hasNext);
+    return new GetPersonalPostListResponseDTO(nextLastPostId,
+        PostMapper.fromPersonalPostList(postList), hasNext);
   }
+
+
+  private List<Post> fetchPosts(Long memberId, Long lastPostId, Pageable pageable) {
+    if (lastPostId == null || lastPostId == 0) {
+      return postRepository.findByMemberIdOrderByPostIdDesc(memberId, pageable);
+    } else {
+      return postRepository.findByMemberIdAndPostIdLessThanOrderByPostIdDesc(memberId, lastPostId,
+          pageable);
+    }
+
+  }
+
 }
