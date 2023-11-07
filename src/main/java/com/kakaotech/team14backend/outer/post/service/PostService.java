@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.outer.post.service;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.port.PostUseCasePort;
@@ -33,7 +32,6 @@ import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +54,6 @@ public class PostService {
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
   private final PostUseCasePort postUseCasePort;
-  private final FindMemberService findMemberService;
   private final GetPopularPostPointUsecase getPopularPostPointUsecase;
 
   private final GetPointUsecase getPointUsecase;
@@ -68,9 +65,8 @@ public class PostService {
   }
 
   @Transactional
-  public void uploadPost(UploadPostDTO uploadPostDTO) throws IOException {
+  public void uploadPost(UploadPostDTO uploadPostDTO){
     Member savedMember = uploadPostDTO.member();
-
     Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);

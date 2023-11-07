@@ -30,7 +30,6 @@ import lombok.Setter;
 @Setter(PACKAGE)
 public class Post {
 
-  // Primary Key
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long postId; // 게시글 ID
@@ -107,7 +106,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-              String university, Long viewCount, Long popularity, Integer reportCount) {
+              Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;

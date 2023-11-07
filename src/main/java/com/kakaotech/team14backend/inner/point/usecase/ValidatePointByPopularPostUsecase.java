@@ -24,8 +24,7 @@ public class ValidatePointByPopularPostUsecase {
     postIds.stream().filter(postId -> castToLong(postId).equals(usePointByPopularPostRequestDTO.postId())).findFirst().orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POPULARPOST));
   }
   private Long castToLong(Integer have){
-    Long want = have.longValue();
-    return want;
+    return have.longValue();
   }
 
 }
