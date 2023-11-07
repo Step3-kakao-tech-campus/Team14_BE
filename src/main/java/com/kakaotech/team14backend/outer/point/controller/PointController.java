@@ -41,7 +41,6 @@ public class PointController {
 
     Long senderId = principalDetails.getMember().getMemberId();
     String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
-
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
     return ApiResponseGenerator.success(usePointByPopularPostResponseDTO, HttpStatus.OK);
@@ -51,8 +50,6 @@ public class PointController {
   public ApiResponse<ApiResponse.CustomBody<UsePointByPostResponseDTO>> usePointByPost(
       @RequestBody UsePointByPostRequestDTO usePointByPostRequestDTO
       , @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-    // todo: 의존성 뒤집기
 
     Long postId = usePointByPostRequestDTO.postId();
     Post post = postRepository.findById(postId).orElseThrow();
