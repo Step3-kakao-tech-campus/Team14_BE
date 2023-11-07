@@ -31,23 +31,22 @@ public class FindMemberInfoUsecase {
     Long totalPoint = findMemberTotalPoints(memberId);
     Long totalViewCount = postRepository.sumViewCountByMemberId(memberId);
 
-    boolean isLinked = !member.getInstaId().equals("none");
-
-    if (isLinked) {
-      return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-          member.getProfileImageUrl(), totalPoint, new InstagramInfo(true,
-          new InstagramDetails(totalLike, totalViewCount)));
-    } else {
-      return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
-          member.getProfileImageUrl(), totalPoint,
-          new InstagramInfo(false, new InstagramDetails(null, null)));
-    }
+    InstagramInfo instagramInfo = createInstagramInfo(member, totalLike, totalViewCount);
+    return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
+        member.getProfileImageUrl(), totalPoint, instagramInfo);
   }
-
 
   private Long findMemberTotalPoints(Long memberId) {
     return pointRepository.findByMemberId(memberId).getNowPoint();
   }
+
+  private InstagramInfo createInstagramInfo(Member member, Long totalLike, Long totalView) {
+    boolean isInstagramLinked = !member.getInstaId().equals("none");
+    InstagramDetails details =
+        isInstagramLinked ? new InstagramDetails(totalLike, totalView) : null;
+    return new InstagramInfo(isInstagramLinked, details);
+  }
+
 
   private Long calculateTotalLikes(Member member) {
     return member.getPosts().stream()
