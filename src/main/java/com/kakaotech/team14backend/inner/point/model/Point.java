@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.point.model;
 
 import static lombok.AccessLevel.PROTECTED;
-
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.inner.member.model.Member;
