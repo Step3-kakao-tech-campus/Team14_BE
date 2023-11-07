@@ -54,7 +54,7 @@ public class PostService {
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
   private final GetPopularPostPointUsecase getPopularPostPointUsecase;
-  private final FindPostListUsecase findPostListUsecase;
+
 
   private final GetPointUsecase getPointUsecase;
 
