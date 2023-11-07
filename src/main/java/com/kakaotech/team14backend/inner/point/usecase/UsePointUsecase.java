@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.point.usecase;
 
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.Exception500;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.inner.point.model.Point;
 import com.kakaotech.team14backend.inner.point.model.PointHistory;
