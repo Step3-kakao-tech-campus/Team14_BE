@@ -19,6 +19,14 @@ public class GlobalExceptionHandler {
   public ApiResponse<ApiResponse.CustomBody> handleException(NotEnoughPointException e) {
     return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.NOT_FOUND);
   }
+  @ExceptionHandler(SizeParameterException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleSizeParameterException(SizeParameterException e) {
+    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
+  @ExceptionHandler(LastPostIdParameterException.class)
+  public ApiResponse<ApiResponse.CustomBody> handleLastPostIdParameterException(LastPostIdParameterException e) {
+    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
   @ExceptionHandler(MemberNotFoundException.class)
   public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(MemberNotFoundException memberNotFoundException) {
     return ApiResponseGenerator.fail(memberNotFoundException.getMessageCode().getCode(), memberNotFoundException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);

@@ -4,6 +4,8 @@ package com.kakaotech.team14backend.common;
 public enum MessageCode {
 
   NOT_ALLOWED_FILE_EXT("4003","파일 확장명은 pdf, jpg, jpeg, png만 가능합니다."),
+  INVALID_SIZE_PARAMETER("400","size 파라미터는 0보다 커야합니다."),
+  INVALID_LAST_POST_ID_PARAMETER("400","lastPostId 파라미터는 0보다 커야합니다."),
 
   NEED_LOGIN("401","로그인이 필요합니다."),
   NEED_INSTAGRAM("401","인스타 연동이 필요합니다."),

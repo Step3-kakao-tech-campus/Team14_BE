@@ -6,7 +6,9 @@ import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.Exception400;
+import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -48,6 +50,14 @@ public class PostController {
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
+
+    if (size <= 0) {
+      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
+    }
+    if (lastPostId != null && lastPostId < 0) {
+      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
+    }
+    
     Long memberId = principalDetails.getMember().getMemberId();
     GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
         memberId, lastPostId, size);
@@ -62,10 +72,10 @@ public class PostController {
       @RequestParam(defaultValue = "10") int size) {
 
     if (size <= 0) {
-      throw new Exception400("Size parameter must be greater than 0");
+      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
     }
     if (lastPostId != null && lastPostId < 0) {
-      throw new Exception400("lastPostId parameter must be greater than 0");
+      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
     }
     if (principalDetails == null) {
       GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(
