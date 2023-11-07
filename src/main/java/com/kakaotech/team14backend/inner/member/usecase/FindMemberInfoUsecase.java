@@ -34,16 +34,12 @@ public class FindMemberInfoUsecase {
     Member member = findMemberService.execute(memberId);
     Long totalLike = calculateTotalLikes(member);
     Long totalPoint = findMemberTotalPoints(memberId);
+    Long totalViewCount = postRepository.sumViewCountByMemberId(memberId);
 
     List<Long> postIds = member.getPosts().stream().map(Post::getPostId)
         .collect(Collectors.toList());
 
     boolean isLinked = !member.getInstaId().equals("none");
-
-    // todo: 어색한 도메인의 getter 고치기
-    Long totalPoint = pointRepository.findByMemberId(memberId).getNowPoint();
-
-    Long totalView = postRepository.sumViewCountByMemberId(memberId);
 
     Long totalReceivedFireworks = pointHistoryRepository.receivedFireworksByReceivedId(memberId)
         .map(list -> list.stream() // Optional<List<PointHistory>>를 Stream<PointHistory>로 변환
@@ -53,13 +49,14 @@ public class FindMemberInfoUsecase {
     if (isLinked) {
       return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
           member.getProfileImageUrl(), totalPoint, new InstagramInfo(true,
-          new InstagramDetails(totalLike, totalView, totalReceivedFireworks)));
+          new InstagramDetails(totalLike, totalViewCount, totalReceivedFireworks)));
     } else {
       return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
           member.getProfileImageUrl(), totalPoint,
           new InstagramInfo(false, new InstagramDetails(null, null, null)));
     }
   }
+
 
   private Long findMemberTotalPoints(Long memberId) {
     return pointRepository.findByMemberId(memberId).getNowPoint();
