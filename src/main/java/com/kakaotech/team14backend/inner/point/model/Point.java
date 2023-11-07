@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.point.model;
 
 import static lombok.AccessLevel.PROTECTED;
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Instant;
@@ -57,7 +56,7 @@ public class Point {
 
   public void useUserPoint(Long usePoint){
     if(this.nowPoint - usePoint < 0){
-      throw new NotEnoughPointException(MessageCode.NOT_ENOUGH_POINT);
+      throw new NotEnoughPointException();
     }
     this.nowPoint -= usePoint;
   }

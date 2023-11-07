@@ -43,7 +43,7 @@ public class FileUtils {
     try {
       multipartFile.transferTo(new File(getFullPath(storeFileName)));
     } catch (IOException e) {
-      throw new ImageIOException(MessageCode.IMAGE_NOT_SAVE);
+      throw new ImageIOException();
     }
     return new UploadFileDTO(originalFilename, storeFileName);
   }

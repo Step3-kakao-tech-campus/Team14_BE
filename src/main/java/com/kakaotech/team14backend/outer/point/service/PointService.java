@@ -27,7 +27,7 @@ public class PointService {
 
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
     Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId())
-        .orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POST));
+        .orElseThrow(() -> new PostNotFoundException());
     Member receiver = post.getMember();
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
     usePointUsecase.execute(senderId, post.getMember().getMemberId(), point);

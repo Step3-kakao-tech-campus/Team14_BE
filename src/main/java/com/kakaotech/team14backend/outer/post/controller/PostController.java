@@ -129,7 +129,7 @@ public class PostController {
       @RequestParam Integer level1, @RequestParam Integer level2, @RequestParam Integer level3) {
 
     if (level1 >= 10 || level2 >= 10 || level3 >= 10) {
-      throw new MaxLevelSizeException(MessageCode.LEVEL_SIZE_SMALLER_THAN_20);
+      throw new MaxLevelSizeException();
     }
 
     Map<Integer, Integer> levelSize = new HashMap<>();

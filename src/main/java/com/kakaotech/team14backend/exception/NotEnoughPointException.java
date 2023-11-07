@@ -8,7 +8,7 @@ public class NotEnoughPointException  extends RuntimeException{
 
   public final MessageCode messageCode;
 
-  public NotEnoughPointException(MessageCode messageCode) {
-    this.messageCode = messageCode;
+  public NotEnoughPointException() {
+    this.messageCode = MessageCode.NOT_ENOUGH_POINT;
   }
 }
