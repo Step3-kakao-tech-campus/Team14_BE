@@ -24,7 +24,6 @@ public class SaveTemporaryPostViewCountUsecase {
 
   @Transactional
   public void execute(GetPostDTO getPostDTO) {
-    // 데이터를 Redis Set에 추가하는 코드
     redisTemplate.opsForSet().add(RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId()), getPostDTO.memberId());
   }
 
