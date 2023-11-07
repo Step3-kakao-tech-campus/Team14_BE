@@ -32,7 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
   Long sumViewCountByMemberId(@Param("memberId") Long memberId);
 
 
-  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId < :lastPostId ORDER BY p.postId DESC")
+  @Query("SELECT p FROM post p WHERE p.member.memberId = :memberId AND p.postId <= :lastPostId ORDER BY p.postId DESC")
   List<Post> findByMemberIdAndPostIdLessThanOrderByPostIdDesc(Long memberId, Long lastPostId,
       Pageable pageable);
 
