@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import com.kakaotech.team14backend.exception.ImageIOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,8 +31,7 @@ public class FileUtils {
   }
 
 
-  public UploadFileDTO storeFile(MultipartFile multipartFile)
-      throws IOException, IllegalStateException {
+  public UploadFileDTO storeFile(MultipartFile multipartFile) {
     if (multipartFile.isEmpty()) {
       return null;
     }
@@ -42,7 +42,11 @@ public class FileUtils {
 
     String originalFilename = multipartFile.getOriginalFilename();
     String storeFileName = createStoreFileName(originalFilename);
-    multipartFile.transferTo(new File(getFullPath(storeFileName)));
+    try {
+      multipartFile.transferTo(new File(getFullPath(storeFileName)));
+    } catch (IOException e) {
+      throw new ImageIOException(MessageCode.IMAGE_NOT_SAVE);
+    }
     return new UploadFileDTO(originalFilename, storeFileName);
   }
 
