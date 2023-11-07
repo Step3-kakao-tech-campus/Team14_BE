@@ -83,13 +83,13 @@ public class PostService {
     return findPostUsecase.execute(getPostDTO);
   }
 
-  public GetHomePostListResponseDTO getAuthenticatedPostList(Long lastPostId, int size,
-      Long memberId) {
-    return postUseCasePort.getAuthenticatedPostList(lastPostId, size, memberId);
-  }
 
-  public GetHomePostListResponseDTO getNonAuthenticatedPostList(Long lastPostId, int size) {
-    return findNonAuthPostListUsecase.execute(lastPostId, size);
+  public GetHomePostListResponseDTO getHomePostList(Long lastPostId, int size,
+      Long memberId) {
+    if (memberId == null) {
+      return findNonAuthPostListUsecase.execute(lastPostId, size);
+    }
+    return postUseCasePort.getAuthenticatedPostList(lastPostId, size, memberId);
   }
 
   /**

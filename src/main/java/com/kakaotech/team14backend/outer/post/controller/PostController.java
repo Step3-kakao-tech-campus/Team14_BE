@@ -57,7 +57,7 @@ public class PostController {
     if (lastPostId != null && lastPostId < 0) {
       throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
     }
-    
+
     Long memberId = principalDetails.getMember().getMemberId();
     GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
         memberId, lastPostId, size);
@@ -77,16 +77,10 @@ public class PostController {
     if (lastPostId != null && lastPostId < 0) {
       throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
     }
-    if (principalDetails == null) {
-      GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(
-          lastPostId, size);
-      return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
-    }
 
-    Long memberId = principalDetails.getMember().getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getAuthenticatedPostList(
-        lastPostId, size,
-        memberId);
+    Long memberId = (principalDetails == null) ? null : principalDetails.getMember().getMemberId();
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(
+        lastPostId, size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
