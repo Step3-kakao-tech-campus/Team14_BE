@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.outer.post.service;
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.port.PostUseCasePort;
@@ -55,7 +54,6 @@ public class PostService {
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
   private final PostUseCasePort postUseCasePort;
-  private final FindMemberService findMemberService;
   private final GetPopularPostPointUsecase getPopularPostPointUsecase;
 
   private final GetPointUsecase getPointUsecase;
