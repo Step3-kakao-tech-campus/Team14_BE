@@ -52,17 +52,8 @@ public class PostController {
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
-
-    if (size <= 0) {
-      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
-    }
-    if (lastPostId != null && lastPostId < 0) {
-      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
-    }
-
+    validatePrincipalDetails(principalDetails);
+    validateParameters(size, lastPostId);
     Long memberId = principalDetails.getMember().getMemberId();
     GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
         memberId, lastPostId, size);
@@ -76,12 +67,7 @@ public class PostController {
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
-    if (size <= 0) {
-      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
-    }
-    if (lastPostId != null && lastPostId < 0) {
-      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
-    }
+    validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMember().getMemberId();
     GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(lastPostId,
@@ -94,9 +80,9 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
+
+    validatePrincipalDetails(principalDetails);
+
     UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
@@ -109,14 +95,11 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @PathVariable("postId") Long postId) {
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
+    validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
 
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
-    System.out.println("/post/{postId}/user Response: " + getMyPostResponseDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
@@ -126,9 +109,7 @@ public class PostController {
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
+    validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
@@ -140,9 +121,7 @@ public class PostController {
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
+    validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
@@ -176,9 +155,7 @@ public class PostController {
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-    if (principalDetails == null) {
-      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
-    }
+    validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
@@ -187,4 +164,18 @@ public class PostController {
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 
+  private void validateParameters(int size, Long lastPostId) {
+    if (size <= 0) {
+      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
+    }
+    if (lastPostId != null && lastPostId < 0) {
+      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
+    }
+  }
+
+  private void validatePrincipalDetails(PrincipalDetails principalDetails) {
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
+  }
 }
