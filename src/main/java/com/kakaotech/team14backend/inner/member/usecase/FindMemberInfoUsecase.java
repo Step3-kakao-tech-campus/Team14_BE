@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.inner.member.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.model.PointHistory;
 import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
@@ -31,14 +32,14 @@ public class FindMemberInfoUsecase {
   private final PointRepository pointRepository;
   private final PostRepository postRepository;
   private final PointHistoryRepository pointHistoryRepository;
+  private final FindMemberService findMemberService;
 
   // todo : createMemberusease를 이용해 주세요! ++ 주석 참고
   // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할
   public GetMemberInfoResponseDTO getMyPageInfo(Long memberId) {
 
     // 회원 정보를 조회하고, 없다면 예외를 발생시킵니다.
-    Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    Member member = findMemberService.execute(memberId);
 
     // 회원이 작성한 게시물의 ID 목록을 스트림을 이용해 가져옵니다.
     List<Long> postIds = member.getPosts().stream().map(Post::getPostId)
