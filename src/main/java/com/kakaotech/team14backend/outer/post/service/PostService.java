@@ -5,7 +5,6 @@ import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
-import com.kakaotech.team14backend.inner.post.port.PostUseCasePort;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
@@ -53,8 +52,8 @@ public class PostService {
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
-  private final PostUseCasePort postUseCasePort;
   private final GetPopularPostPointUsecase getPopularPostPointUsecase;
+
 
   private final GetPointUsecase getPointUsecase;
 
@@ -79,13 +78,13 @@ public class PostService {
     return findPostUsecase.execute(getPostDTO);
   }
 
-  public GetHomePostListResponseDTO getAuthenticatedPostList(Long lastPostId, int size,
-      Long memberId) {
-    return postUseCasePort.getAuthenticatedPostList(lastPostId, size, memberId);
-  }
 
-  public GetHomePostListResponseDTO getNonAuthenticatedPostList(Long lastPostId, int size) {
-    return findNonAuthPostListUsecase.execute(lastPostId, size);
+  public GetHomePostListResponseDTO getHomePostList(Long lastPostId, int size,
+      Long memberId) {
+    if (memberId == null) {
+      return findNonAuthPostListUsecase.execute(lastPostId, size);
+    }
+    return findPostListUsecase.execute(lastPostId, size, memberId);
   }
 
   /**

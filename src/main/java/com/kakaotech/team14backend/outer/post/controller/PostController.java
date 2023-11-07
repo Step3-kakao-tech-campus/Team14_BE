@@ -5,8 +5,10 @@ import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.Exception400;
+import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.exception.SizeParameterException;
+import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -42,11 +44,15 @@ public class PostController {
 
   private final PostService postService;
 
+  @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
   public ApiResponse<CustomBody<GetPersonalPostListResponseDTO>> getPersonalPostList(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
+
+    validatePrincipalDetails(principalDetails);
+    validateParameters(size, lastPostId);
     Long memberId = principalDetails.getMember().getMemberId();
     GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
         memberId, lastPostId, size);
@@ -56,26 +62,15 @@ public class PostController {
   @ApiOperation(value = "홈 피드의 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post")
   public ApiResponse<CustomBody<GetHomePostListResponseDTO>> getPosts(
-      @AuthenticationPrincipal PrincipalDetails principalDetails
-      , @RequestParam(value = "lastPostId", required = false) Long lastPostId,
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
+      @RequestParam(value = "lastPostId", required = false) Long lastPostId,
       @RequestParam(defaultValue = "10") int size) {
 
-    if (size <= 0) {
-      throw new Exception400("Size parameter must be greater than 0");
-    }
-    if (lastPostId != null && lastPostId < 0) {
-      throw new Exception400("lastPostId parameter must be greater than 0");
-    }
-    if (principalDetails == null) {
-      GetHomePostListResponseDTO getPostListResponseDTO = postService.getNonAuthenticatedPostList(
-          lastPostId, size);
-      return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
-    }
+    validateParameters(size, lastPostId);
 
-    Long memberId = principalDetails.getMember().getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getAuthenticatedPostList(
-        lastPostId, size,
-        memberId);
+    Long memberId = (principalDetails == null) ? null : principalDetails.getMember().getMemberId();
+    GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(lastPostId,
+        size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
@@ -91,23 +86,26 @@ public class PostController {
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
 
+  @ApiOperation(value = "내가 올린 게시물 상세 조회", notes = "내가 올린 게시물을 상세 조회한다")
   @GetMapping("/post/{postId}/user")
   public ApiResponse<ApiResponse.CustomBody<GetMyPostResponseDTO>> getMyPost(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
       @PathVariable("postId") Long postId) {
+    validatePrincipalDetails(principalDetails);
+
     Long memberId = principalDetails.getMember().getMemberId();
-    if (postId == null) {
-      throw new Exception400("postId parameter must be not null");
-    }
+
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
-    System.out.println("/post/{postId}/user Response: " + getMyPostResponseDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
+  @ApiOperation(value = "게시물 상세 조회", notes = "게시물을 상세 조회한다")
   @GetMapping("/post/{postId}")
   public ApiResponse<ApiResponse.CustomBody<GetPostResponseDTO>> getPost(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
@@ -118,6 +116,8 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostResponseDTO>> getPopularPost(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
@@ -150,6 +150,9 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<SetPostLikeResponseDTO>> setPostLike(
       @PathVariable("postId") Long postId,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+    validatePrincipalDetails(principalDetails);
+
     Long memberId = principalDetails.getMember().getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
@@ -157,4 +160,18 @@ public class PostController {
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 
+  private void validateParameters(int size, Long lastPostId) {
+    if (size <= 0) {
+      throw new SizeParameterException(MessageCode.INVALID_SIZE_PARAMETER);
+    }
+    if (lastPostId != null && lastPostId < 0) {
+      throw new LastPostIdParameterException(MessageCode.INVALID_LAST_POST_ID_PARAMETER);
+    }
+  }
+
+  private void validatePrincipalDetails(PrincipalDetails principalDetails) {
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
+  }
 }
