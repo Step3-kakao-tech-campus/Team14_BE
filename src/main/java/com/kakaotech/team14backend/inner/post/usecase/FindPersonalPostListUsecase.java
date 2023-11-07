@@ -21,6 +21,8 @@ public class FindPersonalPostListUsecase {
   public GetPersonalPostListResponseDTO excute(Long memberId, Long lastPostId, int size) {
 
     Pageable pageable = PageRequest.of(0, size + 1, Sort.by(Direction.DESC, "postId"));
+    boolean hasNext = false;
+    Long nextLastPostId = null;
 
     List<Post> postList;
     if (lastPostId == null) {
@@ -29,11 +31,12 @@ public class FindPersonalPostListUsecase {
       postList = postRepository.findByMemberIdAndPostIdGreaterThan(memberId, lastPostId, pageable);
     }
 
-    boolean hasNext = false;
     if (postList.size() > size) {
       hasNext = true;
+      nextLastPostId = postList.get(size).getPostId();
       postList.subList(0, size);
     }
-    return new GetPersonalPostListResponseDTO(PostMapper.fromPersonalPostList(postList), hasNext);
+    return new GetPersonalPostListResponseDTO(nextLastPostId,
+        PostMapper.fromPersonalPostList(postList), hasNext);
   }
 }
