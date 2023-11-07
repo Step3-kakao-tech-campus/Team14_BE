@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "post")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Setter(PACKAGE)
@@ -86,9 +86,9 @@ public class Post {
   }
 
   public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
-      String nickname,
-      Boolean published,
-      String hashtag) {
+                                String nickname,
+                                Boolean published,
+                                String hashtag) {
 
     Post post = Post.builder()
         .nickname(nickname)
@@ -107,7 +107,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-      String university, Long viewCount, Long popularity, Integer reportCount) {
+              String university, Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;

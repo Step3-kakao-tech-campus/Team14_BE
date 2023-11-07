@@ -15,20 +15,27 @@ public class FileUtils {
 
   private final String rootPath = System.getProperty("user.dir");
 
-  private final String fileDir = rootPath + "/src/main/resources/image/";
+  private final String fullFileDir = rootPath + "/images/";
+
+  private final String fileDir = "/images/";
 
   private final List<String> fileExts = List.of("pdf", "jpg", "jpeg", "png");
 
   public String getFullPath(String filename) {
+    return fullFileDir + filename;
+  }
+
+  public String getPath(String filename){
     return fileDir + filename;
   }
+
 
   public UploadFileDTO storeFile(MultipartFile multipartFile)
       throws IOException, IllegalStateException {
     if (multipartFile.isEmpty()) {
       return null;
     }
-    File directory = new File(fileDir);
+    File directory = new File(fullFileDir);
     if (!directory.exists()) {
       directory.mkdirs();
     }

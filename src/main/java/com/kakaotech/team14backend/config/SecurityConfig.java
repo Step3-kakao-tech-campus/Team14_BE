@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.jwt.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,13 +40,13 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-        FilterResponseUtils.unAuthorized(response);
+      FilterResponseUtils.unAuthorized(response);
     });
 
 
     http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-      boolean isRoleNotUser = request.isUserInRole("ROLE_BEGINNER");
-      FilterResponseUtils.forbidden(response,isRoleNotUser);
+      boolean isRoleNotUser = request.isUserInRole("BEGINNER");
+      FilterResponseUtils.forbidden(response, isRoleNotUser);
     });
 //
     http.cors()
@@ -55,10 +56,19 @@ public class SecurityConfig {
 
     http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.authorizeRequests()
-        .antMatchers("/api/user/**", "/api/board/*/like", "/api/kakao").authenticated()
-        .antMatchers("/api/user/instagram").access("hasRole('ROLE_BEGINNER')") //인스타그램 연동X "ROLE_BEGINNER"
-        .antMatchers("/api/board/point").access("hasRole('ROLE_USER')") //인스타그램 연동시 "ROLE_USER"
-        .antMatchers("/", "/api/login","/api/reissue", "/h2-console/*", "api/post", "api/popluar-post").permitAll();
+        //인스타그램을 안한 사람만 접근 가능 "ROLE_BEGINNER"
+        .antMatchers("/api/user/instagram").access("hasRole('BEGINNER')")
+        //카카오로그인을 해야 접근 가능
+        .antMatchers("/api/user/**", "/api/post/*/like", "/api/popular-post/*", "/api/popular-post", "/api/point", "/api/point/popular-post").authenticated()
+        // POST 메서드에 대한 /api/post 는 "ROLE_USER" 역할이 필요
+        .antMatchers(HttpMethod.POST, "/api/post").access("hasRole('USER')")
+        //인스타그램 연동 한 사람만 접근 가능 "ROLE_USER"
+        .antMatchers("/api/board/point", "/api/points/**").access("hasRole('USER')")
+        //모든 사용자 접근 가능
+        .antMatchers("/", "/api/login", "/api/reissue", "/h2-console/*","/api/post/**").permitAll()
+        // GET 메서드에 대한 /api/post 는 모든 사용자가 접근 가능
+        .antMatchers(HttpMethod.GET, "/api/post").permitAll();
+
     return http.build();
   }
 
@@ -67,7 +77,7 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 

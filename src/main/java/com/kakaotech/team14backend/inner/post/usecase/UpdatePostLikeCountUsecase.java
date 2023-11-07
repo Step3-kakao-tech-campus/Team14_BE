@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -23,17 +24,9 @@ public class UpdatePostLikeCountUsecase {
 
     PostLikeCount postLikeCount = postLikeCountRepository.findByPostId(postId);
     Long likeCount = postLikeCount.getLikeCount();
-    
-//    Long cachedCount = redisTemplate.opsForValue().get(POST_LIKE_KEY_PREFIX + postId);
 
-//    if (cachedCount == null) {
-//      cachedCount = postLikeCount.getLikeCount();
-//    }
-//    cachedCount = isLiked ? cachedCount + 1 : cachedCount - 1;
-//    redisTemplate.opsForValue().set(POST_LIKE_KEY_PREFIX + postId, cachedCount);
     likeCount = isLiked ? likeCount + 1 : likeCount - 1;
     postLikeCount.updateLikeCount(likeCount);
-    postLikeCountRepository.save(postLikeCount);
   }
 
 

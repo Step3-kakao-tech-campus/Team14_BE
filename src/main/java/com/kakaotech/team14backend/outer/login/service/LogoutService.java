@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +22,14 @@ public class LogoutService {
   private final MemberRepository memberRepository;
   private final RefreshTokenRepository refreshTokenRepository;
 
-  public ApiResponse<?> logout(HttpServletRequest request, String kakaoId) {
+  public void logout(HttpServletResponse response, String kakaoId) {
     refreshTokenRepository.deleteRefreshToken(kakaoId);
-    return ApiResponseGenerator.success(HttpStatus.OK);
+    String refreshTokenCookieName = "RefreshToken";
+    Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, null);
+    refreshTokenCookie.setHttpOnly(true);
+    refreshTokenCookie.setSecure(true);
+    refreshTokenCookie.setPath("/");
+    refreshTokenCookie.setMaxAge(0);
+    response.addCookie(refreshTokenCookie);
   }
 }

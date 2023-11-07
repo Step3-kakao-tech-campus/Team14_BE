@@ -9,12 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Entity
+@Entity(name = "post_like_count")
 @Getter
 @NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
 public class PostLikeCount {
@@ -28,7 +29,7 @@ public class PostLikeCount {
   private Post post;
 
   @Column(nullable = false)
-  private Long likeCount = 0L;
+  private Long likeCount;
 
   @Column(nullable = false)
   @CreationTimestamp
@@ -39,7 +40,12 @@ public class PostLikeCount {
   private LocalDateTime modifiedAt; // 수정일
 
   public static PostLikeCount createPostLikeCount() {
-    return new PostLikeCount();
+    return PostLikeCount.builder().likeCount(0L).build();
+  }
+
+  @Builder
+  public PostLikeCount(Long likeCount) {
+    this.likeCount = 0L;
   }
 
   public void updateLikeCount(Long likeCount) {

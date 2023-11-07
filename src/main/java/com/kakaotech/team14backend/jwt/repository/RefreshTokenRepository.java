@@ -30,6 +30,7 @@ public class RefreshTokenRepository {
   }
   public String deleteRefreshToken(String kakaoId) throws TokenValidationException{
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+    
     return valueOperations.getAndDelete(kakaoId);
   }
 }

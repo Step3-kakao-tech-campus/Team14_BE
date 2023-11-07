@@ -2,6 +2,8 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
+import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
@@ -20,6 +22,7 @@ public class SetPostLikeUsecase {
   private final PostRepository postRepository;
   private final MemberRepository memberRepository;
   private final RedisTemplate<String, Object> redisTemplate;
+  private final GetPointUsecase getPointUsecase;
   private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
@@ -48,6 +51,11 @@ public class SetPostLikeUsecase {
         .findFirstByMemberAndPostOrderByCreatedAtDesc(member.getMemberId(), post.getPostId())
         .filter(PostLike::isLiked)
         .map(postLike -> PostLike.createPostLike(member, post, false))
-        .orElseGet(() -> PostLike.createPostLike(member, post, true));
+        .orElseGet(() -> {
+          PostLike.createPostLike(member, post, true);
+          //todo : 좋아요를 누를 때 포스트 당 한 번만 포스트를 얻을 수 있도록 하기
+          getPointUsecase.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
+          return PostLike.createPostLike(member, post, true);
+        });
   }
 }

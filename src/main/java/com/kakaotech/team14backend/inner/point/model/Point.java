@@ -1,25 +1,24 @@
 package com.kakaotech.team14backend.inner.point.model;
 
-import com.kakaotech.team14backend.exception.Exception500;
-import com.kakaotech.team14backend.inner.member.model.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import static lombok.AccessLevel.PROTECTED;
 
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.NotEnoughPointException;
+import com.kakaotech.team14backend.inner.member.model.Member;
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
-
-import static lombok.AccessLevel.PROTECTED;
-
-@Entity
+@Entity(name = "point")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Point {
@@ -28,7 +27,7 @@ public class Point {
   @Id
   private Long memberId;
 
-  @MapsId  // Post의 PK를 PostLike의 PK로 사용
+  @MapsId
   @OneToOne
   @JoinColumn(name = "memberId")
   private Member member;
@@ -63,7 +62,7 @@ public class Point {
 
   public void useUserPoint(Long usePoint){
     if(this.nowPoint - usePoint < 0){
-      throw new Exception500("보유 폭죽이 부족합니다.");
+      throw new NotEnoughPointException(MessageCode.NOT_ENOUGH_POINT);
     }
     this.nowPoint -= usePoint;
   }

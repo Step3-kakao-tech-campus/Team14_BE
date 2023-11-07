@@ -57,7 +57,7 @@ class UpdatePostViewCountTest {
       redisTemplate.delete(key);
     }
 
-    Member member = new Member("sonny", "sonny1234", "asdf324", Role.ROLE_BEGINNER, 0L,
+    Member member = new Member("sonny", "1234", "asdf324", Role.ROLE_BEGINNER, 0L,
         Status.STATUS_ACTIVE);
     memberRepository.save(member);
 
