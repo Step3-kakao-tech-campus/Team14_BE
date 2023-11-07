@@ -11,7 +11,6 @@ import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,9 +20,7 @@ public class SetPostLikeUsecase {
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
   private final MemberRepository memberRepository;
-  private final RedisTemplate<String, Object> redisTemplate;
   private final GetPointUsecase getPointUsecase;
-  private static final String POST_LIKE_KEY_PREFIX = "POST_LIKE::";
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
@@ -38,7 +35,6 @@ public class SetPostLikeUsecase {
     return new SetPostLikeResponseDTO(isLiked);
   }
 
-  // todo : like를 계속 추가하는데 상태를 변경 할 것이다, 근데 이 경우에 처음 좋아요를 하면 Full Scan을 하는 이슈가 생길거 같은데
 
   private boolean toggleLike(Member member, Post post) {
     final var newPostLike = newPostLike(member, post);
