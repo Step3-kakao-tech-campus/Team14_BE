@@ -19,9 +19,6 @@ import org.hibernate.annotations.CreationTimestamp;
 public class PointHistory {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long pointHistoryId;
-
   private Long recieverId;
 
   private Long senderId;
