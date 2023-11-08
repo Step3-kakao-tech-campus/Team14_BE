@@ -89,6 +89,7 @@ public class Post {
 
   public void mapppingPostInstaCount(PostInstaCount postInstaCount) {
     postInstaCount.mappingPost(this);
+    postInstaCount.mappingMember(this.member);
     this.postInstaCount = postInstaCount;
   }
 

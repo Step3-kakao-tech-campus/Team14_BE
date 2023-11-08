@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,6 +63,10 @@ public class PostInstaCount {
 
   public void updatePostInstaCount(Long instaCount) {
     this.instaCount = instaCount;
+  }
+
+  public void mappingMember(Member member) {
+    this.member = member;
   }
 
   public void mappingPost(Post post) {

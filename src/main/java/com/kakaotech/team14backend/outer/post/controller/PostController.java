@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
+import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -77,10 +78,11 @@ public class PostController {
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
-      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
-      @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
+      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO
+//      @AuthenticationPrincipal PrincipalDetails principalDetails
+  ) {
+    Member member = Member.builder().memberId(1L).build();
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
 
