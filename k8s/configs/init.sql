@@ -89,5 +89,5 @@ CREATE TABLE point_history
     transfer_point   BIGINT,
     transaction_type INTEGER                             NOT NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (reciever_id)
+    PRIMARY KEY (point_history_id)
 );
