@@ -63,11 +63,13 @@ public class PostService {
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO){
-    Member savedMember = uploadPostDTO.member();
     Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), savedMember);
-    createPostUsecase.execute(createPostDTO);
-    getPointUsecase.execute(savedMember, GetPointPolicy.GIVE_300_WHEN_UPLOAD);
+    createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
+    getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
+  }
+
+  private static CreatePostDTO makeCreatePostDTO(UploadPostDTO uploadPostDTO, Image savedImage) {
+    return new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), uploadPostDTO.member());
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
