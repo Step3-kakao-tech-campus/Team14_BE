@@ -23,17 +23,16 @@ public class GetPopularPostPointUsecase {
     return new PostLevelPoint(postLevel, postPoint);
   }
 
-  private static Long getPostPoint(Integer postLevel) {
-    return UsePointDecider.decidePoint(postLevel);
+  private Long getRank(Long postId) {
+    return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), postId);
   }
 
   private static Integer getPostLevel(Long rank) {
     return PostLevel.to(rank.intValue());
   }
 
-  private Long getRank(Long postId) {
-    return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), postId);
+  private static Long getPostPoint(Integer postLevel) {
+    return UsePointDecider.decidePoint(postLevel);
   }
-
 
 }
