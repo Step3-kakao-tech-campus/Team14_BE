@@ -7,9 +7,11 @@ import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class SetPostInstaCountUsecase {
 
   private final PostInstaCountRepository postInstaCountRepository;
@@ -19,6 +21,6 @@ public class SetPostInstaCountUsecase {
         member.getMemberId());
 
     postInstaCount.updatePostInstaCount(postInstaCount.getInstaCount() + 1);
-    postInstaCountRepository.save(postInstaCount);
   }
 }
+
