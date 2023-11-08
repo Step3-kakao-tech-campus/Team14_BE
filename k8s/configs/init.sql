@@ -83,7 +83,8 @@ CREATE TABLE point
 -- PointHistory 테이블 생성
 CREATE TABLE point_history
 (
-    reciever_id      BIGINT AUTO_INCREMENT               NOT NULL,
+    point_history_id      BIGINT AUTO_INCREMENT               NOT NULL,
+    reciever_id      BIGINT                             NOT NULL,
     sender_id        BIGINT,
     transfer_point   BIGINT,
     transaction_type INTEGER                             NOT NULL,
