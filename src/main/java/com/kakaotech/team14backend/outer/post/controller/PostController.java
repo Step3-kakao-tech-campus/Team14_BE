@@ -23,7 +23,7 @@ import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import io.swagger.annotations.ApiOperation;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -132,10 +132,10 @@ public class PostController {
       throw new MaxLevelSizeException();
     }
 
-    Map<Integer, Integer> levelSize = new HashMap<>();
-    levelSize.put(1, level1);
-    levelSize.put(2, level2);
+    Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, level3);
+    levelSize.put(2, level2);
+    levelSize.put(1, level1);
 
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
