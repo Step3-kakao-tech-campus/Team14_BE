@@ -12,6 +12,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.outer.post.dto.RandomIndexes;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,11 +101,11 @@ public class PostMapper {
 
   public static GetPopularPostListResponseDTO from(
       List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS,
-      Map<Integer, List<Integer>> levelIndexes) {
+      Map<Integer, RandomIndexes> levelIndexes) {
     List<GetPopularPostDTO> popularPosts = new ArrayList<>();
     int h = 0;
-    for (Map.Entry<Integer, List<Integer>> entry : levelIndexes.entrySet()) {
-      for(Integer index : entry.getValue()){
+    for (Map.Entry<Integer, RandomIndexes> entry : levelIndexes.entrySet()) {
+      for(Integer index : entry.getValue().getIndexes()){
         GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(
             h++);
         GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
