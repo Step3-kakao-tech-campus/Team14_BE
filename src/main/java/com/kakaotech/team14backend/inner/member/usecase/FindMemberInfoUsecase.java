@@ -4,12 +4,13 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
+import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
+import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.dto.InstagramDetails;
 import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class FindMemberInfoUsecase {
   private final PointRepository pointRepository;
   private final PostRepository postRepository;
   private final PointHistoryRepository pointHistoryRepository;
-
+  private final PostInstaCountRepository postInstaCountRepository;
   private final FindMemberService findMemberService;
   // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할
 
@@ -30,9 +31,11 @@ public class FindMemberInfoUsecase {
     Member member = findMemberService.execute(memberId);
     Long totalLike = calculateTotalLikes(member);
     Long totalPoint = findMemberTotalPoints(memberId);
-    Long totalViewCount = Long.valueOf(
-        pointHistoryRepository.receivedFireworksByReceivedId(memberId)
-            .map(List::size).orElse(0));
+    Long totalViewCount = postInstaCountRepository.findByMemberId(memberId)
+        .stream()
+        .mapToLong(PostInstaCount::getInstaCount)
+        .sum();
+
 
     InstagramInfo instagramInfo = createInstagramInfo(member, totalLike, totalViewCount);
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),

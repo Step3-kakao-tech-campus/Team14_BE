@@ -28,7 +28,8 @@ public class PostInstaCount {
   @OneToOne
   @JoinColumn(name = "postId")
   private Post post;
-
+  @Column(nullable = false)
+  private Long memberId;
 
   @Column(nullable = false)
   private Long instaCount;
