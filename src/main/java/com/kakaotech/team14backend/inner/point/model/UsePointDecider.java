@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.inner.point.model;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
 
 public class UsePointDecider {
@@ -12,7 +11,7 @@ public class UsePointDecider {
     } else if (postLevel == 3) {
       return 400L;
     }
-    throw new PostLevelOutOfRangeException(MessageCode.NOT_RANGE_POST_LEVEL);
+    throw new PostLevelOutOfRangeException();
   }
 
 }

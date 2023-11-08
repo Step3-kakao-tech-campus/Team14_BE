@@ -33,7 +33,7 @@ public class FindPopularPostUsecase {
 
   @Transactional(readOnly = true)
   public GetPopularPostResponseDTO execute(GetPostDTO getPostDTO, PostLevelPoint postLevelPoint) {
-    Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POST));
+    Post popularPost = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new PostNotFoundException());
     return PostMapper.from(popularPost, isLiked(getPostDTO, popularPost),postLevelPoint);
   }
 
