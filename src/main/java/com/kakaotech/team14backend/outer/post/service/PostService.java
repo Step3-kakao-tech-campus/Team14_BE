@@ -65,8 +65,7 @@ public class PostService {
   public void uploadPost(UploadPostDTO uploadPostDTO){
     Member savedMember = uploadPostDTO.member();
     Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
-        uploadPostDTO.uploadPostRequestDTO(), savedMember);
+    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), savedMember);
     createPostUsecase.execute(createPostDTO);
     getPointUsecase.execute(savedMember, GetPointPolicy.GIVE_300_WHEN_UPLOAD);
   }
@@ -127,8 +126,7 @@ public class PostService {
   public GetPopularPostListResponseDTO getPopularPostList(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
     int size = findPostListUsecase.findPostListSize();
-    return findPopularPosts.execute(
-        getPopularPostListRequestDTO, size);
+    return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
