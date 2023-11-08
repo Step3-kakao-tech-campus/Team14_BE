@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.dto.InstagramDetails;
 import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,10 @@ public class FindMemberInfoUsecase {
     Member member = findMemberService.execute(memberId);
     Long totalLike = calculateTotalLikes(member);
     Long totalPoint = findMemberTotalPoints(memberId);
-    Long totalViewCount = pointHistoryRepository.receivedFireworksByReceivedId(memberId).stream()
-        .count();
+    Long totalViewCount = Long.valueOf(
+        pointHistoryRepository.receivedFireworksByReceivedId(memberId)
+            .map(List::size).orElse(0));
+
     InstagramInfo instagramInfo = createInstagramInfo(member, totalLike, totalViewCount);
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),
         member.getProfileImageUrl(), totalPoint, instagramInfo);
@@ -42,10 +45,8 @@ public class FindMemberInfoUsecase {
 
   private InstagramInfo createInstagramInfo(Member member, Long totalLike, Long totalView) {
     boolean isInstagramLinked = !member.getInstaId().equals("none");
-    InstagramDetails details = new InstagramDetails(
-        isInstagramLinked ? totalLike : null,
-        isInstagramLinked ? totalView : null
-    );
+    InstagramDetails details = new InstagramDetails(isInstagramLinked ? totalLike : null,
+        isInstagramLinked ? totalView : null);
     return new InstagramInfo(isInstagramLinked, details);
   }
 
