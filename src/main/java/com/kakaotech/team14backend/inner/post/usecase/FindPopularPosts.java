@@ -22,7 +22,7 @@ import java.util.Optional;
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FindPopularPostListUsecase {
+public class FindPopularPosts{
 
   private final RedisTemplate redisTemplate;
   private final PostRepository postRepository;
