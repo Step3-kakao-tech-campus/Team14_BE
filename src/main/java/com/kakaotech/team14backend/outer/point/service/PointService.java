@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.outer.point.service;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
@@ -8,6 +7,7 @@ import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.point.usecase.ValidatePointByPopularPostUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ public class PointService {
   private final ValidatePointByPopularPostUsecase validatePointByPopularPostUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
+  private final SetPostInstaCountUsecase setPostInstaUsecase;
 
   public String usePointByPopularPost(
       UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
@@ -30,7 +31,10 @@ public class PointService {
         .orElseThrow(() -> new PostNotFoundException());
     Member receiver = post.getMember();
     Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
-    usePointUsecase.execute(senderId, post.getMember().getMemberId(), point);
+
+    usePointUsecase.execute(senderId, receiver.getMemberId(), point);
+
+    setPostInstaUsecase.execute(post);
     return receiver.getInstaId();
   }
 

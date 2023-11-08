@@ -56,6 +56,10 @@ public class PostInstaCount {
     this.instaCount = 0L;
   }
 
+  public void updatePostInstaCount(Long instaCount) {
+    this.instaCount = instaCount;
+  }
+
   public void mappingPost(Post post) {
     this.post = post;
   }
