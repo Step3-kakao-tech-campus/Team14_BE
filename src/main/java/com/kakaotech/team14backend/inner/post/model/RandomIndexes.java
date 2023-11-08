@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.post.dto;
+package com.kakaotech.team14backend.inner.post.model;
 
 import java.util.HashSet;
 import java.util.List;

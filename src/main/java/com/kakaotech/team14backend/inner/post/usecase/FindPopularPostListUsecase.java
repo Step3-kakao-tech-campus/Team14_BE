@@ -6,7 +6,7 @@ import com.kakaotech.team14backend.inner.post.model.PostRandomFetcher;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.RandomIndexes;
+import com.kakaotech.team14backend.inner.post.model.RandomIndexes;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
