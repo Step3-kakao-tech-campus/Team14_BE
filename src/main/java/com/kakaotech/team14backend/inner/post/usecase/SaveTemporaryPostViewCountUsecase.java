@@ -24,7 +24,21 @@ public class SaveTemporaryPostViewCountUsecase {
 
   @Transactional
   public void execute(GetPostDTO getPostDTO) {
-    redisTemplate.opsForSet().add(RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId()), getPostDTO.memberId());
+    String key = getKey(getPostDTO);
+    Long memberId = getMemberId(getPostDTO);
+    addToRedisSet(key, memberId);
+  }
+
+  private Long addToRedisSet(String key, Long memberId) {
+    return redisTemplate.opsForSet().add(key, memberId);
+  }
+
+  private static Long getMemberId(GetPostDTO getPostDTO) {
+    return getPostDTO.memberId();
+  }
+
+  private static String getKey(GetPostDTO getPostDTO) {
+    return RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId());
   }
 
 }
