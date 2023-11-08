@@ -20,8 +20,9 @@ public class PointHistory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long recieverId;
+  private Long id;
 
+  private Long recieverId;
 
   private Long senderId;
 
