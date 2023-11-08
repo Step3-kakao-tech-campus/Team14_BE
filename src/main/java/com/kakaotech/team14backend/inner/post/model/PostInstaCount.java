@@ -29,8 +29,7 @@ public class PostInstaCount {
   private long postInstaCountId;
 
 
-  @MapsId  // Post의 PK를 PostLike의 PK로 사용
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "postId")
   private Post post;
 

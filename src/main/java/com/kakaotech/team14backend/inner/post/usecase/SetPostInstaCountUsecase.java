@@ -1,6 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 
+import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;
@@ -13,8 +14,9 @@ public class SetPostInstaCountUsecase {
 
   private final PostInstaCountRepository postInstaCountRepository;
 
-  public void execute(Post post) {
-    PostInstaCount postInstaCount = post.getPostInstaCount();
+  public void execute(Post post, Member member) {
+    PostInstaCount postInstaCount = postInstaCountRepository.findByPostAndMember(post, member);
+
     postInstaCount.updatePostInstaCount(postInstaCount.getInstaCount() + 1);
     postInstaCountRepository.save(postInstaCount);
   }

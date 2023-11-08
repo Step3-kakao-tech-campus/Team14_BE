@@ -45,7 +45,7 @@ public class Post {
   @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
   private PostLikeCount postLikeCount;
 
-  @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.ALL)
   private PostInstaCount postInstaCount;
 
   @Column(nullable = false, length = 50)
