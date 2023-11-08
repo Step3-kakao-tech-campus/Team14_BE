@@ -2,11 +2,13 @@ package com.kakaotech.team14backend.inner.post.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import lombok.Builder;
@@ -28,8 +30,10 @@ public class PostInstaCount {
   @OneToOne
   @JoinColumn(name = "postId")
   private Post post;
-  @Column(nullable = false)
-  private Long memberId;
+
+  @ManyToOne
+  @JoinColumn(name = "memberId", referencedColumnName = "memberId") // Member 엔티티의 기본 키 필드 이름으로 변경
+  private Member member;
 
   @Column(nullable = false)
   private Long instaCount;
