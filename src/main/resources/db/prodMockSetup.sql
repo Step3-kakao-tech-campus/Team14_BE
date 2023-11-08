@@ -1,5 +1,4 @@
-SET
-foreign_key_checks = 0;
+SET foreign_key_checks = 0;
 TRUNCATE TABLE member;
 TRUNCATE TABLE image;
 TRUNCATE TABLE post;
@@ -98,10 +97,10 @@ INSERT INTO point
 VALUES (1, 200, NOW(), NOW()),
        (2, 200, NOW(), NOW()),
        (3, 300, NOW(), NOW());
-SET
+
 INSERT INTO post_insta_count (post_id, member_id, insta_count, created_at, modified_at)
 SELECT post_id, member_id, 0, NOW(), NOW()
 FROM post
 WHERE post_id BETWEEN 1 AND 30;
 
-foreign_key_checks = 1;
+SET foreign_key_checks = 1;
