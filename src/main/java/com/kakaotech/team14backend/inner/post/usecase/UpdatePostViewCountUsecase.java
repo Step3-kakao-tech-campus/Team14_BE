@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.common.ScanRedisKey;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
@@ -30,11 +29,15 @@ public class UpdatePostViewCountUsecase {
   public void execute() {
     List<String> keys = getKeys();
     for (String key : keys) {
-      Long cnt = redisTemplate.opsForSet().size(key);
+      Long viewCount = getViewCount(key);
       Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new PostNotFoundException());
-      post.updateViewCount(cnt);
+      post.updateViewCount(viewCount);
     }
     clearPostViewCount(keys);
+  }
+
+  private Long getViewCount(String key) {
+    return redisTemplate.opsForSet().size(key);
   }
 
   private List<String> getKeys() {
