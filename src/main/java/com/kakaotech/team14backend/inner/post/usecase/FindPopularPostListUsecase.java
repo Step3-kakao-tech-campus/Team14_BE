@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,29 +31,17 @@ public class FindPopularPostListUsecase {
   public GetPopularPostListResponseDTO execute(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int size) {
 
     List<GetIncompletePopularPostDTO> incompletePopularPostDTOS = new ArrayList<>();
-    GetPopularPostListResponseDTO getPopularPostListResponseDTO;
-
     LevelIndexes levelIndexes = getLevelIndexes(getPopularPostListRequestDTO, size);
+    loopLevelIndexes(incompletePopularPostDTOS, levelIndexes);
+    return PostMapper.from(incompletePopularPostDTOS, levelIndexes.levelIndexes());
+  }
 
+  private void loopLevelIndexes(List<GetIncompletePopularPostDTO> incompletePopularPostDTOS, LevelIndexes levelIndexes) {
     for (Map.Entry<Integer, RandomIndexes> entry : levelIndexes.levelIndexes().entrySet()) {
       Integer level = entry.getKey();
       List<Integer> indexes = entry.getValue().getIndexes();
-      for (Integer index : indexes) {
-        Long postId = getPostId(index);
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        if (optionalPost.isPresent()) {
-          Post post = optionalPost.get();
-          incompletePopularPostDTOS.add(new GetIncompletePopularPostDTO(post.getPostId(), post.getImage().getImageUri(), post.getHashtag(), post.getPostLikeCount().getLikeCount(), post.getPopularity(), level, post.getNickname()));
-        }
-      }
+      toGetPopularPostListResponseDTO(incompletePopularPostDTOS, level, indexes);
     }
-    getPopularPostListResponseDTO = PostMapper.from(incompletePopularPostDTOS, levelIndexes.levelIndexes());
-
-    return getPopularPostListResponseDTO;
-  }
-
-  private Long getPostId(Integer index) {
-    return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
   }
 
   private LevelIndexes getLevelIndexes(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int limitSize) {
@@ -60,5 +49,24 @@ public class FindPopularPostListUsecase {
     LevelIndexes levelIndexes = postRandomFetcher1.getLevelIndexes();
     return levelIndexes;
   }
+
+  private void toGetPopularPostListResponseDTO(List<GetIncompletePopularPostDTO> incompletePopularPostDTOS, Integer level, List<Integer> indexes) {
+    for (Integer index : indexes) {
+      Long postId = getPostId(index);
+      Optional<Post> optionalPost = postRepository.findById(postId);
+      if (optionalPost.isPresent()) {
+        incompletePopularPostDTOS.add(new GetIncompletePopularPostDTO(getPost(optionalPost).getPostId(), getPost(optionalPost).getImage().getImageUri(), getPost(optionalPost).getHashtag(), getPost(optionalPost).getPostLikeCount().getLikeCount(), getPost(optionalPost).getPopularity(), level, getPost(optionalPost).getNickname()));
+      }
+    }
+  }
+
+  private Post getPost(Optional<Post> optionalPost) {
+    return optionalPost.get();
+  }
+
+  private Long getPostId(Integer index) {
+    return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
+  }
+
 
 }
