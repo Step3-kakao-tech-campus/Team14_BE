@@ -103,7 +103,7 @@ public class PostRandomFetcher {
   }
 
   private boolean isOverMaxSize(int limitSize) {
-    return limitSize > MAX_RANK_SIZE ? true : false;
+    return limitSize >= MAX_RANK_SIZE ? true : false;
   }
 
 }
