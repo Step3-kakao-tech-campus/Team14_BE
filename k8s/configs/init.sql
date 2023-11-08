@@ -90,3 +90,13 @@ CREATE TABLE point_history
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (reciever_id)
 );
+CREATE TABLE post_insta_count (
+      post_id BIGINT NOT NULL,
+      member_id BIGINT,
+      insta_count BIGINT NOT NULL,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      modified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (post_id),
+      FOREIGN KEY (post_id) REFERENCES post (post_id),
+      FOREIGN KEY (member_id) REFERENCES member (member_id)
+);
