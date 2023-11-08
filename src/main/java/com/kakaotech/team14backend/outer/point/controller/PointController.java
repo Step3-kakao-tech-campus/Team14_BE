@@ -68,7 +68,7 @@ public class PointController {
     Long senderId = principalDetails.getMember().getMemberId();
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
-    setPostInstaCountUsecase.execute(post);
+    setPostInstaCountUsecase.execute(post,received);
     UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
     return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);
   }
