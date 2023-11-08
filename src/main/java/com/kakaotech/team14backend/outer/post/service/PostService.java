@@ -53,8 +53,6 @@ public class PostService {
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
   private final GetPopularPostPoint getPopularPostPoint;
-
-
   private final GetPointUsecase getPointUsecase;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
