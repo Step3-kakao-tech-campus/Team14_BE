@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ImageIOException extends RuntimeException{
 
   public final MessageCode messageCode;
-  public ImageIOException(MessageCode messageCode) {
-    this.messageCode = messageCode;
+  public ImageIOException() {
+    this.messageCode = MessageCode.IMAGE_NOT_SAVE;
   }
 }

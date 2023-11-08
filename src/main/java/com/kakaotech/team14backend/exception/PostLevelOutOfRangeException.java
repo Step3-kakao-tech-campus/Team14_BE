@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class PostLevelOutOfRangeException extends RuntimeException{
-  public final MessageCode messageCode;
 
-  public PostLevelOutOfRangeException(MessageCode messageCode) {
-    this.messageCode = messageCode;
+  public final MessageCode messageCode;
+  public PostLevelOutOfRangeException() {
+    this.messageCode = MessageCode.NOT_RANGE_POST_LEVEL;
   }
 }

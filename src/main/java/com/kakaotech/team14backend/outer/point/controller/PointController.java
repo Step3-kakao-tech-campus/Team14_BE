@@ -59,7 +59,7 @@ public class PointController {
 
     Long postId = usePointByPostRequestDTO.postId();
     Post post = postRepository.findById(postId)
-        .orElseThrow(() -> new PostNotFoundException(MessageCode.POST_NOT_FOUND));
+        .orElseThrow(() -> new PostNotFoundException());
 
     Member received = post.getMember();
     String instaId = received.getInstaId();

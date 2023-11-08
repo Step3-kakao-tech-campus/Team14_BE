@@ -73,13 +73,6 @@ public class GlobalExceptionHandler {
         maxLevelSizeException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(MultiplePostsFoundException.class)
-  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(
-      MultiplePostsFoundException multiplePostsFoundException) {
-    return ApiResponseGenerator.fail(multiplePostsFoundException.getMessageCode().getCode(),
-        multiplePostsFoundException.getMessageCode().getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
   @ExceptionHandler(HttpClientErrorException.BadRequest.class)
   public ApiResponse<ApiResponse.CustomBody> handleHttpClientErrorExceptionBadRequest(
       HttpClientErrorException.BadRequest e) throws JsonProcessingException {

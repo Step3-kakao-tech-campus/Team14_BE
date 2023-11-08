@@ -33,7 +33,7 @@ public class UpdatePostViewCountUsecase {
     for (String key : keys) {
       Long cnt = redisTemplate.opsForSet().size(key);
       Post post = postRepository.findById(splitKey(key))
-          .orElseThrow(() -> new PostNotFoundException(MessageCode.POST_NOT_FOUND));
+          .orElseThrow(() -> new PostNotFoundException());
       post.updateViewCount(cnt);
     }
     // mysql에 update!
