@@ -86,11 +86,6 @@ SET like_count  = CASE
     modified_at = NOW()
 WHERE post_id BETWEEN 1 AND 30;
 
-INSERT INTO post_insta_count (post_id, member_id, insta_count, created_at, modified_at)
-SELECT post_id, member_id, 0, NOW(), NOW()
-FROM post
-WHERE post_id BETWEEN 1 AND 30;
-
 -- Insert into Point Table
 INSERT INTO point
     (member_id, now_point, created_at, updated_at)
