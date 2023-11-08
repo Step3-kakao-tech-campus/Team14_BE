@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class GetPopularPostPointUsecase {
+public class GetPopularPostPoint {
 
   private final RedisTemplate redisTemplate;
 
