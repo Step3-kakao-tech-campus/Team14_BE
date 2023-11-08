@@ -1,18 +1,12 @@
 package com.kakaotech.team14backend.outer.login.service;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.jwt.dto.TokenDTO;
 import com.kakaotech.team14backend.jwt.service.TokenService;
-import com.kakaotech.team14backend.outer.login.dto.GetKakaoOauth2TokenDTO;
 import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,10 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class LoginService {
@@ -54,20 +47,16 @@ public class LoginService {
   private final MemberService memberService;
   private final TokenService tokenService;
 
-  private final CreatePointUsecase createPointUsecase;
-
   @Autowired
   public LoginService(
       @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
       MemberRepository memberRepository,
       MemberService memberService,
-      TokenService tokenService,
-      CreatePointUsecase createPointUsecase) {
+      TokenService tokenService) {
     this.proxyRestTemplate = proxyRestTemplate;
     this.memberRepository = memberRepository;
     this.memberService = memberService;
     this.tokenService = tokenService;
-    this.createPointUsecase = createPointUsecase;
   }
 
 
@@ -81,26 +70,15 @@ public class LoginService {
     params.add("redirect_uri", KAKAO_REDIRECT_URI);
     params.add("code", code);
 
-    HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
-        new HttpEntity<>(params, headers);
-
+    HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = proxyRestTemplate.exchange(
+    ResponseEntity<Map> response = proxyRestTemplate.postForEntity(
         KAKAO_TOKEN_URI,
-        HttpMethod.POST,
         kakaoTokenRequest,
-        String.class
+        Map.class
     );
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    GetKakaoOauth2TokenDTO oAuthToken = null;
-    try {
-      oAuthToken = objectMapper.readValue(response.getBody(), GetKakaoOauth2TokenDTO.class);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-      ;
-    }
-    return oAuthToken.getAccess_token();
+    return (String) response.getBody().get("access_token");
   }
 
   public KakaoProfileDTO getKakaoUserInfo(String AccessToken) throws IOException {
@@ -109,14 +87,12 @@ public class LoginService {
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
     HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<String> response = proxyRestTemplate.exchange(
+    ResponseEntity<KakaoProfileDTO> response = proxyRestTemplate.postForEntity(
         KAKAO_USER_INFO_URI,
-        HttpMethod.POST,
         kakaoProfileRequest,
-        String.class
+        KakaoProfileDTO.class
     );
-    ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    return objectMapper.readValue(response.getBody(), KakaoProfileDTO.class);
+    return response.getBody();
   }
 
 
@@ -128,7 +104,14 @@ public class LoginService {
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
 
     if (memberEntity == null) {
-      memberEntity = memberService.createMember(userName, kakaoId, "none", profileImage, Role.ROLE_BEGINNER, 0L, Status.STATUS_ACTIVE);
+      memberEntity = memberService.createMember(
+          userName,
+          kakaoId,
+          "none",
+          profileImage,
+          Role.ROLE_BEGINNER,
+          0L,
+          Status.STATUS_ACTIVE);
       memberRepository.save(memberEntity);
     }
     if (memberEntity.getUserStatus().equals(Status.STATUS_INACTIVE)) {
@@ -150,7 +133,6 @@ public class LoginService {
     response.setContentType("application/json");
     // 토큰을 HTTP 헤더에 추가
     response.addHeader("Authorization", tokenDTO.getAccessToken());
-
     // 리프레시토큰을 쿠키에 저장한다.
     String refreshTokenCookieName = "RefreshToken";
     String refreshTokenCookieValue = tokenDTO.getRefreshToken();

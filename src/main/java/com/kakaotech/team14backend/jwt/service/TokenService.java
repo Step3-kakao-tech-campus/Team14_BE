@@ -116,11 +116,9 @@ public class TokenService {
 
 
   public TokenDTO createOrUpdateToken(Member member){
-    String rtkInRedis = Optional.ofNullable(refreshTokenRepository.deleteRefreshToken(member.getKakaoId()))
-        .orElse(null);
+    refreshTokenRepository.deleteRefreshToken(member.getKakaoId());
     String accessToken = this.createToken(member);
     String refreshToken = this.createRefreshToken(member);
-
     return new TokenDTO(accessToken, refreshToken);
   }
 }
