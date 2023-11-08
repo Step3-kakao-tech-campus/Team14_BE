@@ -45,6 +45,9 @@ public class Post {
   @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
   private PostLikeCount postLikeCount;
 
+  @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+  private PostInstaCount postInstaCount;
+
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
 
@@ -84,10 +87,15 @@ public class Post {
     this.postLikeCount = postLikeCount;
   }
 
+  public void mapppingPostInstaCount(PostInstaCount postInstaCount) {
+    postInstaCount.mappingPost(this);
+    this.postInstaCount = postInstaCount;
+  }
+
   public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
-                                String nickname,
-                                Boolean published,
-                                String hashtag) {
+      String nickname,
+      Boolean published,
+      String hashtag, PostInstaCount postInstaCount) {
 
     Post post = Post.builder()
         .nickname(nickname)
@@ -100,13 +108,14 @@ public class Post {
     post.mappingPostLikeCount(postLikeCount);
     post.mappingMember(member);
     post.mappingImage(image);
+    post.mapppingPostInstaCount(postInstaCount);
     return post;
   }
 
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-              Long viewCount, Long popularity, Integer reportCount) {
+      Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;
