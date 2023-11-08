@@ -64,14 +64,6 @@ VALUES (NOW(), 'nickname1', 200, true, 1, 2000, 2, 1, 'hashtag2'),
        (NOW(), 'nickname28', 4900, true, 8, 9000, 9, 1, 'hashtag9'),
        (NOW(), 'nickname29', 41000, true, 9, 10000, 10, 2, 'hashtag10'),
        (NOW(), 'nickname30', 1400, true, 0, 1000, 1, 3, 'hashtag1');
-INSERT INTO post_like_count
-(post_id, like_count, created_at, modified_at)
-SELECT post_id,
-       0,
-       NOW(),
-       NOW()
-FROM post
-WHERE post_id BETWEEN 1 AND 300;
 
 
 -- Insert PostLikeCount for all the 300 posts
@@ -95,6 +87,10 @@ SET like_count  = CASE
     modified_at = NOW()
 WHERE post_id BETWEEN 1 AND 30;
 
+INSERT INTO post_insta_count (post_id, member_id, insta_count, created_at, modified_at)
+SELECT post_id, member_id, 0, NOW(), NOW()
+FROM post
+WHERE post_id BETWEEN 1 AND 30;
 
 -- Insert into Point Table
 INSERT INTO point
