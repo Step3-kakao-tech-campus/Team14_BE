@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
-  PostLike findByMemberAndPost(Member member, Post post);
 
   @Query(
       value = "SELECT * FROM post_like pl WHERE pl.member_id = :memberId AND pl.post_id = :postId ORDER BY pl.created_at DESC LIMIT 1",
