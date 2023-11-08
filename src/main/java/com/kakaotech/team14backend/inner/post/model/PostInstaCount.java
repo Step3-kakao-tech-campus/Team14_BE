@@ -6,6 +6,8 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,9 +24,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor(access = PROTECTED) // 기본 생성자의 접근 권한을 protected로 제한
 public class PostInstaCount {
 
-
   @Id
-  private Long postId; // 게시글 ID
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long postInstaCountId;
+
 
   @MapsId  // Post의 PK를 PostLike의 PK로 사용
   @OneToOne
