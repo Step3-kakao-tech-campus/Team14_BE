@@ -5,8 +5,6 @@ import static lombok.AccessLevel.PROTECTED;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +19,10 @@ public class PointHistory {
   @Id
   private Long recieverId;
 
+  @Column()
   private Long senderId;
 
+  @Column()
   private Long transferPoint;
 
   @Column(nullable = false)
