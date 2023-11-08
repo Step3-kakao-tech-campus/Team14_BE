@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.outer.post.service;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
+import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostService {
 
-  private final CreateImageUsecase createImageUsecase;
+  private final CreateImage createImage;
   private final CreatePostUsecase createPostUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
@@ -66,7 +66,7 @@ public class PostService {
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO){
     Member savedMember = uploadPostDTO.member();
-    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
+    Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
         uploadPostDTO.uploadPostRequestDTO(), savedMember);
     createPostUsecase.execute(createPostDTO);
