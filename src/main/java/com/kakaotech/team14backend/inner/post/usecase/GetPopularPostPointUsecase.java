@@ -19,8 +19,12 @@ public class GetPopularPostPointUsecase {
   public PostLevelPoint execute(Long postId) {
     Long rank = getRank(postId);
     Integer postLevel = getPostLevel(rank);
-    Long postPoint = UsePointDecider.decidePoint(postLevel);
+    Long postPoint = getPostPoint(postLevel);
     return new PostLevelPoint(postLevel, postPoint);
+  }
+
+  private static Long getPostPoint(Integer postLevel) {
+    return UsePointDecider.decidePoint(postLevel);
   }
 
   private static Integer getPostLevel(Long rank) {
