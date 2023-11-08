@@ -22,7 +22,7 @@ public class CreatePostUsecase {
     String attachedHashTag = HashTagUtils.attachHashTags(
         createPostDTO.uploadPostRequestDTO().getHashTags());
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-    PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount();
+    PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount(createPostDTO.member());
 
     Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,
         createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, postInstaCount);

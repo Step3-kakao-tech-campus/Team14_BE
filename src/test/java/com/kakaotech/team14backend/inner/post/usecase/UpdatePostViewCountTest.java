@@ -66,7 +66,7 @@ class UpdatePostViewCountTest {
     imageRepository.save(image);
 
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-    PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount();
+    PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount(member);
     Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자", postInstaCount);
     postRepository.save(post);
 

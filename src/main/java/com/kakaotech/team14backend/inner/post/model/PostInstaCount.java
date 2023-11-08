@@ -32,7 +32,7 @@ public class PostInstaCount {
   private Post post;
 
   @ManyToOne
-  @JoinColumn(name = "memberId", referencedColumnName = "memberId") // Member 엔티티의 기본 키 필드 이름으로 변경
+  @JoinColumn(name = "memberId") // Member 엔티티의 기본 키 필드 이름으로 변경
   private Member member;
 
   @Column(nullable = false)
@@ -51,14 +51,15 @@ public class PostInstaCount {
     this.instaCount = instaCount;
   }
 
-  public static PostInstaCount createPostInstaCount() {
+  public static PostInstaCount createPostInstaCount(Member member) {
 
-    return PostInstaCount.builder().instaCount(0L).build();
+    return PostInstaCount.builder().instaCount(0L).member(member).build();
   }
 
   @Builder
-  public PostInstaCount(Long instaCount) {
+  public PostInstaCount(Long instaCount, Member member) {
     this.instaCount = 0L;
+    this.member = member;
   }
 
   public void updatePostInstaCount(Long instaCount) {
