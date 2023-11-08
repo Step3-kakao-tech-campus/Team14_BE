@@ -18,8 +18,12 @@ public class CreateImageUsecase {
 
   public Image execute(MultipartFile image){
     UploadFileDTO uploadFileDTO = fileUtils.storeFile(image);
-    Image createdImage = Image.createImage(fileUtils.getPath(uploadFileDTO.getStoreFileName()));
+    Image createdImage = Image.createImage(getPath(uploadFileDTO));
     return imageRepository.save(createdImage);
+  }
+
+  private String getPath(UploadFileDTO uploadFileDTO) {
+    return fileUtils.getPath(uploadFileDTO.getStoreFileName());
   }
 
 }
