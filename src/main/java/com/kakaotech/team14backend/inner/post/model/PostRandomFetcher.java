@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.inner.post.model;
 
+import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
 import com.kakaotech.team14backend.outer.post.dto.RandomIndexes;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +51,7 @@ public class PostRandomFetcher {
         end = PostLevel.LV1.end();
         break;
       default:
-        throw new IllegalArgumentException("Invalid level: " + level);
+        throw new PostLevelOutOfRangeException();
     }
 
     return new RandomIndexes(start, end, count);
@@ -96,7 +97,7 @@ public class PostRandomFetcher {
         }
         break;
       default:
-        throw new IllegalArgumentException("Invalid level: " + level);
+        throw new PostLevelOutOfRangeException();
     }
     return new RandomIndexes(start, end, count);
   }
