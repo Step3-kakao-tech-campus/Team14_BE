@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 class GetPopularPostPointUsecaseTest {
 
   @Autowired
-  private GetPopularPostPointUsecase getPopularPostPointUsecase;
+  private GetPopularPostPoint getPopularPostPointUsecase;
 
   @Autowired
   private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
