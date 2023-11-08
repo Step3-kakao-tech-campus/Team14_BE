@@ -18,8 +18,27 @@ class PostRandomFetcherTest {
   }
 
   @Test
-  @DisplayName("limitSize가 30보다 클 경우")
+  @DisplayName("limitSize가 30일경우")
   void fetchRandomIndexesForAllLevels() {
+    Map<Integer, Integer> levelSize = new LinkedHashMap<>();
+    levelSize.put(3, 4);
+    levelSize.put(2, 3);
+    levelSize.put(1, 3);
+
+
+    Map<Integer, RandomIndexes> integerRandomIndexesMap = postRandomFetcher.fetchRandomIndexesForAllLevels(levelSize, 30);
+    for(Map.Entry<Integer, RandomIndexes> entry : integerRandomIndexesMap.entrySet()){
+      System.out.println("key : " + entry.getKey() + " value : " + entry.getValue().getIndexes());
+    }
+
+    Assertions.assertEquals(4, integerRandomIndexesMap.get(3).getIndexes().size());
+    Assertions.assertEquals(3, integerRandomIndexesMap.get(2).getIndexes().size());
+    Assertions.assertEquals(3, integerRandomIndexesMap.get(1).getIndexes().size());
+  }
+
+  @Test
+  @DisplayName("limitSize가 30이상일 경우")
+  void fetchRandomIndexesForAllLevels_over_30() {
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, 4);
     levelSize.put(2, 3);
@@ -31,9 +50,9 @@ class PostRandomFetcherTest {
       System.out.println("key : " + entry.getKey() + " value : " + entry.getValue().getIndexes());
     }
 
-    Assertions.assertEquals(3, integerRandomIndexesMap.get(1).getIndexes().size());
-    Assertions.assertEquals(3, integerRandomIndexesMap.get(2).getIndexes().size());
     Assertions.assertEquals(4, integerRandomIndexesMap.get(3).getIndexes().size());
+    Assertions.assertEquals(3, integerRandomIndexesMap.get(2).getIndexes().size());
+    Assertions.assertEquals(3, integerRandomIndexesMap.get(1).getIndexes().size());
   }
 
   @Test
