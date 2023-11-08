@@ -1,33 +1,38 @@
 package com.kakaotech.team14backend.inner.post.model;
 
+import com.kakaotech.team14backend.outer.post.dto.RandomIndexes;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 @Component
 public class PostRandomFetcher {
 
+  private final int MAX_RANK_SIZE = 30;
 
-  public Map<Integer, List<Integer>> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts) {
-    Map<Integer, List<Integer>> result = new HashMap<>();
 
-    for (Map.Entry<Integer, Integer> entry : levelCounts.entrySet()) {
-      int level = entry.getKey();
-      int count = entry.getValue();
-      result.put(level, fetchRandomIndexesForLevel(level, count));
+  public Map<Integer, RandomIndexes> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts, int limitSize) {
+    Map<Integer, RandomIndexes> result = new HashMap<>();
+
+    if(isOverMaxSize(limitSize)){
+      for (Map.Entry<Integer, Integer> entry : levelCounts.entrySet()) {
+        int level = entry.getKey();
+        int count = entry.getValue();
+        result.put(level, fetchRandomIndexesForLevel(level, count));
+      }
+    }else{
+      for (Map.Entry<Integer, Integer> entry : levelCounts.entrySet()) {
+        int level = entry.getKey();
+        int count = entry.getValue();
+        result.put(level, fetchRandomIndexesForLevel(level, count, limitSize));
+      }
     }
 
     return result;
   }
 
-  private List<Integer> fetchRandomIndexesForLevel(int level, int count) {
+  private RandomIndexes fetchRandomIndexesForLevel(int level, int count) {
     int start = 0;
     int end = 0;
 
@@ -48,67 +53,56 @@ public class PostRandomFetcher {
         throw new IllegalArgumentException("Invalid level: " + level);
     }
 
-    return generateRandomIndexes(start, end, count);
+    return new RandomIndexes(start, end, count);
   }
 
-  private List<Integer> generateRandomIndexes(int start, int end, int count) {
-    Set<Integer> randomIndexesSet = new HashSet<>();
+  private RandomIndexes fetchRandomIndexesForLevel(int level, int count, int limitSize) {
 
-    while (randomIndexesSet.size() < count) {
-      int randomIndex = start + ThreadLocalRandom.current().nextInt(end - start + 1);
-      randomIndexesSet.add(randomIndex);
-    }
+    int start = 0;
+    int end = 0;
 
-    List<Integer> sortedRandomIndexes = randomIndexesSet.stream()
-        .sorted()
-        .collect(Collectors.toList());
-
-    return sortedRandomIndexes;
-  }
-
-  public Map<Integer, List<Integer>> fetchRandomIndexesUnder30ForAllLevels(Map<Integer, Integer> levelCounts, int size) {
-    int totalSize = levelCounts.get(1) + levelCounts.get(2) + levelCounts.get(3);
-
-    Set<Integer> randomIndexesSet = new HashSet<>();
-
-    int bound = totalSize < size ? totalSize : size;
-
-    while (randomIndexesSet.size() < bound) {
-      int randomIndex = 1 + ThreadLocalRandom.current().nextInt(size);
-      randomIndexesSet.add(randomIndex);
-    }
-
-    List<Integer> sortedRandomIndexes = randomIndexesSet.stream()
-        .sorted()
-        .collect(Collectors.toList());
-
-    Map<Integer, List<Integer>> result = new HashMap<>();
-
-    List<Integer> level3 = new ArrayList<>();
-    List<Integer> level2 = new ArrayList<>();
-    List<Integer> level1 = new ArrayList<>();
-
-    for(int i=0; i<sortedRandomIndexes.size(); i++){
-        if(sortedRandomIndexes.get(i) < PostLevel.LV3.end()){
-          level3.add(sortedRandomIndexes.get(i));
-        }else if(sortedRandomIndexes.get(i) < PostLevel.LV2.end()) {
-          level2.add(sortedRandomIndexes.get(i));
+    switch (level) {
+      case 3:
+        if(PostLevel.LV3.end() < limitSize){
+          start = PostLevel.LV3.start();
+          end = PostLevel.LV3.end();
+        }else if(PostLevel.LV3.start() <= limitSize && PostLevel.LV3.end() > limitSize){
+        start = PostLevel.LV3.start();
+        end = limitSize;
+      }else{
+        return new RandomIndexes();
+      }
+        break;
+      case 2:
+        if(PostLevel.LV2.end() < limitSize) {
+          start = PostLevel.LV2.start();
+          end = PostLevel.LV2.end();
+        }else if(PostLevel.LV2.start() <= limitSize && PostLevel.LV2.end() > limitSize){
+          start = PostLevel.LV2.start();
+          end = limitSize;
         }else{
-          level1.add(sortedRandomIndexes.get(i));
+          return new RandomIndexes();
         }
+        break;
+      case 1:
+        if(PostLevel.LV1.end() < limitSize) {
+          start = PostLevel.LV1.start();
+          end = PostLevel.LV1.end();
+        }else if(PostLevel.LV1.start() <= limitSize && PostLevel.LV1.end() > limitSize){
+          start = PostLevel.LV1.start();
+          end = limitSize;
+        }else{
+          return new RandomIndexes();
+        }
+        break;
+      default:
+        throw new IllegalArgumentException("Invalid level: " + level);
     }
+    return new RandomIndexes(start, end, count);
+  }
 
-    if(!level3.isEmpty()){
-      result.put(3, level3);
-    }
-    if (!level2.isEmpty()) {
-      result.put(2, level2);
-    }
-    if (!level1.isEmpty()) {
-      result.put(1, level1);
-    }
-
-    return result;
+  private boolean isOverMaxSize(int limitSize) {
+    return limitSize > MAX_RANK_SIZE ? true : false;
   }
 
 }
