@@ -134,6 +134,8 @@ public class PostService {
   }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
+    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
     return findMyPostUsecase.execute(memberId, postId);
   }
 }
