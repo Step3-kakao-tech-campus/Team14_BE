@@ -159,6 +159,7 @@ class PostControllerTest {
     resultActions.andExpect(status().isOk());
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
+    resultActions.andExpect(jsonPath("$.response.popularPosts.size()").value(10));
   }
 
   @DisplayName("인기 피드 상세 조회 - 비정상 파라미터")
