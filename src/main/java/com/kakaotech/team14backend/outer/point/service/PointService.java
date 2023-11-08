@@ -34,7 +34,7 @@ public class PointService {
 
     usePointUsecase.execute(senderId, receiver.getMemberId(), point);
 
-    setPostInstaUsecase.execute(post, receiver);
+    setPostInstaUsecase.execute(post.getPostId(), receiver.getMemberId());
     return receiver.getInstaId();
   }
 

@@ -60,7 +60,7 @@ public class PointController {
 
     Long postId = usePointByPostRequestDTO.postId();
     Post post = postRepository.findById(postId)
-        .orElseThrow(() -> new PostNotFoundException());
+        .orElseThrow(PostNotFoundException::new);
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
@@ -68,7 +68,8 @@ public class PointController {
     Long senderId = principalDetails.getMember().getMemberId();
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
-    setPostInstaCountUsecase.execute(post,received);
+    setPostInstaCountUsecase.execute(postId, received.getMemberId());
+
     UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
     return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);
   }
