@@ -7,6 +7,7 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,8 +46,8 @@ public class Post {
   @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
   private PostLikeCount postLikeCount;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  private PostInstaCount postInstaCount;
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+  private List<PostInstaCount> postInstaCount;
 
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
@@ -72,7 +73,7 @@ public class Post {
   private Integer reportCount; // 제재 횟수
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<PostLike> postLikeHistories;
+  private List<PostLike> postLikeHistories = new ArrayList<>();
 
   public void mappingMember(Member member) {
     this.member = member;
@@ -88,8 +89,7 @@ public class Post {
   }
 
   public void mapppingPostInstaCount(PostInstaCount postInstaCount) {
-    postInstaCount.mappingPost(this);
-    this.postInstaCount = postInstaCount;
+    this.postInstaCount.add(postInstaCount);
   }
 
   public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,

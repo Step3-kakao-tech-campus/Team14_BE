@@ -26,7 +26,10 @@ public class CreatePostUsecase {
 
     Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,
         createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, postInstaCount);
-    return postRepository.save(post);
+    post = postRepository.save(post);
+
+    postInstaCount.mappingPost(post);
+    return post;
   }
 
 }
