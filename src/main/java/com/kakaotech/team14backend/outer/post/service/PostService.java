@@ -10,7 +10,7 @@ import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPointUsecase;
@@ -44,7 +44,7 @@ public class PostService {
   private final CreatePostUsecase createPostUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
-  private final FindPopularPostUsecase findPopularPostUsecase;
+  private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
   private final SetPostLikeUsecase setPostLikeUsecase;
   private final FindPopularPosts findPopularPosts;
@@ -98,7 +98,7 @@ public class PostService {
   public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     savePostViewCount.execute(getPostDTO);
     PostLevelPoint postLevelPoint = getPopularPostPointUsecase.execute(getPostDTO.postId());
-    return findPopularPostUsecase.execute(getPostDTO, postLevelPoint);
+    return findPopularPost.execute(getPostDTO, postLevelPoint);
   }
 
   /*
