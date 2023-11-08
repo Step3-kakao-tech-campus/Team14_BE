@@ -127,7 +127,7 @@ public class PostController {
   @ApiOperation(value = "인기 피드 게시물 조회", notes = "레벨당 게시물이 몇개가 필요한 지를 받아, 해당 레벨별 게시물들을 반환한다.")
   @GetMapping("/popular-post")
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(
-      @RequestParam Integer level1, @RequestParam Integer level2, @RequestParam Integer level3) {
+      @RequestParam Integer level3, @RequestParam Integer level2, @RequestParam Integer level1) {
 
     if (level1 >= 10 || level2 >= 10 || level3 >= 10) {
       throw new MaxLevelSizeException();

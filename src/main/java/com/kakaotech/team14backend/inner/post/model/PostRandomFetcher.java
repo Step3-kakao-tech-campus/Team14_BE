@@ -1,7 +1,6 @@
 package com.kakaotech.team14backend.inner.post.model;
 
 import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
-import com.kakaotech.team14backend.outer.post.dto.RandomIndexes;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -103,7 +102,7 @@ public class PostRandomFetcher {
   }
 
   private boolean isOverMaxSize(int limitSize) {
-    return limitSize > MAX_RANK_SIZE ? true : false;
+    return limitSize >= MAX_RANK_SIZE ? true : false;
   }
 
 }
