@@ -26,8 +26,8 @@ public class SetPostLikeUsecase {
     Long postId = setPostLikeDTO.postId();
     Long memberId = setPostLikeDTO.memberId();
 
-    Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+    Member member = findMemberService.execute(memberId);
+
     Post post = postRepository.findById(postId)
         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
     boolean isLiked = toggleLike(member, post);
