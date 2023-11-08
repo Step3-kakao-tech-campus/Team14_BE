@@ -15,7 +15,8 @@ public class SetPostInstaCountUsecase {
   private final PostInstaCountRepository postInstaCountRepository;
 
   public void execute(Post post, Member member) {
-    PostInstaCount postInstaCount = postInstaCountRepository.findByPostAndMember(post, member);
+    PostInstaCount postInstaCount = postInstaCountRepository.findByPostAndMember(post.getPostId(),
+        member.getMemberId());
 
     postInstaCount.updatePostInstaCount(postInstaCount.getInstaCount() + 1);
     postInstaCountRepository.save(postInstaCount);
