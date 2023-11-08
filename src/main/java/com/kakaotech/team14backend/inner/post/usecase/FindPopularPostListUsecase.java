@@ -39,7 +39,7 @@ public class FindPopularPostListUsecase {
       Integer level = entry.getKey();
       List<Integer> indexes = entry.getValue().getIndexes();
       for (Integer index : indexes) {
-        Long postId = redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
+        Long postId = getPostId(index);
         Optional<Post> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
           Post post = optionalPost.get();
@@ -50,6 +50,10 @@ public class FindPopularPostListUsecase {
     getPopularPostListResponseDTO = PostMapper.from(incompletePopularPostDTOS, levelIndexes.levelIndexes());
 
     return getPopularPostListResponseDTO;
+  }
+
+  private Long getPostId(Integer index) {
+    return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
   }
 
   private LevelIndexes getLevelIndexes(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int limitSize) {
