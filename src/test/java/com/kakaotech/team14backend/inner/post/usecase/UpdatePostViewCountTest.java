@@ -28,7 +28,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 class UpdatePostViewCountTest {
 
   @Autowired
-  private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
+  private SavePostViewCount saveTemporaryPostViewCountUsecase;
 
   @Autowired
   private UpdatePostViewCountUsecase updatePostViewCountUsecase;

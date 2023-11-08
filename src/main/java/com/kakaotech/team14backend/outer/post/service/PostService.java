@@ -1,20 +1,19 @@
 package com.kakaotech.team14backend.outer.post.service;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.image.usecase.CreateImageUsecase;
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostListUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPostUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
+import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPointUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPostViewCountUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
+import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
@@ -40,21 +39,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostService {
 
-  private final CreateImageUsecase createImageUsecase;
+  private final CreateImage createImage;
   private final CreatePostUsecase createPostUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
-  private final FindPopularPostUsecase findPopularPostUsecase;
-  private final SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
+  private final FindPopularPost findPopularPost;
+  private final SavePostViewCount savePostViewCount;
   private final SetPostLikeUsecase setPostLikeUsecase;
-  private final FindPopularPostListUsecase findPopularPostListUsecase;
+  private final FindPopularPosts findPopularPosts;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
-  private final GetPopularPostPointUsecase getPopularPostPointUsecase;
-
-
+  private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
@@ -65,16 +62,17 @@ public class PostService {
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO){
-    Member savedMember = uploadPostDTO.member();
-    Image savedImage = createImageUsecase.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    CreatePostDTO createPostDTO = new CreatePostDTO(savedImage,
-        uploadPostDTO.uploadPostRequestDTO(), savedMember);
-    createPostUsecase.execute(createPostDTO);
-    getPointUsecase.execute(savedMember, GetPointPolicy.GIVE_300_WHEN_UPLOAD);
+    Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
+    createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
+    getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
+  }
+
+  private static CreatePostDTO makeCreatePostDTO(UploadPostDTO uploadPostDTO, Image savedImage) {
+    return new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), uploadPostDTO.member());
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
-    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
+    savePostViewCount.execute(getPostDTO);
     return findPostUsecase.execute(getPostDTO);
   }
 
@@ -96,9 +94,9 @@ public class PostService {
    */
 
   public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
-    saveTemporaryPostViewCountUsecase.execute(getPostDTO);
-    PostLevelPoint postLevelPoint = getPopularPostPointUsecase.execute(getPostDTO.postId());
-    return findPopularPostUsecase.execute(getPostDTO, postLevelPoint);
+    savePostViewCount.execute(getPostDTO);
+    PostLevelPoint postLevelPoint = getPopularPostPoint.execute(getPostDTO.postId());
+    return findPopularPost.execute(getPostDTO, postLevelPoint);
   }
 
   /*
@@ -129,8 +127,7 @@ public class PostService {
   public GetPopularPostListResponseDTO getPopularPostList(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
     int size = findPostListUsecase.findPostListSize();
-    return findPopularPostListUsecase.execute(
-        getPopularPostListRequestDTO.levelSize(), size);
+    return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {

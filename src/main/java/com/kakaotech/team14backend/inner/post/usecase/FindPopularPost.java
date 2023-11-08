@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class FindPopularPostUsecase {
+public class FindPopularPost {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;

@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NotEnoughPointException.class)
   public ApiResponse<ApiResponse.CustomBody> handleException(NotEnoughPointException e) {
     return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(),
-        HttpStatus.NOT_FOUND);
+        HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(SizeParameterException.class)
