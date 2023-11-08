@@ -1,35 +1,40 @@
 package com.kakaotech.team14backend.inner.post.model;
-
 import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class PostRandomFetcher {
 
   private final int MAX_RANK_SIZE = 30;
+  private LevelIndexes levelIndexes;
 
+  public PostRandomFetcher(Map<Integer,Integer> levelSize, int limitSize) {
+    this.levelIndexes = fetchRandomIndexesForAllLevels(levelSize, limitSize);
+  }
 
-  public Map<Integer, RandomIndexes> fetchRandomIndexesForAllLevels(Map<Integer, Integer> levelCounts, int limitSize) {
+  public LevelIndexes getLevelIndexes() {
+    return levelIndexes;
+  }
+
+  private LevelIndexes fetchRandomIndexesForAllLevels(Map<Integer,Integer> levelSize, int limitSize) {
     Map<Integer, RandomIndexes> result = new HashMap<>();
 
     if(isOverMaxSize(limitSize)){
-      for (Map.Entry<Integer, Integer> entry : levelCounts.entrySet()) {
+      for (Map.Entry<Integer, Integer> entry : levelSize.entrySet()) {
         int level = entry.getKey();
         int count = entry.getValue();
         result.put(level, fetchRandomIndexesForLevel(level, count));
       }
     }else{
-      for (Map.Entry<Integer, Integer> entry : levelCounts.entrySet()) {
+      for (Map.Entry<Integer, Integer> entry : levelSize.entrySet()) {
         int level = entry.getKey();
         int count = entry.getValue();
         result.put(level, fetchRandomIndexesForLevel(level, count, limitSize));
       }
     }
 
-    return result;
+    return new LevelIndexes(result);
   }
 
   private RandomIndexes fetchRandomIndexesForLevel(int level, int count) {
@@ -98,7 +103,7 @@ public class PostRandomFetcher {
       default:
         throw new PostLevelOutOfRangeException();
     }
-    return new RandomIndexes(start, end, count);
+    return new RandomIndexes(start, end + 1, count);
   }
 
   private boolean isOverMaxSize(int limitSize) {
