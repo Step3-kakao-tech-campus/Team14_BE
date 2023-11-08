@@ -19,6 +19,10 @@ public class SetPostInstaCountUsecase {
   public void execute(Post post, Member member) {
     PostInstaCount postInstaCount = postInstaCountRepository.findByPostAndMember(post.getPostId(),
         member.getMemberId());
+    //postInsta 없으면 예외 던지자
+    if (postInstaCount == null) {
+      throw new RuntimeException("postInstaCount가 없습니다.");
+    }
 
     postInstaCount.updatePostInstaCount(postInstaCount.getInstaCount() + 1);
   }
