@@ -76,7 +76,7 @@ public class PostMapper {
 
   public static GetMyPostResponseDTO from(final Post post, final boolean isLiked, Long memberId) {
     PostInstaCount filteredInstaCount = post.getPostInstaCount().stream()
-        .filter(instaCount -> !instaCount.getMember().getMemberId().equals(memberId))
+        .filter(instaCount -> instaCount.getMember().getMemberId().equals(memberId))
         .findFirst() // 첫 번째 일치하는 객체를 가져오거나, 없다면 empty를 반환합니다.
         .orElse(null); // 일치하는 객체가 없다면 null을 반환합니다.
 
@@ -103,7 +103,7 @@ public class PostMapper {
     List<GetPersonalPostResponseDTO> editedPostList = new ArrayList<>();
     for (Post post : postList) {
       PostInstaCount filteredInstaCount = post.getPostInstaCount().stream()
-          .filter(instaCount -> !instaCount.getMember().getMemberId().equals(memberId))
+          .filter(instaCount -> instaCount.getMember().getMemberId().equals(memberId))
           .findFirst() // 첫 번째 일치하는 객체를 가져오거나, 없다면 empty를 반환합니다.
           .orElse(null); // 일치하는 객체가 없다면 null을 반환합니다.
 
