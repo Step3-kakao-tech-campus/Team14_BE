@@ -1,9 +1,9 @@
 package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostListRequestDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.post.domain.LevelIndexes;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostRandomFetcher;

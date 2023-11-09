@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

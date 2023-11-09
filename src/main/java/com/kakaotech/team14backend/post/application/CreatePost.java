@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.post.application;
 import com.kakaotech.team14backend.common.HashTagUtils;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
+import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;

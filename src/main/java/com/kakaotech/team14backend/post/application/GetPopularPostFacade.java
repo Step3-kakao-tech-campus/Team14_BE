@@ -2,11 +2,11 @@ package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.dto.GetPopularPostListRequestDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostListResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.PostLevelPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

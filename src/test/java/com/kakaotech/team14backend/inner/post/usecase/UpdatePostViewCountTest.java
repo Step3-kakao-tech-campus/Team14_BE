@@ -9,7 +9,7 @@ import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.post.application.SavePostViewCount;
 import com.kakaotech.team14backend.post.application.SchedulePostViewCount;
 import com.kakaotech.team14backend.post.application.UpdatePostViewCount;

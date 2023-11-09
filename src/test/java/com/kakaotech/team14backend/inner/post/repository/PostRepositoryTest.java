@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.repository;
 
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

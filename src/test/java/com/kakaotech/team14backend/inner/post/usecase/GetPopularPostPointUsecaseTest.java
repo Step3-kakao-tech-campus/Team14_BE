@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.post.application.GetPopularPostPoint;
 import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.assertj.core.api.Assertions;

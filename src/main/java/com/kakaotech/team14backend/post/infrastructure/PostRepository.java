@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.infrastructure;
 
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.post.domain.Post;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.post.application.SavePostViewCount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

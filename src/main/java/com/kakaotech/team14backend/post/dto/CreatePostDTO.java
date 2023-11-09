@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.post.dto;
+package com.kakaotech.team14backend.post.dto;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;

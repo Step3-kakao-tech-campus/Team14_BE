@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.post.dto;
+package com.kakaotech.team14backend.post.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

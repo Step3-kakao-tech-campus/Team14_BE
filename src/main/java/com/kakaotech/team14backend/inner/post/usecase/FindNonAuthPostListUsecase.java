@@ -3,8 +3,8 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
+import com.kakaotech.team14backend.post.dto.SetNonAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.post.application.PostMapper;
 import java.util.ArrayList;
 import java.util.Collections;

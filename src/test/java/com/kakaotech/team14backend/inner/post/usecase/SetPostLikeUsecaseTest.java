@@ -5,7 +5,7 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.member.service.FindMemberService;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.Test;

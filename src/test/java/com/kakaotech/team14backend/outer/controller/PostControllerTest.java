@@ -1,9 +1,9 @@
 
 package com.kakaotech.team14backend.outer.controller;
 
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
 import com.kakaotech.team14backend.post.application.PostService;
 import com.kakaotech.team14backend.post.application.SavePopularPosts;
