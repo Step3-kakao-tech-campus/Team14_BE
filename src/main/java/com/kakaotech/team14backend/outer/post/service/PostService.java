@@ -4,10 +4,10 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
+import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
-import com.kakaotech.team14backend.inner.post.usecase.FindAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
 import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
@@ -31,7 +31,6 @@ public class PostService {
   private final CreateImage createImage;
   private final CreatePostUsecase createPostUsecase;
   private final FindPostUsecase findPostUsecase;
-  private final FindAuthPostListUsecase findPostListUsecase;
   private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
   private final FindPopularPosts findPopularPosts;
@@ -39,6 +38,7 @@ public class PostService {
   private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
 
+  private final PostRepository postRepository;
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) {
@@ -89,7 +89,7 @@ public class PostService {
 
   public GetPopularPostListResponseDTO getPopularPostList(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
-    int size = findPostListUsecase.findPostListSize();
+    int size = postRepository.findAll().size();
     return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
