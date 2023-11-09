@@ -11,7 +11,7 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
 import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
-import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeService;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
@@ -39,7 +39,7 @@ public class PostService {
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
-  private final SetPostLikeUsecase setPostLikeUsecase;
+  private final SetPostLikeService setPostLikeService;
   private final FindPopularPosts findPopularPosts;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
@@ -87,7 +87,7 @@ public class PostService {
    */
   @Transactional
   public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
-    SetPostLikeResponseDTO isLiked = setPostLikeUsecase.execute(setPostLikeDTO);
+    SetPostLikeResponseDTO isLiked = setPostLikeService.execute(setPostLikeDTO);
 
     Long postId = setPostLikeDTO.postId();
     GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(postId, isLiked.isLiked());

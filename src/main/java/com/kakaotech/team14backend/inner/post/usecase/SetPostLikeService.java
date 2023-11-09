@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SetPostLikeUsecase {
+public class SetPostLikeService {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;

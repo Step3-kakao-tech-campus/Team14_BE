@@ -22,7 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class SetPostLikeUsecaseTest {
 
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
-  private SetPostLikeUsecase setPostLikeUsecase;
+  private SetPostLikeService setPostLikeUsecase;
   @Mock
   private FindMemberService findMemberService;
 

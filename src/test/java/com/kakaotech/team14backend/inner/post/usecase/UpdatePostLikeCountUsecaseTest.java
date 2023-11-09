@@ -26,7 +26,7 @@ public class UpdatePostLikeCountUsecaseTest {
   private UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
   @Mock
-  private SetPostLikeUsecase setPostLikeUsecase;
+  private SetPostLikeService setPostLikeUsecase;
 
   @Mock
   private PostLikeCountRepository postLikeCountRepository;
