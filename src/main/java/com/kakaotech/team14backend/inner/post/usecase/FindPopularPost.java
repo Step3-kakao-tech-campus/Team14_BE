@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FindPopularPost {
 
   private final PostRepository postRepository;
-  private final PostLikeRepository postLikeRepository;
   private final FindLikeStatusService findLikeStatusService;
   /**
    * Redis에 해당 popularPost가 있다면 Redis에서 가져오고, 존재하지 않는다면 DB에서 가져온 후 Redis에 반영한다.
