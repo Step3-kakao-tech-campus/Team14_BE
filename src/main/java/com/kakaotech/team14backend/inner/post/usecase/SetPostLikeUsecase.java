@@ -34,7 +34,6 @@ public class SetPostLikeUsecase {
     Post post = postRepository.findById(postId)
         .orElseThrow(PostNotFoundException::new);
     boolean isLiked = toggleLike(member, post);
-    System.out.println("SetPostLikeUsecase 호출 되었음 = " + memberId + " " + postId + " " + isLiked);
     return new SetPostLikeResponseDTO(isLiked);
   }
 

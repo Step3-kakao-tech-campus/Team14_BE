@@ -23,7 +23,6 @@ public class FindMyPostUsecase {
   public GetMyPostResponseDTO execute(Long memberId, Long postId) {
     Post post = postRepository.findByPostIdAndMemberId(memberId, postId);
     boolean isLiked = findLikeStatusService.execute(memberId, postId);
-    System.out.println("FindMyPostUsecase 호출 되었음 = " + memberId + " " + postId + " " + isLiked);
     GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, isLiked,memberId);
     return getPostResponseDTO;
   }
