@@ -49,10 +49,9 @@ public class SetPostLikeUsecase {
         .filter(PostLike::isLiked)
         .map(postLike -> PostLike.createPostLike(member, post, false))
         .orElseGet(() -> {
-          PostLike.createPostLike(member, post, true);
-          //todo : 좋아요를 누를 때 포스트 당 한 번만 포스트를 얻을 수 있도록 하기
           getPointUsecase.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
           return PostLike.createPostLike(member, post, true);
         });
   }
+
 }
