@@ -9,9 +9,9 @@ import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
+import com.kakaotech.team14backend.post.application.PopularPostFacade;
 import com.kakaotech.team14backend.post.application.PostService;
-import com.kakaotech.team14backend.post.application.UploadPostFacade;
+import com.kakaotech.team14backend.post.application.PostFacade;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPersonalPostListResponseDTO;
@@ -47,8 +47,8 @@ import java.util.Map;
 public class PostController {
 
   private final PostService postService;
-  private final GetPopularPostFacade getPopularPostFacade;
-  private final UploadPostFacade uploadPostFacade;
+  private final PopularPostFacade getPopularPostFacade;
+  private final PostFacade uploadPostFacade;
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
@@ -89,7 +89,7 @@ public class PostController {
     Member member = principalDetails.getMember();
     UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
         uploadPostRequestDTO);
-    uploadPostFacade.uploadPost(uploadPostDTO);
+    uploadPostFacade.save(uploadPostDTO);
 
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
@@ -127,7 +127,7 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.find(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -148,7 +148,7 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = getPopularPostFacade.getPopularPostList(
+    GetPopularPostListResponseDTO popularPostList = getPopularPostFacade.findAll(
         getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }

@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UploadPostFacade {
+public class PostFacade {
 
   private final CreateImage createImage;
   private final CreatePost createPostUsecase;
   private final GetPointUsecase getPointUsecase;
 
   @Transactional
-  public void uploadPost(UploadPostDTO uploadPostDTO) {
+  public void save(UploadPostDTO uploadPostDTO) {
     Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
     getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
