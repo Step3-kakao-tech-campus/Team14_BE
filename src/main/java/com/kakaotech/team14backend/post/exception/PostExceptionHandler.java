@@ -2,9 +2,6 @@ package com.kakaotech.team14backend.post.exception;
 
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
-import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
-import com.kakaotech.team14backend.post.exception.PostLevelOutOfRangeException;
-import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
