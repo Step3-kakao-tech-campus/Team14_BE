@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.outer.point.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

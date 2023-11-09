@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.point.appliation;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.domain.PostLevel;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
