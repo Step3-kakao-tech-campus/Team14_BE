@@ -9,14 +9,15 @@ import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FindMyPostUsecase {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
-
   public GetMyPostResponseDTO execute(Long memberId, Long postId) {
     Post post = postRepository.findByPostIdAndMemberId(memberId, postId);
     Optional<PostLike> latestPostLike = postLikeRepository
