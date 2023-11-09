@@ -11,6 +11,7 @@ import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
+import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ public class SetPostLikeUsecase {
   private final PostRepository postRepository;
   private final FindMemberService findMemberService;
   private final GetPointUsecase getPointUsecase;
+  private final FindLikeStatusService findLikeStatusService;
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
@@ -44,14 +46,15 @@ public class SetPostLikeUsecase {
   }
 
   private PostLike newPostLike(final Member member, final Post post) {
-    return postLikeRepository
-        .findFirstByMemberAndPostOrderByCreatedAtDesc(member.getMemberId(), post.getPostId())
-        .filter(PostLike::isLiked)
-        .map(postLike -> PostLike.createPostLike(member, post, false))
-        .orElseGet(() -> {
-          getPointUsecase.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
-          return PostLike.createPostLike(member, post, true);
-        });
+
+    boolean isLiked = findLikeStatusService.execute(member.getMemberId(), post.getPostId());
+    if (isLiked) {
+      return PostLike.createPostLike(member, post, false);
+    } else {
+      getPointUsecase.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
+      return PostLike.createPostLike(member, post, true);
+    }
+
   }
 
 }
