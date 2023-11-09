@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetPopularPostFacade {
+public class PopularPostFacade {
 
   private final FindPopularPosts findPopularPosts;
   private final FindPostListUsecase findPostListUsecase;
@@ -21,14 +21,14 @@ public class GetPopularPostFacade {
   private final GetPopularPostPoint getPopularPostPoint;
   private final FindPopularPost findPopularPost;
 
-  public GetPopularPostListResponseDTO getPopularPostList(
+  public GetPopularPostListResponseDTO findAll(
       GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
     int size = findPostListUsecase.findPostListSize();
     return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
   @Transactional
-  public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
+  public GetPopularPostResponseDTO find(GetPostDTO getPostDTO) {
     savePostViewCount.execute(getPostDTO);
     PostLevelPoint postLevelPoint = getPopularPostPoint.execute(getPostDTO.postId());
     return findPopularPost.execute(getPostDTO, postLevelPoint);
