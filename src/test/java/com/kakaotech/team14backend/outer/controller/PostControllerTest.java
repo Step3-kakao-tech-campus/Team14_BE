@@ -1,3 +1,4 @@
+
 package com.kakaotech.team14backend.outer.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,6 +50,7 @@ class PostControllerTest {
 
   @Autowired
   private SetPostLikeUsecase setPostLikeUsecase;
+  @Autowired
   private GetPopularPostFacade getPopularPostFacade;
 
   /**
@@ -108,7 +110,9 @@ class PostControllerTest {
   void findAllHomeFeedWrongParam_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/post").param("lastPostId", "0").param("size", "-1")
+        get("/api/post")
+            .param("lastPostId", "0")
+            .param("size", "-1")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -145,7 +149,10 @@ class PostControllerTest {
     saveTemporaryPopularPostListUsecase.execute();
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post").param("level3", "4").param("level2", "3").param("level1", "3")
+        get("/api/popular-post")
+            .param("level3", "4")
+            .param("level2", "3")
+            .param("level1", "3")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -168,7 +175,8 @@ class PostControllerTest {
     String param = "289";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param)
+            .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -191,7 +199,8 @@ class PostControllerTest {
     String param = "290";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param)
+            .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -210,7 +219,10 @@ class PostControllerTest {
   void findAllPopularPostMaxSize_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post").param("level3", "10").param("level2", "3").param("level1", "3")
+        get("/api/popular-post")
+            .param("level3", "10")
+            .param("level2", "3")
+            .param("level1", "3")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -232,14 +244,14 @@ class PostControllerTest {
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
     GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(
         getPostDTO);
-
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L, 1L);
     setPostLikeUsecase.execute(setPostLikeDTO);
 
     String param = "10";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param)
+            .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -255,4 +267,3 @@ class PostControllerTest {
   }
 
 }
-
