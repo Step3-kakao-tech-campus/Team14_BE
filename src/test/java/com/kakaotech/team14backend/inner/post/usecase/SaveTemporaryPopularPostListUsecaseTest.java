@@ -1,19 +1,20 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
+import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import java.util.List;
-import java.util.Set;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
+
+import java.util.List;
+import java.util.Set;
 
 @SpringBootTest
 
@@ -23,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 class SaveTemporaryPopularPostListUsecaseTest {
 
   @Autowired
-  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private SavePopularPosts saveTemporaryPopularPostListUsecase;
 
   @Autowired
   private PostRepository postRepository;

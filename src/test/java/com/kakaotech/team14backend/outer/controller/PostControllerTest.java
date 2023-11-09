@@ -1,20 +1,11 @@
 
 package com.kakaotech.team14backend.outer.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
-import java.util.Set;
-
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.service.PostService;
+import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +22,12 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Set;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @Sql("classpath:db/testSetup.sql")
 @AutoConfigureMockMvc
 
@@ -45,7 +42,7 @@ class PostControllerTest {
   private RedisTemplate redisTemplate;
 
   @Autowired
-  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private SavePopularPosts saveTemporaryPopularPostListUsecase;
 
   @Autowired
   private PostService postService;

@@ -1,23 +1,23 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class UpdatePostLikeCountUsecaseTest {
