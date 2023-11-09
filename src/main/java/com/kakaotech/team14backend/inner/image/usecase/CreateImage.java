@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.inner.image.usecase;
 import com.kakaotech.team14backend.common.FileUtils;
 import com.kakaotech.team14backend.common.UploadFileDTO;
 import com.kakaotech.team14backend.image.domain.Image;
-import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
+import com.kakaotech.team14backend.image.infrastructure.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

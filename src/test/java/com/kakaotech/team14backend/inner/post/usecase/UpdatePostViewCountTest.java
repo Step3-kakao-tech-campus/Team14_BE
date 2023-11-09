@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.image.domain.Image;
-import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
+import com.kakaotech.team14backend.image.infrastructure.ImageRepository;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
