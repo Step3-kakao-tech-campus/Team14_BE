@@ -17,7 +17,7 @@ import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestD
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.outer.point.service.PointService;
+import com.kakaotech.team14backend.point.appliation.PointService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
