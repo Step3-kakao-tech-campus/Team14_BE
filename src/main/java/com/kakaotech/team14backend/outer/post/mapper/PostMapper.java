@@ -74,10 +74,17 @@ public class PostMapper {
   }
 
 
-  public static GetMyPostResponseDTO from(final Post post, final boolean isLiked) {
+  public static GetMyPostResponseDTO from(final Post post, final boolean isLiked, Long memberId) {
+    PostInstaCount filteredInstaCount = post.getPostInstaCount().stream()
+        .filter(instaCount -> !instaCount.getMember().getMemberId().equals(memberId))
+        .findFirst() // 첫 번째 일치하는 객체를 가져오거나, 없다면 empty를 반환합니다.
+        .orElse(null); // 일치하는 객체가 없다면 null을 반환합니다.
+
+    long instaCountValue = filteredInstaCount != null ? filteredInstaCount.getInstaCount() : 0;
+
     return new GetMyPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
         post.getNickname(), splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
-        isLiked, post.getViewCount());
+        isLiked, instaCountValue);
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {

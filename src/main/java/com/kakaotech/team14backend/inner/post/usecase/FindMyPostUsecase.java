@@ -23,7 +23,7 @@ public class FindMyPostUsecase {
         .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
     boolean isLiked = latestPostLike.map(PostLike::isLiked).orElse(false);
     System.out.println("FindMyPostUsecase 호출 되었음 = " + memberId + " " + postId + " " + isLiked);
-    GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, isLiked);
+    GetMyPostResponseDTO getPostResponseDTO = PostMapper.from(post, isLiked,memberId);
     return getPostResponseDTO;
   }
 }
