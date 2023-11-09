@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.presentation;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
