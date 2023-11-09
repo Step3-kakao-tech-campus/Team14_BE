@@ -25,8 +25,6 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final TokenService tokenService;
-
   public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
     @Override
     public void configure(HttpSecurity builder) throws Exception {
@@ -48,7 +46,7 @@ public class SecurityConfig {
       boolean isRoleNotUser = request.isUserInRole("BEGINNER");
       FilterResponseUtils.forbidden(response, isRoleNotUser);
     });
-//
+
     http.cors()
         .configurationSource(corsConfigurationSource());
     http.apply(new CustomSecurityFilterManager());

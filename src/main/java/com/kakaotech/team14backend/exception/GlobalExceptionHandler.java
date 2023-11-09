@@ -73,6 +73,15 @@ public class GlobalExceptionHandler {
         maxLevelSizeException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
   }
 
+
+  @ExceptionHandler(TokenValidationException.class)
+  public ApiResponse<ApiResponse.CustomBody> tokenValidationException(
+      TokenValidationException tokenValidationException) {
+    return ApiResponseGenerator.fail(tokenValidationException.getMessageCode().getCode(),
+        tokenValidationException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
+  }
+
+
   @ExceptionHandler(HttpClientErrorException.BadRequest.class)
   public ApiResponse<ApiResponse.CustomBody> handleHttpClientErrorExceptionBadRequest(
       HttpClientErrorException.BadRequest e) throws JsonProcessingException {
