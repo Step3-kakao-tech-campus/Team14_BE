@@ -2,17 +2,13 @@ package com.kakaotech.team14backend.auth;
 
 
 import com.kakaotech.team14backend.inner.member.model.Member;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Data
 public class PrincipalDetails implements UserDetails, OAuth2User {
@@ -56,6 +52,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
   @Override
   public String getUsername() {
     return member.getUserName();
+  }
+
+  public Long getMemberId() {
+    return member.getMemberId();
   }
 
   @Override

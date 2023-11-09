@@ -8,8 +8,8 @@ import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
+import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
@@ -54,6 +54,7 @@ public class PostService {
   private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
 
+
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
       int size) {
 
@@ -61,14 +62,15 @@ public class PostService {
   }
 
   @Transactional
-  public void uploadPost(UploadPostDTO uploadPostDTO){
+  public void uploadPost(UploadPostDTO uploadPostDTO) {
     Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
     createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
     getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
   }
 
   private static CreatePostDTO makeCreatePostDTO(UploadPostDTO uploadPostDTO, Image savedImage) {
-    return new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(), uploadPostDTO.member());
+    return new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(),
+        uploadPostDTO.member());
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
@@ -131,6 +133,8 @@ public class PostService {
   }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
+    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+    savePostViewCount.execute(getPostDTO);
     return findMyPostUsecase.execute(memberId, postId);
   }
 }

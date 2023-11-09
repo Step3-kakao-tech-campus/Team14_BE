@@ -8,6 +8,7 @@ import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
@@ -65,7 +66,7 @@ class UpdatePostViewCountTest {
     imageRepository.save(image);
 
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
-
+    PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount(member);
     Post post = Post.createPost(member, image, postLikeCount, "대선대선", true, "#가자");
     postRepository.save(post);
 
