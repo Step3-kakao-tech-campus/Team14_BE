@@ -7,13 +7,14 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.schedule.SchedulePostViewCount;
-import java.util.Set;
+import com.kakaotech.team14backend.post.application.SavePostViewCount;
+import com.kakaotech.team14backend.post.application.SchedulePostViewCount;
+import com.kakaotech.team14backend.post.application.UpdatePostViewCount;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 
+import java.util.Set;
+
 @SpringBootTest
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 class UpdatePostViewCountTest {
@@ -31,7 +34,7 @@ class UpdatePostViewCountTest {
   private SavePostViewCount saveTemporaryPostViewCountUsecase;
 
   @Autowired
-  private UpdatePostViewCountUsecase updatePostViewCountUsecase;
+  private UpdatePostViewCount updatePostViewCountUsecase;
 
 
   @Autowired

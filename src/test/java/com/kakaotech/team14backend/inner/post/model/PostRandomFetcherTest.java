@@ -1,7 +1,10 @@
 package com.kakaotech.team14backend.inner.post.model;
+import com.kakaotech.team14backend.post.domain.PostRandomFetcher;
+import com.kakaotech.team14backend.post.domain.RandomIndexes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 

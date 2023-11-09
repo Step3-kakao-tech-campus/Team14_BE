@@ -2,6 +2,8 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.application.GetPopularPostPoint;
+import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,7 @@ class GetPopularPostPointUsecaseTest {
   private GetPopularPostPoint getPopularPostPointUsecase;
 
   @Autowired
-  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private SavePopularPosts saveTemporaryPopularPostListUsecase;
 
   @BeforeEach
   void setUp() {
