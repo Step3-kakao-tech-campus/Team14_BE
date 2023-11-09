@@ -47,7 +47,7 @@ public class Post {
   private PostLikeCount postLikeCount;
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-  private List<PostInstaCount> postInstaCount;
+  private List<PostInstaCount> postInstaCount = new ArrayList<>();
 
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
