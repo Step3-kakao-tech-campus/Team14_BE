@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.point.domain;
 
 import static lombok.AccessLevel.PROTECTED;
-import com.kakaotech.team14backend.exception.NotEnoughPointException;
+import com.kakaotech.team14backend.point.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Instant;
 import javax.persistence.Column;

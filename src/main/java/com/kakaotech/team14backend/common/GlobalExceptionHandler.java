@@ -4,7 +4,7 @@ import com.kakaotech.team14backend.exception.ExtentionNotAllowedException;
 import com.kakaotech.team14backend.image.exception.ImageIOException;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
-import com.kakaotech.team14backend.exception.NotEnoughPointException;
+import com.kakaotech.team14backend.point.exception.NotEnoughPointException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
