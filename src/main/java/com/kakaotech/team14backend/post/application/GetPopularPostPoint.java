@@ -1,9 +1,9 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.inner.post.model.PostLevel;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.domain.PostLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

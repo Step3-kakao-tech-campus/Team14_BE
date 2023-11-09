@@ -1,11 +1,7 @@
-package com.kakaotech.team14backend.outer.post.mapper;
-
-import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
-import com.kakaotech.team14backend.inner.post.model.RandomIndexes;
 import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
@@ -18,14 +14,19 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.domain.RandomIndexes;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
 
 @Component
 public class PostMapper {

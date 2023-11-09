@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.post.controller;
+package com.kakaotech.team14backend.post.presentation;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
@@ -6,7 +6,6 @@ import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
-import com.kakaotech.team14backend.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -26,8 +25,10 @@ import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.GetHomePostListUsecase;
 import com.kakaotech.team14backend.outer.post.service.GetHomePostUsecase;
 import com.kakaotech.team14backend.outer.post.service.GetMyPostUsecase;
-import com.kakaotech.team14backend.outer.post.service.PostService;
 import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
+import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import io.swagger.annotations.ApiOperation;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -49,6 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
   private final PostService postService;
+  private final GetPopularPostFacade getPopularPostFacade;
 
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final GetHomePostListUsecase getHomePostListService;
@@ -131,7 +133,8 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(
+        getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -152,7 +155,7 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
+    GetPopularPostListResponseDTO popularPostList = getPopularPostFacade.getPopularPostList(
         getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }

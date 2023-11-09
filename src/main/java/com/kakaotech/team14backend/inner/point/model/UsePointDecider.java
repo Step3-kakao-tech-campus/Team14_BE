@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.point.model;
 
-import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
+import com.kakaotech.team14backend.post.exception.PostLevelOutOfRangeException;
 
 public class UsePointDecider {
   public static Long decidePoint(Integer postLevel) {

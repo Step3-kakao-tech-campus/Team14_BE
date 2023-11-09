@@ -1,24 +1,19 @@
-package com.kakaotech.team14backend.outer.post.service;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
+import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
-import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
+import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
   private final CreateImage createImage;
-  private final CreatePostUsecase createPostUsecase;
+  private final CreatePost createPostUsecase;
   private final FindPostUsecase findPostUsecase;
-  private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
   private final FindPopularPosts findPopularPosts;
 
-  private final GetPopularPostPoint getPopularPostPoint;
+
+  private final FindMyPostUsecase findMyPostUsecase;
   private final GetPointUsecase getPointUsecase;
 
   private final PostRepository postRepository;
@@ -57,7 +52,6 @@ public class PostService {
     return findPostUsecase.execute(getPostDTO);
   }
 
-
   /**
    * 인기 게시물을 상세조회한다.
    *
@@ -65,12 +59,6 @@ public class PostService {
    * @author : hwangdaesun
    * @see : saveTemporaryPostViewCountUsecase는 게시물 조회시 게시물의 조회수를 늘려주는 클래스
    */
-
-  public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
-    savePostViewCount.execute(getPostDTO);
-    PostLevelPoint postLevelPoint = getPopularPostPoint.execute(getPostDTO.postId());
-    return findPopularPost.execute(getPostDTO, postLevelPoint);
-  }
 
   /*
    * 게시물 좋아요를 설정한다.
@@ -94,4 +82,9 @@ public class PostService {
   }
 
 
+  public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
+    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
+    savePostViewCount.execute(getPostDTO);
+    return findMyPostUsecase.execute(memberId, postId);
+  }
 }

@@ -4,12 +4,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.service.PostService;
 import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
+import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,13 +42,14 @@ class PostControllerTest {
   private RedisTemplate redisTemplate;
 
   @Autowired
-  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private SavePopularPosts saveTemporaryPopularPostListUsecase;
 
   @Autowired
   private PostService postService;
 
   @Autowired
   private SetPostLikeUsecase setPostLikeUsecase;
+  private GetPopularPostFacade getPopularPostFacade;
 
   /**
    * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
@@ -228,7 +230,8 @@ class PostControllerTest {
     saveTemporaryPopularPostListUsecase.execute();
 
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
-    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(
+        getPostDTO);
 
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L, 1L);
     setPostLikeUsecase.execute(setPostLikeDTO);
