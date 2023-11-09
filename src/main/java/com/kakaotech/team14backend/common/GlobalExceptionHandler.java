@@ -63,18 +63,4 @@ public class GlobalExceptionHandler {
         extentionNotAllowedException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(HttpClientErrorException.BadRequest.class)
-  public ApiResponse<ApiResponse.CustomBody> handleHttpClientErrorExceptionBadRequest(
-      HttpClientErrorException.BadRequest e) throws JsonProcessingException {
-    String responseBody = e.getResponseBodyAsString();
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-      Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
-      return ApiResponseGenerator.fail("400", responseMap.toString(), HttpStatus.BAD_REQUEST);
-    } catch (Exception ex) {
-      return ApiResponseGenerator.fail("400", responseBody, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-
 }

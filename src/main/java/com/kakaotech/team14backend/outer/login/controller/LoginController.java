@@ -12,9 +12,11 @@ import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.login.service.InstagramService;
 import com.kakaotech.team14backend.outer.login.service.LoginService;
 import com.kakaotech.team14backend.outer.login.service.LogoutService;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,7 +49,7 @@ public class LoginController {
   @PostMapping("/api/login")
   @ResponseBody
   public ApiResponse<?> kakaoLogin(HttpServletResponse response,
-      @RequestBody GetKakaoCode kakaoCode) throws IOException {
+                                   @RequestBody GetKakaoCode kakaoCode) throws IOException {
 
     String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
     KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
@@ -60,8 +62,8 @@ public class LoginController {
   @PostMapping("/api/user/instagram")
   @ResponseBody
   public ApiResponse<?> instagramConnect(HttpServletResponse response,
-      @RequestBody GetInstagramCode instagramCode,
-      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                         @RequestBody GetInstagramCode instagramCode,
+                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
     validatePrincipalDetails(principalDetails);
 
     String kakaoId = principalDetails.getKakaoId();
@@ -74,9 +76,8 @@ public class LoginController {
   @PostMapping("/api/user/logout")
   @ResponseBody
   public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response,
-      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
     validatePrincipalDetails(principalDetails);
-
     String kakaoId = principalDetails.getKakaoId();
     logoutService.logout(response, kakaoId);
     return ApiResponseGenerator.success(HttpStatus.OK);
