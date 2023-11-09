@@ -4,6 +4,7 @@ package com.kakaotech.team14backend.outer.controller;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
 import com.kakaotech.team14backend.post.application.PostService;
 import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.junit.jupiter.api.AfterEach;
@@ -46,6 +47,9 @@ class PostControllerTest {
 
   @Autowired
   private PostService postService;
+
+  @Autowired
+  private GetPopularPostFacade getPopularPostFacade;
 
   /**
    * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
@@ -236,7 +240,7 @@ class PostControllerTest {
     saveTemporaryPopularPostListUsecase.execute();
 
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
-    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(getPostDTO);
 
 
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L,1L);

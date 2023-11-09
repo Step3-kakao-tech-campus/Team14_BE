@@ -6,7 +6,8 @@ import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
-import com.kakaotech.team14backend.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
+import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
@@ -22,7 +23,7 @@ import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
-import com.kakaotech.team14backend.outer.post.service.PostService;
+import com.kakaotech.team14backend.post.application.PostService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,7 @@ import java.util.Map;
 public class PostController {
 
   private final PostService postService;
+  private final GetPopularPostFacade getPopularPostFacade;
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
@@ -123,7 +125,7 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -144,7 +146,7 @@ public class PostController {
     GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
         levelSize);
 
-    GetPopularPostListResponseDTO popularPostList = postService.getPopularPostList(
+    GetPopularPostListResponseDTO popularPostList = getPopularPostFacade.getPopularPostList(
         getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }

@@ -1,10 +1,20 @@
-package com.kakaotech.team14backend.exception;
+package com.kakaotech.team14backend.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import java.util.Map;
+
+import com.kakaotech.team14backend.exception.ExtentionNotAllowedException;
+import com.kakaotech.team14backend.exception.ImageIOException;
+import com.kakaotech.team14backend.exception.LastPostIdParameterException;
+import com.kakaotech.team14backend.exception.MemberNotFoundException;
+import com.kakaotech.team14backend.exception.NotEnoughPointException;
+import com.kakaotech.team14backend.exception.SizeParameterException;
+import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
+import com.kakaotech.team14backend.post.exception.PostLevelOutOfRangeException;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,12 +22,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-  @ExceptionHandler(PostLevelOutOfRangeException.class)
-  public ApiResponse<ApiResponse.CustomBody> handleException(PostLevelOutOfRangeException e) {
-    return ApiResponseGenerator.fail(e.getMessageCode().getCode(), e.getMessageCode().getValue(),
-        HttpStatus.BAD_REQUEST);
-  }
 
   @ExceptionHandler(ImageIOException.class)
   public ApiResponse<ApiResponse.CustomBody> handleException(ImageIOException e) {
@@ -57,20 +61,6 @@ public class GlobalExceptionHandler {
       ExtentionNotAllowedException extentionNotAllowedException) {
     return ApiResponseGenerator.fail(extentionNotAllowedException.getMessageCode().getCode(),
         extentionNotAllowedException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler(PostNotFoundException.class)
-  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(
-      PostNotFoundException postNotFoundException) {
-    return ApiResponseGenerator.fail(postNotFoundException.getMessageCode().getCode(),
-        postNotFoundException.getMessageCode().getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  @ExceptionHandler(MaxLevelSizeException.class)
-  public ApiResponse<ApiResponse.CustomBody> handleMemberNotFoundException(
-      MaxLevelSizeException maxLevelSizeException) {
-    return ApiResponseGenerator.fail(maxLevelSizeException.getMessageCode().getCode(),
-        maxLevelSizeException.getMessageCode().getValue(), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(HttpClientErrorException.BadRequest.class)

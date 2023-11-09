@@ -1,5 +1,5 @@
 package com.kakaotech.team14backend.post.domain;
-import com.kakaotech.team14backend.exception.PostLevelOutOfRangeException;
+import com.kakaotech.team14backend.post.exception.PostLevelOutOfRangeException;
 
 import java.util.HashMap;
 import java.util.Map;

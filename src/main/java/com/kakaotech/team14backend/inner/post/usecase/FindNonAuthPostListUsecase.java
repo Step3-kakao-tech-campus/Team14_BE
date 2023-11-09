@@ -2,10 +2,10 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 
 import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
-import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
+import com.kakaotech.team14backend.post.mapper.PostMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
