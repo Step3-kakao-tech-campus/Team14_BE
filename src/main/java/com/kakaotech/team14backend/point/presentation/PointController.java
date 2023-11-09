@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.point.controller;
+package com.kakaotech.team14backend.point.presentation;
 
 import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
 
