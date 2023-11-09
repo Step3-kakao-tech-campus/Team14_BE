@@ -4,16 +4,17 @@ import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.common.ScanRedisKey;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
-import java.util.List;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
-public class UpdatePostViewCountUsecase {
+public class UpdatePostViewCount {
 
   private final RedisTemplate<String, Object> redisTemplate;
 
