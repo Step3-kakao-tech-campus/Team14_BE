@@ -31,7 +31,7 @@ public class FindPersonalPostListUsecase {
       postList = postList.subList(0, size);
     }
     return new GetPersonalPostListResponseDTO(nextLastPostId,
-        PostMapper.fromPersonalPostList(postList), hasNext);
+        PostMapper.fromPersonalPostList(postList,memberId), hasNext);
   }
 
 
