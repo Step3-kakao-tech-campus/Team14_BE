@@ -78,10 +78,10 @@ public class PostController {
   @ApiOperation(value = "게시물 업로드", notes = "이미지와 닉네임 해시태그등을 업로드한다.")
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
-      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO
-//      @AuthenticationPrincipal PrincipalDetails principalDetails
+      @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
+      @AuthenticationPrincipal PrincipalDetails principalDetails
   ) {
-    Member member = Member.builder().memberId(1L).build();
+    Member member = principalDetails.getMember();
     UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
