@@ -5,9 +5,6 @@ import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
@@ -17,9 +14,6 @@ import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
@@ -48,18 +42,10 @@ public class PostService {
   private final SetPostLikeUsecase setPostLikeUsecase;
   private final FindPopularPosts findPopularPosts;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
-  private final FindPersonalPostListUsecase findPersonalPostListUsecase;
-  private final FindMyPostUsecase findMyPostUsecase;
-  private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
+
   private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
 
-
-  public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
-      int size) {
-
-    return findPersonalPostListUsecase.execute(userId, lastPostId, size);
-  }
 
   @Transactional
   public void uploadPost(UploadPostDTO uploadPostDTO) {
@@ -78,14 +64,6 @@ public class PostService {
     return findPostUsecase.execute(getPostDTO);
   }
 
-
-  public GetHomePostListResponseDTO getHomePostList(Long lastPostId, int size,
-      Long memberId) {
-    if (memberId == null) {
-      return findNonAuthPostListUsecase.execute(lastPostId, size);
-    }
-    return findPostListUsecase.execute(lastPostId, size, memberId);
-  }
 
   /**
    * 인기 게시물을 상세조회한다.
@@ -132,9 +110,5 @@ public class PostService {
     return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
-  public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
-    GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
-    savePostViewCount.execute(getPostDTO);
-    return findMyPostUsecase.execute(memberId, postId);
-  }
+
 }
