@@ -95,7 +95,7 @@ public class Post {
   public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
       String nickname,
       Boolean published,
-      String hashtag, PostInstaCount postInstaCount) {
+      String hashtag) {
 
     Post post = Post.builder()
         .nickname(nickname)
@@ -108,7 +108,6 @@ public class Post {
     post.mappingPostLikeCount(postLikeCount);
     post.mappingMember(member);
     post.mappingImage(image);
-    post.mapppingPostInstaCount(postInstaCount);
     return post;
   }
 

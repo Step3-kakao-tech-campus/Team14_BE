@@ -25,10 +25,11 @@ public class CreatePostUsecase {
     PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount(createPostDTO.member());
 
     Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,
-        createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag, postInstaCount);
+        createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag);
     post = postRepository.save(post);
 
     postInstaCount.mappingPost(post);
+    post.mapppingPostInstaCount(postInstaCount);
     return post;
   }
 
