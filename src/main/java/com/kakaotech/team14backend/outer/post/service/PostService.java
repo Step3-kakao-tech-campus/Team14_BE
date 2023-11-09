@@ -7,7 +7,7 @@ import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
-import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
+import com.kakaotech.team14backend.inner.post.usecase.FindAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
 import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
@@ -31,7 +31,7 @@ public class PostService {
   private final CreateImage createImage;
   private final CreatePostUsecase createPostUsecase;
   private final FindPostUsecase findPostUsecase;
-  private final FindPostListUsecase findPostListUsecase;
+  private final FindAuthPostListUsecase findPostListUsecase;
   private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
   private final FindPopularPosts findPopularPosts;

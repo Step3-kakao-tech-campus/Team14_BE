@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FindPostListUsecase {
+public class FindAuthPostListUsecase {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
