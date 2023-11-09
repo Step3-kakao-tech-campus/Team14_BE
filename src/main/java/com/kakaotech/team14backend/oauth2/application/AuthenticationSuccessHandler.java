@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.jwt.application;
+package com.kakaotech.team14backend.oauth2.application;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;

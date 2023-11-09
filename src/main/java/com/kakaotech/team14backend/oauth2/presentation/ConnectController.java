@@ -5,10 +5,8 @@ import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.oauth2.application.AuthenticationSuccessHandler;
-import com.kakaotech.team14backend.oauth2.application.LoginService;
-import com.kakaotech.team14backend.oauth2.application.LogoutService;
-import com.kakaotech.team14backend.oauth2.dto.GetKakaoCodeDTO;
+import com.kakaotech.team14backend.oauth2.application.ConnectService;
+import com.kakaotech.team14backend.oauth2.dto.GetInstagramCodeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,33 +15,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
-
-  private final LoginService loginService;
-  private final LogoutService logoutService;
-  private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-  @PostMapping("/api/login")
+public class ConnectController {
+  private final ConnectService connectService;
+  @PostMapping("/api/user/instagram")
   @ResponseBody
-  public ApiResponse<?> kakaoLogin(HttpServletResponse response,
-                                   @RequestBody GetKakaoCodeDTO getKakaoCodeDTO) throws IOException {
-    loginService.createOrLogin(getKakaoCodeDTO,response);
-    return ApiResponseGenerator.success(HttpStatus.OK);
-  }
-
-  @PostMapping("/api/user/logout")
-  @ResponseBody
-  public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response,
-                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
+  public ApiResponse<?> instagramConnect(HttpServletResponse response,
+                                         @RequestBody GetInstagramCodeDTO instagramCode,
+                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
     validatePrincipalDetails(principalDetails);
+
     String kakaoId = principalDetails.getKakaoId();
-    logoutService.logout(response, kakaoId);
+    connectService.connectInstagram(kakaoId,instagramCode,response);
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 

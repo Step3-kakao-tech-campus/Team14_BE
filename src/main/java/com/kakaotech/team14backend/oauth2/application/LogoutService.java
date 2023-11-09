@@ -1,18 +1,11 @@
-package com.kakaotech.team14backend.outer.login.service;
+package com.kakaotech.team14backend.oauth2.application;
 
-import com.kakaotech.team14backend.auth.PrincipalDetails;
-import com.kakaotech.team14backend.common.ApiResponse;
-import com.kakaotech.team14backend.common.ApiResponseGenerator;
-import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.jwt.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service

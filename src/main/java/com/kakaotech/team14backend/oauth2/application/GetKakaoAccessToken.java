@@ -1,6 +1,8 @@
 package com.kakaotech.team14backend.oauth2.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Component
-@RequiredArgsConstructor
 public class GetKakaoAccessToken {
   @Value("${oauth2.kakao.redirect-uri}")
   private String KAKAO_REDIRECT_URI;
@@ -23,8 +24,13 @@ public class GetKakaoAccessToken {
   private String KAKAO_TOKEN_URI;
 
   private final RestTemplate proxyRestTemplate;
+  @Autowired
+  public GetKakaoAccessToken(
+      @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate) {
+    this.proxyRestTemplate = proxyRestTemplate;
+  }
 
-  public String excute(String code){
+  public String execute(String code){
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -36,7 +42,8 @@ public class GetKakaoAccessToken {
 
     HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    ResponseEntity<Map> response = proxyRestTemplate.postForEntity(
+    RestTemplate rt = new RestTemplate();
+    ResponseEntity<Map> response = rt.postForEntity(
         KAKAO_TOKEN_URI,
         kakaoTokenRequest,
         Map.class

@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.oauth2.application;
 
-import com.kakaotech.team14backend.jwt.application.AuthenticationSuccessHandler;
 import com.kakaotech.team14backend.oauth2.dto.GetKakaoCodeDTO;
 import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class LoginService {
 
   @Transactional
   public void createOrLogin(GetKakaoCodeDTO getKakaoCodeDTO, HttpServletResponse response) throws IOException {
-    String kakaoAccessToken = getKakaoAccessToken.excute(getKakaoCodeDTO.getCode());
+    String kakaoAccessToken = getKakaoAccessToken.execute(getKakaoCodeDTO.getCode());
     KakaoProfileDTO kakaoProfileDTO = getKakaoUserInfo.execute(kakaoAccessToken);
     createkakaoUser.execute(kakaoProfileDTO);
     authenticationSuccessHandler.handleKakaoSuccess(response,kakaoProfileDTO);
