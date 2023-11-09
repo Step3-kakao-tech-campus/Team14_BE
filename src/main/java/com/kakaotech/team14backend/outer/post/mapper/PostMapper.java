@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.outer.post.mapper;
 import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.RandomIndexes;
 import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;

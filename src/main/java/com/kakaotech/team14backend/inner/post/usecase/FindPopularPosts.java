@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.inner.post.model.LevelIndexes;
-import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.inner.post.model.PostRandomFetcher;
 import com.kakaotech.team14backend.inner.post.model.RandomIndexes;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
