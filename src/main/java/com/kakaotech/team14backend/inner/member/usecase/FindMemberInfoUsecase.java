@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.member.usecase;
 
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.service.FindMemberService;
-import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
+import com.kakaotech.team14backend.post.infrastructure.PointHistoryRepository;
 import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;

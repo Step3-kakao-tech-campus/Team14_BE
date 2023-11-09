@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.infrastructure;
 
-import com.kakaotech.team14backend.inner.point.model.PointHistory;
+import com.kakaotech.team14backend.point.domain.PointHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
