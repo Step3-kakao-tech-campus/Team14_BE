@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -89,10 +90,8 @@ public class InstagramService {
   }
 
   public ApiResponse<?> connectInstagramSuccessHandler(HttpServletResponse response, String kakaoId) {
-
     Member member = memberRepository.findByKakaoId(kakaoId);
     TokenDTO tokenDTO = tokenService.createOrUpdateToken(member);
-
     response.setContentType("application/json");
     // 토큰을 HTTP 헤더에 추가
     response.addHeader("Authorization", tokenDTO.getAccessToken());

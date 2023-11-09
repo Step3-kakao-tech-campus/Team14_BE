@@ -33,6 +33,7 @@ public class TokenService {
   private Long refreshEXP;
 
   private static String SECRET;
+
   @Value("${jwt.secret}")
   public void setSecret(String secret) {
     SECRET = secret;
@@ -46,11 +47,16 @@ public class TokenService {
   private final RefreshTokenRepository refreshTokenRepository;
   private final MemberRepository memberRepository;
 
+  public static DecodedJWT verifyToken(String jwt) {
+    DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
+        .build().verify(jwt.replace(TOKEN_PREFIX, ""));
+    return decodedJWT;
+  }
 
   public String createToken(Member member) {
     String jwt = JWT.create()
         .withExpiresAt(new Date(System.currentTimeMillis() + accessEXP * 1000))
-        .withClaim("memberId",member.getMemberId().toString())
+        .withClaim("memberId", member.getMemberId().toString())
         .withClaim("kakaoId", member.getKakaoId())
         .withClaim("username", member.getUserName())
         .withClaim("instaId", member.getInstaId())
@@ -72,50 +78,32 @@ public class TokenService {
 
   }
 
-  public static DecodedJWT verifyToken(String jwt) throws SignatureVerificationException, TokenExpiredException {
-    DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
-        .build().verify(jwt.replace(TOKEN_PREFIX, ""));
-    return decodedJWT;
-  }
 
-  public static boolean validateToken(String jwt) {
-    try {
-      DecodedJWT decodedJWT = JWT.decode(jwt.replace(TokenService.TOKEN_PREFIX, ""));
-      Verification verification = JWT.require(Algorithm.HMAC512(SECRET));
-      verification.build().verify(decodedJWT);
-
-      return true;
-    } catch (SignatureVerificationException | TokenExpiredException e) {
-      return false;
-    }
-  }
-
-  public ReissueDTO reissueAccessToken(String refreshToken){
-    DecodedJWT decodedJWT;
-
-    try {
-      decodedJWT = JWT.require(Algorithm.HMAC512(SECRET)).build().verify(refreshToken);
-    } catch (TokenValidationException | JWTDecodeException e) {
+  public ReissueDTO reissueAccessToken(String refreshToken) {
+    if(refreshToken == null){
       throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
     }
-    String kakaoId = decodedJWT.getClaim("kakaoId").asString();
-    Optional<String> redisInRTKOptional = refreshTokenRepository.findRTK(kakaoId);
-    String redisInRTK = redisInRTKOptional.orElseThrow(() -> new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN));
 
-    if (!refreshToken.equals(redisInRTK)) {
-      throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
-    }
     try {
+      DecodedJWT decodedJWT = verifyToken(refreshToken);
+      String kakaoId = decodedJWT.getClaim("kakaoId").asString();
+      String redisInRTK = refreshTokenRepository.findRTK(kakaoId)
+          .orElseThrow(() -> new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN));;
+      if (!refreshToken.equals(redisInRTK)) {
+        throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
+      }
       Member member = memberRepository.findByKakaoId(kakaoId);
       String newAccessToken = this.createToken(member);
       return new ReissueDTO(newAccessToken);
-    } catch (NullPointerException e) {
+
+    } catch (TokenExpiredException | TokenValidationException ex) {
+      throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
+    } catch (NullPointerException ne ) {
       throw new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER);
     }
   }
 
-
-  public TokenDTO createOrUpdateToken(Member member){
+  public TokenDTO createOrUpdateToken(Member member) {
     refreshTokenRepository.deleteRefreshToken(member.getKakaoId());
     String accessToken = this.createToken(member);
     String refreshToken = this.createRefreshToken(member);
