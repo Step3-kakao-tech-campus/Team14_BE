@@ -1,19 +1,15 @@
-package com.kakaotech.team14backend.outer.post.service;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.CreatePostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
-import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
@@ -40,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
   private final CreateImage createImage;
-  private final CreatePostUsecase createPostUsecase;
+  private final CreatePost createPostUsecase;
   private final FindPostUsecase findPostUsecase;
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPost findPopularPost;
