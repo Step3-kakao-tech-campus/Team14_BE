@@ -1,12 +1,13 @@
-package com.kakaotech.team14backend.inner.post.repository;
+package com.kakaotech.team14backend.post.infrastructure;
 
-import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.domain.Post;
 import io.lettuce.core.dynamic.annotation.Param;
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 
 public interface PostRepository extends JpaRepository<Post, Long> {
