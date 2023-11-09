@@ -81,8 +81,8 @@ public class PostController {
     validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService
-        .excute(lastPostId, size, memberId);
+    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.excute(lastPostId,
+        size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
 
@@ -90,11 +90,9 @@ public class PostController {
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
-      @AuthenticationPrincipal PrincipalDetails principalDetails
-  ) {
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
     Member member = principalDetails.getMember();
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
-        uploadPostRequestDTO);
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(member, uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
 
     return ApiResponseGenerator.success(HttpStatus.CREATED);

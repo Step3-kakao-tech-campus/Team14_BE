@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.outer.post.service;
 
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPosts;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeService;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;

@@ -1,21 +1,16 @@
-
 package com.kakaotech.team14backend.outer.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
-import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
-import java.util.Set;
-
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
+import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +48,7 @@ class PostControllerTest {
 
   @Autowired
   private SetPostLikeUsecase setPostLikeUsecase;
+
   /**
    * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
    */
@@ -110,9 +106,7 @@ class PostControllerTest {
   void findAllHomeFeedWrongParam_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/post")
-            .param("lastPostId", "0")
-            .param("size", "-1")
+        get("/api/post").param("lastPostId", "0").param("size", "-1")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -149,10 +143,7 @@ class PostControllerTest {
     saveTemporaryPopularPostListUsecase.execute();
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post")
-            .param("level3", "4")
-            .param("level2", "3")
-            .param("level1", "3")
+        get("/api/popular-post").param("level3", "4").param("level2", "3").param("level1", "3")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -175,8 +166,7 @@ class PostControllerTest {
     String param = "289";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param)
-            .contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -199,8 +189,7 @@ class PostControllerTest {
     String param = "290";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param)
-            .contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -219,10 +208,7 @@ class PostControllerTest {
   void findAllPopularPostMaxSize_Test() throws Exception {
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post")
-            .param("level3", "10")
-            .param("level2", "3")
-            .param("level1", "3")
+        get("/api/popular-post").param("level3", "10").param("level2", "3").param("level1", "3")
             .contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -244,15 +230,13 @@ class PostControllerTest {
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
 
-
-    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L,1L);
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L, 1L);
     setPostLikeUsecase.execute(setPostLikeDTO);
 
     String param = "10";
 
     ResultActions resultActions = mockMvc.perform(
-        get("/api/popular-post/" + param)
-            .contentType(MediaType.APPLICATION_JSON));
+        get("/api/popular-post/" + param).contentType(MediaType.APPLICATION_JSON));
 
     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -262,7 +246,8 @@ class PostControllerTest {
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
     resultActions.andExpect(jsonPath("$.response").exists());
-    resultActions.andExpect(jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
+    resultActions.andExpect(
+        jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
 
   }
 
