@@ -1,9 +1,5 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.image.domain.Image;
-import com.kakaotech.team14backend.image.application.CreateImage;
-import com.kakaotech.team14backend.point.domain.GetPointPolicy;
-import com.kakaotech.team14backend.point.appliation.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
@@ -11,7 +7,6 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
-import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPersonalPostListResponseDTO;
@@ -20,7 +15,6 @@ import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
-import com.kakaotech.team14backend.post.dto.UploadPostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostService {
 
-  private final CreateImage createImage;
-  private final CreatePost createPostUsecase;
   private final FindPostUsecase findPostUsecase;
   private final SavePostViewCount savePostViewCount;
   private final SetPostLikeUsecase setPostLikeUsecase;
@@ -39,7 +31,6 @@ public class PostService {
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
-  private final GetPointUsecase getPointUsecase;
   private final FindPostListUsecase findPostListUsecase;
 
 
@@ -47,18 +38,6 @@ public class PostService {
       int size) {
 
     return findPersonalPostListUsecase.execute(userId, lastPostId, size);
-  }
-
-  @Transactional
-  public void uploadPost(UploadPostDTO uploadPostDTO) {
-    Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
-    getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
-  }
-
-  private static CreatePostDTO makeCreatePostDTO(UploadPostDTO uploadPostDTO, Image savedImage) {
-    return new CreatePostDTO(savedImage, uploadPostDTO.uploadPostRequestDTO(),
-        uploadPostDTO.member());
   }
 
   public GetPostResponseDTO getPost(GetPostDTO getPostDTO) {
