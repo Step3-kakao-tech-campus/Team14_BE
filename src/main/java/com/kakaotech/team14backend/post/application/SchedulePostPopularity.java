@@ -1,6 +1,5 @@
-package com.kakaotech.team14backend.outer.post.schedule;
+package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.post.usecase.UpdatePostPopularityUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SchedulePostPopularity {
 
-  private final UpdatePostPopularityUsecase updatePostPopularityUsecase;
+  private final UpdatePostPopularity updatePostPopularityUsecase;
 
   @Scheduled(initialDelayString = "${schedules.initialDelay}", fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {

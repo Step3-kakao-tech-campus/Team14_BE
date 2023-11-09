@@ -1,6 +1,5 @@
-package com.kakaotech.team14backend.outer.post.schedule;
+package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -9,10 +8,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SchedulePopularPost {
 
-  private final SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private final SavePopularPosts savePopularPosts;
   @Scheduled(initialDelayString = "${schedules.popularPost.initialDelay}",fixedDelayString = "${schedules.popularPost.fixedDelay}")
   public void execute() {
-    saveTemporaryPopularPostListUsecase.execute();
+    savePopularPosts.execute();
   }
 
 }
