@@ -6,11 +6,12 @@ import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
-import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
-import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
+import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.application.UploadPostFacade;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPersonalPostListResponseDTO;
@@ -23,7 +24,7 @@ import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.post.dto.UploadPostRequestDTO;
-import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,7 @@ public class PostController {
 
   private final PostService postService;
   private final GetPopularPostFacade getPopularPostFacade;
+  private final UploadPostFacade uploadPostFacade;
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
@@ -87,7 +89,7 @@ public class PostController {
     Member member = principalDetails.getMember();
     UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
         uploadPostRequestDTO);
-    postService.uploadPost(uploadPostDTO);
+    uploadPostFacade.uploadPost(uploadPostDTO);
 
     return ApiResponseGenerator.success(HttpStatus.CREATED);
   }
