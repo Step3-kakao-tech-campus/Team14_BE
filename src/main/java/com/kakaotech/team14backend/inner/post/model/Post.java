@@ -7,6 +7,7 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +31,6 @@ import lombok.Setter;
 @Setter(PACKAGE)
 public class Post {
 
-  // Primary Key
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long postId; // 게시글 ID
@@ -45,6 +45,9 @@ public class Post {
 
   @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
   private PostLikeCount postLikeCount;
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+  private List<PostInstaCount> postInstaCount = new ArrayList<>();
 
   @Column(nullable = false, length = 50)
   private String nickname; // 닉네임
@@ -70,7 +73,7 @@ public class Post {
   private Integer reportCount; // 제재 횟수
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<PostLike> postLikeHistories;
+  private List<PostLike> postLikeHistories = new ArrayList<>();
 
   public void mappingMember(Member member) {
     this.member = member;
@@ -85,10 +88,14 @@ public class Post {
     this.postLikeCount = postLikeCount;
   }
 
+  public void mapppingPostInstaCount(PostInstaCount postInstaCount) {
+    this.postInstaCount.add(postInstaCount);
+  }
+
   public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
-                                String nickname,
-                                Boolean published,
-                                String hashtag) {
+      String nickname,
+      Boolean published,
+      String hashtag) {
 
     Post post = Post.builder()
         .nickname(nickname)
@@ -107,7 +114,7 @@ public class Post {
 
   @Builder
   public Post(String nickname, Boolean published, String hashtag,
-              String university, Long viewCount, Long popularity, Integer reportCount) {
+      Long viewCount, Long popularity, Integer reportCount) {
     this.nickname = nickname;
     this.createdAt = Instant.now();
     this.published = published;

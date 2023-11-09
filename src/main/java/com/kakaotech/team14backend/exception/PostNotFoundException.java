@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class PostNotFoundException extends RuntimeException{
-  
+
   public final MessageCode messageCode;
-  public PostNotFoundException(MessageCode messageCode) {
-    this.messageCode = messageCode;
+  public PostNotFoundException() {
+    this.messageCode = MessageCode.POST_NOT_FOUND;
   }
 
 }

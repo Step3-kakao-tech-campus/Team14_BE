@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FindPostUsecase {
 
   private final PostRepository postRepository;
-  private final RedisTemplate<String,Object> redisTemplate;
 
   public GetPostResponseDTO execute(GetPostDTO getPostDTO) {
     Post post = postRepository.findById(getPostDTO.postId()).orElseThrow(() -> new RuntimeException("Post not found"));

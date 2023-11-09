@@ -1,0 +1,14 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "64m"
+
+spec:
+  defaultBackend:
+    service:
+      name: backend
+      port:
+        number: 8080

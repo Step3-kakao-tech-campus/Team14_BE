@@ -21,11 +21,10 @@ public class ValidatePointByPopularPostUsecase {
     PostLevel postLevel = PostLevel.from(usePointByPopularPostRequestDTO.postLevel());
     Set<Integer> setPostId= redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), postLevel.start(), postLevel.end());
     List<Integer> postIds = setPostId.stream().toList();
-    postIds.stream().filter(postId -> castToLong(postId).equals(usePointByPopularPostRequestDTO.postId())).findFirst().orElseThrow(() -> new PostNotFoundException(MessageCode.NOT_REGISTER_POPULARPOST));
+    postIds.stream().filter(postId -> castToLong(postId).equals(usePointByPopularPostRequestDTO.postId())).findFirst().orElseThrow(() -> new PostNotFoundException());
   }
   private Long castToLong(Integer have){
-    Long want = have.longValue();
-    return want;
+    return have.longValue();
   }
 
 }

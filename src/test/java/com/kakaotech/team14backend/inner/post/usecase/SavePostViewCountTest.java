@@ -16,13 +16,13 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 
-class SaveTemporaryPostViewCountUsecaseTest {
+class SavePostViewCountTest {
 
   @Autowired
   private RedisTemplate redisTemplate;
 
   @Autowired
-  private SaveTemporaryPostViewCountUsecase saveTemporaryPostViewCountUsecase;
+  private SavePostViewCount saveTemporaryPostViewCountUsecase;
 
   @BeforeEach
   @DisplayName("게시글 1을 회원 2와 회원 3이 방문한 경우")

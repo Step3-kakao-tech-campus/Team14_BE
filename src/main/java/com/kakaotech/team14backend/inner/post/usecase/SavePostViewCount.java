@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class SaveTemporaryPostViewCountUsecase {
+public class SavePostViewCount {
 
   private final RedisTemplate<String,Object> redisTemplate;
 
@@ -24,8 +24,21 @@ public class SaveTemporaryPostViewCountUsecase {
 
   @Transactional
   public void execute(GetPostDTO getPostDTO) {
-    // 데이터를 Redis Set에 추가하는 코드
-    redisTemplate.opsForSet().add(RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId()), getPostDTO.memberId());
+    String key = getKey(getPostDTO);
+    Long memberId = getMemberId(getPostDTO);
+    addToRedisSet(key, memberId);
+  }
+
+  private Long addToRedisSet(String key, Long memberId) {
+    return redisTemplate.opsForSet().add(key, memberId);
+  }
+
+  private static Long getMemberId(GetPostDTO getPostDTO) {
+    return getPostDTO.memberId();
+  }
+
+  private static String getKey(GetPostDTO getPostDTO) {
+    return RedisKey.VIEW_COUNT_PREFIX + String.valueOf(getPostDTO.postId());
   }
 
 }

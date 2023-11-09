@@ -1,7 +1,11 @@
 package com.kakaotech.team14backend.outer.post.mapper;
 
+import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
+
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
+import com.kakaotech.team14backend.inner.post.model.RandomIndexes;
 import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
@@ -14,16 +18,14 @@ import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.kakaotech.team14backend.common.HashTagUtils.splitHashtag;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PostMapper {
@@ -36,14 +38,16 @@ public class PostMapper {
   }
 
   public static GetPostResponseDTO from(Post post) {
-    return new GetPostResponseDTO(post.getPostId(),makeUrl(post.getImage().getImageUri()),
+    return new GetPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
         splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
         post.getNickname());
   }
 
-  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked, PostLevelPoint postLevelPoint) {
+  public static GetPopularPostResponseDTO from(Post post, Boolean isLiked,
+      PostLevelPoint postLevelPoint) {
     return new GetPopularPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
-        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), postLevelPoint.postPoint(),
+        splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
+        postLevelPoint.postPoint(),
         post.getNickname(), isLiked, postLevelPoint.postLevel());
   }
 
@@ -70,28 +74,45 @@ public class PostMapper {
   }
 
 
-  public static GetMyPostResponseDTO from(final Post post, final boolean isLiked) {
+  public static GetMyPostResponseDTO from(final Post post, final boolean isLiked, Long memberId) {
+    PostInstaCount filteredInstaCount = post.getPostInstaCount().stream()
+        .filter(instaCount -> instaCount.getMember().getMemberId().equals(memberId))
+        .findFirst() // 첫 번째 일치하는 객체를 가져오거나, 없다면 empty를 반환합니다.
+        .orElse(null); // 일치하는 객체가 없다면 null을 반환합니다.
+
+    long instaCountValue = filteredInstaCount != null ? filteredInstaCount.getInstaCount() : 0;
+
     return new GetMyPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
         post.getNickname(), splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(),
-        isLiked, post.getViewCount());
+        isLiked, instaCountValue);
   }
 
   public static List<GetPostResponseDTO> from(List<Post> postList) {
     List<GetPostResponseDTO> editedPostList = new ArrayList<>();  // 빈 리스트로 초기화
     for (Post post : postList) {
-      editedPostList.add(new GetPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
-          splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
-          post.getNickname()));
+      editedPostList.add(
+          new GetPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
+              splitHashtag(post.getHashtag()), post.getPostLikeCount().getLikeCount(), 0,
+              post.getNickname()));
     }
     return editedPostList;
   }
 
-  public static List<GetPersonalPostResponseDTO> fromPersonalPostList(List<Post> postList) {
+  public static List<GetPersonalPostResponseDTO> fromPersonalPostList(List<Post> postList,
+      Long memberId) {
     List<GetPersonalPostResponseDTO> editedPostList = new ArrayList<>();
     for (Post post : postList) {
+      PostInstaCount filteredInstaCount = post.getPostInstaCount().stream()
+          .filter(instaCount -> instaCount.getMember().getMemberId().equals(memberId))
+          .findFirst() // 첫 번째 일치하는 객체를 가져오거나, 없다면 empty를 반환합니다.
+          .orElse(null); // 일치하는 객체가 없다면 null을 반환합니다.
+
+      Long instaCountValue = filteredInstaCount != null ? filteredInstaCount.getInstaCount() : 0;
+
       editedPostList.add(
           new GetPersonalPostResponseDTO(post.getPostId(), makeUrl(post.getImage().getImageUri()),
-              post.getNickname(), formatDate(post.getCreatedAt()), post.getViewCount(),
+              post.getNickname(), formatDate(post.getCreatedAt()),
+              instaCountValue,
               post.getPostLikeCount().getLikeCount()));
     }
     return editedPostList;
@@ -100,17 +121,19 @@ public class PostMapper {
 
   public static GetPopularPostListResponseDTO from(
       List<GetIncompletePopularPostDTO> getIncompletePopularPostDTOS,
-      Map<Integer, List<Integer>> levelIndexes) {
+      Map<Integer, RandomIndexes> levelIndexes) {
     List<GetPopularPostDTO> popularPosts = new ArrayList<>();
     int h = 0;
-    for (Map.Entry<Integer, List<Integer>> entry : levelIndexes.entrySet()) {
-      for(Integer index : entry.getValue()){
+    for (Map.Entry<Integer, RandomIndexes> entry : levelIndexes.entrySet()) {
+      for (Integer index : entry.getValue().getIndexes()) {
         GetIncompletePopularPostDTO getIncompletePopularPostDTO = getIncompletePopularPostDTOS.get(
             h++);
         GetPopularPostDTO getPopularPostDTO = new GetPopularPostDTO(
-            getIncompletePopularPostDTO.getPostId(), makeUrl(getIncompletePopularPostDTO.getImageUri()),
+            getIncompletePopularPostDTO.getPostId(),
+            makeUrl(getIncompletePopularPostDTO.getImageUri()),
             splitHashtag(getIncompletePopularPostDTO.getHashTag()),
-            getIncompletePopularPostDTO.getLikeCount(), getIncompletePopularPostDTO.getNickname(), getIncompletePopularPostDTO.getPostLevel());
+            getIncompletePopularPostDTO.getLikeCount(), getIncompletePopularPostDTO.getNickname(),
+            getIncompletePopularPostDTO.getPostLevel());
         popularPosts.add(getPopularPostDTO);
       }
     }
@@ -127,7 +150,7 @@ public class PostMapper {
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
   }
 
-  private static String makeUrl(String uri){
+  private static String makeUrl(String uri) {
     return url + uri;
   }
 }

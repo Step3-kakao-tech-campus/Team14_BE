@@ -2,20 +2,20 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.common.ScanRedisKey;
-import com.kakaotech.team14backend.exception.Exception500;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class UpdatePostViewCountUsecase {
 
-  private final RedisTemplate<String,Object> redisTemplate;
+  private final RedisTemplate<String, Object> redisTemplate;
 
   private final PostRepository postRepository;
 
@@ -27,23 +27,31 @@ public class UpdatePostViewCountUsecase {
 
   @Transactional
   public void execute() {
-    List<String> keys = ScanRedisKey.scanKeysWithPattern(RedisKey.VIEW_COUNT_PREFIX + "*", redisTemplate);
-    for(String key : keys){
-      Long cnt = redisTemplate.opsForSet().size(key);
-      Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new Exception500("Post not found"));
-      post.updateViewCount(cnt);
+    List<String> keys = getKeys();
+    for (String key : keys) {
+      Long viewCount = getViewCount(key);
+      Post post = postRepository.findById(splitKey(key)).orElseThrow(() -> new PostNotFoundException());
+      post.updateViewCount(viewCount);
     }
-    // mysql에 update!
     clearPostViewCount(keys);
   }
 
-  public void clearPostViewCount(List<String> keys){
-    for(String key : keys){
+  private Long getViewCount(String key) {
+    return redisTemplate.opsForSet().size(key);
+  }
+
+  private List<String> getKeys() {
+    return ScanRedisKey.scanKeysWithPattern(RedisKey.VIEW_COUNT_PREFIX + "*",
+        redisTemplate);
+  }
+
+  public void clearPostViewCount(List<String> keys) {
+    for (String key : keys) {
       redisTemplate.delete(key);
     }
   }
 
-  private Long splitKey(String key){
+  private Long splitKey(String key) {
     String[] split = key.split(":");
     return Long.valueOf(split[1]);
   }

@@ -5,10 +5,14 @@ import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_1
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
+import com.kakaotech.team14backend.common.MessageCode;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
+import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;
@@ -29,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PointController {
 
   private final PointService pointService;
-
+  private final SetPostInstaCountUsecase setPostInstaCountUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
 
@@ -38,12 +42,13 @@ public class PointController {
   public ApiResponse<ApiResponse.CustomBody<UsePointByPopularPostResponseDTO>> usePointByPopularPost(
       @RequestBody UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO,
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    validatePrincipalDetails(principalDetails);
 
     Long senderId = principalDetails.getMember().getMemberId();
     String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
-
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
+
     return ApiResponseGenerator.success(usePointByPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -51,11 +56,11 @@ public class PointController {
   public ApiResponse<ApiResponse.CustomBody<UsePointByPostResponseDTO>> usePointByPost(
       @RequestBody UsePointByPostRequestDTO usePointByPostRequestDTO
       , @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-    // todo: 의존성 뒤집기
+    validatePrincipalDetails(principalDetails);
 
     Long postId = usePointByPostRequestDTO.postId();
-    Post post = postRepository.findById(postId).orElseThrow();
+    Post post = postRepository.findById(postId)
+        .orElseThrow(PostNotFoundException::new);
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
@@ -63,8 +68,19 @@ public class PointController {
     Long senderId = principalDetails.getMember().getMemberId();
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
+    setPostInstaCountUsecase.execute(postId, received.getMemberId());
 
-    UsePointByPostResponseDTO usePointByPostResponseDTO = new UsePointByPostResponseDTO(instaId);
-    return ApiResponseGenerator.success(usePointByPostResponseDTO, HttpStatus.OK);
+    UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
+    return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);
+  }
+
+  private UsePointByPostResponseDTO createUsePointResponse(String instaId) {
+    return new UsePointByPostResponseDTO(instaId);
+  }
+
+  private void validatePrincipalDetails(PrincipalDetails principalDetails) {
+    if (principalDetails == null) {
+      throw new UserNotAuthenticatedException(MessageCode.USER_NOT_AUTHENTICATED);
+    }
   }
 }

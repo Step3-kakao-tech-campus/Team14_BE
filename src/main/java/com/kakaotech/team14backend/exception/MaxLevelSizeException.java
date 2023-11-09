@@ -8,8 +8,8 @@ public class MaxLevelSizeException extends RuntimeException {
 
   public final MessageCode messageCode;
 
-  public MaxLevelSizeException(MessageCode messageCode) {
-    this.messageCode = messageCode;
+  public MaxLevelSizeException() {
+    this.messageCode = MessageCode.LEVEL_SIZE_SMALLER_THAN_20;
   }
 
 }

@@ -1,16 +1,15 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.post.model.Post;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
+import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ public class FindPostListUsecase {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
-
+  private final FindLikeStatusService findLikeStatusService;
   /**
    * 홈 피드의 게시글들을 가져오는 유즈케이스. lastPostId와 size를 사용하여 페이지네이션을 지원합니다.
    */
@@ -46,9 +45,8 @@ public class FindPostListUsecase {
     List<SetAuthenticatedHomePostDTO> postDTOs = new ArrayList<>();
     for (Post post : selectedPosts) {
 
-      Optional<PostLike> latestPostLike = postLikeRepository
-          .findFirstByMemberAndPostOrderByCreatedAtDesc(memberId, post.getPostId());
-      boolean isLiked = latestPostLike.isPresent() && latestPostLike.get().isLiked();
+      boolean isLiked = findLikeStatusService.execute(memberId, post.getPostId());
+
       SetAuthenticatedHomePostDTO postDTO = new SetAuthenticatedHomePostDTO(post.getPostId(),
           post.getImage().getImageUri(), post.getHashtag(), 0, post.getNickname(), isLiked);
 
