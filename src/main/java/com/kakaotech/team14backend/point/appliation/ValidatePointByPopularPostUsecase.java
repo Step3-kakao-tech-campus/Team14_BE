@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.point.usecase;
+package com.kakaotech.team14backend.point.appliation;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
