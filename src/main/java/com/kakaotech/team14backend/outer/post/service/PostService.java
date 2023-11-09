@@ -14,7 +14,6 @@ import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.GetPopularPostPoint;
 import com.kakaotech.team14backend.inner.post.usecase.SavePostViewCount;
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.UpdatePostLikeCountUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
@@ -55,7 +54,6 @@ public class PostService {
   private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
 
-  private final SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
       int size) {
