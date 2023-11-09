@@ -29,8 +29,7 @@ public class GetKakaoUserInfo {
     headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
     HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    RestTemplate rt = new RestTemplate();
-    ResponseEntity<KakaoProfileDTO> response = rt.postForEntity(
+    ResponseEntity<KakaoProfileDTO> response = proxyRestTemplate.postForEntity(
         KAKAO_USER_INFO_URI,
         kakaoProfileRequest,
         KakaoProfileDTO.class

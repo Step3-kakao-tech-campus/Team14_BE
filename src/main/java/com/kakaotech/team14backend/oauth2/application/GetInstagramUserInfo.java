@@ -30,8 +30,7 @@ public class GetInstagramUserInfo {
   public String execute(String accessToken) {
     // 응답 받은 JSON 데이터 반환
     String userInfoUrl = USER_INFO_URL + "&access_token=" + accessToken;
-    RestTemplate rt = new RestTemplate();
-    ResponseEntity<Map> userResponse = rt.exchange(userInfoUrl,
+    ResponseEntity<Map> userResponse = proxyRestTemplate.exchange(userInfoUrl,
         HttpMethod.GET,
         null,
         Map.class);

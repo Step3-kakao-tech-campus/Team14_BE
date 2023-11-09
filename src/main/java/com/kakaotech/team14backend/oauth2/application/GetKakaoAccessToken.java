@@ -42,8 +42,7 @@ public class GetKakaoAccessToken {
 
     HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
     //Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-    RestTemplate rt = new RestTemplate();
-    ResponseEntity<Map> response = rt.postForEntity(
+    ResponseEntity<Map> response = proxyRestTemplate.postForEntity(
         KAKAO_TOKEN_URI,
         kakaoTokenRequest,
         Map.class

@@ -49,8 +49,7 @@ public class GetInstagramAccessToken {
     // Instagram API 호출
     String accessTokenRequestUrl = TOKEN_URL;
     HttpEntity<MultiValueMap<String, String>> InstaTokenRequest = new HttpEntity<>(map, headers);
-    RestTemplate rt = new RestTemplate();
-    ResponseEntity<Map> response = rt.postForEntity(
+    ResponseEntity<Map> response = proxyRestTemplate.postForEntity(
         accessTokenRequestUrl,
         InstaTokenRequest,
         Map.class);
