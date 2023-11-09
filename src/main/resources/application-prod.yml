@@ -49,19 +49,19 @@ schedules:
   initialDelay: 600000
 
 common:
-  frontend-server: https://k2bf481c846ffa.user-app.krampoline.com/
+  frontend-server: https://k2bf481c846ffa.user-app.krampoline.com
 
 oauth2:
   kakao:
     client-id: b51d037debb98e9ae02735887894b407
-    redirect-uri: https://localhost:3000/kakao/callback
+    redirect-uri: ${common.frontend-server}/kakao/callback
     token-uri: https://kauth.kakao.com/oauth/token
     user-info-uri: https://kapi.kakao.com/v2/user/me
 
   instagram:
     client-id: 2456565514525348
     client-secret: 640ed809676cf7480c2a28b1995f498d
-    redirect-uri: https://localhost:3000/instagram/callback
+    redirect-uri: ${common.frontend-server}/instagram/callback
     token-url: https://api.instagram.com/oauth/access_token
     user-info-url: https://graph.instagram.com/me?fields=id,username
 
