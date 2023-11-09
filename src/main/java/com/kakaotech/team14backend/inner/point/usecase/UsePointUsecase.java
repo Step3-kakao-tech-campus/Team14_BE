@@ -6,7 +6,7 @@ import com.kakaotech.team14backend.point.domain.Point;
 import com.kakaotech.team14backend.inner.point.model.PointHistory;
 import com.kakaotech.team14backend.inner.point.model.TransactionType;
 import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

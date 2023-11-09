@@ -4,7 +4,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 

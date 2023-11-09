@@ -4,7 +4,7 @@ package com.kakaotech.team14backend.inner.point.usecase;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.point.domain.Point;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
