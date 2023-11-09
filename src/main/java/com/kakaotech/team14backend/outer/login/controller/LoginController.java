@@ -6,9 +6,9 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.outer.login.dto.GetInstagramCode;
-import com.kakaotech.team14backend.outer.login.dto.GetKakaoCode;
-import com.kakaotech.team14backend.outer.login.dto.KakaoProfileDTO;
+import com.kakaotech.team14backend.oauth2.dto.GetInstagramCodeDTO;
+import com.kakaotech.team14backend.oauth2.dto.GetKakaoCodeDTO;
+import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
 import com.kakaotech.team14backend.outer.login.service.InstagramService;
 import com.kakaotech.team14backend.outer.login.service.LoginService;
 import com.kakaotech.team14backend.outer.login.service.LogoutService;
@@ -32,7 +32,6 @@ public class LoginController {
 
   private final String GRANT_TYPE = "authorization_code";
 
-  private final LoginService loginService;
   private final LogoutService logoutService;
   private final InstagramService instagramService;
 
@@ -46,23 +45,12 @@ public class LoginController {
     return "Currently authenticated user: " + member.toString();
   }
 
-  @PostMapping("/api/login")
-  @ResponseBody
-  public ApiResponse<?> kakaoLogin(HttpServletResponse response,
-                                   @RequestBody GetKakaoCode kakaoCode) throws IOException {
-
-    String kakaoAccessToken = loginService.getKaKaoAccessToken(kakaoCode.getCode());
-    KakaoProfileDTO kakaoProfileDTO = loginService.getKakaoUserInfo(kakaoAccessToken);
-    loginService.createOrLoginMember(kakaoProfileDTO);
-    loginService.AuthenticationSuccessHandelr(response, kakaoProfileDTO);
-    return ApiResponseGenerator.success(HttpStatus.OK);
-  }
 
 
   @PostMapping("/api/user/instagram")
   @ResponseBody
   public ApiResponse<?> instagramConnect(HttpServletResponse response,
-                                         @RequestBody GetInstagramCode instagramCode,
+                                         @RequestBody GetInstagramCodeDTO instagramCode,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
     validatePrincipalDetails(principalDetails);
 

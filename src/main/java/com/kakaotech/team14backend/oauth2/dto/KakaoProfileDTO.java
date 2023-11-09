@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.login.dto;
+package com.kakaotech.team14backend.oauth2.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
