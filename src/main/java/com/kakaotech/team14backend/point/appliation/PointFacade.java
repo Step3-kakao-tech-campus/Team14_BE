@@ -1,12 +1,12 @@
 package com.kakaotech.team14backend.point.appliation;
 
-import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.point.domain.UsePointDecider;
-import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
+import com.kakaotech.team14backend.point.domain.UsePointDecider;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PointService {
+public class PointFacade {
 
   private final ValidatePointByPopularPostUsecase validatePointByPopularPostUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
   private final SetPostInstaCountUsecase setPostInstaUsecase;
 
-  public String usePointByPopularPost(
-      UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
+  public String useByPopularPost(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
 
     validatePointByPopularPostUsecase.execute(usePointByPopularPostRequestDTO);
     Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId())
