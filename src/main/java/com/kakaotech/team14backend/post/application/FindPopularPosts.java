@@ -9,7 +9,6 @@ import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostRandomFetcher;
 import com.kakaotech.team14backend.post.domain.RandomIndexes;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

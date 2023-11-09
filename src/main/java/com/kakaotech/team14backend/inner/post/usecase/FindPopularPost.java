@@ -7,7 +7,7 @@ import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
-import com.kakaotech.team14backend.post.mapper.PostMapper;
+import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

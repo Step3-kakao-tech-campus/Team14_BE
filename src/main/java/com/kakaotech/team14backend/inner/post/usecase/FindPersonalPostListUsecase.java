@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
-import com.kakaotech.team14backend.post.mapper.PostMapper;
+import com.kakaotech.team14backend.post.application.PostMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

@@ -5,7 +5,7 @@ import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
-import com.kakaotech.team14backend.post.mapper.PostMapper;
+import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import java.util.ArrayList;
 import java.util.Collections;

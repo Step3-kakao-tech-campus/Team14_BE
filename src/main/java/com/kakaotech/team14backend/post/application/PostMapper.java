@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.mapper;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
