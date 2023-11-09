@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
@@ -10,6 +9,7 @@ import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.mapper.PostMapper;
+import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +19,11 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class FindPopularPostUsecase {
+public class FindPopularPost {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
-
+  private final FindLikeStatusService findLikeStatusService;
   /**
    * Redis에 해당 popularPost가 있다면 Redis에서 가져오고, 존재하지 않는다면 DB에서 가져온 후 Redis에 반영한다.
    *
@@ -38,9 +38,9 @@ public class FindPopularPostUsecase {
   }
 
   private Boolean isLiked(GetPostDTO getPostDTO, Post post){
-    Optional<PostLike> latestPostLike = postLikeRepository
-        .findFirstByMemberAndPostOrderByCreatedAtDesc(getPostDTO.memberId(), post.getPostId());
-    return latestPostLike.isPresent() && latestPostLike.get().isLiked();
+
+    return findLikeStatusService.execute(getPostDTO.memberId(), post.getPostId());
+
   }
 
 }

@@ -4,6 +4,7 @@ TRUNCATE TABLE image;
 TRUNCATE TABLE post;
 TRUNCATE TABLE post_like_count;
 TRUNCATE TABLE point;
+TRUNCATE TABLE post_insta_count;
 SET REFERENTIAL_INTEGRITY True;
 -- Member Table
 INSERT INTO member (member_id,created_at, insta_id, kakao_id, profile_image_url, total_like, updated_at,
@@ -78,6 +79,10 @@ SET like_count  = CASE
     modified_at = NOW()
 WHERE post_id BETWEEN 1 AND 300;
 
+INSERT INTO post_insta_count (post_id, member_id, insta_count, created_at, modified_at)
+SELECT post_id, member_id, 0, NOW(), NOW()
+FROM post
+WHERE post_id BETWEEN 1 AND 300;
 
 -- Insert into Point Table
 INSERT INTO point

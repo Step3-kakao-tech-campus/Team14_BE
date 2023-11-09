@@ -3,6 +3,7 @@ package com.kakaotech.team14backend.inner.member.model;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class Member {
 
   @OneToMany(mappedBy = "member")
   private List<Post> posts = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member")
+  private List<PostInstaCount> postInstas = new ArrayList<>();
 
   @Column(nullable = false, length = 50)
   private String userName; // 유저 이름

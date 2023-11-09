@@ -12,6 +12,7 @@ import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.post.model.Post;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PointController {
 
   private final PointService pointService;
-
+  private final SetPostInstaCountUsecase setPostInstaCountUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
 
@@ -59,7 +60,7 @@ public class PointController {
 
     Long postId = usePointByPostRequestDTO.postId();
     Post post = postRepository.findById(postId)
-        .orElseThrow(() -> new PostNotFoundException());
+        .orElseThrow(PostNotFoundException::new);
 
     Member received = post.getMember();
     String instaId = received.getInstaId();
@@ -67,6 +68,7 @@ public class PointController {
     Long senderId = principalDetails.getMember().getMemberId();
     usePointUsecase.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
+    setPostInstaCountUsecase.execute(postId, received.getMemberId());
 
     UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
     return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);

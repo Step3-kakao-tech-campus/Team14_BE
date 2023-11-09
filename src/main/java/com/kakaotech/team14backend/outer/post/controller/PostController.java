@@ -9,6 +9,7 @@ import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
+import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -53,7 +54,7 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     validateParameters(size, lastPostId);
-    Long memberId = principalDetails.getMember().getMemberId();
+    Long memberId = principalDetails.getMemberId();
     GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
         memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
@@ -68,7 +69,7 @@ public class PostController {
 
     validateParameters(size, lastPostId);
 
-    Long memberId = (principalDetails == null) ? null : principalDetails.getMember().getMemberId();
+    Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
     GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(lastPostId,
         size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
@@ -78,8 +79,10 @@ public class PostController {
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
-      @AuthenticationPrincipal PrincipalDetails principalDetails){
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(principalDetails.getMember(),
+      @AuthenticationPrincipal PrincipalDetails principalDetails
+  ) {
+    Member member = principalDetails.getMember();
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
         uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
 
@@ -93,7 +96,7 @@ public class PostController {
       @PathVariable("postId") Long postId) {
     validatePrincipalDetails(principalDetails);
 
-    Long memberId = principalDetails.getMember().getMemberId();
+    Long memberId = principalDetails.getMemberId();
 
     GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
@@ -106,7 +109,7 @@ public class PostController {
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
     validatePrincipalDetails(principalDetails);
-    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
+    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
     GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
@@ -118,7 +121,7 @@ public class PostController {
       @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
     validatePrincipalDetails(principalDetails);
-    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMember().getMemberId());
+    GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
     GetPopularPostResponseDTO getPopularPostResponseDTO = postService.getPopularPost(getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
   }
@@ -153,10 +156,9 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
 
-    Long memberId = principalDetails.getMember().getMemberId();
+    Long memberId = principalDetails.getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
     SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
-    System.out.println("/post/{postId}/like Response: " + setPostLikeResponseDTO);
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 
