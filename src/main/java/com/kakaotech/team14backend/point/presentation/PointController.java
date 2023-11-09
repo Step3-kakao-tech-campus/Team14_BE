@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.point.presentation;
 
-import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
+import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;

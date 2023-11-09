@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.point.repository;
 
-import com.kakaotech.team14backend.inner.point.model.Point;
+import com.kakaotech.team14backend.point.domain.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

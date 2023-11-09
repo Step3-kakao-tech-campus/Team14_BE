@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
+import com.kakaotech.team14backend.point.domain.UsePointDecider;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.post.dto.GetAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;

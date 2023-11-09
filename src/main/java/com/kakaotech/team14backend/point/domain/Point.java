@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.point.model;
+package com.kakaotech.team14backend.point.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 import com.kakaotech.team14backend.exception.NotEnoughPointException;
