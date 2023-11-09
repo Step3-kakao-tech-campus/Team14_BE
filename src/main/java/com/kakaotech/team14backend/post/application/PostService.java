@@ -7,7 +7,6 @@ import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPersonalPostListUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.inner.post.usecase.SetPostLikeUsecase;
@@ -16,13 +15,9 @@ import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
@@ -38,17 +33,14 @@ public class PostService {
   private final CreateImage createImage;
   private final CreatePost createPostUsecase;
   private final FindPostUsecase findPostUsecase;
-  private final FindPostListUsecase findPostListUsecase;
-  private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
   private final SetPostLikeUsecase setPostLikeUsecase;
-  private final FindPopularPosts findPopularPosts;
   private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
   private final FindPersonalPostListUsecase findPersonalPostListUsecase;
   private final FindMyPostUsecase findMyPostUsecase;
   private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
-  private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
+  private final FindPostListUsecase findPostListUsecase;
 
 
   public GetPersonalPostListResponseDTO getPersonalPostList(Long userId, Long lastPostId,
@@ -91,12 +83,6 @@ public class PostService {
    * @see : saveTemporaryPostViewCountUsecase는 게시물 조회시 게시물의 조회수를 늘려주는 클래스
    */
 
-  public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
-    savePostViewCount.execute(getPostDTO);
-    PostLevelPoint postLevelPoint = getPopularPostPoint.execute(getPostDTO.postId());
-    return findPopularPost.execute(getPostDTO, postLevelPoint);
-  }
-
   /*
    * 게시물 좋아요를 설정한다.
    * @param : 게시물 구분자, 유저 구분자
@@ -121,12 +107,6 @@ public class PostService {
    * @return : 인기 게시물들 응답
    * @author : hwangdaesun
    */
-
-  public GetPopularPostListResponseDTO getPopularPostList(
-      GetPopularPostListRequestDTO getPopularPostListRequestDTO) {
-    int size = findPostListUsecase.findPostListSize();
-    return findPopularPosts.execute(getPopularPostListRequestDTO, size);
-  }
 
   public GetMyPostResponseDTO getMyPost(Long memberId, Long postId) {
     GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
