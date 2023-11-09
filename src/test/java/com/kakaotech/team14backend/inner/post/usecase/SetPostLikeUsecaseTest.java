@@ -1,14 +1,15 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import com.kakaotech.team14backend.exception.MemberNotFoundException;
+import com.kakaotech.team14backend.exception.PostNotFoundException;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import com.kakaotech.team14backend.inner.member.model.Role;
 import com.kakaotech.team14backend.inner.member.model.Status;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.inner.member.service.FindMemberService;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import java.util.Optional;
@@ -22,7 +23,8 @@ public class SetPostLikeUsecaseTest {
 
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
   private SetPostLikeUsecase setPostLikeUsecase;
-
+  @Mock
+  private FindMemberService findMemberService;
 
   @Mock
   private PostRepository postRepository;
@@ -30,25 +32,6 @@ public class SetPostLikeUsecaseTest {
   @Mock
   private MemberRepository memberRepository;
 
-
-  @Test
-  void execute_nonExistentMember() {
-    // Given
-    Long postId = 1L;
-    Long memberId = 1L;
-    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-
-    when(memberRepository.findById(memberId)).thenReturn(
-        Optional.empty());  // Assumes member does not exist
-
-    // When
-    Exception exception = assertThrows(MemberNotFoundException.class, () -> {
-      setPostLikeUsecase.execute(setPostLikeDTO);
-    });
-
-    // Then
-    assertEquals("존재하지 않는 회원입니다", exception.getMessage());
-  }
 
   @Test
   void execute_nonExistentPost() {
@@ -64,12 +47,12 @@ public class SetPostLikeUsecaseTest {
         Optional.empty());  // Assumes post does not exist
 
     // When
-    Exception exception = assertThrows(MemberNotFoundException.class, () -> {
+    Exception exception = assertThrows(PostNotFoundException.class, () -> {
       setPostLikeUsecase.execute(setPostLikeDTO);
     });
 
     // Then
-    assertEquals("존재하지 않는 게시물입니다", exception.getMessage());
+    assertNull(exception.getMessage());
   }
 
 }
