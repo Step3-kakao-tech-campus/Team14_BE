@@ -30,17 +30,12 @@ public class JwtController {
 
   @PostMapping("/api/reissue")
   public ApiResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    try {
-      String refreshToken = CookieUtils.getCookieValue(request, "RefreshToken");
-      ReissueDTO reissueDTO = tokenService.reissueAccessToken(refreshToken);
-      response.setContentType("application/json");
-      // 새로운 액세스 토큰을 HTTP 헤더에 추가
-      response.addHeader("Authorization", reissueDTO.getAccessToken());
-      return ApiResponseGenerator.success(HttpStatus.OK);
-    } catch (NullPointerException | TokenExpiredException | TokenValidationException e) {
-      // 쿠키에 리프레시토큰이 없을 시 혹은 리프레시토큰 검증 실패 시 로그인필요 에러메세지 전달
-      return ApiResponseGenerator.fail("401","리프레시토큰이 유효하지 않습니다.",HttpStatus.UNAUTHORIZED);
-    }
+    String refreshToken = CookieUtils.getCookieValue(request, "RefreshToken");
+    ReissueDTO reissueDTO = tokenService.reissueAccessToken(refreshToken);
+    response.setContentType("application/json");
+    // 새로운 액세스 토큰을 HTTP 헤더에 추가
+    response.addHeader("Authorization", reissueDTO.getAccessToken());
+    return ApiResponseGenerator.success(HttpStatus.OK);
   }
 }
 

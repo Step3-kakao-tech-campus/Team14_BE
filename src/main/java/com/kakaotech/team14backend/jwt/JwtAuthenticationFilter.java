@@ -60,12 +60,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
       chain.doFilter(request,response);
     } catch (SignatureVerificationException | JWTDecodeException e) {
       FilterResponseUtils.AccessTokenValidationException(response);
-      log.error("토큰 검증 실패");
-      return;
     } catch (TokenExpiredException tee) {
-      log.error("토큰 만료기간 초과");
       FilterResponseUtils.AccessTokenExpired(response);
-      return;
     }
   }
 }
