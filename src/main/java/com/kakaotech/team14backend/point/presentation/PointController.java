@@ -17,7 +17,7 @@ import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.point.appliation.PointService;
+import com.kakaotech.team14backend.point.appliation.PointFacade;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class PointController {
 
-  private final PointService pointService;
+  private final PointFacade pointService;
   private final SetPostInstaCountUsecase setPostInstaCountUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
@@ -45,7 +45,7 @@ public class PointController {
     validatePrincipalDetails(principalDetails);
 
     Long senderId = principalDetails.getMember().getMemberId();
-    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
+    String instaId = pointService.useByPopularPost(usePointByPopularPostRequestDTO, senderId);
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
 
