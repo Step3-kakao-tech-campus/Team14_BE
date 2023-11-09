@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.post.domain;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.kakaotech.team14backend.inner.image.model.Image;
+import com.kakaotech.team14backend.image.domain.Image;
 import com.kakaotech.team14backend.inner.member.model.Member;
 import java.time.Duration;
 import java.time.Instant;

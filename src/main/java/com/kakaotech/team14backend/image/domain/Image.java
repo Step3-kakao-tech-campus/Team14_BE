@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.image.model;
+package com.kakaotech.team14backend.image.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
