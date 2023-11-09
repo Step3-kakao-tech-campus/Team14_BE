@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.post.controller;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
@@ -24,8 +24,6 @@ import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
 import com.kakaotech.team14backend.outer.post.service.PostService;
 import io.swagger.annotations.ApiOperation;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,6 +35,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
