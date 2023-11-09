@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.image.usecase;
+package com.kakaotech.team14backend.image.application;
 
 import com.kakaotech.team14backend.common.FileUtils;
 import com.kakaotech.team14backend.common.UploadFileDTO;
