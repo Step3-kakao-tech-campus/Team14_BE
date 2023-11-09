@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.post.usecase.FindPopularPost;
 import com.kakaotech.team14backend.inner.post.usecase.FindPostListUsecase;
 import com.kakaotech.team14backend.post.dto.GetPopularPostListRequestDTO;
 import com.kakaotech.team14backend.post.dto.GetPopularPostListResponseDTO;
