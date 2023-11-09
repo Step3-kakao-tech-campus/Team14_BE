@@ -7,7 +7,7 @@ import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.outer.member.dto.InstagramDetails;
 import com.kakaotech.team14backend.outer.member.dto.InstagramInfo;

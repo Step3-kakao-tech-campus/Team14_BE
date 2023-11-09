@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.outer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.post.application.SavePopularPosts;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import java.util.Set;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Sql("classpath:db/testSetup.sql")
@@ -39,7 +41,7 @@ class PointControllerTest {
   private RedisTemplate redisTemplate;
 
   @Autowired
-  private SaveTemporaryPopularPostListUsecase saveTemporaryPopularPostListUsecase;
+  private SavePopularPosts saveTemporaryPopularPostListUsecase;
 
 
   @BeforeEach

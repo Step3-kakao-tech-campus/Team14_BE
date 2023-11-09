@@ -1,9 +1,8 @@
 package com.kakaotech.team14backend.inner.point.usecase;
 
-import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.exception.PostNotFoundException;
-import com.kakaotech.team14backend.inner.post.model.PostLevel;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
+import com.kakaotech.team14backend.post.domain.PostLevel;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

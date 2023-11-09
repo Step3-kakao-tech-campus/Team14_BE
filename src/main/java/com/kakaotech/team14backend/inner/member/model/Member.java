@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.member.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.kakaotech.team14backend.inner.post.model.Post;
+import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
 import com.kakaotech.team14backend.inner.post.model.PostLike;
 import java.time.LocalDateTime;
@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Builder;

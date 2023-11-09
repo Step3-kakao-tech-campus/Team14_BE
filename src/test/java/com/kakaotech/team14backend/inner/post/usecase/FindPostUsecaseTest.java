@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.config.CacheProperties;
 import com.kakaotech.team14backend.config.RedisConfig;
-import com.kakaotech.team14backend.inner.post.repository.PostRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

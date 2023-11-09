@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.post.model;
+package com.kakaotech.team14backend.post.domain;
 
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
@@ -20,6 +20,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
+import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

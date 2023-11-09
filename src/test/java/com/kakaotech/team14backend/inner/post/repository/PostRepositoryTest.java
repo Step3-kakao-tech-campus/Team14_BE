@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.inner.post.repository;
 
 import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
-import java.util.List;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
+
+import java.util.List;
 
 
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
