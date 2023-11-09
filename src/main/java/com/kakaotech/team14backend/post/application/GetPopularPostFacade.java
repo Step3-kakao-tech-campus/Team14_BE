@@ -27,6 +27,7 @@ public class GetPopularPostFacade {
     return findPopularPosts.execute(getPopularPostListRequestDTO, size);
   }
 
+  @Transactional
   public GetPopularPostResponseDTO getPopularPost(GetPostDTO getPostDTO) {
     savePostViewCount.execute(getPostDTO);
     PostLevelPoint postLevelPoint = getPopularPostPoint.execute(getPostDTO.postId());
