@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
 import com.kakaotech.team14backend.inner.post.repository.PostRepository;
 import com.kakaotech.team14backend.inner.post.usecase.SaveTemporaryPopularPostListUsecase;
+import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
 import java.util.Set;
 
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
@@ -50,6 +51,8 @@ class PostControllerTest {
   @Autowired
   private PostService postService;
 
+  @Autowired
+  private SetPostLikeUsecase setPostLikeUsecase;
   /**
    * 추후에 기능 고도화시 홈 피드에서도 Redis를 사용해 게시물을 조회할 수동 있기 때문에 @BeforEach 사용
    */
@@ -243,7 +246,7 @@ class PostControllerTest {
 
 
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L,1L);
-    postService.setPostLike(setPostLikeDTO);
+    setPostLikeUsecase.execute(setPostLikeDTO);
 
     String param = "10";
 

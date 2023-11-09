@@ -27,6 +27,7 @@ import com.kakaotech.team14backend.outer.post.service.GetHomePostListUsecase;
 import com.kakaotech.team14backend.outer.post.service.GetHomePostUsecase;
 import com.kakaotech.team14backend.outer.post.service.GetMyPostUsecase;
 import com.kakaotech.team14backend.outer.post.service.PostService;
+import com.kakaotech.team14backend.outer.post.service.SetPostLikeUsecase;
 import io.swagger.annotations.ApiOperation;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class PostController {
   private final GetHomePostListUsecase getHomePostListService;
   private final GetMyPostUsecase getMyPostUsecase;
   private final GetHomePostUsecase getHomePost;
+  private final SetPostLikeUsecase setPostLikeUsecase;
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
@@ -167,7 +169,7 @@ public class PostController {
 
     Long memberId = principalDetails.getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-    SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
+    SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 

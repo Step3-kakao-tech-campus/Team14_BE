@@ -39,9 +39,7 @@ public class PostService {
   private final FindPostListUsecase findPostListUsecase;
   private final FindPopularPost findPopularPost;
   private final SavePostViewCount savePostViewCount;
-  private final SetPostLikeService setPostLikeService;
   private final FindPopularPosts findPopularPosts;
-  private final UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
   private final GetPopularPostPoint getPopularPostPoint;
   private final GetPointUsecase getPointUsecase;
@@ -85,17 +83,7 @@ public class PostService {
    * @return : 게시물 좋아요 설정시 반환 값
    * @see : setPostLikeUsecase는 게시물 좋아요를 설정하는 클래스
    */
-  @Transactional
-  public SetPostLikeResponseDTO setPostLike(SetPostLikeDTO setPostLikeDTO) {
-    SetPostLikeResponseDTO isLiked = setPostLikeService.execute(setPostLikeDTO);
 
-    Long postId = setPostLikeDTO.postId();
-    GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(postId, isLiked.isLiked());
-
-    // 좋아요 상태를 반환 할 때 카운트를 업데이트
-    updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
-    return isLiked;
-  }
 
   /**
    * 인기 게시물 전체 조회
