@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.point.application;
+package com.kakaotech.team14backend.point.application.usecase;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.exception.MemberNotFoundException;

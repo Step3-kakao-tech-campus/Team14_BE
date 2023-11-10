@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.image.application.CreateImage;
 import com.kakaotech.team14backend.image.domain.Image;
-import com.kakaotech.team14backend.point.application.GetPointUsecase;
+import com.kakaotech.team14backend.point.application.command.GetPoint;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
 import com.kakaotech.team14backend.post.application.command.SavePost;
 import com.kakaotech.team14backend.post.dto.CreatePostDTO;
@@ -18,7 +18,7 @@ public class UploadPost {
 
   private final CreateImage createImage;
   private final SavePost createPostUsecase;
-  private final GetPointUsecase getPointUsecase;
+  private final GetPoint getPointUsecase;
 
   @Transactional
   public void execute(UploadPostDTO uploadPostDTO) {
