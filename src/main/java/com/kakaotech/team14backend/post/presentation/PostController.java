@@ -85,7 +85,7 @@ public class PostController {
     validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.excute(lastPostId,
+    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.execute(lastPostId,
         size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
