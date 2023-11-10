@@ -33,7 +33,7 @@ class GetPopularPostPointUsecaseTest {
   void execute(){
     PostLevelPoint postLevelPoint = getPopularPostPointUsecase.execute(188L);
     Integer level = postLevelPoint.postLevel();
-    Long point = UsePointDecider.decidePoint(level);
+    Long point = UsePointDecider.getPoint(level);
     Assertions.assertThat(point).isEqualTo(postLevelPoint.postPoint());
   }
 

@@ -6,13 +6,13 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.point.application.PointService;
-import com.kakaotech.team14backend.point.application.UsePointUsecase;
+import com.kakaotech.team14backend.point.application.usecase.UsePointForPopularPost;
+import com.kakaotech.team14backend.point.application.UsePoint;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.post.application.SetPostInstaCountUsecase;
+import com.kakaotech.team14backend.post.application.SetPostInstaCount;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -32,9 +32,9 @@ import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WH
 @RequestMapping("/api")
 public class PointController {
 
-  private final PointService pointService;
-  private final SetPostInstaCountUsecase setPostInstaCountUsecase;
-  private final UsePointUsecase usePointUsecase;
+  private final UsePointForPopularPost pointService;
+  private final SetPostInstaCount setPostInstaCountUsecase;
+  private final UsePoint usePointUsecase;
   private final PostRepository postRepository;
 
   @ApiOperation(value = "인기 피드 게시물 포인트 사용")
@@ -45,7 +45,7 @@ public class PointController {
     validatePrincipalDetails(principalDetails);
 
     Long senderId = principalDetails.getMember().getMemberId();
-    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
+    String instaId = pointService.execute(usePointByPopularPostRequestDTO, senderId);
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
 

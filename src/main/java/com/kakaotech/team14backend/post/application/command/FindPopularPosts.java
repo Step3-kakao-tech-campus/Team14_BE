@@ -29,11 +29,16 @@ public class FindPopularPosts{
   private final PostRepository postRepository;
 
   public GetPopularPostListResponseDTO execute(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int size) {
-
     List<GetIncompletePopularPostDTO> incompletePopularPostDTOS = new ArrayList<>();
     LevelIndexes levelIndexes = getLevelIndexes(getPopularPostListRequestDTO, size);
     loopLevelIndexes(incompletePopularPostDTOS, levelIndexes);
     return PostMapper.from(incompletePopularPostDTOS, levelIndexes.levelIndexes());
+  }
+
+  private LevelIndexes getLevelIndexes(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int limitSize) {
+    PostRandomFetcher postRandomFetcher = new PostRandomFetcher(getPopularPostListRequestDTO.levelSize(), limitSize);
+    LevelIndexes levelIndexes = postRandomFetcher.getLevelIndexes();
+    return levelIndexes;
   }
 
   private void loopLevelIndexes(List<GetIncompletePopularPostDTO> incompletePopularPostDTOS, LevelIndexes levelIndexes) {
@@ -42,12 +47,6 @@ public class FindPopularPosts{
       List<Integer> indexes = entry.getValue().getIndexes();
       toGetPopularPostListResponseDTO(incompletePopularPostDTOS, level, indexes);
     }
-  }
-
-  private LevelIndexes getLevelIndexes(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int limitSize) {
-    PostRandomFetcher postRandomFetcher1 = new PostRandomFetcher(getPopularPostListRequestDTO.levelSize(), limitSize);
-    LevelIndexes levelIndexes = postRandomFetcher1.getLevelIndexes();
-    return levelIndexes;
   }
 
   private void toGetPopularPostListResponseDTO(List<GetIncompletePopularPostDTO> incompletePopularPostDTOS, Integer level, List<Integer> indexes) {
@@ -60,12 +59,12 @@ public class FindPopularPosts{
     }
   }
 
-  private Post getPost(Optional<Post> optionalPost) {
-    return optionalPost.get();
-  }
-
   private Long getPostId(Integer index) {
     return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
+  }
+
+  private Post getPost(Optional<Post> optionalPost) {
+    return optionalPost.get();
   }
 
 

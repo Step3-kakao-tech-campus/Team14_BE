@@ -13,16 +13,35 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class ValidatePointByPopularPostUsecase {
+public class ValidatePoint {
 
   private final RedisTemplate redisTemplate;
 
   public void execute(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
-    PostLevel postLevel = PostLevel.from(usePointByPopularPostRequestDTO.postLevel());
-    Set<Integer> setPostId= redisTemplate.opsForZSet().reverseRange(RedisKey.POPULAR_POST_KEY.getKey(), postLevel.start(), postLevel.end());
-    List<Integer> postIds = setPostId.stream().toList();
+    List<Integer> postIds = ((Set<Integer>) getPostIds(usePointByPopularPostRequestDTO)).stream().toList();
     postIds.stream().filter(postId -> castToLong(postId).equals(usePointByPopularPostRequestDTO.postId())).findFirst().orElseThrow(() -> new PostNotFoundException());
   }
+
+  private Set getPostIds(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
+    return redisTemplate.opsForZSet().reverseRange(getKey(), getStart(getPostLevel(usePointByPopularPostRequestDTO)), getEnd(getPostLevel(usePointByPopularPostRequestDTO)));
+  }
+
+  private String getKey() {
+    return RedisKey.POPULAR_POST_KEY.getKey();
+  }
+
+  private int getStart(PostLevel postLevel) {
+    return postLevel.start();
+  }
+
+  private int getEnd(PostLevel postLevel) {
+    return postLevel.end();
+  }
+
+  private PostLevel getPostLevel(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
+    return PostLevel.from(usePointByPopularPostRequestDTO.postLevel());
+  }
+
   private Long castToLong(Integer have){
     return have.longValue();
   }

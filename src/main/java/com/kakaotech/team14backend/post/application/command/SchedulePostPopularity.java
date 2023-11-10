@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SchedulePostPopularity {
 
-  private final UpdatePostPopularity updatePostPopularityUsecase;
+  private final UpdatePostPopularity updatePostPopularity;
 
   @Scheduled(initialDelayString = "${schedules.initialDelay}", fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
-    updatePostPopularityUsecase.execute();
+    updatePostPopularity.execute();
   }
 
 }
