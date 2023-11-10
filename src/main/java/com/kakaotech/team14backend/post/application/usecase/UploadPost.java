@@ -17,14 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UploadPost {
 
   private final CreateImage createImage;
-  private final SavePost createPostUsecase;
-  private final GetPoint getPointUsecase;
+  private final SavePost savePost;
+  private final GetPoint getPoint;
 
   @Transactional
   public void execute(UploadPostDTO uploadPostDTO) {
     Image savedImage = createImage.execute(uploadPostDTO.uploadPostRequestDTO().getImage());
-    createPostUsecase.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
-    getPointUsecase.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
+    savePost.execute(makeCreatePostDTO(uploadPostDTO, savedImage));
+    getPoint.execute(uploadPostDTO.member(), GetPointPolicy.GIVE_300_WHEN_UPLOAD);
   }
 
   private CreatePostDTO makeCreatePostDTO(UploadPostDTO uploadPostDTO, Image savedImage) {
