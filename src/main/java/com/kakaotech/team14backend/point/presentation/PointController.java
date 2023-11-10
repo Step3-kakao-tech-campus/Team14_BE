@@ -1,13 +1,15 @@
 package com.kakaotech.team14backend.point.presentation;
 
-import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
+import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
+
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.point.application.usecase.UsePointForPopularPost;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.point.application.usecase.UsePoint;
+import com.kakaotech.team14backend.point.application.usecase.UsePointForPopularPost;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
 
 @RestController
 @RequiredArgsConstructor

@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteMember {
 
-  private final FindMember findMemberService;
+  private final FindMember findMember;
 
   @Transactional
   public void execute(Long memberId) {
-    Member member = findMemberService.execute(memberId);
+    Member member = findMember.execute(memberId);
     member.makeUserInactive();
   }
 

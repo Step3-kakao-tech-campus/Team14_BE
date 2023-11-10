@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SchedulePostViewCount {
 
-  private final UpdatePostViewCount updatePostViewCountUsecase;
+  private final UpdatePostViewCount updatePostViewCount;
 
   @Scheduled(initialDelayString = "${schedules.initialDelay}",fixedDelayString = "${schedules.fixedDelay}")
   public void execute() {
-    updatePostViewCountUsecase.execute();
+    updatePostViewCount.execute();
   }
 
 

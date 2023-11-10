@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateMember {
 
-  private final CreatePoint createPointUsecase;
+  private final CreatePoint createPoint;
 
   public Member execute(String userName, String kakaoId, String instaId,
       String profileImageUrl, Role role, Long totalLike, Status userStatus) {
     Member member = Member.builder().memberId(Long.valueOf(kakaoId)).userName(userName)
         .kakaoId(kakaoId).instaId(instaId).role(role).profileImageUrl(profileImageUrl)
         .totalLike(totalLike).userStatus(userStatus).build();
-    createPointUsecase.execute(member);
+    createPoint.execute(member);
     return member;
   }
 }
