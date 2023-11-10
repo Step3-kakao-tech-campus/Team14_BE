@@ -29,7 +29,6 @@ public class FindPopularPosts{
   private final PostRepository postRepository;
 
   public GetPopularPostListResponseDTO execute(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int size) {
-
     List<GetIncompletePopularPostDTO> incompletePopularPostDTOS = new ArrayList<>();
     LevelIndexes levelIndexes = getLevelIndexes(getPopularPostListRequestDTO, size);
     loopLevelIndexes(incompletePopularPostDTOS, levelIndexes);
