@@ -115,34 +115,4 @@ class PointControllerTest {
   }
 
 
-//  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판298를 구매하였으나 돈이 부족한 경우 - 정상 파라미터")
-//  @Test
-//  @WithUserDetails("kakao1")
-//  void usePopularPost_noPoint_Test() throws Exception {
-//
-//    saveTemporaryPopularPostListUsecase.execute();
-//
-//    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 3);
-//
-//
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    String requestBody = objectMapper.writeValueAsString(requestDTO);
-//
-//
-//    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
-//        .content(requestBody)
-//        .contentType(MediaType.APPLICATION_JSON);
-//
-//    ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
-//
-//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-//
-//    System.out.println("usePopularPost_Test : " + responseBody);
-//
-//
-//    resultActions.andExpect(status().is5xxServerError());
-//    resultActions.andExpect(jsonPath("$.success").value(false));
-//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
-//  }
-//
 }
