@@ -26,16 +26,16 @@ public class ValidatePoint {
     return redisTemplate.opsForZSet().reverseRange(getKey(), getStart(getPostLevel(usePointByPopularPostRequestDTO)), getEnd(getPostLevel(usePointByPopularPostRequestDTO)));
   }
 
-  private int getEnd(PostLevel postLevel) {
-    return postLevel.end();
+  private String getKey() {
+    return RedisKey.POPULAR_POST_KEY.getKey();
   }
 
   private int getStart(PostLevel postLevel) {
     return postLevel.start();
   }
 
-  private String getKey() {
-    return RedisKey.POPULAR_POST_KEY.getKey();
+  private int getEnd(PostLevel postLevel) {
+    return postLevel.end();
   }
 
   private PostLevel getPostLevel(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
