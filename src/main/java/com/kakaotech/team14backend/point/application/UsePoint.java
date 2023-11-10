@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class UsePointUsecase {
+public class UsePoint {
 
   private final PointRepository pointRepository;
   private final PointHistoryRepository pointHistoryRepository;
