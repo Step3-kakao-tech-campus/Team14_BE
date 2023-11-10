@@ -9,7 +9,7 @@ import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.post.application.FindPersonalPostListUsecase;
+import com.kakaotech.team14backend.post.application.UserPostListFinder;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -52,7 +52,7 @@ public class PostController {
   private final PostService postService;
   private final GetPopularPostFacade getPopularPostFacade;
 
-  private final FindPersonalPostListUsecase findPersonalPostListUsecase;
+  private final UserPostListFinder userPostListFinder;
   private final GetHomePostListUsecase getHomePostListService;
   private final GetMyPostUsecase getMyPostUsecase;
   private final GetHomePostUsecase getHomePost;
@@ -68,7 +68,7 @@ public class PostController {
     validatePrincipalDetails(principalDetails);
     validateParameters(size, lastPostId);
     Long memberId = principalDetails.getMemberId();
-    GetPersonalPostListResponseDTO getPostListResponseDTO = findPersonalPostListUsecase.execute(
+    GetPersonalPostListResponseDTO getPostListResponseDTO = userPostListFinder.execute(
         memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
