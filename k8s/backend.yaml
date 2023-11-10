@@ -95,7 +95,7 @@ spec:
                   key: URL
           volumeMounts:
             - name: config-volume
-              mountPath: /config  # /path/to/config 디렉토리에 configMap의 데이터가 마운트됩니다.
+              mountPath: /config  
           resources:
             requests:
               memory: 1Gi
