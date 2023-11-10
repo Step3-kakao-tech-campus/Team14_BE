@@ -55,7 +55,8 @@ class PostRandomFetcherTest {
   }
 
   @Test
-  @DisplayName("limitSize가 30보다 작고, 요구하는 총 개수의 합보다 클 경우")
+  @DisplayName("limitSize가 30보다 작고, 요구하는 총 개수의 합보다 클 경우, 응답하는 개시글의 총 개수는 5개가 나와야 한다." +
+      " 또한 DB의 게시글의 개수 부족으로 프론트의 요구사항을 완벽히 맞추지 못할 때는 레벨이 높은 게시글의 요구사항부터 우선 충족시킨다.")
   void fetchRandomIndexesUnder30ForAllLevels_20() {
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, 4);
