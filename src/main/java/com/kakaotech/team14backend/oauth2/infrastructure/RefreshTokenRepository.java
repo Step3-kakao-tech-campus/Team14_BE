@@ -1,7 +1,8 @@
 package com.kakaotech.team14backend.oauth2.infrastructure;
 
-import com.kakaotech.team14backend.jwt.TokenValidationException;
+
 import com.kakaotech.team14backend.oauth2.domain.RefreshToken;
+import com.kakaotech.team14backend.oauth2.exception.TokenValidationException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
