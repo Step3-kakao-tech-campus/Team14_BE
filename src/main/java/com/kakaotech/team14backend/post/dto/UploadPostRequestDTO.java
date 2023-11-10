@@ -1,8 +1,9 @@
-package com.kakaotech.team14backend.outer.post.dto;
+package com.kakaotech.team14backend.post.dto;
 
-import java.util.List;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class UploadPostRequestDTO {
