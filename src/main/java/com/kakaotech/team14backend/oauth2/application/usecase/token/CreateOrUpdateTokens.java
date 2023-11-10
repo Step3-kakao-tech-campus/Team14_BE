@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.oauth2.application.usecase.token;
 
-import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
+import com.kakaotech.team14backend.oauth2.dto.SetTokenDTO;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.oauth2.application.command.token.CreateAccessToken;
 import com.kakaotech.team14backend.oauth2.application.command.token.CreateRefreshToken;
@@ -14,10 +14,10 @@ public class CreateOrUpdateTokens {
   private final RefreshTokenRepository refreshTokenRepository;
   private final CreateAccessToken createAccessToken;
   private final CreateRefreshToken  createRefreshToken;
-  public TokenDTO execute(Member member) {
+  public SetTokenDTO execute(Member member) {
     refreshTokenRepository.deleteRefreshToken(member.getKakaoId());
     String accessToken = createAccessToken.execute(member);
     String refreshToken = createRefreshToken.execute(member);
-    return new TokenDTO(accessToken, refreshToken);
+    return new SetTokenDTO(accessToken, refreshToken);
   }
 }

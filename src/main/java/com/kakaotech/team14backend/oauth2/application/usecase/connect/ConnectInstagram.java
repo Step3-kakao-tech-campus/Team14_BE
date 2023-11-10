@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @Service
 @RequiredArgsConstructor
-public class ConnectService {
+public class ConnectInstagram {
   private final MemberRepository memberRepository;
   private final GetInstagramAccessToken getInstagramAccessToken;
   private final GetInstagramUserInfo getInstagramUserInfo;
   private final ChangeMemberRole changeMemberRole;
   private final ConnectSuccessHandler connectSuccessHandler;
 
-  public void connectInstagram(String kakaoId, GetInstagramCodeDTO instagramCodeDTO, HttpServletResponse response){
+  public void execute(String kakaoId, GetInstagramCodeDTO instagramCodeDTO, HttpServletResponse response){
     Member member = memberRepository.findByKakaoId(kakaoId);
     String instagramAccessToken =  getInstagramAccessToken.getAccessToken(instagramCodeDTO.getCode());
     String instagramId = getInstagramUserInfo.execute(instagramAccessToken);

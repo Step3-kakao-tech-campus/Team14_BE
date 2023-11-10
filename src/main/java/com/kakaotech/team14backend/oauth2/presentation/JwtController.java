@@ -5,7 +5,7 @@ import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.CookieUtils;
 import com.kakaotech.team14backend.oauth2.application.usecase.token.ReissueAccessTokenService;
-import com.kakaotech.team14backend.oauth2.dto.ReissueDTO;
+import com.kakaotech.team14backend.oauth2.dto.SetReissueDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +24,10 @@ public class JwtController {
   @PostMapping("/api/reissue")
   public ApiResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String refreshToken = CookieUtils.getCookieValue(request, "RefreshToken");
-    ReissueDTO reissueDTO = reissueAccessToken.execute(refreshToken);
+    SetReissueDTO setReissueDTO = reissueAccessToken.execute(refreshToken);
     response.setContentType("application/json");
     // 새로운 액세스 토큰을 HTTP 헤더에 추가
-    response.addHeader("Authorization", reissueDTO.getAccessToken());
+    response.addHeader("Authorization", setReissueDTO.getAccessToken());
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 }

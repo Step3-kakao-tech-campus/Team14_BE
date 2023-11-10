@@ -3,7 +3,7 @@ package com.kakaotech.team14backend.oauth2.application.usecase.token;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.oauth2.dto.ReissueDTO;
+import com.kakaotech.team14backend.oauth2.dto.SetReissueDTO;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
@@ -20,7 +20,7 @@ public class ReissueAccessTokenService {
   private final CreateAccessToken createAccessToken;
   private final RefreshTokenRepository refreshTokenRepository;
   private final MemberRepository memberRepository;
-  public ReissueDTO execute(String refreshToken) {
+  public SetReissueDTO execute(String refreshToken) {
     if(refreshToken == null){
       throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
     }
@@ -35,7 +35,7 @@ public class ReissueAccessTokenService {
       }
       Member member = memberRepository.findByKakaoId(kakaoId);
       String newAccessToken = createAccessToken.execute(member);
-      return new ReissueDTO(newAccessToken);
+      return new SetReissueDTO(newAccessToken);
 
     } catch (TokenExpiredException | TokenValidationException ex) {
       throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
