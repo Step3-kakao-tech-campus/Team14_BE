@@ -1,17 +1,17 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.common.HashTagUtils;
+import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostInstaCount;
 import com.kakaotech.team14backend.post.domain.PostLikeCount;
-import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
-import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class CreatePost {
 
