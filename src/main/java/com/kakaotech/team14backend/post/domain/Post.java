@@ -90,10 +90,11 @@ public class Post {
   }
 
   public void mapppingPostInstaCount(PostInstaCount postInstaCount) {
+    postInstaCount.mappingPost(this);
     this.postInstaCount.add(postInstaCount);
   }
 
-  public static Post createPost(Member member, Image image, PostLikeCount postLikeCount,
+  public static Post createPost(Member member, Image image, PostLikeCount postLikeCount, PostInstaCount postInstaCount,
       String nickname,
       Boolean published,
       String hashtag) {
@@ -107,6 +108,7 @@ public class Post {
         .reportCount(0)
         .build();
     post.mappingPostLikeCount(postLikeCount);
+    post.mapppingPostInstaCount(postInstaCount);
     post.mappingMember(member);
     post.mappingImage(image);
     return post;

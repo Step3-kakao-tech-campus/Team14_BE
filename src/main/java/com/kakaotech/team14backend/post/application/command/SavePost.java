@@ -19,17 +19,12 @@ public class SavePost {
 
   @Transactional
   public Post execute(CreatePostDTO createPostDTO) {
-    String attachedHashTag = HashTagUtils.attachHashTags(
-        createPostDTO.uploadPostRequestDTO().getHashTags());
+    String attachedHashTag = HashTagUtils.attachHashTags(createPostDTO.uploadPostRequestDTO().getHashTags());
     PostLikeCount postLikeCount = PostLikeCount.createPostLikeCount();
     PostInstaCount postInstaCount = PostInstaCount.createPostInstaCount(createPostDTO.member());
-
-    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,
+    Post post = Post.createPost(createPostDTO.member(), createPostDTO.image(), postLikeCount,postInstaCount,
         createPostDTO.uploadPostRequestDTO().getNickname(), true, attachedHashTag);
     post = postRepository.save(post);
-
-    postInstaCount.mappingPost(post);
-    post.mapppingPostInstaCount(postInstaCount);
     return post;
   }
 
