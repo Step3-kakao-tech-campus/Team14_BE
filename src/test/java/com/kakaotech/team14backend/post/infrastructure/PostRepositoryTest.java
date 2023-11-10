@@ -1,7 +1,6 @@
-package com.kakaotech.team14backend.inner.post.repository;
+package com.kakaotech.team14backend.post.infrastructure;
 
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
-import com.kakaotech.team14backend.post.infrastructure.PostRepository;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

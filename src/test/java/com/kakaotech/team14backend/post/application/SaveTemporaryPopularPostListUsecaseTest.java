@@ -1,7 +1,7 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.post.application.SavePopularPosts;
+import com.kakaotech.team14backend.post.application.command.SavePopularPosts;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.AfterEach;

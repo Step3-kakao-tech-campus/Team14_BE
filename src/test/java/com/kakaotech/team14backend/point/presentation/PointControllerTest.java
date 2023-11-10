@@ -1,8 +1,8 @@
-package com.kakaotech.team14backend.outer.controller;
+package com.kakaotech.team14backend.point.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
-import com.kakaotech.team14backend.post.application.SavePopularPosts;
+import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.post.application.command.SavePopularPosts;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Sql("classpath:db/testSetup.sql")
 @AutoConfigureMockMvc
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @EnabledIf(value = "#{environment.getActiveProfiles()[0] == 'local'}", loadContext = true)
 class PointControllerTest {
@@ -116,5 +115,34 @@ class PointControllerTest {
   }
 
 
+//  @DisplayName("회원1이 포인트를 사용하여 회원2의 게시판298를 구매하였으나 돈이 부족한 경우 - 정상 파라미터")
+//  @Test
+//  @WithUserDetails("kakao1")
+//  void usePopularPost_noPoint_Test() throws Exception {
+//
+//    saveTemporaryPopularPostListUsecase.execute();
+//
+//    UsePointByPopularPostRequestDTO requestDTO = new UsePointByPopularPostRequestDTO(296L, 3);
+//
+//
+//    ObjectMapper objectMapper = new ObjectMapper();
+//    String requestBody = objectMapper.writeValueAsString(requestDTO);
+//
+//
+//    MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/api/point/popular-post")
+//        .content(requestBody)
+//        .contentType(MediaType.APPLICATION_JSON);
+//
+//    ResultActions resultActions = mockMvc.perform(mockHttpServletRequestBuilder);
+//
+//    String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+//
+//    System.out.println("usePopularPost_Test : " + responseBody);
+//
+//
+//    resultActions.andExpect(status().is5xxServerError());
+//    resultActions.andExpect(jsonPath("$.success").value(false));
+//    resultActions.andExpect(jsonPath("$.response").doesNotExist());
+//  }
+//
 }
-

@@ -1,12 +1,9 @@
-package com.kakaotech.team14backend.inner.member.domain;
+package com.kakaotech.team14backend.member.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.member.domain.Role;
-import com.kakaotech.team14backend.member.domain.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MemberTest {
 

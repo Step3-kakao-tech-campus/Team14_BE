@@ -1,19 +1,19 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
+import com.kakaotech.team14backend.image.domain.Image;
+import com.kakaotech.team14backend.image.infrastructure.ImageRepository;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.post.application.command.SavePostViewCount;
+import com.kakaotech.team14backend.post.application.command.SchedulePostViewCount;
+import com.kakaotech.team14backend.post.application.command.UpdatePostViewCount;
+import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostInstaCount;
 import com.kakaotech.team14backend.post.domain.PostLikeCount;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.post.application.SavePostViewCount;
-import com.kakaotech.team14backend.post.application.SchedulePostViewCount;
-import com.kakaotech.team14backend.post.application.UpdatePostViewCount;
-import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

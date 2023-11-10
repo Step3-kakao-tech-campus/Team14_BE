@@ -1,6 +1,5 @@
-package com.kakaotech.team14backend.inner.post.model;
-import com.kakaotech.team14backend.post.domain.PostRandomFetcher;
-import com.kakaotech.team14backend.post.domain.RandomIndexes;
+package com.kakaotech.team14backend.post.domain;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

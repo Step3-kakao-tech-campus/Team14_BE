@@ -1,9 +1,9 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
-import com.kakaotech.team14backend.post.application.GetPopularPostPoint;
-import com.kakaotech.team14backend.post.application.SavePopularPosts;
+import com.kakaotech.team14backend.point.domain.UsePointDecider;
+import com.kakaotech.team14backend.post.application.command.FindPopularPostPoint;
+import com.kakaotech.team14backend.post.application.command.SavePopularPosts;
+import com.kakaotech.team14backend.post.dto.PostLevelPoint;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 class GetPopularPostPointUsecaseTest {
 
   @Autowired
-  private GetPopularPostPoint getPopularPostPointUsecase;
+  private FindPopularPostPoint getPopularPostPointUsecase;
 
   @Autowired
   private SavePopularPosts saveTemporaryPopularPostListUsecase;
