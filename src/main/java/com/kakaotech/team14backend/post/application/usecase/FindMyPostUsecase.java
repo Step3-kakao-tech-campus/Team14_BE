@@ -7,10 +7,10 @@ import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FindMyPostUsecase {
