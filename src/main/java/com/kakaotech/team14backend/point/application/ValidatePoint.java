@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class ValidatePointByPopularPostUsecase {
+public class ValidatePoint {
 
   private final RedisTemplate redisTemplate;
 
