@@ -47,11 +47,6 @@ public class PostInstaCount {
   @UpdateTimestamp
   private LocalDateTime modifiedAt; // 수정일
 
-
-  public void updateInstaCount(Long instaCount) {
-    this.instaCount = instaCount;
-  }
-
   public static PostInstaCount createPostInstaCount(Member member) {
 
     return PostInstaCount.builder().instaCount(0L).member(member).build();
@@ -65,10 +60,6 @@ public class PostInstaCount {
 
   public void updatePostInstaCount(Long instaCount) {
     this.instaCount = instaCount;
-  }
-
-  public void mappingMember(Member member) {
-    this.member = member;
   }
 
   public void mappingPost(Post post) {
