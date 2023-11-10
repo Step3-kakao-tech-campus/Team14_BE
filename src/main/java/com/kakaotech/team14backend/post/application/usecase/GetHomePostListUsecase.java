@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.application.usecase;
 
-import com.kakaotech.team14backend.post.application.command.FindAuthPostListUsecase;
-import com.kakaotech.team14backend.post.application.command.FindNonAuthPostListUsecase;
+import com.kakaotech.team14backend.post.application.command.FindAuthPostListCommand;
+import com.kakaotech.team14backend.post.application.command.FindNonAuthPostListCommand;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetHomePostListUsecase {
 
-  private final FindNonAuthPostListUsecase findNonAuthPostListUsecase;
-  private final FindAuthPostListUsecase findAuthPostListUsecase;
+  private final FindNonAuthPostListCommand findNonAuthPostListCommand;
+  private final FindAuthPostListCommand findAuthPostListCommand;
 
   public GetHomePostListResponseDTO excute(Long lastPostId, int size,
       Long memberId) {
     if (memberId == null) {
-      return findNonAuthPostListUsecase.execute(lastPostId, size, memberId);
+      return findNonAuthPostListCommand.execute(lastPostId, size, memberId);
     }
-    return findAuthPostListUsecase.execute(lastPostId, size, memberId);
+    return findAuthPostListCommand.execute(lastPostId, size, memberId);
   }
 
 }
