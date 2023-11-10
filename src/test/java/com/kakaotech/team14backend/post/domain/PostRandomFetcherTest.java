@@ -10,30 +10,8 @@ import java.util.Map;
 class PostRandomFetcherTest {
 
   @Test
-  @DisplayName("limitSize가 31이고, 요구하는 게시글의 개수가 limitSize보다 작을 때, level1, level2, level3에 대한 랜덤 인덱스는 각각 3,3,4개가 나와야 한다.")
+  @DisplayName("limitSize가 30이상이고, 요구하는 게시글의 개수가 limitSize보다 작을 때, level1, level2, level3에 대한 랜덤 인덱스는 각각 3,3,4개가 나와야 한다.")
   void fetchRandomIndexesForAllLevels() {
-    Map<Integer, Integer> levelSize = new LinkedHashMap<>();
-    levelSize.put(3, 4);
-    levelSize.put(2, 3);
-    levelSize.put(1, 3);
-
-    int limitSize = 31;
-
-    PostRandomFetcher postRandomFetcher = createPostRandomFetcher(levelSize, limitSize);
-    Map<Integer, RandomIndexes> integerListMap = postRandomFetcher.getLevelIndexes().levelIndexes();
-
-    for(Map.Entry<Integer, RandomIndexes> entry : integerListMap.entrySet()){
-      System.out.println("key : " + entry.getKey() + " value : " + entry.getValue().getIndexes());
-    }
-
-    Assertions.assertEquals(4, integerListMap.get(3).getIndexes().size());
-    Assertions.assertEquals(3, integerListMap.get(2).getIndexes().size());
-    Assertions.assertEquals(3, integerListMap.get(1).getIndexes().size());
-  }
-
-  @Test
-  @DisplayName("limitSize가 30이상일 경우")
-  void fetchRandomIndexesForAllLevels_over_30() {
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, 4);
     levelSize.put(2, 3);
