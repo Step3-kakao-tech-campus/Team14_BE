@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
+import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.application.FindMemberService;

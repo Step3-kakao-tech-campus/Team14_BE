@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.service;
 
 import com.kakaotech.team14backend.post.domain.PostLike;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;

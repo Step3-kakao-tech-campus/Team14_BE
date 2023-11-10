@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.post.application.FindLikeStatusService;
+import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;

@@ -1,7 +1,8 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.service;
 
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import java.util.ArrayList;
@@ -26,10 +27,9 @@ public class FindAuthPostListUsecase {
   private static final int PAGE_OFFSET = 1;
 
   public GetHomePostListResponseDTO execute(Long lastPostId, int size, Long memberId) {
-
     FetchResult postList = fetchPosts(lastPostId, size);
-
     List<SetAuthenticatedHomePostDTO> postDTOs = mapToDTOs(postList.getPosts(), memberId);
+
     return new GetHomePostListResponseDTO(postList.nextLastPostId,
         PostMapper.fromAuthenticatedHomePostList(postDTOs), postList.hasNext);
   }
