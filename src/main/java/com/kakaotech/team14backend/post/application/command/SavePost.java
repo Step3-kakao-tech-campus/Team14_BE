@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class SavePost {
 
-  //우리가 알던 서비스
   private final PostRepository postRepository;
 
   @Transactional
