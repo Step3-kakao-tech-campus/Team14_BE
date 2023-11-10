@@ -1,5 +1,6 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.usecase;
 
+import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
