@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.post.application.command.FindPopularPost;
-import com.kakaotech.team14backend.post.application.command.FindPopularPostPoint;
+import com.kakaotech.team14backend.post.application.command.FindPostLevelAndPoint;
 import com.kakaotech.team14backend.post.application.command.SavePostViewCount;
 import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPostDTO;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetPopularPost {
 
   private final SavePostViewCount savePostViewCount;
-  private final FindPopularPostPoint findPopularPostPoint;
+  private final FindPostLevelAndPoint findPopularPostPoint;
   private final FindPopularPost findPopularPost;
 
   /**

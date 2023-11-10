@@ -85,7 +85,7 @@ public class PostController {
     validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.excute(lastPostId,
+    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.execute(lastPostId,
         size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -145,21 +145,26 @@ public class PostController {
   public ApiResponse<ApiResponse.CustomBody<GetPopularPostListResponseDTO>> getPopularPostList(
       @RequestParam Integer level3, @RequestParam Integer level2, @RequestParam Integer level1) {
 
-    if (level1 >= 10 || level2 >= 10 || level3 >= 10) {
-      throw new MaxLevelSizeException();
-    }
+    validateLevels(level3, level2, level1);
+    GetPopularPostListRequestDTO getPopularPostListRequestDTO = getGetPopularPostListRequestDTO(level3, level2, level1);
+    GetPopularPostListResponseDTO popularPostList = getPopularPosts.execute(getPopularPostListRequestDTO);
+    return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
+  }
+
+  private GetPopularPostListRequestDTO getGetPopularPostListRequestDTO(Integer level3, Integer level2, Integer level1) {
 
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, level3);
     levelSize.put(2, level2);
     levelSize.put(1, level1);
+    GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(levelSize);
+    return getPopularPostListRequestDTO;
+  }
 
-    GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
-        levelSize);
-
-    GetPopularPostListResponseDTO popularPostList = getPopularPosts.execute(
-        getPopularPostListRequestDTO);
-    return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
+  private void validateLevels(Integer level3, Integer level2, Integer level1) {
+    if (level1 >= 10 || level2 >= 10 || level3 >= 10) {
+      throw new MaxLevelSizeException();
+    }
   }
 
   @ApiOperation(value = "게시물 좋아요(추천 수)", notes = "게시물 좋아요를 누른다, 1인당 1개의 게시물에 1번만 좋아요를 누를 수 있다")

@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.point.domain.UsePointDecider;
+import com.kakaotech.team14backend.point.domain.LevelToPointMapper;
 import com.kakaotech.team14backend.post.domain.PostLevel;
 import com.kakaotech.team14backend.post.dto.PostLevelPoint;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FindPopularPostPoint {
+public class FindPostLevelAndPoint {
 
   private final RedisTemplate redisTemplate;
 
@@ -32,7 +32,7 @@ public class FindPopularPostPoint {
   }
 
   private static Long getPostPoint(Integer postLevel) {
-    return UsePointDecider.getPoint(postLevel);
+    return LevelToPointMapper.getPoint(postLevel);
   }
 
 }

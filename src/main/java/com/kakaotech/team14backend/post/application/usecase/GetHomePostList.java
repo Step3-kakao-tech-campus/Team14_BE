@@ -13,8 +13,8 @@ public class GetHomePostList {
   private final FindNonAuthPostList findNonAuthPostListCommand;
   private final FindAuthPostList findAuthPostListCommand;
 
-  public GetHomePostListResponseDTO excute(Long lastPostId, int size,
-      Long memberId) {
+  public GetHomePostListResponseDTO execute(Long lastPostId, int size,
+                                            Long memberId) {
     if (memberId == null) {
       return findNonAuthPostListCommand.execute(lastPostId, size, memberId);
     }

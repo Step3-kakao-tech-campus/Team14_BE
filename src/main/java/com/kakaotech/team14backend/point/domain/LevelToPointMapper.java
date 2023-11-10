@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.point.domain;
 
 import com.kakaotech.team14backend.post.exception.PostLevelOutOfRangeException;
 
-public class UsePointDecider {
+public class LevelToPointMapper {
   public static final long LEVEL1_POINT = 200L;
   public static final long LEVEL2_POINT = 300L;
   public static final long LEVEL3_POINT = 400L;
