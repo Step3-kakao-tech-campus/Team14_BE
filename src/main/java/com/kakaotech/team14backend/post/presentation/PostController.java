@@ -22,7 +22,7 @@ import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
-import com.kakaotech.team14backend.post.application.GetHomePostListUsecase;
+import com.kakaotech.team14backend.post.application.usecase.GetHomePostListUsecase;
 import com.kakaotech.team14backend.post.application.GetHomePostUsecase;
 import com.kakaotech.team14backend.post.application.GetMyPostUsecase;
 import com.kakaotech.team14backend.post.application.SetPostLikeUsecase;

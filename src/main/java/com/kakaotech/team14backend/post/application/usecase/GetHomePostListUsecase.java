@@ -1,6 +1,6 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.usecase;
 
-import com.kakaotech.team14backend.post.application.FindNonAuthPostListUsecase;
+import com.kakaotech.team14backend.post.application.service.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.post.application.FindAuthPostListUsecase;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import lombok.RequiredArgsConstructor;
