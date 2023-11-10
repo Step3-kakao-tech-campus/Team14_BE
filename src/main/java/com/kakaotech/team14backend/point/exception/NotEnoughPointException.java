@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.exception;
+package com.kakaotech.team14backend.point.exception;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import lombok.Getter;
