@@ -4,14 +4,13 @@ import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.dto.GetPersonalPostListResponseDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
