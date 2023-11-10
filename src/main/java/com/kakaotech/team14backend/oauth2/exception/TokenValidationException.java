@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.jwt;
+package com.kakaotech.team14backend.oauth2.exception;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import lombok.Getter;
