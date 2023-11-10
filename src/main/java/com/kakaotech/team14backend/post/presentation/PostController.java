@@ -9,7 +9,7 @@ import com.kakaotech.team14backend.exception.LastPostIdParameterException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.post.application.UserPostListFinder;
+import com.kakaotech.team14backend.post.application.usecase.UserPostListFinder;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;

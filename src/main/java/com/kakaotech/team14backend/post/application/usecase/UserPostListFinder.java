@@ -1,6 +1,7 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
+import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import java.util.List;
