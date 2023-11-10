@@ -1,9 +1,9 @@
-package com.kakaotech.team14backend.oauth2.application.usecase;
+package com.kakaotech.team14backend.oauth2.application.usecase.login;
 
-import com.kakaotech.team14backend.oauth2.application.command.AuthenticationSuccessHandler;
-import com.kakaotech.team14backend.oauth2.application.command.CreateKakaoUser;
-import com.kakaotech.team14backend.oauth2.application.command.GetKakaoAccessToken;
-import com.kakaotech.team14backend.oauth2.application.command.GetKakaoUserInfo;
+import com.kakaotech.team14backend.oauth2.application.command.login.AuthenticationSuccessHandler;
+import com.kakaotech.team14backend.oauth2.application.command.login.CreateKakaoUser;
+import com.kakaotech.team14backend.oauth2.application.command.login.GetKakaoAccessToken;
+import com.kakaotech.team14backend.oauth2.application.command.login.GetKakaoUserInfo;
 import com.kakaotech.team14backend.oauth2.dto.GetKakaoCodeDTO;
 import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
 import lombok.RequiredArgsConstructor;

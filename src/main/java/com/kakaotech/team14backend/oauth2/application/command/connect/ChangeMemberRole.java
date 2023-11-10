@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.connect;
 
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;

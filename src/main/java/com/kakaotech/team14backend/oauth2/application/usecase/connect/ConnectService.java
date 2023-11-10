@@ -1,11 +1,11 @@
-package com.kakaotech.team14backend.oauth2.application.usecase;
+package com.kakaotech.team14backend.oauth2.application.usecase.connect;
 
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
-import com.kakaotech.team14backend.oauth2.application.command.ChangeMemberRole;
-import com.kakaotech.team14backend.oauth2.application.command.ConnectSuccessHandler;
-import com.kakaotech.team14backend.oauth2.application.command.GetInstagramAccessToken;
-import com.kakaotech.team14backend.oauth2.application.command.GetInstagramUserInfo;
+import com.kakaotech.team14backend.oauth2.application.command.connect.ChangeMemberRole;
+import com.kakaotech.team14backend.oauth2.application.command.connect.ConnectSuccessHandler;
+import com.kakaotech.team14backend.oauth2.application.command.connect.GetInstagramAccessToken;
+import com.kakaotech.team14backend.oauth2.application.command.connect.GetInstagramUserInfo;
 import com.kakaotech.team14backend.oauth2.dto.GetInstagramCodeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

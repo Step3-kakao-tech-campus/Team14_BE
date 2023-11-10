@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.filter;
+package com.kakaotech.team14backend._core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaotech.team14backend.common.ApiResponse;

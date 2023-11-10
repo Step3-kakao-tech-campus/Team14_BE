@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -18,8 +18,12 @@ public class CreateRefreshToken {
   private Long accessEXP;
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private Long refreshEXP;
-  @Value("${jwt.secret}")
   private static String SECRET;
+
+  @Value("${jwt.secret}")
+  public void setSecret(String secret) {
+    SECRET = secret;
+  }
   private final RefreshTokenRepository refreshTokenRepository;
   public String execute(Member member) {
     String jwt = JWT.create()

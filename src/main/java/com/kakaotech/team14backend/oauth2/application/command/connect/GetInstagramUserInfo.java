@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.connect;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

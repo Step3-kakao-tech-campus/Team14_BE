@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.token;
 
 import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
 import lombok.RequiredArgsConstructor;

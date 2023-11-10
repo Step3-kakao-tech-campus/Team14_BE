@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.login;
 
 import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;

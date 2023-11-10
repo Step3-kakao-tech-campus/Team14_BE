@@ -1,16 +1,14 @@
-package com.kakaotech.team14backend.jwt;
+package com.kakaotech.team14backend._core;
 
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.kakaotech.team14backend.auth.PrincipalDetails;
-import com.kakaotech.team14backend.filter.FilterResponseUtils;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
-import com.kakaotech.team14backend.jwt.service.TokenService;
-import com.kakaotech.team14backend.oauth2.application.command.VerifyToken;
+import com.kakaotech.team14backend.oauth2.application.command.token.VerifyToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

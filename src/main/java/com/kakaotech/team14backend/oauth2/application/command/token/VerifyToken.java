@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,8 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class VerifyToken {
-  @Value("${jwt.secret}")
   private static String SECRET;
+
+  @Value("${jwt.secret}")
+  public void setSecret(String secret) {
+    SECRET = secret;
+  }
   public static String TOKEN_PREFIX = "Bearer ";
   public static String HEADER = "Authorization";
 

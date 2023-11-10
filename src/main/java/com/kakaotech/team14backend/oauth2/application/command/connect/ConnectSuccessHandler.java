@@ -1,7 +1,8 @@
-package com.kakaotech.team14backend.oauth2.application.command;
+package com.kakaotech.team14backend.oauth2.application.command.connect;
 
+import com.kakaotech.team14backend.oauth2.application.command.token.SetRefreshTokenCookie;
 import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
-import com.kakaotech.team14backend.oauth2.application.usecase.CreateOrUpdateTokens;
+import com.kakaotech.team14backend.oauth2.application.usecase.token.CreateOrUpdateTokens;
 import com.kakaotech.team14backend.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

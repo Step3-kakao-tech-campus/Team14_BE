@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.auth;
+package com.kakaotech.team14backend.oauth2.domain;
 
 
 import com.kakaotech.team14backend.member.domain.Member;

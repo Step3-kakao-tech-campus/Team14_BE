@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.oauth2.application.usecase;
+package com.kakaotech.team14backend.oauth2.application.usecase.token;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -8,8 +8,8 @@ import com.kakaotech.team14backend.oauth2.dto.ReissueDTO;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
-import com.kakaotech.team14backend.oauth2.application.command.CreateAccessToken;
-import com.kakaotech.team14backend.oauth2.application.command.VerifyToken;
+import com.kakaotech.team14backend.oauth2.application.command.token.CreateAccessToken;
+import com.kakaotech.team14backend.oauth2.application.command.token.VerifyToken;
 import com.kakaotech.team14backend.oauth2.infrastructure.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

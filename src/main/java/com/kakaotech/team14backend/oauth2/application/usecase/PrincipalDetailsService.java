@@ -1,7 +1,8 @@
-package com.kakaotech.team14backend.auth;
+package com.kakaotech.team14backend.oauth2.application.usecase;
 
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,9 +1,9 @@
-package com.kakaotech.team14backend.oauth2.application.usecase;
+package com.kakaotech.team14backend.oauth2.application.usecase.token;
 
 import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.oauth2.application.command.CreateAccessToken;
-import com.kakaotech.team14backend.oauth2.application.command.CreateRefreshToken;
+import com.kakaotech.team14backend.oauth2.application.command.token.CreateAccessToken;
+import com.kakaotech.team14backend.oauth2.application.command.token.CreateRefreshToken;
 import com.kakaotech.team14backend.oauth2.infrastructure.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
