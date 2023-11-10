@@ -32,7 +32,7 @@ class PostRandomFetcherTest {
   }
 
   @Test
-  @DisplayName("limitSize가 30보다 크고, 요구하는 총 개수가 최대치일 때")
+  @DisplayName("limitSize가 30보다 크고, 요구하는 게시글의 개수가 최대치이고, limitSize보다 작을 때, level1, level2, level3에 대한 랜덤 인덱스는 각각 9,9,9개가 나와야 한다.")
   void fetchRandomIndexesForAllLevels_max_size() {
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
 
