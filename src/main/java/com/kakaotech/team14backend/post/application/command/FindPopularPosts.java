@@ -68,9 +68,4 @@ public class FindPopularPosts{
     return redisTemplate.opsForZSet().reverseRank(RedisKey.POPULAR_POST_KEY.getKey(), index);
   }
 
-  private Post getPost(Optional<Post> optionalPost) {
-    return optionalPost.get();
-  }
-
-
 }
