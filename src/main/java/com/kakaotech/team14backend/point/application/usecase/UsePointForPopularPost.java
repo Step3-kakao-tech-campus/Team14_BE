@@ -23,19 +23,16 @@ public class UsePointForPopularPost {
   private final PostRepository postRepository;
   private final SetPostInstaCount setPostInstaUsecase;
 
-  public String usePointByPopularPost(
-      UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
-
+  public String execute(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
     validatePoint.execute(usePointByPopularPostRequestDTO);
-    Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId())
-        .orElseThrow(() -> new PostNotFoundException());
-    Member receiver = post.getMember();
-    Long point = UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
+    Post post = postRepository.findById(usePointByPopularPostRequestDTO.postId()).orElseThrow(() -> new PostNotFoundException());
+    usePoint.execute(senderId, post.getMember().getMemberId(), getPoint(usePointByPopularPostRequestDTO));
+    setPostInstaUsecase.execute(post.getPostId(), post.getMember().getMemberId());
+    return post.getMember().getInstaId();
+  }
 
-    usePoint.execute(senderId, receiver.getMemberId(), point);
-
-    setPostInstaUsecase.execute(post.getPostId(), receiver.getMemberId());
-    return receiver.getInstaId();
+  private static Long getPoint(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
+    return UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
   }
 
 }

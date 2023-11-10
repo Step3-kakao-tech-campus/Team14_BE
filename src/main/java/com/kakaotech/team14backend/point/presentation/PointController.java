@@ -45,7 +45,7 @@ public class PointController {
     validatePrincipalDetails(principalDetails);
 
     Long senderId = principalDetails.getMember().getMemberId();
-    String instaId = pointService.usePointByPopularPost(usePointByPopularPostRequestDTO, senderId);
+    String instaId = pointService.execute(usePointByPopularPostRequestDTO, senderId);
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
 
