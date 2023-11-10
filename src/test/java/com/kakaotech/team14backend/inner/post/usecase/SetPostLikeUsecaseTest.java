@@ -1,10 +1,10 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.model.Role;
-import com.kakaotech.team14backend.inner.member.model.Status;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.member.service.FindMemberService;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.domain.Role;
+import com.kakaotech.team14backend.member.domain.Status;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.member.application.FindMemberService;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;

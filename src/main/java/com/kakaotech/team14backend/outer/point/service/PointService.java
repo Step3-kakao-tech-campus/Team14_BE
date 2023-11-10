@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.outer.point.service;
 
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.point.usecase.ValidatePointByPopularPostUsecase;

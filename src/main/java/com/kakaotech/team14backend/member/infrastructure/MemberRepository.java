@@ -1,6 +1,6 @@
-package com.kakaotech.team14backend.inner.member.repository;
+package com.kakaotech.team14backend.member.infrastructure;
 
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {

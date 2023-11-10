@@ -1,9 +1,9 @@
-package com.kakaotech.team14backend.outer.member.service;
+package com.kakaotech.team14backend.member.application;
 
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.model.Role;
-import com.kakaotech.team14backend.inner.member.model.Status;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.domain.Role;
+import com.kakaotech.team14backend.member.domain.Status;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;

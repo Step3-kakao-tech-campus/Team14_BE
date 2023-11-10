@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.auth;
 
 
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.outer.member.dto;
+package com.kakaotech.team14backend.member.dto;
 
 public record GetMemberInfoResponseDTO(
     Long id,

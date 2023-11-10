@@ -2,7 +2,7 @@ package com.kakaotech.team14backend.inner.post.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;

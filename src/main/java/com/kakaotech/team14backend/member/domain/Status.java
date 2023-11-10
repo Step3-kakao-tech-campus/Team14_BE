@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.member.model;
+package com.kakaotech.team14backend.member.domain;
 
 public enum Status {
   STATUS_ACTIVE("STATUS_ACTIVE"),

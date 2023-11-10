@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.member.repository;
+package com.kakaotech.team14backend.inner.member.infrastructure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,9 +7,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.model.Role;
-import com.kakaotech.team14backend.inner.member.model.Status;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.domain.Role;
+import com.kakaotech.team14backend.member.domain.Status;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

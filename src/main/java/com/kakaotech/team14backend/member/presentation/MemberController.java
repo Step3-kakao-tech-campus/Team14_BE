@@ -1,13 +1,13 @@
-package com.kakaotech.team14backend.outer.member.controller;
+package com.kakaotech.team14backend.member.presentation;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.inner.member.usecase.FindMemberInfoUsecase;
-import com.kakaotech.team14backend.outer.member.dto.GetMemberInfoResponseDTO;
-import com.kakaotech.team14backend.outer.member.service.MemberService;
+import com.kakaotech.team14backend.member.application.FindMemberInfoUsecase;
+import com.kakaotech.team14backend.member.dto.GetMemberInfoResponseDTO;
+import com.kakaotech.team14backend.member.application.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
