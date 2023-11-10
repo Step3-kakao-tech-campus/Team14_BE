@@ -16,7 +16,7 @@ public class GetHomePostListUsecase {
   public GetHomePostListResponseDTO excute(Long lastPostId, int size,
       Long memberId) {
     if (memberId == null) {
-      return findNonAuthPostListUsecase.execute(lastPostId, size);
+      return findNonAuthPostListUsecase.execute(lastPostId, size, memberId);
     }
     return findAuthPostListUsecase.execute(lastPostId, size, memberId);
   }
