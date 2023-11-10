@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application.service;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FindAuthPostListUsecase {
 
   private final PostRepository postRepository;
-  private final FindLikeStatusService findLikeStatusService;
+  private final FindLikeStatusCommand findLikeStatusService;
 
   private static final int PAGE_MULTIPLIER = 2;
   private static final int PAGE_OFFSET = 1;

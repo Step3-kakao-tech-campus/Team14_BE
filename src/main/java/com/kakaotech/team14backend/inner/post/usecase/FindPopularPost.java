@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
+import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
@@ -20,7 +20,7 @@ public class FindPopularPost {
 
   private final PostRepository postRepository;
   private final PostLikeRepository postLikeRepository;
-  private final FindLikeStatusService findLikeStatusService;
+  private final FindLikeStatusCommand findLikeStatusService;
   /**
    * Redis에 해당 popularPost가 있다면 Redis에서 가져오고, 존재하지 않는다면 DB에서 가져온 후 Redis에 반영한다.
    *

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application.service;
+package com.kakaotech.team14backend.post.application.command;
 
 
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;

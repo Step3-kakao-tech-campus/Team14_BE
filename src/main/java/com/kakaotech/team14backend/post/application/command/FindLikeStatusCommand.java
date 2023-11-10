@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application.service;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.post.domain.PostLike;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class FindLikeStatusService {
+public class FindLikeStatusCommand {
 
   private final PostLikeRepository postLikeRepository;
 

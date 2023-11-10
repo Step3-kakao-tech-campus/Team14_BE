@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
+import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.application.FindMemberService;
@@ -23,7 +23,7 @@ public class SetPostLikeService {
   private final PostRepository postRepository;
   private final FindMemberService findMemberService;
   private final GetPointUsecase getPointUsecase;
-  private final FindLikeStatusService findLikeStatusService;
+  private final FindLikeStatusCommand findLikeStatusService;
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
