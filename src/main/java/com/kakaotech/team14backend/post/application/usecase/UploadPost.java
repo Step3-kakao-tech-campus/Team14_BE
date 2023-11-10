@@ -8,10 +8,10 @@ import com.kakaotech.team14backend.post.application.command.SavePost;
 import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.dto.UploadPostDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UploadPost {

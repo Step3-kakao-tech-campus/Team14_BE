@@ -7,11 +7,10 @@ import com.kakaotech.team14backend.post.domain.PostLikeCount;
 import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class SavePost {
 
