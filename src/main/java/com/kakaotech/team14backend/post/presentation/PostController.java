@@ -1,20 +1,20 @@
 package com.kakaotech.team14backend.post.presentation;
 
-import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.post.application.usecase.GetMyPost;
-import com.kakaotech.team14backend.post.application.usecase.GetPostUsecase;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.post.application.usecase.GetHomePostList;
+import com.kakaotech.team14backend.post.application.usecase.GetMyPost;
+import com.kakaotech.team14backend.post.application.usecase.GetMyPostList;
 import com.kakaotech.team14backend.post.application.usecase.GetPopularPost;
 import com.kakaotech.team14backend.post.application.usecase.GetPopularPosts;
+import com.kakaotech.team14backend.post.application.usecase.GetPostUsecase;
 import com.kakaotech.team14backend.post.application.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.post.application.usecase.UploadPost;
-import com.kakaotech.team14backend.post.application.usecase.GetMyPostList;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPersonalPostListResponseDTO;
@@ -52,12 +52,12 @@ public class PostController {
 
   private final GetPopularPosts getPopularPosts;
   private final GetPopularPost getPopularPost;
-  private final GetMyPostList userPostListFinder;
-  private final GetHomePostList getHomePostListService;
+  private final GetMyPostList getMyPostList;
+  private final GetHomePostList getHomePostList;
   private final SetPostLikeUsecase setPostLikeUsecase;
   private final UploadPost uploadPost;
-  private final GetMyPost findMyPostUsecase;
-  private final GetPostUsecase findPostUsecase;
+  private final GetMyPost getMyPost;
+  private final GetPostUsecase getPostUsecase;
 
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
@@ -70,7 +70,7 @@ public class PostController {
     validatePrincipalDetails(principalDetails);
     validateParameters(size, lastPostId);
     Long memberId = principalDetails.getMemberId();
-    GetPersonalPostListResponseDTO getPostListResponseDTO = userPostListFinder.execute(
+    GetPersonalPostListResponseDTO getPostListResponseDTO = getMyPostList.execute(
         memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -85,7 +85,7 @@ public class PostController {
     validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.execute(lastPostId,
+    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostList.execute(lastPostId,
         size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -112,7 +112,7 @@ public class PostController {
     Long memberId = principalDetails.getMemberId();
 
     GetPostDTO getPostDTO = new GetPostDTO(postId, memberId);
-    GetMyPostResponseDTO getMyPostResponseDTO = findMyPostUsecase.execute(getPostDTO);
+    GetMyPostResponseDTO getMyPostResponseDTO = getMyPost.execute(getPostDTO);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
@@ -124,7 +124,7 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPostResponseDTO getPostResponseDTO = findPostUsecase.execute(getPostDTO);
+    GetPostResponseDTO getPostResponseDTO = getPostUsecase.execute(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
 
@@ -146,18 +146,22 @@ public class PostController {
       @RequestParam Integer level3, @RequestParam Integer level2, @RequestParam Integer level1) {
 
     validateLevels(level3, level2, level1);
-    GetPopularPostListRequestDTO getPopularPostListRequestDTO = getGetPopularPostListRequestDTO(level3, level2, level1);
-    GetPopularPostListResponseDTO popularPostList = getPopularPosts.execute(getPopularPostListRequestDTO);
+    GetPopularPostListRequestDTO getPopularPostListRequestDTO = getGetPopularPostListRequestDTO(
+        level3, level2, level1);
+    GetPopularPostListResponseDTO popularPostList = getPopularPosts.execute(
+        getPopularPostListRequestDTO);
     return ApiResponseGenerator.success(popularPostList, HttpStatus.OK);
   }
 
-  private GetPopularPostListRequestDTO getGetPopularPostListRequestDTO(Integer level3, Integer level2, Integer level1) {
+  private GetPopularPostListRequestDTO getGetPopularPostListRequestDTO(Integer level3,
+      Integer level2, Integer level1) {
 
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, level3);
     levelSize.put(2, level2);
     levelSize.put(1, level1);
-    GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(levelSize);
+    GetPopularPostListRequestDTO getPopularPostListRequestDTO = new GetPopularPostListRequestDTO(
+        levelSize);
     return getPopularPostListRequestDTO;
   }
 

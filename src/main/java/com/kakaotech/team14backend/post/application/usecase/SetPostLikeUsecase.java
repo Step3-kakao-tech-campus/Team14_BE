@@ -13,18 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SetPostLikeUsecase {
 
-  private final UpdatePostLike setPostLikeCommand;
-  private final UpdatePostLikeCount updatePostLikeCountUsecase;
+  private final UpdatePostLike updatePostLike;
+  private final UpdatePostLikeCount updatePostLikeCount;
 
   @Transactional
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
-    SetPostLikeResponseDTO isLiked = setPostLikeCommand.execute(setPostLikeDTO);
+    SetPostLikeResponseDTO isLiked = updatePostLike.execute(setPostLikeDTO);
 
     Long postId = setPostLikeDTO.postId();
     GetPostLikeCountDTO getPostLikeCountDTO = new GetPostLikeCountDTO(postId, isLiked.isLiked());
 
     // 좋아요 상태를 반환 할 때 카운트를 업데이트
-    updatePostLikeCountUsecase.execute(getPostLikeCountDTO);
+    updatePostLikeCount.execute(getPostLikeCountDTO);
     return isLiked;
   }
 }

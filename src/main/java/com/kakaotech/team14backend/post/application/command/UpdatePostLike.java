@@ -20,15 +20,15 @@ public class UpdatePostLike {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
-  private final FindMember findMemberService;
-  private final GetPoint getPointUsecase;
-  private final FindLikeStatus findLikeStatusCommand;
+  private final FindMember findMember;
+  private final GetPoint getPoint;
+  private final FindLikeStatus findLikeStatus;
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
     Long memberId = setPostLikeDTO.memberId();
 
-    Member member = findMemberService.execute(memberId);
+    Member member = findMember.execute(memberId);
 
     Post post = postRepository.findById(postId)
         .orElseThrow(PostNotFoundException::new);
@@ -45,11 +45,11 @@ public class UpdatePostLike {
 
   private PostLike newPostLike(final Member member, final Post post) {
 
-    boolean isLiked = findLikeStatusCommand.execute(member.getMemberId(), post.getPostId());
+    boolean isLiked = findLikeStatus.execute(member.getMemberId(), post.getPostId());
     if (isLiked) {
       return PostLike.createPostLike(member, post, false);
     } else {
-      getPointUsecase.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
+      getPoint.execute(member, GetPointPolicy.GET_20_WHEN_LIKE_UP);
       return PostLike.createPostLike(member, post, true);
     }
 

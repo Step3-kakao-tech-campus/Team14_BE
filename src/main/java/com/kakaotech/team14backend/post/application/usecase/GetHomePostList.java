@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetHomePostList {
 
-  private final FindNonAuthPostList findNonAuthPostListCommand;
-  private final FindAuthPostList findAuthPostListCommand;
+  private final FindNonAuthPostList findNonAuthPostList;
+  private final FindAuthPostList findAuthPostList;
 
   public GetHomePostListResponseDTO execute(Long lastPostId, int size,
                                             Long memberId) {
     if (memberId == null) {
-      return findNonAuthPostListCommand.execute(lastPostId, size, memberId);
+      return findNonAuthPostList.execute(lastPostId, size, memberId);
     }
-    return findAuthPostListCommand.execute(lastPostId, size, memberId);
+    return findAuthPostList.execute(lastPostId, size, memberId);
   }
 
 }

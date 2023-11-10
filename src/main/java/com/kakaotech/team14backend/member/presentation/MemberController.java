@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MemberController {
 
-  private final FindMemberInfoUsecase findMemberInfoUscase;
+  private final FindMemberInfoUsecase findMemberInfoUsecase;
   private final DeleteMember deleteMember;
 
   @ApiOperation(value = "마이페이지 계정 상세 조회")
@@ -32,7 +32,7 @@ public class MemberController {
     validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
-    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUscase.execute(memberId);
+    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUsecase.execute(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
 

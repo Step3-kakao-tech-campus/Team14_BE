@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MakeUserActive {
 
 
-  private final FindMember findMemberService;
+  private final FindMember findMember;
 
   @Transactional
   public void execute(Long memberId) {
-    Member member = findMemberService.execute(memberId);
+    Member member = findMember.execute(memberId);
     member.makeUserActive();
   }
 }
