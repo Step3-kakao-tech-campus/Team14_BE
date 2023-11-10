@@ -21,8 +21,81 @@ spec:
           env:
             - name: TZ
               value: Asia/Seoul
-            - name: DATABASE_URL # DB 접속 정보 추가 필요, 현재는 H2 사용
+            - name: DATABASE_URL
               value: jdbc:mariadb://mariadb:3306/krampoline
+            - name: FRONTEND_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: FRONTEND_SERVER
+            - name: KAKAO_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: KAKAO_CLIENT_ID
+            - name: KAKAO_TOKEN_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: KAKAO_TOKEN_URI
+            - name: KAKAO_USER_INFO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: KAKAO_USER_INFO_URI
+            - name: INSTAGRAM_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: INSTAGRAM_CLIENT_ID
+            - name: INSTAGRAM_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: INSTAGRAM_CLIENT_SECRET
+            - name: INSTAGRAM_TOKEN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: INSTAGRAM_TOKEN_URL
+            - name: INSTAGRAM_USER_INFO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: INSTAGRAM_USER_INFO_URL
+            - name: JWT_HEADER
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: JWT_HEADER
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: JWT_SECRET
+            - name: JWT_ACCESS_TOKEN_VALIDITY_SECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: JWT_ACCESS_TOKEN_VALIDITY_SECONDS
+            - name: JWT_REFRESH_TOKEN_VALIDITY_SECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: JWT_REFRESH_TOKEN_VALIDITY_SECONDS
+            - name: FILE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: FILE_PATH
+            - name: URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sensitive-config
+                  key: URL
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config  # /path/to/config 디렉토리에 configMap의 데이터가 마운트됩니다.
           resources:
             requests:
               memory: 1Gi
@@ -30,6 +103,10 @@ spec:
             httpGet:
               path: /api/post
               port: 8080
+      volumes:
+        - name: config-volume
+          configMap:
+            name: sensitive-config
 ---
 apiVersion: v1
 kind: Service
