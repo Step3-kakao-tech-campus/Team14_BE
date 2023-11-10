@@ -23,16 +23,31 @@ VALUES (1L,NOW(), 'insta1', 'kakao1',
 -- Image Table
 INSERT INTO image (created_at, image_uri)
 VALUES (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg');
-
+       (NOW(), '/images/1일차.jpg'),
+       (NOW(), '/images/2.jpg'),
+       (NOW(), '/images/2조 단체 인생 네컷!.jpg'),
+       (NOW(), '/images/3.jpg'),
+       (NOW(), '/images/3조 화이팅.jpg'),
+       (NOW(), '/images/4.png'),
+       (NOW(), '/images/4조 인생네컷.jpg'),
+       (NOW(), '/images/5.jpg'),
+       (NOW(), '/images/6.jpg'),
+       (NOW(), '/images/9조.jpg'),
+       (NOW(), '/images/10조 마침내!! 즐겁다!! 재밋따!!.jpg'),
+       (NOW(), '/images/12조.png'),
+       (NOW(), '/images/13조 정수리에서 불나는중~.jpg'),
+       (NOW(), '/images/15조의 인생네컷.png'),
+       (NOW(), '/images/16조의 인생네컷.jpg'),
+       (NOW(), '/images/18조 퀴즈 화이팅 ...!!.jpg'),
+       (NOW(), '/images/귀염뽀짝 3조.jpg'),
+       (NOW(), '/images/멋쟁이 5조.jpg'),
+       (NOW(), '/images/세븐틴 최고.jpg'),
+       (NOW(), '/images/솔직히 우주 뿌실만큼 귀엽다 ㅇㅈ!.jpg'),
+       (NOW(), '/images/웨딩네컷.jpg'),
+       (NOW(), '/images/재밋다!즐겁다!인생네컷.jpg'),
+       (NOW(), '/images/조장님의 단독샷 ...jpg'),
+       (NOW(), '/images/주문하시겠어요 고갱님!.jpg'),
+       (NOW(), '/images/최강 에이스 존예존멋카리스마 일조 등장이시다~~~~~~.png');
 
 -- Using UNION ALL to generate numbers up to 280
 WITH RECURSIVE numbers(val) AS (SELECT 1
@@ -51,7 +66,7 @@ SELECT NOW(),
        CASE WHEN val % 2 = 0 THEN true ELSE false END,
        0,
        (val * 1000),
-       ((val % 10) + 1),
+       ((val % 25) + 1),
        ((val % 3) + 1),
        'hashtag' || ((val % 10) + 1) || ' ' || 'hashtag' || ((val % 10) + 2)
 FROM numbers;
