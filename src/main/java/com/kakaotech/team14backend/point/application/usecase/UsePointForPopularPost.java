@@ -31,7 +31,7 @@ public class UsePointForPopularPost {
   }
 
   private static Long getPoint(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
-    return UsePointDecider.decidePoint(usePointByPopularPostRequestDTO.postLevel());
+    return UsePointDecider.getPoint(usePointByPopularPostRequestDTO.postLevel());
   }
 
 }

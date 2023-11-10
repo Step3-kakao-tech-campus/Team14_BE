@@ -143,7 +143,7 @@ public class PostMapper {
 
 
   private static Long getPostPoint(int postLevel) {
-    return UsePointDecider.decidePoint(postLevel);
+    return UsePointDecider.getPoint(postLevel);
   }
 
   private static String formatDate(Instant createdAt) {

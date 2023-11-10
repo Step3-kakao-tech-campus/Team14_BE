@@ -32,7 +32,7 @@ public class FindPopularPostPoint {
   }
 
   private static Long getPostPoint(Integer postLevel) {
-    return UsePointDecider.decidePoint(postLevel);
+    return UsePointDecider.getPoint(postLevel);
   }
 
 }
