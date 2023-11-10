@@ -6,8 +6,8 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.oauth2.application.command.login.AuthenticationSuccessHandler;
-import com.kakaotech.team14backend.oauth2.application.usecase.login.LoginService;
-import com.kakaotech.team14backend.oauth2.application.usecase.LogoutService;
+import com.kakaotech.team14backend.oauth2.application.usecase.login.CreateOrLogin;
+import com.kakaotech.team14backend.oauth2.application.usecase.Logout;
 import com.kakaotech.team14backend.oauth2.dto.GetKakaoCodeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,15 +25,15 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginController {
 
-  private final LoginService loginService;
-  private final LogoutService logoutService;
+  private final CreateOrLogin createOrLogin;
+  private final Logout logout;
   private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
   @PostMapping("/api/login")
   @ResponseBody
   public ApiResponse<?> kakaoLogin(HttpServletResponse response,
                                    @RequestBody GetKakaoCodeDTO getKakaoCodeDTO) throws IOException {
-    loginService.createOrLogin(getKakaoCodeDTO,response);
+    createOrLogin.execute(getKakaoCodeDTO,response);
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 
@@ -43,7 +43,7 @@ public class LoginController {
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
     validatePrincipalDetails(principalDetails);
     String kakaoId = principalDetails.getKakaoId();
-    logoutService.logout(response, kakaoId);
+    logout.execute(response, kakaoId);
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 

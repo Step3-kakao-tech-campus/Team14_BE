@@ -63,7 +63,7 @@ oauth2:
 jwt:
   header: Authorization
   secret: 4oCYbGVhLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtbmZ0LXNwcmluZy1ib290LWp3dC10dXRvcmlhbOKAmQo=
-  token-validity-in-seconds-accessToken: 86400
+  token-validity-in-seconds-accessToken: 3600
   token-validity-in-seconds-refreshToken: 86400
 
 # Configuration related to matching strategy, required for SpringBoot 2.6 and springfox-swagger3.0

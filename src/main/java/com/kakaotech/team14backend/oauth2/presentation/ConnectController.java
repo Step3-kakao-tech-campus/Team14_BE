@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.oauth2.presentation;
 
-import com.kakaotech.team14backend.oauth2.application.usecase.connect.ConnectService;
+import com.kakaotech.team14backend.oauth2.application.usecase.connect.ConnectInstagram;
 import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequiredArgsConstructor
 public class ConnectController {
-  private final ConnectService connectService;
+  private final ConnectInstagram connectInstagram;
   @PostMapping("/api/user/instagram")
   @ResponseBody
   public ApiResponse<?> instagramConnect(HttpServletResponse response,
@@ -29,7 +29,7 @@ public class ConnectController {
     validatePrincipalDetails(principalDetails);
 
     String kakaoId = principalDetails.getKakaoId();
-    connectService.connectInstagram(kakaoId,instagramCode,response);
+    connectInstagram.execute(kakaoId,instagramCode,response);
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 

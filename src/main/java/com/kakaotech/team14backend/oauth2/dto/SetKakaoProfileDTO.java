@@ -5,21 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class KakaoProfileDTO {
+public class SetKakaoProfileDTO {
 
   private String id;
 
   @JsonProperty("properties")
   private Properties properties;
-
-  @Override
-  public String toString() {
-    return "KakaoProfileDTO{" +
-        "id=" + id +
-        ", nickname='" + properties.getNickname() + '\'' +
-        ", profileImage='" + properties.getProfileImage() + '\'' +
-        '}';
-  }
 
   @Data
   public static class Properties {

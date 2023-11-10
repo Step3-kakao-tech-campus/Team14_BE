@@ -8,7 +8,7 @@ import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
-import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
+import com.kakaotech.team14backend.oauth2.dto.SetKakaoProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,10 +25,10 @@ public class CreateKakaoUser {
   private final CreateMember createMemberUsecase;
 
   @Transactional
-  public void execute(KakaoProfileDTO kakaoProfileDTO) {
-    String kakaoId = kakaoProfileDTO.getId();
-    String userName = kakaoProfileDTO.getProperties().getNickname();
-    String profileImage = kakaoProfileDTO.getProperties().getProfileImage();
+  public void execute(SetKakaoProfileDTO setKakaoProfileDTO) {
+    String kakaoId = setKakaoProfileDTO.getId();
+    String userName = setKakaoProfileDTO.getProperties().getNickname();
+    String profileImage = setKakaoProfileDTO.getProperties().getProfileImage();
     Member memberEntity = memberRepository.findByKakaoId(kakaoId);
 
     if (memberEntity == null) {
