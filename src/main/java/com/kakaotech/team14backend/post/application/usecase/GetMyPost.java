@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class FindMyPostUsecase {
+public class GetMyPost {
 
   private final PostRepository postRepository;
   private final FindLikeStatus findLikeStatusCommand;

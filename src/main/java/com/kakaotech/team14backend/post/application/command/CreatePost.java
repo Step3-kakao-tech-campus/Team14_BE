@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application.usecase;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.common.HashTagUtils;
 import com.kakaotech.team14backend.post.domain.Post;

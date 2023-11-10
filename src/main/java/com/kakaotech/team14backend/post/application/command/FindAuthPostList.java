@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FindAuthPostList extends AbstractHomePostList {
 
-  private final FindLikeStatus findLikeStatusCommand;
+  private final FindLikeStatus findLikeStatus;
 
   public FindAuthPostList(PostRepository postRepository,
       FindLikeStatus findLikeStatusCommand) {
     super(postRepository);
-    this.findLikeStatusCommand = findLikeStatusCommand;
+    this.findLikeStatus = findLikeStatusCommand;
   }
 
   @Override
@@ -36,7 +36,7 @@ public class FindAuthPostList extends AbstractHomePostList {
     List<SetAuthenticatedHomePostDTO> postDTOs = new ArrayList<>();
 
     for (Post post : posts) {
-      boolean isLiked = findLikeStatusCommand.execute(memberId, post.getPostId());
+      boolean isLiked = findLikeStatus.execute(memberId, post.getPostId());
       postDTOs.add(new SetAuthenticatedHomePostDTO(post.getPostId(), post.getImage().getImageUri(),
           post.getHashtag(), 0, post.getNickname(), isLiked));
     }

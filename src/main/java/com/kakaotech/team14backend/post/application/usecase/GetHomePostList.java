@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GetHomePostListUsecase {
+public class GetHomePostList {
 
   private final FindNonAuthPostList findNonAuthPostListCommand;
   private final FindAuthPostList findAuthPostListCommand;

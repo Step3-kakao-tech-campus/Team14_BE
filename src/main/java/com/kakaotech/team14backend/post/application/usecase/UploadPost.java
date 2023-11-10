@@ -4,13 +4,14 @@ import com.kakaotech.team14backend.image.application.CreateImage;
 import com.kakaotech.team14backend.image.domain.Image;
 import com.kakaotech.team14backend.point.application.GetPointUsecase;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
+import com.kakaotech.team14backend.post.application.command.CreatePost;
 import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.dto.UploadPostDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UploadPost {

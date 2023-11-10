@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindPostUsecase {
+public class GetPostUsecase {
 
   private final PostRepository postRepository;
 

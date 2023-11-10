@@ -3,14 +3,13 @@ package com.kakaotech.team14backend.post.application.command;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,21 +26,21 @@ public class SavePopularPosts {
    */
 
   @Transactional
-  public void execute(){
+  public void execute() {
     List<GetIncompletePopularPostDTO> top300Posts = getTop300Posts();
     deletePopularPostsCache();
     setPopularPostsCache(top300Posts);
   }
 
-  private List<GetIncompletePopularPostDTO> getTop300Posts(){
+  private List<GetIncompletePopularPostDTO> getTop300Posts() {
     return postRepository.findTop300ByOrderByPopularityDesc(PageRequest.of(0, POPULARITY_SIZE));
   }
 
-  private void deletePopularPostsCache(){
+  private void deletePopularPostsCache() {
     redisTemplate.delete(RedisKey.POPULAR_POST_KEY.getKey());
   }
 
-  private void setPopularPostsCache(List<GetIncompletePopularPostDTO> top300Posts){
+  private void setPopularPostsCache(List<GetIncompletePopularPostDTO> top300Posts) {
     top300Posts.forEach(this::setPopularPostCache);
   }
 

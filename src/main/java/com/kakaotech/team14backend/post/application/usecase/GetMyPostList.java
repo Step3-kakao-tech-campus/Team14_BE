@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserPostListFinder {
+public class GetMyPostList {
 
   private final PostRepository postRepository;
 
