@@ -1,12 +1,18 @@
 
 package com.kakaotech.team14backend.outer.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.application.SetPostLikeUsecase;
 import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
 import com.kakaotech.team14backend.post.application.PostService;
 import com.kakaotech.team14backend.post.application.SavePopularPosts;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,12 +28,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.Set;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Sql("classpath:db/testSetup.sql")
 @AutoConfigureMockMvc
@@ -48,6 +48,8 @@ class PostControllerTest {
   @Autowired
   private PostService postService;
 
+  @Autowired
+  private SetPostLikeUsecase setPostLikeUsecase;
   @Autowired
   private GetPopularPostFacade getPopularPostFacade;
 
@@ -240,11 +242,10 @@ class PostControllerTest {
     saveTemporaryPopularPostListUsecase.execute();
 
     GetPostDTO getPostDTO = new GetPostDTO(10L, 1L);
-    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(getPostDTO);
-
-
-    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L,1L);
-    postService.setPostLike(setPostLikeDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(
+        getPostDTO);
+    SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(10L, 1L);
+    setPostLikeUsecase.execute(setPostLikeDTO);
 
     String param = "10";
 
@@ -260,9 +261,9 @@ class PostControllerTest {
     resultActions.andExpect(jsonPath("$.success").value(true));
     resultActions.andExpect(jsonPath("$.response").exists());
     resultActions.andExpect(jsonPath("$.response").exists());
-    resultActions.andExpect(jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
+    resultActions.andExpect(
+        jsonPath("$.response.isLiked").value(!getPopularPostResponseDTO.isLiked()));
 
   }
 
 }
-

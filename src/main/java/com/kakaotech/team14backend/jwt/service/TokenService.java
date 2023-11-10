@@ -2,16 +2,13 @@ package com.kakaotech.team14backend.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.Verification;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.exception.TokenValidationException;
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.jwt.RefreshToken;
 import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.dto.TokenDTO;
@@ -20,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

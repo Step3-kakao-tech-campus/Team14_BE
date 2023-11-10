@@ -19,20 +19,33 @@ VALUES (1L,NOW(), 'insta1', 'kakao1',
        (3L,NOW(), 'insta3', 'kakao3',
         'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg', 30,
         NOW(), 'user3', 'STATUS_INACTIVE', 'ROLE_BEGINNER');
-
--- Image Table
 INSERT INTO image (created_at, image_uri)
-VALUES (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg'),
-       (NOW(), '/images/test.jpg');
-
+VALUES
+    (NOW(), '/images/1.jpg'),
+    (NOW(), '/images/2.jpg'),
+    (NOW(), '/images/3.jpg'),
+    (NOW(), '/images/4.png'),
+    (NOW(), '/images/5.jpg'),
+    (NOW(), '/images/6.jpg'),
+    (NOW(), '/images/9.jpg'),
+    (NOW(), '/images/12.png'),
+    (NOW(), '/images/13.jpg'),
+    (NOW(), '/images/15.png'),
+    (NOW(), '/images/16.png'),
+    (NOW(), '/images/18.jpg'),
+    (NOW(), '/images/21.jpg'),
+    (NOW(), '/images/32.jpg'),
+    (NOW(), '/images/41.jpg'),
+    (NOW(), '/images/101.jpg'),
+    (NOW(), '/images/귀염뽀짝.jpg'),
+    (NOW(), '/images/멋쟁.jpg'),
+    (NOW(), '/images/세븐틴최고.jpg'),
+    (NOW(), '/images/솔직.jpg'),
+    (NOW(), '/images/웨딩네컷.png'),
+    (NOW(), '/images/재밋다.jpg'),
+    (NOW(), '/images/조장님의단독샷.jpg'),
+    (NOW(), '/images/주문하시겠어.jpg'),
+    (NOW(), '/images/최강에이스.png');
 
 -- Using UNION ALL to generate numbers up to 280
 WITH RECURSIVE numbers(val) AS (SELECT 1
@@ -51,7 +64,7 @@ SELECT NOW(),
        CASE WHEN val % 2 = 0 THEN true ELSE false END,
        0,
        (val * 1000),
-       ((val % 10) + 1),
+       ((val % 25) + 1),
        ((val % 3) + 1),
        'hashtag' || ((val % 10) + 1) || ' ' || 'hashtag' || ((val % 10) + 2)
 FROM numbers;

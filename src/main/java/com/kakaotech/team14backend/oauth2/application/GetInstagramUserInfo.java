@@ -1,8 +1,5 @@
 package com.kakaotech.team14backend.oauth2.application;
 
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.jwt.service.TokenService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

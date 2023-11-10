@@ -2,12 +2,12 @@ package com.kakaotech.team14backend.oauth2.application;
 
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
-import com.kakaotech.team14backend.inner.member.model.Member;
-import com.kakaotech.team14backend.inner.member.model.Role;
-import com.kakaotech.team14backend.inner.member.model.Status;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.domain.Role;
+import com.kakaotech.team14backend.member.domain.Status;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.oauth2.dto.KakaoProfileDTO;
-import com.kakaotech.team14backend.outer.member.service.MemberService;
+import com.kakaotech.team14backend.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

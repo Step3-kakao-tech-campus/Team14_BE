@@ -1,14 +1,14 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
+import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.post.application.PostMapper;
-import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

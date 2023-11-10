@@ -1,0 +1,27 @@
+package com.kakaotech.team14backend.post.application;
+
+import com.kakaotech.team14backend.post.domain.PostLikeCount;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
+import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class UpdatePostLikeCountUsecase {
+
+  private final PostLikeCountRepository postLikeCountRepository;
+
+  public void execute(GetPostLikeCountDTO getPostLikeCountDTO) {
+    Long postId = getPostLikeCountDTO.postId();
+    boolean isLiked = getPostLikeCountDTO.isLiked();
+
+    PostLikeCount postLikeCount = postLikeCountRepository.findByPostId(postId);
+    Long likeCount = postLikeCount.getLikeCount();
+
+    likeCount = isLiked ? likeCount + 1 : likeCount - 1;
+    postLikeCount.updateLikeCount(likeCount);
+  }
+
+
+}

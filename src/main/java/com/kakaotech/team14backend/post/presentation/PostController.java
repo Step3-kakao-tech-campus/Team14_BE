@@ -6,11 +6,10 @@ import com.kakaotech.team14backend.common.ApiResponse.CustomBody;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.exception.LastPostIdParameterException;
-import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
-import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import com.kakaotech.team14backend.exception.SizeParameterException;
 import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.post.application.usecase.UserPostListFinder;
 import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostListResponseDTO;
@@ -23,8 +22,16 @@ import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.UploadPostRequestDTO;
+import com.kakaotech.team14backend.post.application.usecase.GetHomePostListUsecase;
+import com.kakaotech.team14backend.post.application.GetHomePostUsecase;
+import com.kakaotech.team14backend.post.application.GetMyPostUsecase;
+import com.kakaotech.team14backend.post.application.SetPostLikeUsecase;
+import com.kakaotech.team14backend.post.application.GetPopularPostFacade;
 import com.kakaotech.team14backend.post.application.PostService;
+import com.kakaotech.team14backend.post.exception.MaxLevelSizeException;
 import io.swagger.annotations.ApiOperation;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,9 +44,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -47,6 +51,12 @@ public class PostController {
 
   private final PostService postService;
   private final GetPopularPostFacade getPopularPostFacade;
+
+  private final UserPostListFinder userPostListFinder;
+  private final GetHomePostListUsecase getHomePostListService;
+  private final GetMyPostUsecase getMyPostUsecase;
+  private final GetHomePostUsecase getHomePost;
+  private final SetPostLikeUsecase setPostLikeUsecase;
 
   @ApiOperation(value = "유저가 올린 게시물 조회", notes = "마지막 게시물의 id를 받아서 그 이후의 게시물을 조회한다. lastPostId가 없다면 첫 게시물을 조회한다")
   @GetMapping("/post/user")// 유저가 올린 게시물 조회
@@ -58,7 +68,7 @@ public class PostController {
     validatePrincipalDetails(principalDetails);
     validateParameters(size, lastPostId);
     Long memberId = principalDetails.getMemberId();
-    GetPersonalPostListResponseDTO getPostListResponseDTO = postService.getPersonalPostList(
+    GetPersonalPostListResponseDTO getPostListResponseDTO = userPostListFinder.execute(
         memberId, lastPostId, size);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -73,7 +83,7 @@ public class PostController {
     validateParameters(size, lastPostId);
 
     Long memberId = (principalDetails == null) ? null : principalDetails.getMemberId();
-    GetHomePostListResponseDTO getPostListResponseDTO = postService.getHomePostList(lastPostId,
+    GetHomePostListResponseDTO getPostListResponseDTO = getHomePostListService.excute(lastPostId,
         size, memberId);
     return ApiResponseGenerator.success(getPostListResponseDTO, HttpStatus.OK);
   }
@@ -82,11 +92,9 @@ public class PostController {
   @PostMapping(value = "/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ApiResponse<ApiResponse.CustomBody<Void>> uploadPost(
       @ModelAttribute UploadPostRequestDTO uploadPostRequestDTO,
-      @AuthenticationPrincipal PrincipalDetails principalDetails
-  ) {
+      @AuthenticationPrincipal PrincipalDetails principalDetails) {
     Member member = principalDetails.getMember();
-    UploadPostDTO uploadPostDTO = new UploadPostDTO(member,
-        uploadPostRequestDTO);
+    UploadPostDTO uploadPostDTO = new UploadPostDTO(member, uploadPostRequestDTO);
     postService.uploadPost(uploadPostDTO);
 
     return ApiResponseGenerator.success(HttpStatus.CREATED);
@@ -101,7 +109,7 @@ public class PostController {
 
     Long memberId = principalDetails.getMemberId();
 
-    GetMyPostResponseDTO getMyPostResponseDTO = postService.getMyPost(memberId, postId);
+    GetMyPostResponseDTO getMyPostResponseDTO = getMyPostUsecase.excute(memberId, postId);
     return ApiResponseGenerator.success(getMyPostResponseDTO, HttpStatus.OK);
   }
 
@@ -113,7 +121,7 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPostResponseDTO getPostResponseDTO = postService.getPost(getPostDTO);
+    GetPostResponseDTO getPostResponseDTO = getHomePost.excute(getPostDTO);
     return ApiResponseGenerator.success(getPostResponseDTO, HttpStatus.OK);
   }
 
@@ -125,7 +133,8 @@ public class PostController {
 
     validatePrincipalDetails(principalDetails);
     GetPostDTO getPostDTO = new GetPostDTO(postId, principalDetails.getMemberId());
-    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(getPostDTO);
+    GetPopularPostResponseDTO getPopularPostResponseDTO = getPopularPostFacade.getPopularPost(
+        getPostDTO);
     return ApiResponseGenerator.success(getPopularPostResponseDTO, HttpStatus.OK);
   }
 
@@ -161,7 +170,7 @@ public class PostController {
 
     Long memberId = principalDetails.getMemberId();
     SetPostLikeDTO setPostLikeDTO = new SetPostLikeDTO(postId, memberId);
-    SetPostLikeResponseDTO setPostLikeResponseDTO = postService.setPostLike(setPostLikeDTO);
+    SetPostLikeResponseDTO setPostLikeResponseDTO = setPostLikeUsecase.execute(setPostLikeDTO);
     return ApiResponseGenerator.success(setPostLikeResponseDTO, HttpStatus.OK);
   }
 

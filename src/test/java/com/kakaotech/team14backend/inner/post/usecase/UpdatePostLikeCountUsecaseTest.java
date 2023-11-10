@@ -1,10 +1,12 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
 import com.kakaotech.team14backend.inner.image.repository.ImageRepository;
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
-import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.post.application.SetPostLikeService;
+import com.kakaotech.team14backend.post.application.UpdatePostLikeCountUsecase;
+import com.kakaotech.team14backend.post.domain.PostLikeCount;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
@@ -26,7 +28,7 @@ public class UpdatePostLikeCountUsecaseTest {
   private UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
   @Mock
-  private SetPostLikeUsecase setPostLikeUsecase;
+  private SetPostLikeService setPostLikeUsecase;
 
   @Mock
   private PostLikeCountRepository postLikeCountRepository;

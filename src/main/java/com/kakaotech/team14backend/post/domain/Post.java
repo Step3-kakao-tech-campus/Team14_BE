@@ -4,7 +4,7 @@ import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.inner.image.model.Image;
-import com.kakaotech.team14backend.inner.member.model.Member;
+import com.kakaotech.team14backend.member.domain.Member;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,9 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
-import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

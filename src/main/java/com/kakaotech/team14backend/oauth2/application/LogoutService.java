@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.oauth2.application;
 
-import com.kakaotech.team14backend.inner.member.repository.MemberRepository;
+import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.jwt.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
