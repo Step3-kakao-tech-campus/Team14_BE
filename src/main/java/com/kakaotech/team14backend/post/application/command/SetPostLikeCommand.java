@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.member.application.FindMemberService;
 import com.kakaotech.team14backend.member.domain.Member;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SetPostLikeService {
+public class SetPostLikeCommand {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;

@@ -9,7 +9,7 @@ import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.post.application.GetHomePostUsecase;
 import com.kakaotech.team14backend.post.application.GetMyPostUsecase;
-import com.kakaotech.team14backend.post.application.SetPostLikeUsecase;
+import com.kakaotech.team14backend.post.application.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.post.application.usecase.GetHomePostListUsecase;
 import com.kakaotech.team14backend.post.application.usecase.GetPopularPost;
 import com.kakaotech.team14backend.post.application.usecase.GetPopularPosts;

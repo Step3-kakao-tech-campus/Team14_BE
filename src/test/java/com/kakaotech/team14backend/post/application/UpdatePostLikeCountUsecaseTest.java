@@ -2,6 +2,7 @@ package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.image.infrastructure.ImageRepository;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.post.application.command.SetPostLikeCommand;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLikeCount;
 import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
@@ -26,7 +27,7 @@ public class UpdatePostLikeCountUsecaseTest {
   private UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
 
   @Mock
-  private SetPostLikeService setPostLikeUsecase;
+  private SetPostLikeCommand setPostLikeUsecase;
 
   @Mock
   private PostLikeCountRepository postLikeCountRepository;

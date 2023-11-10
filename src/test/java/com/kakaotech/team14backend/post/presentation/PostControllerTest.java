@@ -1,7 +1,7 @@
 
 package com.kakaotech.team14backend.post.presentation;
 
-import com.kakaotech.team14backend.post.application.SetPostLikeUsecase;
+import com.kakaotech.team14backend.post.application.usecase.SetPostLikeUsecase;
 import com.kakaotech.team14backend.post.application.command.SavePopularPosts;
 import com.kakaotech.team14backend.post.application.usecase.GetPopularPost;
 import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
