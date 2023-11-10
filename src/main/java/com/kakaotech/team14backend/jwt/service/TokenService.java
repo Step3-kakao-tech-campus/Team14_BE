@@ -40,36 +40,9 @@ public class TokenService {
 
 
 
-  public ReissueDTO reissueAccessToken(String refreshToken) {
-    if(refreshToken == null){
-      throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
-    }
 
-    try {
-      DecodedJWT decodedJWT = verifyToken(refreshToken);
-      String kakaoId = decodedJWT.getClaim("kakaoId").asString();
-      String redisInRTK = refreshTokenRepository.findRTK(kakaoId)
-          .orElseThrow(() -> new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN));;
-      if (!refreshToken.equals(redisInRTK)) {
-        throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
-      }
-      Member member = memberRepository.findByKakaoId(kakaoId);
-      String newAccessToken = this.createToken(member);
-      return new ReissueDTO(newAccessToken);
 
-    } catch (TokenExpiredException | TokenValidationException ex) {
-      throw new TokenValidationException(MessageCode.INVALIDATE_REFRESH_TOKEN);
-    } catch (NullPointerException ne ) {
-      throw new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER);
-    }
-  }
 
-  public TokenDTO createOrUpdateToken(Member member) {
-    refreshTokenRepository.deleteRefreshToken(member.getKakaoId());
-    String accessToken = this.createToken(member);
-    String refreshToken = this.createRefreshToken(member);
-    return new TokenDTO(accessToken, refreshToken);
-  }
 }
 
 

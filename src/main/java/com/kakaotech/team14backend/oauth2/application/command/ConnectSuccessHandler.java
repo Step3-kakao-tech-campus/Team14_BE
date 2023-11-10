@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.oauth2.application.command;
 
+import com.kakaotech.team14backend.jwt.dto.TokenDTO;
 import com.kakaotech.team14backend.oauth2.application.usecase.CreateOrUpdateTokens;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
