@@ -32,7 +32,7 @@ public class MemberController {
     validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
-    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUscase.getMyPageInfo(memberId);
+    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUscase.execute(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
 
