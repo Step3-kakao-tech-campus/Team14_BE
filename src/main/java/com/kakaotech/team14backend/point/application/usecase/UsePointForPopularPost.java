@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.point.application.usecase;
 
 import com.kakaotech.team14backend.point.application.command.ValidatePoint;
-import com.kakaotech.team14backend.point.domain.UsePointDecider;
+import com.kakaotech.team14backend.point.domain.LevelToPointMapper;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.post.application.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
@@ -30,7 +30,7 @@ public class UsePointForPopularPost {
   }
 
   private static Long getPoint(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
-    return UsePointDecider.getPoint(usePointByPopularPostRequestDTO.postLevel());
+    return LevelToPointMapper.getPoint(usePointByPopularPostRequestDTO.postLevel());
   }
 
 }

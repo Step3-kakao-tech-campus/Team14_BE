@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.point.domain.UsePointDecider;
+import com.kakaotech.team14backend.point.domain.LevelToPointMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostInstaCount;
 import com.kakaotech.team14backend.post.domain.RandomIndexes;
@@ -143,7 +143,7 @@ public class PostMapper {
 
 
   private static Long getPostPoint(int postLevel) {
-    return UsePointDecider.getPoint(postLevel);
+    return LevelToPointMapper.getPoint(postLevel);
   }
 
   private static String formatDate(Instant createdAt) {

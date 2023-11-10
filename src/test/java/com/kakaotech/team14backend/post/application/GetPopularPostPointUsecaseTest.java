@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.point.domain.UsePointDecider;
+import com.kakaotech.team14backend.point.domain.LevelToPointMapper;
 import com.kakaotech.team14backend.post.application.command.FindPopularPostPoint;
 import com.kakaotech.team14backend.post.application.command.SavePopularPosts;
 import com.kakaotech.team14backend.post.dto.PostLevelPoint;
@@ -33,7 +33,7 @@ class GetPopularPostPointUsecaseTest {
   void execute(){
     PostLevelPoint postLevelPoint = getPopularPostPointUsecase.execute(188L);
     Integer level = postLevelPoint.postLevel();
-    Long point = UsePointDecider.getPoint(level);
+    Long point = LevelToPointMapper.getPoint(level);
     Assertions.assertThat(point).isEqualTo(postLevelPoint.postPoint());
   }
 
