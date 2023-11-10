@@ -1,6 +1,5 @@
 package com.kakaotech.team14backend.point.application.usecase;
 
-import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.point.application.UsePoint;
 import com.kakaotech.team14backend.point.application.ValidatePoint;
 import com.kakaotech.team14backend.point.domain.UsePointDecider;
