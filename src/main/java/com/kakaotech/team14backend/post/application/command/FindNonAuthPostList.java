@@ -1,6 +1,7 @@
 package com.kakaotech.team14backend.post.application.command;
 
 
+import com.kakaotech.team14backend.post.application.PostFetchResponse;
 import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
@@ -23,7 +24,7 @@ public class FindNonAuthPostList extends AbstractHomePostList {
 
   @Override
   public GetHomePostListResponseDTO execute(Long lastPostId, int size, Long memberId) {
-    FetchResult fetchResult = fetchPosts(lastPostId, size);
+    PostFetchResponse fetchResult = fetchPosts(lastPostId, size);
     List<SetNonAuthenticatedHomePostDTO> postDTOs = mapToDTOs(fetchResult.getPosts());
 
     return new GetHomePostListResponseDTO(fetchResult.getNextLastPostId(),

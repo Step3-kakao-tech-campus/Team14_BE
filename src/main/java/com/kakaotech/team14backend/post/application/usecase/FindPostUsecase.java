@@ -17,8 +17,7 @@ public class FindPostUsecase {
   public GetPostResponseDTO execute(GetPostDTO getPostDTO) {
     Post post = postRepository.findById(getPostDTO.postId())
         .orElseThrow(() -> new RuntimeException("Post not found"));
-    GetPostResponseDTO getPostResponseDTO = PostMapper.from(post);
-    return getPostResponseDTO;
+    return PostMapper.from(post);
   }
 
 }

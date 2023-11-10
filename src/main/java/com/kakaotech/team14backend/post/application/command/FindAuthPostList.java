@@ -1,5 +1,6 @@
 package com.kakaotech.team14backend.post.application.command;
 
+import com.kakaotech.team14backend.post.application.PostFetchResponse;
 import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
@@ -24,7 +25,7 @@ public class FindAuthPostList extends AbstractHomePostList {
 
   @Override
   public GetHomePostListResponseDTO execute(Long lastPostId, int size, Long memberId) {
-    FetchResult postList = fetchPosts(lastPostId, size);
+    PostFetchResponse postList = fetchPosts(lastPostId, size);
     List<SetAuthenticatedHomePostDTO> postDTOs = mapToDTOs(postList.getPosts(), memberId);
 
     return new GetHomePostListResponseDTO(postList.getNextLastPostId(),

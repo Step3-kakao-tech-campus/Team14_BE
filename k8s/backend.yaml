@@ -95,7 +95,7 @@ spec:
                   key: URL
           volumeMounts:
             - name: config-volume
-              mountPath: /config  
+              mountPath: /config
           resources:
             requests:
               memory: 1Gi
