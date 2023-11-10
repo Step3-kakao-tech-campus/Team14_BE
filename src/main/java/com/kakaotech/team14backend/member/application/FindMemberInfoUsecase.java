@@ -1,15 +1,13 @@
 package com.kakaotech.team14backend.member.application;
 
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
-import com.kakaotech.team14backend.post.domain.PostInstaCount;
-import com.kakaotech.team14backend.post.infrastructure.PostInstaCountRepository;
-import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
-import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.member.dto.InstagramDetails;
 import com.kakaotech.team14backend.member.dto.InstagramInfo;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
+import com.kakaotech.team14backend.post.domain.PostInstaCount;
+import com.kakaotech.team14backend.post.infrastructure.PostInstaCountRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +17,6 @@ public class FindMemberInfoUsecase {
 
   private final PostLikeCountRepository postLikeCountRepository;
   private final PointRepository pointRepository;
-  private final PostRepository postRepository;
-  private final PointHistoryRepository pointHistoryRepository;
   private final PostInstaCountRepository postInstaCountRepository;
   private final FindMemberService findMemberService;
   // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할

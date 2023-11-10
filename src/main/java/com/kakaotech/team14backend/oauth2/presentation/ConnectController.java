@@ -4,7 +4,7 @@ import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
+import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.oauth2.application.ConnectService;
 import com.kakaotech.team14backend.oauth2.dto.GetInstagramCodeDTO;
 import lombok.RequiredArgsConstructor;

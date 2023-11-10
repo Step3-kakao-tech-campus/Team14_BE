@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.post.application.usecase;
 
-import com.kakaotech.team14backend.post.application.command.FindNonAuthPostListUsecase;
 import com.kakaotech.team14backend.post.application.command.FindAuthPostListUsecase;
-import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
+import com.kakaotech.team14backend.post.application.command.FindNonAuthPostListUsecase;
+import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

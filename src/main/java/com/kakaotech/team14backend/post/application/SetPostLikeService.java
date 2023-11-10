@@ -1,17 +1,17 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
-import com.kakaotech.team14backend.post.exception.PostNotFoundException;
-import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.application.FindMemberService;
-import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
-import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
+import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.point.application.GetPointUsecase;
+import com.kakaotech.team14backend.point.domain.GetPointPolicy;
+import com.kakaotech.team14backend.post.application.command.FindLikeStatusService;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLike;
+import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

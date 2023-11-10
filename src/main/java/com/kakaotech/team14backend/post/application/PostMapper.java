@@ -1,21 +1,21 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.inner.point.model.UsePointDecider;
-import com.kakaotech.team14backend.post.domain.PostInstaCount;
-import com.kakaotech.team14backend.outer.post.dto.GetAuthenticatedHomePostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetNonAuthenticatedHomePostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPersonalPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
-import com.kakaotech.team14backend.outer.post.dto.SetAuthenticatedHomePostDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.point.domain.UsePointDecider;
 import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.domain.PostInstaCount;
 import com.kakaotech.team14backend.post.domain.RandomIndexes;
+import com.kakaotech.team14backend.post.dto.GetAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetNonAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.dto.GetPersonalPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostListResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.dto.SetAuthenticatedHomePostDTO;
+import com.kakaotech.team14backend.post.dto.SetNonAuthenticatedHomePostDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -143,7 +143,7 @@ public class PostMapper {
 
 
   private static Long getPostPoint(int postLevel) {
-    return UsePointDecider.decidePoint(postLevel);
+    return UsePointDecider.getPoint(postLevel);
   }
 
   private static String formatDate(Instant createdAt) {

@@ -4,15 +4,14 @@ import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
-import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
+import com.kakaotech.team14backend.point.application.CreatePointUsecase;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
-
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,8 +1,8 @@
 package com.kakaotech.team14backend.member.application;
 
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
