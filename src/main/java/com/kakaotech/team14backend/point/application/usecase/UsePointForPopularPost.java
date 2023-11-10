@@ -1,6 +1,8 @@
-package com.kakaotech.team14backend.point.application;
+package com.kakaotech.team14backend.point.application.usecase;
 
 import com.kakaotech.team14backend.member.domain.Member;
+import com.kakaotech.team14backend.point.application.UsePointUsecase;
+import com.kakaotech.team14backend.point.application.ValidatePointByPopularPostUsecase;
 import com.kakaotech.team14backend.point.domain.UsePointDecider;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.post.application.SetPostInstaCountUsecase;
@@ -14,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PointService {
+public class UsePointForPopularPost {
 
   private final ValidatePointByPopularPostUsecase validatePointByPopularPostUsecase;
   private final UsePointUsecase usePointUsecase;

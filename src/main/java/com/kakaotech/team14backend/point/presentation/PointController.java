@@ -6,7 +6,7 @@ import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.point.application.PointService;
+import com.kakaotech.team14backend.point.application.usecase.UsePointForPopularPost;
 import com.kakaotech.team14backend.point.application.UsePointUsecase;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
@@ -32,7 +32,7 @@ import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WH
 @RequestMapping("/api")
 public class PointController {
 
-  private final PointService pointService;
+  private final UsePointForPopularPost pointService;
   private final SetPostInstaCountUsecase setPostInstaCountUsecase;
   private final UsePointUsecase usePointUsecase;
   private final PostRepository postRepository;
