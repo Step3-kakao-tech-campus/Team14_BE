@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;

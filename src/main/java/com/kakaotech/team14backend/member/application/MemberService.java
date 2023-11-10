@@ -6,7 +6,7 @@ import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.inner.point.repository.PointRepository;
 import com.kakaotech.team14backend.inner.point.usecase.CreatePointUsecase;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
 
 import java.util.Optional;
 

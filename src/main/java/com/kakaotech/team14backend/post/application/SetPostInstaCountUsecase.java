@@ -1,8 +1,8 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 
 import com.kakaotech.team14backend.post.domain.PostInstaCount;
-import com.kakaotech.team14backend.inner.post.repository.PostInstaCountRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostInstaCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.post.repository;
+package com.kakaotech.team14backend.post.infrastructure;
 
 import com.kakaotech.team14backend.post.domain.PostLike;
 import java.util.List;

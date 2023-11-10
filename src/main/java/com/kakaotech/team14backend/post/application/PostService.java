@@ -4,8 +4,6 @@ import com.kakaotech.team14backend.inner.image.model.Image;
 import com.kakaotech.team14backend.inner.image.usecase.CreateImage;
 import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindMyPostUsecase;
-import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
 import com.kakaotech.team14backend.outer.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPopularPostListRequestDTO;

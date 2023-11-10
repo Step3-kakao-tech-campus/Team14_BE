@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.outer.post.service;
 
-import com.kakaotech.team14backend.inner.post.usecase.FindPostUsecase;
+import com.kakaotech.team14backend.post.application.FindPostUsecase;
 import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
 import com.kakaotech.team14backend.outer.post.dto.GetPostResponseDTO;
 import lombok.RequiredArgsConstructor;

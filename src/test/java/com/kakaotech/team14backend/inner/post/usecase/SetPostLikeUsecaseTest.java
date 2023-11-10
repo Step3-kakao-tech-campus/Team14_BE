@@ -6,6 +6,7 @@ import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import com.kakaotech.team14backend.member.application.FindMemberService;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.application.SetPostLikeService;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.Test;

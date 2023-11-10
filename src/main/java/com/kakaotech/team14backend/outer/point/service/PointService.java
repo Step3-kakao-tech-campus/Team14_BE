@@ -7,7 +7,7 @@ import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.inner.point.usecase.ValidatePointByPopularPostUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
+import com.kakaotech.team14backend.post.application.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

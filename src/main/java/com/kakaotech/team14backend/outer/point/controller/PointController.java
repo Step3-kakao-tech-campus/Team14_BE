@@ -12,7 +12,7 @@ import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.inner.post.usecase.SetPostInstaCountUsecase;
+import com.kakaotech.team14backend.post.application.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;

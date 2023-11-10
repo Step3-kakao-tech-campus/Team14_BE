@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application;
 
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.member.domain.Member;
@@ -7,7 +7,7 @@ import com.kakaotech.team14backend.inner.point.model.GetPointPolicy;
 import com.kakaotech.team14backend.inner.point.usecase.GetPointUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLike;
-import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
