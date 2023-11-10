@@ -1,14 +1,12 @@
-package com.kakaotech.team14backend.inner.post.usecase;
+package com.kakaotech.team14backend.post.application.command;
 
-import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
-import com.kakaotech.team14backend.post.exception.PostNotFoundException;
-import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
-import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetPopularPostResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.GetPostDTO;
-import com.kakaotech.team14backend.outer.post.dto.PostLevelPoint;
 import com.kakaotech.team14backend.post.application.PostMapper;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.GetPopularPostResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPostDTO;
+import com.kakaotech.team14backend.post.dto.PostLevelPoint;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FindPopularPost {
 
   private final PostRepository postRepository;
-  private final PostLikeRepository postLikeRepository;
   private final FindLikeStatusService findLikeStatusService;
   /**
    * Redis에 해당 popularPost가 있다면 Redis에서 가져오고, 존재하지 않는다면 DB에서 가져온 후 Redis에 반영한다.

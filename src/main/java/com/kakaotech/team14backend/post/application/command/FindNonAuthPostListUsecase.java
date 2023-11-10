@@ -1,20 +1,21 @@
-package com.kakaotech.team14backend.post.application.service;
+package com.kakaotech.team14backend.post.application.command;
 
 
-import com.kakaotech.team14backend.outer.post.dto.GetHomePostListResponseDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetNonAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.GetHomePostListResponseDTO;
+import com.kakaotech.team14backend.post.dto.SetNonAuthenticatedHomePostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 @Component

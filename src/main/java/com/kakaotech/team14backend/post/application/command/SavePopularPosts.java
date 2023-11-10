@@ -1,7 +1,7 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.common.RedisKey;
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

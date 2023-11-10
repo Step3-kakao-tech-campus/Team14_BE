@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
