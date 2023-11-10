@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application.usecase;
 
-import com.kakaotech.team14backend.post.application.command.SetPostLike;
+import com.kakaotech.team14backend.post.application.command.UpdatePostLike;
 import com.kakaotech.team14backend.post.application.command.UpdatePostLikeCount;
 import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SetPostLikeUsecase {
 
-  private final SetPostLike setPostLikeCommand;
+  private final UpdatePostLike setPostLikeCommand;
   private final UpdatePostLikeCount updatePostLikeCountUsecase;
 
   @Transactional

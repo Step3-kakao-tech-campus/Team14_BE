@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SetPostLike {
+public class UpdatePostLike {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
