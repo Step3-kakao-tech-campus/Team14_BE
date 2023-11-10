@@ -44,8 +44,8 @@ public class FindPopularPosts{
   }
 
   private LevelIndexes getLevelIndexes(GetPopularPostListRequestDTO getPopularPostListRequestDTO, int limitSize) {
-    PostRandomFetcher postRandomFetcher1 = new PostRandomFetcher(getPopularPostListRequestDTO.levelSize(), limitSize);
-    LevelIndexes levelIndexes = postRandomFetcher1.getLevelIndexes();
+    PostRandomFetcher postRandomFetcher = new PostRandomFetcher(getPopularPostListRequestDTO.levelSize(), limitSize);
+    LevelIndexes levelIndexes = postRandomFetcher.getLevelIndexes();
     return levelIndexes;
   }
 
