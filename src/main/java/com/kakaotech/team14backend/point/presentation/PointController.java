@@ -1,23 +1,21 @@
-package com.kakaotech.team14backend.outer.point.controller;
-
-import static com.kakaotech.team14backend.inner.point.model.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
+package com.kakaotech.team14backend.point.presentation;
 
 import com.kakaotech.team14backend.auth.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.post.exception.PostNotFoundException;
-import com.kakaotech.team14backend.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.inner.point.usecase.UsePointUsecase;
-import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.post.infrastructure.PostRepository;
+import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
+import com.kakaotech.team14backend.point.application.PointService;
+import com.kakaotech.team14backend.point.application.UsePointUsecase;
+import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
+import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
+import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
+import com.kakaotech.team14backend.point.dto.UsePointByPostResponseDTO;
 import com.kakaotech.team14backend.post.application.SetPostInstaCountUsecase;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostRequestDTO;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPopularPostResponseDTO;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPostRequestDTO;
-import com.kakaotech.team14backend.outer.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.outer.point.service.PointService;
+import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.exception.PostNotFoundException;
+import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WHEN_GET_INSTA_ID;
 
 @RestController
 @RequiredArgsConstructor
