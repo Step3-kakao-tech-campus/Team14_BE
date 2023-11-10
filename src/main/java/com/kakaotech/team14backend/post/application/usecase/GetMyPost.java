@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetMyPost {
 
   private final PostRepository postRepository;
-  private final FindLikeStatus findLikeStatusCommand;
+  private final FindLikeStatus findLikeStatus;
 
   public GetMyPostResponseDTO execute(GetPostDTO getPostDTO) {
     Long memberId = getPostDTO.memberId();
     Long postId = getPostDTO.postId();
 
     Post post = postRepository.findByPostIdAndMemberId(memberId, postId);
-    boolean isLiked = findLikeStatusCommand.execute(memberId, postId);
+    boolean isLiked = findLikeStatus.execute(memberId, postId);
     return PostMapper.from(post, isLiked, memberId);
   }
 }
