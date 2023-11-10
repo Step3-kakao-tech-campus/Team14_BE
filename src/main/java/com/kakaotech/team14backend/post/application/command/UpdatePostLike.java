@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application.command;
 
-import com.kakaotech.team14backend.member.application.FindMemberService;
+import com.kakaotech.team14backend.member.application.command.FindMember;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.point.application.GetPointUsecase;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
@@ -20,7 +20,7 @@ public class UpdatePostLike {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
-  private final FindMemberService findMemberService;
+  private final FindMember findMemberService;
   private final GetPointUsecase getPointUsecase;
   private final FindLikeStatus findLikeStatusCommand;
 

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.member.application;
+package com.kakaotech.team14backend.member.application.command;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindMemberService {
+public class FindMember {
 
   private final MemberRepository memberRepository;
 
   public Member execute(Long memberId) {
-    return memberRepository.findById(memberId).orElseThrow(
-        () -> new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER));
+    return memberRepository.findById(memberId)
+        .orElseThrow(() -> new MemberNotFoundException(MessageCode.NOT_REGISTER_MEMBER));
   }
 
 }

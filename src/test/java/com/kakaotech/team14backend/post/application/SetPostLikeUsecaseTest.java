@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.member.application.FindMemberService;
+import com.kakaotech.team14backend.member.application.command.FindMember;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
@@ -26,7 +26,7 @@ public class SetPostLikeUsecaseTest {
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
   private UpdatePostLike setPostLikeUsecase;
   @Mock
-  private FindMemberService findMemberService;
+  private FindMember findMemberService;
 
   @Mock
   private PostRepository postRepository;

@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CreatePost {
+public class SavePost {
 
   //우리가 알던 서비스
   private final PostRepository postRepository;
