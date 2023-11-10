@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.post.application.PostMapper;
-import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
+import com.kakaotech.team14backend.post.application.command.FindLikeStatus;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.dto.GetPostDTO;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FindMyPostUsecase {
 
   private final PostRepository postRepository;
-  private final FindLikeStatusCommand findLikeStatusCommand;
+  private final FindLikeStatus findLikeStatusCommand;
 
   public GetMyPostResponseDTO execute(GetPostDTO getPostDTO) {
     Long memberId = getPostDTO.memberId();

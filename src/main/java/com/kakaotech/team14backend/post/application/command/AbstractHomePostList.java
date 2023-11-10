@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
-public abstract class AbstractHomePostListCommand {
+public abstract class AbstractHomePostList {
 
   protected final PostRepository postRepository;
 

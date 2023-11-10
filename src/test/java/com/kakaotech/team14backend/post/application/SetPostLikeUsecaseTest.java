@@ -5,7 +5,7 @@ import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
-import com.kakaotech.team14backend.post.application.command.SetPostLikeCommand;
+import com.kakaotech.team14backend.post.application.command.SetPostLike;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class SetPostLikeUsecaseTest {
 
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
-  private SetPostLikeCommand setPostLikeUsecase;
+  private SetPostLike setPostLikeUsecase;
   @Mock
   private FindMemberService findMemberService;
 

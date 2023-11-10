@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class FindLikeStatusCommand {
+public class FindLikeStatus {
 
   private final PostLikeRepository postLikeRepository;
 

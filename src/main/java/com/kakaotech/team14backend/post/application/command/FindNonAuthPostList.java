@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Transactional(readOnly = true)
-public class FindNonAuthPostListCommand extends AbstractHomePostListCommand {
+public class FindNonAuthPostList extends AbstractHomePostList {
 
 
-  public FindNonAuthPostListCommand(PostRepository postRepository) {
+  public FindNonAuthPostList(PostRepository postRepository) {
     super(postRepository);
   }
 

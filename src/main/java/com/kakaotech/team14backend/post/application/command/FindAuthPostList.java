@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Transactional(readOnly = true)
-public class FindAuthPostListCommand extends AbstractHomePostListCommand {
+public class FindAuthPostList extends AbstractHomePostList {
 
-  private final FindLikeStatusCommand findLikeStatusCommand;
+  private final FindLikeStatus findLikeStatusCommand;
 
-  public FindAuthPostListCommand(PostRepository postRepository,
-      FindLikeStatusCommand findLikeStatusCommand) {
+  public FindAuthPostList(PostRepository postRepository,
+      FindLikeStatus findLikeStatusCommand) {
     super(postRepository);
     this.findLikeStatusCommand = findLikeStatusCommand;
   }

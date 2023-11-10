@@ -6,12 +6,9 @@ import com.kakaotech.team14backend.point.application.GetPointUsecase;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLike;
-import com.kakaotech.team14backend.post.domain.PostLikeCount;
-import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
-import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +16,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SetPostLikeCommand {
+public class SetPostLike {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
   private final FindMemberService findMemberService;
   private final GetPointUsecase getPointUsecase;
-  private final FindLikeStatusCommand findLikeStatusCommand;
+  private final FindLikeStatus findLikeStatusCommand;
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
@@ -58,23 +55,5 @@ public class SetPostLikeCommand {
 
   }
 
-  @Component
-  @RequiredArgsConstructor
-  public static class UpdatePostLikeCountCommand {
 
-    private final PostLikeCountRepository postLikeCountRepository;
-
-    public void execute(GetPostLikeCountDTO getPostLikeCountDTO) {
-      Long postId = getPostLikeCountDTO.postId();
-      boolean isLiked = getPostLikeCountDTO.isLiked();
-
-      PostLikeCount postLikeCount = postLikeCountRepository.findByPostId(postId);
-      Long likeCount = postLikeCount.getLikeCount();
-
-      likeCount = isLiked ? likeCount + 1 : likeCount - 1;
-      postLikeCount.updateLikeCount(likeCount);
-    }
-
-
-  }
 }

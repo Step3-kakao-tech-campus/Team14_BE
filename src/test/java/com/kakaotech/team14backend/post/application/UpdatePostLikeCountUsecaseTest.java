@@ -1,8 +1,12 @@
 package com.kakaotech.team14backend.post.application;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.kakaotech.team14backend.image.infrastructure.ImageRepository;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
-import com.kakaotech.team14backend.post.application.command.SetPostLikeCommand;
+import com.kakaotech.team14backend.post.application.command.SetPostLike;
+import com.kakaotech.team14backend.post.application.command.UpdatePostLikeCount;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLikeCount;
 import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
@@ -17,17 +21,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @SpringBootTest
 public class UpdatePostLikeCountUsecaseTest {
 
   @InjectMocks
-  private SetPostLikeCommand.UpdatePostLikeCountCommand updatePostLikeCountUsecase;
-
+  private UpdatePostLikeCount updatePostLikeCountUsecase;
   @Mock
-  private SetPostLikeCommand setPostLikeUsecase;
+  private SetPostLike setPostLikeUsecase;
 
   @Mock
   private PostLikeCountRepository postLikeCountRepository;
