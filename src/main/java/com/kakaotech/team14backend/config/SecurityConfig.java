@@ -1,8 +1,7 @@
 package com.kakaotech.team14backend.config;
 
 import com.kakaotech.team14backend.filter.FilterResponseUtils;
-import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
-import com.kakaotech.team14backend.jwt.service.TokenService;
+import com.kakaotech.team14backend._core.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

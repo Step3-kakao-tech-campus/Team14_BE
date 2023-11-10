@@ -1,23 +1,18 @@
 package com.kakaotech.team14backend.jwt.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.jwt.RefreshToken;
 import com.kakaotech.team14backend.jwt.TokenValidationException;
 import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
 import com.kakaotech.team14backend.jwt.dto.TokenDTO;
-import com.kakaotech.team14backend.jwt.repository.RefreshTokenRepository;
+import com.kakaotech.team14backend.oauth2.infrastructure.RefreshTokenRepository;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +21,9 @@ public class TokenService {
   private Long accessEXP;
   @Value("${jwt.token-validity-in-seconds-refreshToken}")
   private Long refreshEXP;
-
+  @Value("${jwt.secret}")
   private static String SECRET;
 
-  @Value("${jwt.secret}")
-  public void setSecret(String secret) {
-    SECRET = secret;
-  }
 
 
   public static String TOKEN_PREFIX = "Bearer ";
@@ -42,36 +33,11 @@ public class TokenService {
   private final RefreshTokenRepository refreshTokenRepository;
   private final MemberRepository memberRepository;
 
-  public static DecodedJWT verifyToken(String jwt) {
-    DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
-        .build().verify(jwt.replace(TOKEN_PREFIX, ""));
-    return decodedJWT;
-  }
 
-  public String createToken(Member member) {
-    String jwt = JWT.create()
-        .withExpiresAt(new Date(System.currentTimeMillis() + accessEXP * 1000))
-        .withClaim("memberId", member.getMemberId().toString())
-        .withClaim("kakaoId", member.getKakaoId())
-        .withClaim("username", member.getUserName())
-        .withClaim("instaId", member.getInstaId())
-        .withClaim("role", member.getRole().toString())
-        .sign(Algorithm.HMAC512(SECRET));
-    return TOKEN_PREFIX + jwt;
-  }
 
-  public String createRefreshToken(Member member) {
-    String jwt = JWT.create()
-        .withExpiresAt(new Date(System.currentTimeMillis() + refreshEXP * 1000))
-        .withClaim("kakaoId", member.getKakaoId())
-        .withClaim("username", member.getUserName())
-        .withClaim("instaId", member.getInstaId())
-        .sign(Algorithm.HMAC512(SECRET));
-    RefreshToken refreshToken = new RefreshToken(jwt, member.getKakaoId());
-    refreshTokenRepository.save(refreshToken);
-    return jwt;
 
-  }
+
+
 
 
   public ReissueDTO reissueAccessToken(String refreshToken) {

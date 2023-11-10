@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.jwt;
+package com.kakaotech.team14backend.oauth2.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
