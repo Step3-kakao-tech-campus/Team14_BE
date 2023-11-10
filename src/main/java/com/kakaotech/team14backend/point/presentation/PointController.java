@@ -12,7 +12,7 @@ import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.post.application.usecase.SetPostInstaCountUsecase;
+import com.kakaotech.team14backend.post.application.usecase.SetPostInstaCount;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -33,7 +33,7 @@ import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WH
 public class PointController {
 
   private final UsePointForPopularPost pointService;
-  private final SetPostInstaCountUsecase setPostInstaCountUsecase;
+  private final SetPostInstaCount setPostInstaCountUsecase;
   private final UsePoint usePoint;
   private final PostRepository postRepository;
 

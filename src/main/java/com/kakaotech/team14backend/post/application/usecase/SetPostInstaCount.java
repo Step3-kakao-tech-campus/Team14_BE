@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class SetPostInstaCountUsecase {
+public class SetPostInstaCount {
 
   private final PostInstaCountRepository postInstaCountRepository;
 
