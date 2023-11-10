@@ -4,7 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.jwt.TokenValidationException;
-import com.kakaotech.team14backend.jwt.dto.ReissueDTO;
+import com.kakaotech.team14backend.oauth2.dto.ReissueDTO;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;

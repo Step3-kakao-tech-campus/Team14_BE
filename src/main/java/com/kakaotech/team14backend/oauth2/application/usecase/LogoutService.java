@@ -1,6 +1,7 @@
 package com.kakaotech.team14backend.oauth2.application.usecase;
 
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.oauth2.infrastructure.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 public class LogoutService {
 
-  private final MemberRepository memberRepository;
   private final RefreshTokenRepository refreshTokenRepository;
 
   public void logout(HttpServletResponse response, String kakaoId) {

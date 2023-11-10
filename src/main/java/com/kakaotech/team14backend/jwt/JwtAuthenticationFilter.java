@@ -10,6 +10,7 @@ import com.kakaotech.team14backend.filter.FilterResponseUtils;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.jwt.service.TokenService;
+import com.kakaotech.team14backend.oauth2.application.command.VerifyToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +34,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-    String jwt = request.getHeader(TokenService.HEADER);
+    String jwt = request.getHeader(VerifyToken.HEADER);
     if (jwt == null) {
       chain.doFilter(request, response);
       return;
     }
     try {
-      DecodedJWT decodedJWT = TokenService.verifyToken(jwt);
+      DecodedJWT decodedJWT = VerifyToken.execute(jwt);
       Long memberId = Long.valueOf(decodedJWT.getClaim("memberId").asString());
       String kakaoId = decodedJWT.getClaim("kakaoId").asString();
       String userName = decodedJWT.getClaim("username").asString();

@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.oauth2.application.command;
 
-import com.kakaotech.team14backend.jwt.dto.TokenDTO;
+import com.kakaotech.team14backend.oauth2.dto.TokenDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

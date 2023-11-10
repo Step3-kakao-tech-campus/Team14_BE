@@ -16,6 +16,7 @@ public class VerifyToken {
   @Value("${jwt.secret}")
   private static String SECRET;
   public static String TOKEN_PREFIX = "Bearer ";
+  public static String HEADER = "Authorization";
 
   public static DecodedJWT execute(String jwt) throws SignatureVerificationException, TokenExpiredException {
     DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET))
