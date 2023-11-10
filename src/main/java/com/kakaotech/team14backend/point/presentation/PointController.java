@@ -32,8 +32,8 @@ import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WH
 @RequestMapping("/api")
 public class PointController {
 
-  private final UsePointForPopularPost pointService;
-  private final SetPostInstaCount setPostInstaCountUsecase;
+  private final UsePointForPopularPost usePointForPopularPost;
+  private final SetPostInstaCount setPostInstaCount;
   private final UsePoint usePoint;
   private final PostRepository postRepository;
 
@@ -45,7 +45,7 @@ public class PointController {
     validatePrincipalDetails(principalDetails);
 
     Long senderId = principalDetails.getMember().getMemberId();
-    String instaId = pointService.execute(usePointByPopularPostRequestDTO, senderId);
+    String instaId = usePointForPopularPost.execute(usePointByPopularPostRequestDTO, senderId);
     UsePointByPopularPostResponseDTO usePointByPopularPostResponseDTO = new UsePointByPopularPostResponseDTO(
         instaId);
 
@@ -68,7 +68,7 @@ public class PointController {
     Long senderId = principalDetails.getMember().getMemberId();
     usePoint.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
-    setPostInstaCountUsecase.execute(postId, received.getMemberId());
+    setPostInstaCount.execute(postId, received.getMemberId());
 
     UsePointByPostResponseDTO responseDTO = createUsePointResponse(instaId);
     return ApiResponseGenerator.success(responseDTO, HttpStatus.OK);
