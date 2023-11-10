@@ -1,17 +1,18 @@
-package com.kakaotech.team14backend.inner.image.model;
+package com.kakaotech.team14backend.image.domain;
 
-import static lombok.AccessLevel.PROTECTED;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
+
+import static lombok.AccessLevel.PROTECTED;
 
 
 @Getter
