@@ -32,9 +32,7 @@ public class FindPopularPost {
   }
 
   private Boolean isLiked(GetPostDTO getPostDTO, Post post){
-
     return findLikeStatusService.execute(getPostDTO.memberId(), post.getPostId());
-
   }
 
 }
