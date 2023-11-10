@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FindPopularPostPoint {
+public class FindPostLevelAndPoint {
 
   private final RedisTemplate redisTemplate;
 
