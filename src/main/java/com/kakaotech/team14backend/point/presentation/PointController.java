@@ -7,12 +7,12 @@ import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
 import com.kakaotech.team14backend.point.application.usecase.UsePointForPopularPost;
-import com.kakaotech.team14backend.point.application.UsePoint;
+import com.kakaotech.team14backend.point.application.usecase.UsePoint;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostResponseDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostRequestDTO;
 import com.kakaotech.team14backend.point.dto.UsePointByPostResponseDTO;
-import com.kakaotech.team14backend.post.application.SetPostInstaCount;
+import com.kakaotech.team14backend.post.application.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -33,8 +33,8 @@ import static com.kakaotech.team14backend.point.domain.GetPointPolicy.USE_100_WH
 public class PointController {
 
   private final UsePointForPopularPost pointService;
-  private final SetPostInstaCount setPostInstaCountUsecase;
-  private final UsePoint usePointUsecase;
+  private final SetPostInstaCountUsecase setPostInstaCountUsecase;
+  private final UsePoint usePoint;
   private final PostRepository postRepository;
 
   @ApiOperation(value = "인기 피드 게시물 포인트 사용")
@@ -66,7 +66,7 @@ public class PointController {
     String instaId = received.getInstaId();
 
     Long senderId = principalDetails.getMember().getMemberId();
-    usePointUsecase.execute(senderId, received.getMemberId(),
+    usePoint.execute(senderId, received.getMemberId(),
         USE_100_WHEN_GET_INSTA_ID.getPoint());
     setPostInstaCountUsecase.execute(postId, received.getMemberId());
 

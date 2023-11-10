@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.post.domain.PostLikeCount;
 import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
@@ -6,9 +6,10 @@ import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @RequiredArgsConstructor
-public class UpdatePostLikeCountUsecase {
+public class UpdatePostLikeCount {
 
   private final PostLikeCountRepository postLikeCountRepository;
 

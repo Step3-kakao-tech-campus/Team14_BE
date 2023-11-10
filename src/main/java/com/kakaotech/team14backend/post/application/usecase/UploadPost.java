@@ -2,22 +2,23 @@ package com.kakaotech.team14backend.post.application.usecase;
 
 import com.kakaotech.team14backend.image.application.CreateImage;
 import com.kakaotech.team14backend.image.domain.Image;
-import com.kakaotech.team14backend.point.application.GetPointUsecase;
+import com.kakaotech.team14backend.point.application.command.GetPoint;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
+import com.kakaotech.team14backend.post.application.command.SavePost;
 import com.kakaotech.team14backend.post.dto.CreatePostDTO;
 import com.kakaotech.team14backend.post.dto.UploadPostDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UploadPost {
 
   private final CreateImage createImage;
-  private final CreatePost createPostUsecase;
-  private final GetPointUsecase getPointUsecase;
+  private final SavePost createPostUsecase;
+  private final GetPoint getPointUsecase;
 
   @Transactional
   public void execute(UploadPostDTO uploadPostDTO) {

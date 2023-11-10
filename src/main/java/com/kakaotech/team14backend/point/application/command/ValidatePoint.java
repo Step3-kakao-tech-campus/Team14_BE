@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.point.application;
+package com.kakaotech.team14backend.point.application.command;
 
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.point.application;
+package com.kakaotech.team14backend.point.application.command;
 
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.domain.Member;
@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class GetPointUsecase {
+public class GetPoint {
 
   private final PointRepository pointRepository;
 

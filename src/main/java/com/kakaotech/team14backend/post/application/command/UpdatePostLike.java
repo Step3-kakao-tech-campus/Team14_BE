@@ -1,10 +1,9 @@
-package com.kakaotech.team14backend.post.application;
+package com.kakaotech.team14backend.post.application.command;
 
-import com.kakaotech.team14backend.member.application.FindMemberService;
+import com.kakaotech.team14backend.member.application.command.FindMember;
 import com.kakaotech.team14backend.member.domain.Member;
-import com.kakaotech.team14backend.point.application.GetPointUsecase;
+import com.kakaotech.team14backend.point.application.command.GetPoint;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
-import com.kakaotech.team14backend.post.application.command.FindLikeStatusService;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLike;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
@@ -17,13 +16,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SetPostLikeService {
+public class UpdatePostLike {
 
   private final PostLikeRepository postLikeRepository;
   private final PostRepository postRepository;
-  private final FindMemberService findMemberService;
-  private final GetPointUsecase getPointUsecase;
-  private final FindLikeStatusService findLikeStatusService;
+  private final FindMember findMemberService;
+  private final GetPoint getPointUsecase;
+  private final FindLikeStatus findLikeStatusCommand;
 
   public SetPostLikeResponseDTO execute(SetPostLikeDTO setPostLikeDTO) {
     Long postId = setPostLikeDTO.postId();
@@ -46,7 +45,7 @@ public class SetPostLikeService {
 
   private PostLike newPostLike(final Member member, final Post post) {
 
-    boolean isLiked = findLikeStatusService.execute(member.getMemberId(), post.getPostId());
+    boolean isLiked = findLikeStatusCommand.execute(member.getMemberId(), post.getPostId());
     if (isLiked) {
       return PostLike.createPostLike(member, post, false);
     } else {
@@ -55,5 +54,6 @@ public class SetPostLikeService {
     }
 
   }
+
 
 }

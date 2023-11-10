@@ -10,15 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindPostUsecase {
+public class GetPostUsecase {
 
   private final PostRepository postRepository;
 
   public GetPostResponseDTO execute(GetPostDTO getPostDTO) {
     Post post = postRepository.findById(getPostDTO.postId())
         .orElseThrow(() -> new RuntimeException("Post not found"));
-    GetPostResponseDTO getPostResponseDTO = PostMapper.from(post);
-    return getPostResponseDTO;
+    return PostMapper.from(post);
   }
 
 }

@@ -1,5 +1,6 @@
-package com.kakaotech.team14backend.member.application;
+package com.kakaotech.team14backend.member.application.usecase;
 
+import com.kakaotech.team14backend.member.application.command.FindMember;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.member.dto.InstagramDetails;
@@ -18,19 +19,17 @@ public class FindMemberInfoUsecase {
   private final PostLikeCountRepository postLikeCountRepository;
   private final PointRepository pointRepository;
   private final PostInstaCountRepository postInstaCountRepository;
-  private final FindMemberService findMemberService;
-  // todo : 전체 좋아요 수 발행하는 것들 event driven으로 변경 할
+  private final FindMember findMember;
 
-  public GetMemberInfoResponseDTO getMyPageInfo(Long memberId) {
+  public GetMemberInfoResponseDTO execute(Long memberId) {
 
-    Member member = findMemberService.execute(memberId);
+    Member member = findMember.execute(memberId);
     Long totalLike = calculateTotalLikes(member);
     Long totalPoint = findMemberTotalPoints(memberId);
     Long totalViewCount = postInstaCountRepository.findByMemberId(memberId)
         .stream()
         .mapToLong(PostInstaCount::getInstaCount)
         .sum();
-
 
     InstagramInfo instagramInfo = createInstagramInfo(member, totalLike, totalViewCount);
     return new GetMemberInfoResponseDTO(member.getMemberId(), member.getUserName(),

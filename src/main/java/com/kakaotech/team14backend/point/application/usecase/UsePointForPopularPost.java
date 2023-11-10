@@ -1,10 +1,9 @@
 package com.kakaotech.team14backend.point.application.usecase;
 
-import com.kakaotech.team14backend.point.application.UsePoint;
-import com.kakaotech.team14backend.point.application.ValidatePoint;
+import com.kakaotech.team14backend.point.application.command.ValidatePoint;
 import com.kakaotech.team14backend.point.domain.UsePointDecider;
 import com.kakaotech.team14backend.point.dto.UsePointByPopularPostRequestDTO;
-import com.kakaotech.team14backend.post.application.SetPostInstaCount;
+import com.kakaotech.team14backend.post.application.usecase.SetPostInstaCountUsecase;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -20,7 +19,7 @@ public class UsePointForPopularPost {
   private final ValidatePoint validatePoint;
   private final UsePoint usePoint;
   private final PostRepository postRepository;
-  private final SetPostInstaCount setPostInstaUsecase;
+  private final SetPostInstaCountUsecase setPostInstaUsecase;
 
   public String execute(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO, Long senderId) {
     validatePoint.execute(usePointByPopularPostRequestDTO);

@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.post.application.usecase;
+package com.kakaotech.team14backend.post.application.command;
 
 import com.kakaotech.team14backend.common.HashTagUtils;
 import com.kakaotech.team14backend.post.domain.Post;
@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CreatePost {
+public class SavePost {
 
   //우리가 알던 서비스
   private final PostRepository postRepository;

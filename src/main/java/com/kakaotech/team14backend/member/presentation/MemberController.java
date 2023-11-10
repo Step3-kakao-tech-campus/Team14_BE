@@ -1,13 +1,13 @@
 package com.kakaotech.team14backend.member.presentation;
 
-import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.member.application.FindMemberInfoUsecase;
-import com.kakaotech.team14backend.member.application.MemberService;
+import com.kakaotech.team14backend.member.application.usecase.DeleteMember;
+import com.kakaotech.team14backend.member.application.usecase.FindMemberInfoUsecase;
 import com.kakaotech.team14backend.member.dto.GetMemberInfoResponseDTO;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MemberController {
 
-  private final MemberService memberService;
   private final FindMemberInfoUsecase findMemberInfoUscase;
+  private final DeleteMember deleteMember;
 
   @ApiOperation(value = "마이페이지 계정 상세 조회")
   @GetMapping("/user/info")
@@ -32,7 +32,7 @@ public class MemberController {
     validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
-    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUscase.getMyPageInfo(memberId);
+    GetMemberInfoResponseDTO myPageInfo = findMemberInfoUscase.execute(memberId);
     return ApiResponseGenerator.success(myPageInfo, HttpStatus.OK);
   }
 
@@ -42,7 +42,7 @@ public class MemberController {
     validatePrincipalDetails(principalDetails);
 
     Long memberId = principalDetails.getMember().getMemberId();
-    memberService.deleteAccount(memberId);
+    deleteMember.execute(memberId);
     return ApiResponseGenerator.success(HttpStatus.OK);
   }
 

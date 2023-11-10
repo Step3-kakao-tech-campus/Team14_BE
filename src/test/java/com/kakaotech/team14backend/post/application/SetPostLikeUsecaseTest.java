@@ -1,10 +1,11 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.member.application.FindMemberService;
+import com.kakaotech.team14backend.member.application.command.FindMember;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.member.domain.Role;
 import com.kakaotech.team14backend.member.domain.Status;
 import com.kakaotech.team14backend.member.infrastructure.MemberRepository;
+import com.kakaotech.team14backend.post.application.command.UpdatePostLike;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
@@ -23,9 +24,9 @@ import static org.mockito.Mockito.when;
 public class SetPostLikeUsecaseTest {
 
   @InjectMocks// 테스트 대상 클래스에 주입할 Mock 객체를 생성
-  private SetPostLikeService setPostLikeUsecase;
+  private UpdatePostLike setPostLikeUsecase;
   @Mock
-  private FindMemberService findMemberService;
+  private FindMember findMemberService;
 
   @Mock
   private PostRepository postRepository;
