@@ -3,7 +3,6 @@ package com.kakaotech.team14backend.post.application.command;
 import com.kakaotech.team14backend.common.RedisKey;
 import com.kakaotech.team14backend.post.application.PostMapper;
 import com.kakaotech.team14backend.post.domain.LevelIndexes;
-import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostRandomFetcher;
 import com.kakaotech.team14backend.post.domain.RandomIndexes;
 import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
