@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class UpdatePostLikeCountUsecaseTest {
 
   @InjectMocks
-  private UpdatePostLikeCountUsecase updatePostLikeCountUsecase;
+  private SetPostLikeCommand.UpdatePostLikeCountCommand updatePostLikeCountUsecase;
 
   @Mock
   private SetPostLikeCommand setPostLikeUsecase;

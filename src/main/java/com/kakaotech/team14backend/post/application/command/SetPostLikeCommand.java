@@ -4,12 +4,14 @@ import com.kakaotech.team14backend.member.application.FindMemberService;
 import com.kakaotech.team14backend.member.domain.Member;
 import com.kakaotech.team14backend.point.application.GetPointUsecase;
 import com.kakaotech.team14backend.point.domain.GetPointPolicy;
-import com.kakaotech.team14backend.post.application.command.FindLikeStatusCommand;
 import com.kakaotech.team14backend.post.domain.Post;
 import com.kakaotech.team14backend.post.domain.PostLike;
+import com.kakaotech.team14backend.post.domain.PostLikeCount;
+import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
 import com.kakaotech.team14backend.post.exception.PostNotFoundException;
+import com.kakaotech.team14backend.post.infrastructure.PostLikeCountRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,4 +58,23 @@ public class SetPostLikeCommand {
 
   }
 
+  @Component
+  @RequiredArgsConstructor
+  public static class UpdatePostLikeCountCommand {
+
+    private final PostLikeCountRepository postLikeCountRepository;
+
+    public void execute(GetPostLikeCountDTO getPostLikeCountDTO) {
+      Long postId = getPostLikeCountDTO.postId();
+      boolean isLiked = getPostLikeCountDTO.isLiked();
+
+      PostLikeCount postLikeCount = postLikeCountRepository.findByPostId(postId);
+      Long likeCount = postLikeCount.getLikeCount();
+
+      likeCount = isLiked ? likeCount + 1 : likeCount - 1;
+      postLikeCount.updateLikeCount(likeCount);
+    }
+
+
+  }
 }
