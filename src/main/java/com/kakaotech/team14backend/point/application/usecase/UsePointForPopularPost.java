@@ -29,7 +29,7 @@ public class UsePointForPopularPost {
     return post.getMember().getInstaId();
   }
 
-  private static Long getPoint(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
+  private Long getPoint(UsePointByPopularPostRequestDTO usePointByPopularPostRequestDTO) {
     return LevelToPointMapper.getPoint(usePointByPopularPostRequestDTO.postLevel());
   }
 
