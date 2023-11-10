@@ -1,11 +1,11 @@
 package com.kakaotech.team14backend.oauth2.presentation;
 
-import com.kakaotech.team14backend.auth.PrincipalDetails;
+import com.kakaotech.team14backend.oauth2.application.usecase.connect.ConnectService;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
 import com.kakaotech.team14backend.member.exception.UserNotAuthenticatedException;
-import com.kakaotech.team14backend.oauth2.application.ConnectService;
 import com.kakaotech.team14backend.oauth2.dto.GetInstagramCodeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

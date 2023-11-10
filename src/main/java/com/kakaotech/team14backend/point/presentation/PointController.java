@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.point.presentation;
 
-import com.kakaotech.team14backend.auth.PrincipalDetails;
+import com.kakaotech.team14backend.oauth2.domain.PrincipalDetails;
 import com.kakaotech.team14backend.common.ApiResponse;
 import com.kakaotech.team14backend.common.ApiResponseGenerator;
 import com.kakaotech.team14backend.common.MessageCode;
