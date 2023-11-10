@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.jwt.repository;
 
-import com.kakaotech.team14backend.exception.TokenValidationException;
 import com.kakaotech.team14backend.jwt.RefreshToken;
+import com.kakaotech.team14backend.jwt.TokenValidationException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -30,7 +30,7 @@ public class RefreshTokenRepository {
   }
   public String deleteRefreshToken(String kakaoId) throws TokenValidationException{
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-    
+
     return valueOperations.getAndDelete(kakaoId);
   }
 }

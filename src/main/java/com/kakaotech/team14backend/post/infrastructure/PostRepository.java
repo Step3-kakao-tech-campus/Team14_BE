@@ -1,7 +1,7 @@
 package com.kakaotech.team14backend.post.infrastructure;
 
-import com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO;
 import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +14,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 
   @Query(
-      "SELECT new com.kakaotech.team14backend.outer.post.dto.GetIncompletePopularPostDTO(p.postId,i.imageUri,p.hashtag,pl.likeCount,p.popularity,p.nickname) "
+      "SELECT new com.kakaotech.team14backend.post.dto.GetIncompletePopularPostDTO(p.postId,i.imageUri,p.hashtag,pl.likeCount,p.popularity,p.nickname) "
           +
           "FROM post p " +
           "JOIN p.image i " + // Image에 대한 JOIN

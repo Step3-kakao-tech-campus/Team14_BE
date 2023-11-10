@@ -1,10 +1,8 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.post.application.SetPostLikeService;
-import com.kakaotech.team14backend.post.application.UpdatePostLikeCountUsecase;
-import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
-import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
+import com.kakaotech.team14backend.post.dto.GetPostLikeCountDTO;
+import com.kakaotech.team14backend.post.dto.SetPostLikeDTO;
+import com.kakaotech.team14backend.post.dto.SetPostLikeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

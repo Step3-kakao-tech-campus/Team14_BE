@@ -1,14 +1,12 @@
 package com.kakaotech.team14backend.post.domain;
 
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PROTECTED;
-
-import com.kakaotech.team14backend.inner.image.model.Image;
+import com.kakaotech.team14backend.image.domain.Image;
 import com.kakaotech.team14backend.member.domain.Member;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,11 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity(name = "post")
 @NoArgsConstructor(access = PROTECTED)
