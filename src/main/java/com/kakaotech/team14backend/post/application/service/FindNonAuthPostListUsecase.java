@@ -35,8 +35,7 @@ public class FindNonAuthPostListUsecase {
   }
 
   private FetchResult fetchPosts(Long lastPostId, int size) {
-    Pageable pageable = PageRequest.of(0, size * PAGE_MULTIPLIER + PAGE_OFFSET);
-
+    Pageable pageable = createPageable(size);
     List<Post> posts = queryPosts(lastPostId, pageable);
     boolean hasNext = hasNextPage(posts, size);
     Long nextLastPostId = hasNext ? posts.get(size).getPostId() : null;
@@ -82,5 +81,9 @@ public class FindNonAuthPostListUsecase {
   private List<Post> shuffleAndTrimPosts(List<Post> posts, int size) {
     Collections.shuffle(posts);
     return posts.subList(0, size);
+  }
+
+  private Pageable createPageable(int size) {
+    return PageRequest.of(0, size * PAGE_MULTIPLIER + PAGE_OFFSET);
   }
 }
