@@ -11,7 +11,6 @@ import com.kakaotech.team14backend.post.infrastructure.PostLikeRepository;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeDTO;
 import com.kakaotech.team14backend.outer.post.dto.SetPostLikeResponseDTO;
-import com.kakaotech.team14backend.outer.post.service.FindLikeStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
