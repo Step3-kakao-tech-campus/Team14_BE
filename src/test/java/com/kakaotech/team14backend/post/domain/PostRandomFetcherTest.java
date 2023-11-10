@@ -10,7 +10,7 @@ import java.util.Map;
 class PostRandomFetcherTest {
 
   @Test
-  @DisplayName("limitSize가 30일경우")
+  @DisplayName("limitSize가 31이고, 요구하는 게시글의 개수가 limitSize보다 작을 때, level1, level2, level3에 대한 랜덤 인덱스는 각각 3,3,4개가 나와야 한다.")
   void fetchRandomIndexesForAllLevels() {
     Map<Integer, Integer> levelSize = new LinkedHashMap<>();
     levelSize.put(3, 4);
