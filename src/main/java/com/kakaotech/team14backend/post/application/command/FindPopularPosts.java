@@ -45,17 +45,22 @@ public class FindPopularPosts{
     for (Map.Entry<Integer, RandomIndexes> entry : levelIndexes.levelIndexes().entrySet()) {
       Integer level = entry.getKey();
       List<Integer> indexes = entry.getValue().getIndexes();
-      toGetPopularPostListResponseDTO(incompletePopularPostDTOS, level, indexes);
+      addIncompletePopularPostDTOs(incompletePopularPostDTOS, level, indexes);
     }
   }
 
-  private void toGetPopularPostListResponseDTO(List<GetIncompletePopularPostDTO> incompletePopularPostDTOS, Integer level, List<Integer> indexes) {
+  private void addIncompletePopularPostDTOs(List<GetIncompletePopularPostDTO> incompletePopularPostDTOs, Integer level, List<Integer> indexes) {
     for (Integer index : indexes) {
       Long postId = getPostId(index);
-      Optional<Post> optionalPost = postRepository.findById(postId);
-      if (optionalPost.isPresent()) {
-        incompletePopularPostDTOS.add(new GetIncompletePopularPostDTO(getPost(optionalPost).getPostId(), getPost(optionalPost).getImage().getImageUri(), getPost(optionalPost).getHashtag(), getPost(optionalPost).getPostLikeCount().getLikeCount(), getPost(optionalPost).getPopularity(), level, getPost(optionalPost).getNickname()));
-      }
+      postRepository.findById(postId).ifPresent(post -> {incompletePopularPostDTOs.add(new GetIncompletePopularPostDTO(
+          post.getPostId(),
+          post.getImage().getImageUri(),
+          post.getHashtag(),
+          post.getPostLikeCount().getLikeCount(),
+          post.getPopularity(),
+          level,
+          post.getNickname()));
+      });
     }
   }
 
