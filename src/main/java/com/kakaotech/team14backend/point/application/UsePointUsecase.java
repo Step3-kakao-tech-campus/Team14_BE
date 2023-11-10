@@ -1,15 +1,16 @@
-package com.kakaotech.team14backend.inner.point.usecase;
+package com.kakaotech.team14backend.point.application;
 
 import com.kakaotech.team14backend.common.MessageCode;
-import com.kakaotech.team14backend.exception.MemberNotFoundException;
-import com.kakaotech.team14backend.inner.point.model.Point;
-import com.kakaotech.team14backend.inner.point.model.PointHistory;
-import com.kakaotech.team14backend.inner.point.model.TransactionType;
-import com.kakaotech.team14backend.inner.point.repository.PointHistoryRepository;
-import com.kakaotech.team14backend.inner.point.repository.PointRepository;
-import javax.transaction.Transactional;
+import com.kakaotech.team14backend.member.exception.MemberNotFoundException;
+import com.kakaotech.team14backend.point.domain.Point;
+import com.kakaotech.team14backend.point.domain.PointHistory;
+import com.kakaotech.team14backend.point.domain.TransactionType;
+import com.kakaotech.team14backend.point.infrastructure.PointHistoryRepository;
+import com.kakaotech.team14backend.point.infrastructure.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
 
 @Component
 @RequiredArgsConstructor
