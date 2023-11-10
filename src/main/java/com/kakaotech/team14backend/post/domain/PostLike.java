@@ -1,4 +1,4 @@
-package com.kakaotech.team14backend.inner.post.model;
+package com.kakaotech.team14backend.post.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.kakaotech.team14backend.post.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

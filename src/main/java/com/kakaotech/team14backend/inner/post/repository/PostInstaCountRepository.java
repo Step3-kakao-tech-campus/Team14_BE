@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.repository;
 
-import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
+import com.kakaotech.team14backend.post.domain.PostInstaCount;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

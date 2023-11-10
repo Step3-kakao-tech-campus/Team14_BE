@@ -1,8 +1,7 @@
 package com.kakaotech.team14backend.inner.post.repository;
 
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.post.domain.PostLike;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

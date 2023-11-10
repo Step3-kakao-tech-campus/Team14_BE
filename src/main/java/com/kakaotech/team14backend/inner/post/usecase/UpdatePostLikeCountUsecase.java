@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.inner.post.usecase;
 
-import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
+import com.kakaotech.team14backend.post.domain.PostLikeCount;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeCountRepository;
 import com.kakaotech.team14backend.outer.post.dto.GetPostLikeCountDTO;
 import lombok.RequiredArgsConstructor;

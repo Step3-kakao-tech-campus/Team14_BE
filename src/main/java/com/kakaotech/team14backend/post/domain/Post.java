@@ -21,9 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
-import com.kakaotech.team14backend.inner.post.model.PostLikeCount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

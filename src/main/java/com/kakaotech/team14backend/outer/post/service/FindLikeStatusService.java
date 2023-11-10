@@ -1,6 +1,6 @@
 package com.kakaotech.team14backend.outer.post.service;
 
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.post.domain.PostLike;
 import com.kakaotech.team14backend.inner.post.repository.PostLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -3,8 +3,8 @@ package com.kakaotech.team14backend.member.domain;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.kakaotech.team14backend.post.domain.Post;
-import com.kakaotech.team14backend.inner.post.model.PostInstaCount;
-import com.kakaotech.team14backend.inner.post.model.PostLike;
+import com.kakaotech.team14backend.post.domain.PostInstaCount;
+import com.kakaotech.team14backend.post.domain.PostLike;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
