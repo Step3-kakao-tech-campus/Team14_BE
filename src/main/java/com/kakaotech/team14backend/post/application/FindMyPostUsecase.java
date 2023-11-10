@@ -1,9 +1,9 @@
 package com.kakaotech.team14backend.post.application;
 
-import com.kakaotech.team14backend.post.application.service.FindLikeStatusService;
+import com.kakaotech.team14backend.post.application.command.FindLikeStatusService;
 import com.kakaotech.team14backend.post.domain.Post;
+import com.kakaotech.team14backend.post.dto.GetMyPostResponseDTO;
 import com.kakaotech.team14backend.post.infrastructure.PostRepository;
-import com.kakaotech.team14backend.outer.post.dto.GetMyPostResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
