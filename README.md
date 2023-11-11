@@ -27,50 +27,41 @@
 ## 👋 팀 소개
 
 프론트엔드 3인, 백엔드 4인으로 이루어진 7인 팀 SPARK 입니다.
-### BE
 
 <table>
+  <tr>
+    <th colspan="4">BE</th>
+    <th colspan="3">FE</th>
+  </tr>
   <tr>
     <td align="center"><img src="https://github.com/GoBeromsu.png" width="50"></td>
     <td align="center"><img src="https://github.com/yuseonkim.png" width="50"></td>
     <td align="center"><img src="https://github.com/SongGaEun16.png" width="50"></td>
     <td align="center"><img src="https://github.com/hwangdaesun.png" width="50"></td>
+    <td align="center"><img src="https://github.com/MINJOO-KIM.png" width="50"></td>
+    <td align="center"><img src="https://github.com/GhoRid.png" width="50"></td>
+    <td align="center"><img src="https://github.com/iam454.png" width="50"></td>
   </tr>
   <tr>
     <td align="center">고범수</td>
     <td align="center">김유선</td>
     <td align="center">송가은</td>
     <td align="center">황대선</td>
+    <td align="center">김민주</td>
+    <td align="center">박건형</td>
+    <td align="center">서완석</td>
   </tr>
   <tr>
     <td align="center">테크리더</td>
     <td align="center">타임키퍼</td>
     <td align="center">리마인더</td>
     <td align="center">조장</td>
-  </tr>
-<table>
-
-### FE
-
-<table>
-  <tr>
-    <td align="center"><img src="https://github.com/MINJOO-KIM.png" width="50"></td>
-    <td align="center"><img src="https://github.com/GhoRid.png" width="50"></td>
-    <td align="center"><img src="https://github.com/iam454.png" width="50"></td>
-  </tr>
-  <tr>
-    <td align="center">김민주</td>
-    <td align="center">박건형</td>
-    <td align="center">서완석</td>
-  </tr>
-  <tr>
     <td align="center">리액셔너</td>
     <td align="center">기획리더</td>
     <td align="center">테크리더</td>
   </tr>
 <table>
 
-<br />
 ## 🧐 프로젝트 소개
 
 개발 기간 : 2023년 8월 25일 ~ 2023년 11월 11일
