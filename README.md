@@ -97,10 +97,7 @@
 ### 📚 ERD
 <img src="https://github.com/Step3-kakao-tech-campus/Team14_BE/assets/91835827/ed1dac78-b475-4c53-a312-99b1fb7450f4" width="800px" >
 
-
 ## 사용기술
-
-
 - JDK 17
 - Springboot 2.7.15
 - SpringSecurity
@@ -113,6 +110,7 @@
 
 | 기능 | 설명 | 담당자 |
 |------|------|--------|
+|조회수|Redis의 Set 자료구조를 사용하여 게시글 조회 시 회원의 Primary Key를 저장함으로써, 한 회원이 조회수를 악의적으로 조작하는 것을 방지합니다.<br> 스케줄러를 활용하여 10분마다 Redis의 Set 자료구조에 저장된 데이터를 기반으로 MariaDB에 게시글의 조회수를 업데이트하고, 이후 Set 자료구조의 데이터를 초기화(롤백)합니다|황대선|
 | 게시물 업로드 | 해시태그, 닉네임, 이미지를 포함한 게시글을 업로드하는 기능 구현. | 황대선, 고범수 |
 | 인기 피드 조회 | 클라이언트가 level1, level2, level3 게시물을 각각 최대 10개까지 요청. MariaDB에 저장된 게시글들의 개수 확인 (30개 이상 여부). PostRandomFetcher 클래스를 통해 랜덤하게 게시물 선택. Redis의 SortedSet 자료구조를 이용하여 순위 조회. | 황대선 |
 | 인기 게시글 선정 | 인기도는 게시글의 연령, 조회수, 그리고 추천 수를 기반으로 하여 10분마다 갱신. Redis의 SortedSet 자료구조에 저장. | 황대선 |
@@ -138,17 +136,13 @@
 
 ## 컨벤션
 
-
 - Commit Convention
-
   [Commit Convention · Issue #20 · Step3-kakao-tech-campus/Team14_BE](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/20)
 
 - Branch Naming Convention
-
   [Branch Naming Convention · Issue #9 · Step3-kakao-tech-campus/Team14_BE](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/9)
 
 - Naming Convention
-
   [Naming Convention · Issue #15 · Step3-kakao-tech-campus/Team14_BE](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/15)
 
 
