@@ -163,7 +163,7 @@ Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인�
 - java-jwt 4.3.0
 
 ## 기능 구현 세부 사항
-### <h3 id="대선"> 황대선</h3>
+## 대선
 
 | 섹션 | 상세 내용 | 설명 |
 | --- | --- | --- |
@@ -177,7 +177,7 @@ Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인�
 | 아키텍처 설계 | 전체적인 시스템의 결합도 낮춤, 개발자의 인지 과부화 방지, 적절한 학습 곡선과 코드 품질을 위해 Layred Architecture 선정 | 축팅의 Layred Architecture:<br>프레젠테이션 레이어 (Presentation Layer) - controller<br>애플리케이션 레이어 (Application Layer) - usecase는 하나의 기능 단위를 의미<br>- Get 또는 Set으로 시작하는 클래스명 사용<br>- command는 usecase에 물린 더 작은 기능 단위를 의미<br>- Find, FindAll, Save로 시작하는 클래스 명 사용<br>매퍼: 데이터를 매핑 시켜주는 역할<br>인프라 레이어 (Infrastructure Layer) - repository<br>예외: 각 도메인에 대한 특화된 예외 처리 클래스, 각 도메인의 예외 정의 |
 | 각종 컨벤션 | 개발 관련 컨벤션 | 네이밍 컨벤션: [네이밍 컨벤션](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/15)<br>커밋 컨벤션: [커밋 컨벤션](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/20) |
 
-### <h2 id="범수"> 고범수</h2>
+## 고범수
 | 섹션 | 상세 내용 | 설명 |
 | --- | --- | --- |
 | 피드 구현 | PostFetchResponse: 피드 조회 공통 클래스 구현 | PostFetchResponse 클래스는 홈피드와 마이피드 등 다양한 피드 조회 기능에서 사용되는 공통 구조를 정의합니다.<br>이 클래스를 사용함으로써 다양한 피드 조회 시나리오에서 코드 중복을 줄였습니다. |
@@ -189,7 +189,7 @@ Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인�
 | 유저 계정 정보 조회 | 다양한 도메인 의존성 관리 | 유저 계정 정보 조회 기능은 다양한 도메인의 의존성을 가지며, 이를 관리하기 위해 명확한 도메인 중심 전략을 적용했습니다.<br>이 접근은 Member, InstagramInfo, PostInstaCount 등의 도메인 객체들을 통해 각각의 데이터와 로직을 명확히 분리하고 캡슐화합니다.<br><br>예를 들어, FindMemberInfoUsecase에서는 각 기능별로 책임을 분산시킨 메서드들을 통해, 사용자 정보를 계산하고 구성하는 과정을 직관적으로 설계했습니다. |
 | 쿠버네티스 환경 배포 | Redis, Spring Project, MariaDB 오케스트레이션 | 카카오 클라우드 인프라인, 크램폴린에서 쿠버네티스(Kubernetes, k8s) 환경에서 Redis, Spring 기반의 백엔드 프로젝트, 그리고 MariaDB를 오케스트레이션했습니다.<br>BE 프로젝트의 환경 변수들은 Config Map을 통해 주입 되어 외부에 드러나지 않도록 관리하였습니다. |
 
-### <h2 id="유선"> 김유선 </h2>
+## 김유선
 
 | 섹션 | 상세 내용 | 설명 |
 | --- | --- | --- |
