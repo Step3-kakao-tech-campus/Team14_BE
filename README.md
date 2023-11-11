@@ -143,7 +143,6 @@ Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인�
 | [유저 계정 정보 조회](#user-account-info) | 도메인 중심 전략을 통한 유저 계정 정보 조회 기능 구현. | 고범수, 송가은 |
 | [쿠버네티스 환경 배포](#kubernetes-deployment) | 쿠버네티스 환경에서의 백엔드 프로젝트 배포 및 관리. | 고범수 |
 
-
 ## 컨벤션
 
 - Commit Convention
@@ -162,6 +161,24 @@ Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인�
 - MySQL : 8.0.33
 - Redis 7.2
 - java-jwt 4.3.0
+
+## 기능 구현 세부 사항
+### 황대선
+## 프로젝트 세부 사항
+
+## 프로젝트 세부 사항
+
+| 섹션 | 상세 내용 | 설명 |
+| --- | --- | --- |
+| [게시물 업로드](#post-upload) | 외부 images 폴더 | 해시태그, 닉네임, 이미지를 포함한 게시글을 업로드하는 기능을 구현하였습니다. |
+| [인기 피드 조회](#popular-feed) | PostRandomFetcher 클래스를 이용해, 조회할 등수 결정하고 해당 등수의 게시글들을 Redis에서 조회 | 클라이언트가 level1, level2, level3 게시물을 각각 최대 10개까지 요청하면, MariaDB에 저장된 게시글들의 개수가 30개 이상인지 여부를 확인합니다. <br>이후, PostRandomFetcher 클래스는 각 레벨에 맞는 게시물들을 랜덤하게 선택할 순위를 결정합니다.<br>이 순위들은 Redis의 SortedSet 자료구조를 통해 조회됩니다.<br>level3 게시물은 1등부터 10등 사이의 게시물들 중에서 선택됩니다.<br>level2 게시물은 11등부터 20등 사이의 게시물들 중에서 선택됩니다.<br>level1 게시물은 21등부터 30등 사이의 게시물들 중에서 선택됩니다. |
+| [조회수 기능](#view-count) | 악의적인 조회수 증가 방지 | Redis의 Set 자료구조를 사용하여 게시글 조회 시 회원의 Primary Key를 저장함으로써, 한 회원이 조회수를 악의적으로 조작하는 것을 방지합니다. <br>스케줄러를 활용하여 10분마다 Redis의 Set 자료구조에 저장된 데이터를 기반으로 MariaDB에 게시글의 조회수를 업데이트하고, 이후 Set 자료구조의 데이터를 초기화(롤백)합니다. |
+| [인기 게시글 선정](#popular-post-selection) | 인기도를 기반을로한 인기 게시글 선정 | 인기도는 게시글의 연령, 조회수, 그리고 추천 수를 기반으로 하여 10분마다 갱신됩니다.<br>게시물의 고유 식별자인 Post의 Primary Key는 인기도를 기준으로 Redis의 SortedSet 자료구조에 저장되며, 이 데이터 역시 10분마다 갱신됩니다. |
+| [폭죽 사용](#firework-use) | 인기 레벨에 따른 폭죽 사용 | 해당 인기 게시글의 레벨을 검증한 후, 그에 해당하는 포인트를 사용합니다.<br>사용자의 포인트가 충분할 경우, 해당 게시물의 소유자의 인스타그램 아이디를 반환합니다.<br>포인트가 부족하면, 아이디 반환은 이루어지지 않습니다. |
+| [예외 처리](#exception-handling) | 공통 예외 처리 및 특정 도메인 예외 처리 | RuntimeException 클래스를 상속하여 예외 클래스를 생성하여 비즈니스에 맞는 커스텀 예외를 생성하였습니다.<br>일관성을 위해 GlobalExceptionHander 클래스를 이용해 Post 도메인을 제외한 도메인들의 예외를 핸들링하였고, 확장성을 위해 PostExceptionHandler 클래스를 이용해 Post 관련 예외를 핸들링하였습니다.<br>유지보수의 용이성과 Http Status 와 Http Status Code 이외에도 클라이언트에게 상세한 정보 제공을 위해 MessageCode 클래스를 만들어 오류 코드와 오류에 대한 설명을 제공하였습니다. |
+| [API 응답](#api-response) | 표준화된 API 응답 제공 | ApiResponse 클래스를 생성하여 응답을 정의 및 ApiResponseGenerator 클래스를 생성하여 ApiResponse 객체를 생성하는 정적 메서드를 제공하여 API 응답을 표준화하여 API 개발 시 일관된 응답 형식을 유지할 수 있도록 하였습니다. |
+| [아키텍처 설계](#architecture-design) | 전체적인 시스템의 결합도 낮춤, 개발자의 인지 과부화 방지, 적절한 학습 곡선과 코드 품질을 위해 Layred Architecture 선정 | 축팅의 Layred Architecture:<br>프레젠테이션 레이어 (Presentation Layer) - controller<br>애플리케이션 레이어 (Application Layer) - usecase는 하나의 기능 단위를 의미<br>- Get 또는 Set으로 시작하는 클래스명 사용<br>- command는 usecase에 물린 더 작은 기능 단위를 의미<br>- Find, FindAll, Save로 시작하는 클래스 명 사용<br>매퍼: 데이터를 매핑 시켜주는 역할<br>인프라 레이어 (Infrastructure Layer) - repository<br>예외: 각 도메인에 대한 특화된 예외 처리 클래스, 각 도메인의 예외 정의 |
+| [각종 컨벤션](#conventions) | 개발 관련 컨벤션 | 네이밍 컨벤션: [네이밍 컨벤션](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/15)<br>커밋 컨벤션: [커밋 컨벤션](https://github.com/Step3-kakao-tech-campus/Team14_BE/issues/20) |
 
 ## 프로젝트 진행 시 고민하였던 부분
 
