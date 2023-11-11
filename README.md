@@ -8,6 +8,12 @@
 
 포토부스의 사진을 공유하고, 만남을 연결하는 서비스 **축팅**입니다.
 
+축팅은 네컷사진을 중심으로 한 만남의 플랫폼입니다.
+
+남성 사용자가 많은 데이팅 앱 시장의 문제점을 해결하기 위해 여성 사용자가 많은 네컷사진 시장을 접목시켰습니다.
+
+사용자는 네컷사진을 게시하고, 축팅의 재화인 폭죽을 사용하여 마음에 드는 상대의 인스타그램에 방문할 수 있습니다.
+
 <br />
 
 ## 🏁 시작하기
@@ -21,21 +27,20 @@
 ## 👋 팀 소개
 
 프론트엔드 3인, 백엔드 4인으로 이루어진 7인 팀 SPARK 입니다.
-
 ### BE
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/GoBeromsu"><img src="https://github.com/GoBeromsu.png" width="50"></a></td>
-    <td align="center"><a href="https://github.com/yuseonkim"><img src="https://github.com/yuseonkim.png" width="50"></a></td>
-    <td align="center"><a href="https://github.com/SongGaEun16"><img src="https://github.com/SongGaEun16.png" width="50"></a></td>
-    <td align="center"><a href="https://github.com/hwangdaesun"><img src="https://github.com/hwangdaesun.png" width="50"></a></td>
+    <td align="center"><img src="https://github.com/GoBeromsu.png" width="50"></td>
+    <td align="center"><img src="https://github.com/yuseonkim.png" width="50"></td>
+    <td align="center"><img src="https://github.com/SongGaEun16.png" width="50"></td>
+    <td align="center"><img src="https://github.com/hwangdaesun.png" width="50"></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/GoBeromsu">고범수(GoBeromsu)</a></td>
-    <td align="center"><a href="https://github.com/yuseonkim">김유선(yuseonkim)</a></td>
-    <td align="center"><a href="https://github.com/SongGaEun16">송가은(SongGaEun16)</a></td>
-    <td align="center"><a href="https://github.com/hwangdaesun">황대선(hwangdaesun)</a></td>
+    <td align="center">고범수</td>
+    <td align="center">김유선</td>
+    <td align="center">송가은</td>
+    <td align="center">황대선</td>
   </tr>
   <tr>
     <td align="center">테크리더</td>
@@ -49,14 +54,14 @@
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/MINJOO-KIM"><img src="https://github.com/MINJOO-KIM.png" width="50"></a></td>
-    <td align="center"><a href="https://github.com/GhoRid"><img src="https://github.com/GhoRid.png" width="50"></a></td>
-    <td align="center"><a href="https://github.com/iam454"><img src="https://github.com/iam454.png" width="50"></a></td>
+    <td align="center"><img src="https://github.com/MINJOO-KIM.png" width="50"></td>
+    <td align="center"><img src="https://github.com/GhoRid.png" width="50"></td>
+    <td align="center"><img src="https://github.com/iam454.png" width="50"></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/MINJOO-KIM">김민주(MINJOO-KIM)</a></td>
-    <td align="center"><a href="https://github.com/GhoRid">박건형(GhoRid)</a></td>
-    <td align="center"><a href="https://github.com/iam454">서완석(iam454)</a></td>
+    <td align="center">김민주</td>
+    <td align="center">박건형</td>
+    <td align="center">서완석</td>
   </tr>
   <tr>
     <td align="center">리액셔너</td>
@@ -66,7 +71,6 @@
 <table>
 
 <br />
-
 ## 🧐 프로젝트 소개
 
 개발 기간 : 2023년 8월 25일 ~ 2023년 11월 11일
@@ -75,27 +79,39 @@
 
 기획부터 배포까지 서비스 개발에 필요한 전반적인 과정을 경험했습니다.
 
-### 📝 기획
-
-축팅은 네컷사진을 중심으로 한 만남의 플랫폼입니다.
-
-남성 사용자가 많은 데이팅 앱 시장의 문제점을 해결하기 위해 여성 사용자가 많은 네컷사진 시장을 접목시켰습니다.
-
-사용자는 네컷사진을 게시하고, 축팅의 재화인 폭죽을 사용하여 마음에 드는 상대의 인스타그램에 방문할 수 있습니다.
-
-- [기획안 발표 자료(PowerPoint) 다운로드](https://drive.google.com/file/d/1NsLP3KFZE2CUSgwqEm7uGOyySQEIONOg/view?usp=sharing)
-
-### 🎨 디자인
-
-일관된 경험을 제공하기 위해 4배수 디자인을 적용했습니다.
-
-서비스의 주요 타겟인 모바일 사용자를 위해 Thumb Zone을 고려했습니다.
-
-행동을 유도하기 위해 Affordance에 대해 고민했습니다.
-
-- [와이어프레임(Figma) 보러가기](https://www.figma.com/file/n1fenCQYDfghtHT2Qua0YL/kakao14WireBoard?type=design&node-id=0%3A1&mode=design&t=oSx3LovlAi3IIcv2-1)
 ### 📚 ERD
 <img src="https://github.com/Step3-kakao-tech-campus/Team14_BE/assets/91835827/ed1dac78-b475-4c53-a312-99b1fb7450f4" width="800px" >
+
+# 🤔 개발 주안점
+## 클린 아키텍처 적용 도전
+
+진행 상황을 "행동 - 문제인식 - 해결"의 순서로 정리해보겠습니다.
+### 행동: 클린 아키텍처 적용 시도
+- **시도한 행동**: 프로젝트 초기에는 클린 아키텍처를 적용하려고 시도했습니다. 이는 코드의 유지보수성과 확장성을 높이기 위한 목적이었습니다
+
+### 문제 인식: 클린 아키텍처의 한계와 문제점
+**문제 발생**
+프로젝트의 크기와 복잡성을 고려했을 때, 클린 아키텍처의 적용은 불필요한 계층을 만들어내고, 인터페이스의 역할만 강조되는 문제를 발생시켰습니다.
+
+**인식된 문제**
+클린 아키텍처는 이론적으로는 이상적이지만, 프로젝트의 실제 요구사항과 규모에 비해 과도한 구조적 복잡성을 초래했습니다.
+이는 팀내의 인지 과부화를 발생시키고, 학습 곡선을 가팔라게 만들었습니다.
+
+### 해결: 레이어드 아키텍처의 버티컬 슬라이싱으로 전환
+**왜 이 방법을 선택했는가**:
+- **결합도 낮춤**
+	- 전체 시스템의 결합도를 낮추기 위해 각 기능을 독립적인 단위로 나누어, 모듈 간의 강한 결합을 피하고 유연한 구조를 만들고 싶었습니다
+- **인지 과부화 방지**
+	- 불필요한 복잡성을 제거하고,개발자가 각 모듈의 기능과 역할을 더 명확하게 이해할 수 있게 하기 위함입니다
+
+Controller에서는 사용자의 행위 단위를 반영하여 각 엔드포인트에 usecase를 할당했습니다.
+
+이는 비즈니스 로직을 usecase에 위임함으로써 효율적인 관리를 하기 위함이었습니다
+
+복잡성이 낮은 경우 usecase가 바로 repository에 의존할 수 있으며, 복잡도가 높아질 경우 command라는 하위 모듈을 사용해 의존성을 낮추는 전략을 사용했습니다
+
+이러한 접근 방식은 시스템의 각 부분이 효과적으로 상호 작용하면서도 필요에 따라 독립적으로 작동할 수 있도록 하여, 전체적인 시스템의 유연성과 확장성을 강화하려는 의도였습니다.
+
 
 ## 사용기술
 - JDK 17
