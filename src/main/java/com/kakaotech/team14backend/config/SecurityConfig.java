@@ -1,9 +1,9 @@
 package com.kakaotech.team14backend.config;
 
-import com.kakaotech.team14backend.filter.FilterResponseUtils;
-import com.kakaotech.team14backend.jwt.JwtAuthenticationFilter;
-import com.kakaotech.team14backend.jwt.service.TokenService;
+import com.kakaotech.team14backend._core.FilterResponseUtils;
+import com.kakaotech.team14backend._core.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,9 +24,8 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-  private final TokenService tokenService;
-
+  @Value("${common.frontend-server}")
+  private String FE_SERVER_URL;
   public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
     @Override
     public void configure(HttpSecurity builder) throws Exception {
@@ -48,7 +47,7 @@ public class SecurityConfig {
       boolean isRoleNotUser = request.isUserInRole("BEGINNER");
       FilterResponseUtils.forbidden(response, isRoleNotUser);
     });
-//
+
     http.cors()
         .configurationSource(corsConfigurationSource());
     http.apply(new CustomSecurityFilterManager());
@@ -76,12 +75,10 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+    configuration.setAllowedOriginPatterns(Collections.singletonList(FE_SERVER_URL));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-
-    // 여기에 중요한 부분이 추가됩니다.
     configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
