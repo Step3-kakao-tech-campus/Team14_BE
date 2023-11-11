@@ -20,7 +20,7 @@
 
 - [FE 배포 주소](https://k2bf481c846ffa.user-app.krampoline.com/)에 방문해보세요!
 - [BE 배포 주소](https://ka53958d06e25a.user-app.krampoline.com/)
-
+	- Sample : [홈 피드 조회 API - 로그인 안 된 경우](https://ka53958d06e25a.user-app.krampoline.com/api/post)
 
 <br />
 
