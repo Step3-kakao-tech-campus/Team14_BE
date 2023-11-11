@@ -76,7 +76,18 @@
 # 🤔 개발 주안점
 ## 클린 아키텍처 적용 도전
 
-진행 상황을 "행동 - 문제인식 - 해결"의 순서로 정리해보겠습니다.
+<table>
+  <tr>
+    <td align="center"><img src="https://codeopinion.com/wp-content/uploads/2021/09/CleanArchitecture.jpg" width="200"></td>
+    <td align="center"><img src="https://miro.medium.com/v2/resize:fit:760/1*JHlN7ixDbPFgyjZh1GQIFQ.png" width="200"></td>
+  </tr>
+  <tr>
+    <td align="center">클린 아키텍처</td>
+    <td align="center">버티컬 슬라이싱 아키텍처</td>
+  </tr>
+</table>
+
+적용 사례를 "행동 - 문제인식 - 해결"의 순서로 정리해보겠습니다.
 ### 행동: 클린 아키텍처 적용 시도
 - **시도한 행동**: 프로젝트 초기에는 클린 아키텍처를 적용하려고 시도했습니다. 이는 코드의 유지보수성과 확장성을 높이기 위한 목적이었습니다
 
