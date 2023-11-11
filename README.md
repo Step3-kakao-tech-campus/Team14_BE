@@ -22,6 +22,7 @@
 - [BE 배포 주소](https://ka53958d06e25a.user-app.krampoline.com/)
 	- Sample : [홈 피드 조회 API - 로그인 안 된 경우](https://ka53958d06e25a.user-app.krampoline.com/api/post)
 
+
 <br />
 
 ## 👋 팀 소개
@@ -73,8 +74,11 @@
 ### 📚 ERD
 <img src="https://github.com/Step3-kakao-tech-campus/Team14_BE/assets/91835827/ed1dac78-b475-4c53-a312-99b1fb7450f4" width="800px" >
 
+
 # 🤔 개발 주안점
 > 프로젝트 진행하며 각자 고민한 부분들은 [고범수](#고범수_고민),[황대선](#황대선_고민), [김유선](#김유선_고민), [송가은](#송가은_고민)을 누르시면 바로 보실 수 있습니다 :)
+
+- [API 문서](https://www.notion.so/berom/API-c562d36eda8b490ab4bbb6e42e7e3b47?pvs=4)
 
 ## 클린 아키텍처 적용 도전
 
